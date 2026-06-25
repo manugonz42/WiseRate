@@ -12,12 +12,11 @@ enum Route: Hashable {
     case referral
 }
 
-@Observable
-class NavigationState {
-    var selectedTab: TabItem = .home
-    var path: [Route] = []
-    var isOnboarding: Bool = true
-    var presentingSheet: SheetType?
+class NavigationState: ObservableObject {
+    @Published var selectedTab: TabItem = .home
+    @Published var path: [Route] = []
+    @Published var isOnboarding: Bool = true
+    @Published var presentingSheet: SheetType?
     
     enum SheetType: Identifiable {
         case premium
@@ -68,7 +67,7 @@ class NavigationState {
 }
 
 struct AppRouter: View {
-    @Bindable var navigationState: NavigationState
+    @ObservedObject var navigationState: NavigationState
     
     var body: some View {
         NavigationStack(path: $navigationState.path) {

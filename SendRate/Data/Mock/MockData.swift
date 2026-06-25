@@ -19,8 +19,7 @@ struct MockData {
         TransferProvider(id: "ing", name: "ING", iconName: "ING", brandColor: .orange, trustScore: 4.2, userRating: 4.1, websiteURL: "https://ing.com", affiliateURL: nil)
     ]
     
-    static func generateQuotes(for amount: Double) -> [TransferQuote] {
-        let baseRate = 63.50
+    static func generateQuotes(for amount: Double, baseRate: Double = 63.50) -> [TransferQuote] {
         let quotes: [(String, String, Double, Double, DeliveryEstimate, Double, Bool, String?)] = [
             ("wise", "Wise", baseRate + 0.12, 2.99, .hours, 0.001, false, nil),
             ("remitly", "Remitly", baseRate + 0.05, 3.99, .instant, 0.003, false, nil),
@@ -113,7 +112,7 @@ struct MockData {
             fees: [
                 .init(method: .bankTransfer, fixedFee: 0.41, percentageFee: 0.43, description: "Bank transfer from your Spanish bank account"),
                 .init(method: .debitCard, fixedFee: 0.00, percentageFee: 1.50, description: "Debit card payment"),
-                .init(method: .creditCard, fixedFee: 0.00, percentageFee: 2.00, description: "Credit card payment")
+                .init(method: .debitCard, fixedFee: 0.00, percentageFee: 2.00, description: "Debit card payment")
             ],
             deliveryMethods: [.bankTransfer, .mobileWallet],
             pros: [

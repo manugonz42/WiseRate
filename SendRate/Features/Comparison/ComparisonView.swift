@@ -90,7 +90,7 @@ struct ComparisonView: View {
                         ForEach(viewModel.filteredQuotes) { quote in
                             ComparisonRow(quote: quote, isBest: quote.id == viewModel.bestQuote?.id)
                                 .onTapGesture {
-                                    navigation.navigate(.providerDetail(quote.providerID))
+                                    navigation.navigate(to: .providerDetail(quote.providerID))
                                 }
                         }
                     }

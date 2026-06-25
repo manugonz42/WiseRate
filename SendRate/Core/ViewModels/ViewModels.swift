@@ -12,6 +12,8 @@ class HomeViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var currentRate: Double = 63.50
     @Published var rateChange24h: Double = 0.5
+    @Published var rateStale: Bool = false
+    @Published var rateTimestamp: Date? = nil
     @Published var historicalRates: [HistoricalRate] = []
     @Published var sponsoredOffers: [SponsoredOffer] = MockData.sponsoredOffers
     @Published var selectedTimeFrame: TimeFrame = .day24
@@ -49,8 +51,11 @@ class HomeViewModel: ObservableObject {
     
     func fetchCurrentRate() async {
         do {
-            currentRate = try await rateService.getCurrentRate(from: fromCurrency, to: toCurrency)
-            rateChange24h = Double.random(in: -2...3)
+            let rate = try await rateService.getCurrentRate(from: fromCurrency, to: toCurrency)
+            currentRate = rate.rate
+            rateChange24h = rate.delta24h
+            rateStale = rate.isStale
+            rateTimestamp = rate.timestamp
         } catch {
             print("Error fetching rate: \(error)")
         }

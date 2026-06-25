@@ -62,15 +62,15 @@ struct ProfileView: View {
     private var menuSection: some View {
         VStack(spacing: SRSpacing.sm) {
             MenuRow(icon: "gearshape", title: "Settings", iconColor: Color.brand.textSecondary) {
-                navigation.navigate(.settings)
+                navigation.navigate(to: .settings)
             }
             
             MenuRow(icon: "gift", title: "Referral Center", iconColor: Color.brand.primary) {
-                navigation.navigate(.referral)
+                navigation.navigate(to: .referral)
             }
             
             MenuRow(icon: "creditcard", title: "Premium", iconColor: Color.brand.warning) {
-                navigation.navigate(.premium)
+                navigation.navigate(to: .premium)
             }
             
             MenuRow(icon: "questionmark.circle", title: "Help & Support", iconColor: Color.brand.accent) {}
@@ -98,7 +98,7 @@ struct ProfileView: View {
                 .foregroundColor(Color.brand.textSecondary)
             
             SRPrimaryButton(title: "Start Free Trial", icon: "sparkles", action: {
-                navigation.navigate(.premium)
+                navigation.navigate(to: .premium)
             })
         }
         .padding(SRSpacing.xl)

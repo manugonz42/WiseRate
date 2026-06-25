@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct TransferProvider: Identifiable, Hashable {
     let id: String
@@ -95,11 +96,22 @@ enum DeliveryMethod: String, CaseIterable, Hashable {
     }
 }
 
-struct HistoricalRate: Identifiable {
+struct HistoricalRate: Identifiable, Codable {
     let id = UUID()
     let date: Date
     let rate: Double
     let provider: String?
+
+    private enum CodingKeys: String, CodingKey { case date, rate, provider }
+}
+
+/// Current mid-market snapshot for a currency pair. See docs/architecture/data-model.md.
+struct Rate: Codable {
+    let rate: Double
+    let timestamp: Date
+    let delta24h: Double
+    let delta7d: Double
+    let isStale: Bool
 }
 
 struct RateAlert: Identifiable {

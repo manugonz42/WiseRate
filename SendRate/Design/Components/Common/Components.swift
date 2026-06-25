@@ -70,7 +70,7 @@ extension View {
 
 struct SRPrimaryButton: View {
     let title: String
-    let icon: String?
+    var icon: String? = nil
     let action: () -> Void
     var style: ButtonStyle = .primary
     var isFullWidth: Bool = true

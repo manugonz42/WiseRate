@@ -122,7 +122,7 @@ struct HomeView: View {
                 action: {
                     Task {
                         await viewModel.compare()
-                        navigation.navigate(.comparison(amount: viewModel.amountValue))
+                        navigation.navigate(to: .comparison(amount: viewModel.amountValue))
                     }
                 },
                 isLoading: viewModel.isLoading
@@ -196,7 +196,7 @@ struct HomeView: View {
                         ForEach(viewModel.topProviders) { quote in
                             ProviderCard(quote: quote)
                                 .onTapGesture {
-                                    navigation.navigate(.providerDetail(quote.providerID))
+                                    navigation.navigate(to: .providerDetail(quote.providerID))
                                 }
                         }
                     }

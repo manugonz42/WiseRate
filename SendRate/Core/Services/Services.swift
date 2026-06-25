@@ -4,51 +4,111 @@ import SwiftUI
 // MARK: - Exchange Rate Service
 
 protocol ExchangeRateServiceProtocol {
-    func getCurrentRate(from: String, to: String) async throws -> Double
+    func getCurrentRate(from: String, to: String) async throws -> Rate
     func getHistoricalRates(from: String, to: String, timeFrame: TimeFrame) async throws -> [HistoricalRate]
     func getRatesStream(from: String, to: String) -> AsyncStream<Double>
 }
 
+/// Real exchange-rate service backed by Frankfurter (ECB daily data, no API key).
+/// See docs/services/exchange-rate.md.
 class ExchangeRateService: ExchangeRateServiceProtocol {
     static let shared = ExchangeRateService()
-    
-    private var cachedRate: Double?
-    private var lastFetch: Date?
-    private let cacheInterval: TimeInterval = 300
-    
-    func getCurrentRate(from: String, to: String) async throws -> Double {
-        if let cached = cachedRate, let lastFetch, Date().timeIntervalSince(lastFetch) < cacheInterval {
-            return cached
+
+    private let http = HTTPClient.shared
+    private let cache = RateCache.shared
+
+    private let spotMemTTL: TimeInterval = 300        // 5 min
+
+    func getCurrentRate(from: String, to: String) async throws -> Rate {
+        let key = "rate-\(from)-\(to)"
+
+        if let cached = await cache.load(Rate.self, key: key), cached.age < spotMemTTL {
+            return cached.value
         }
-        
-        // Simulate API call
-        try await Task.sleep(for: .milliseconds(500))
-        
-        let rate = 63.50 + Double.random(in: -0.5...0.5)
-        cachedRate = rate
-        lastFetch = Date()
-        return rate
+
+        do {
+            // One timeseries call covers latest + prior closes for the deltas.
+            let start = Calendar.current.date(byAdding: .day, value: -12, to: Date())!
+            let url = Frankfurter.timeseriesURL(base: from, symbol: to, start: start, end: nil)
+            let series: FrankfurterTimeseries = try await http.get(url)
+            let points = series.points(symbol: to)
+
+            guard let latest = points.last else { throw ExchangeRateError.unsupportedPair }
+
+            let rate = Rate(
+                rate: latest.rate,
+                timestamp: latest.date,
+                delta24h: percentChange(to: latest, from: points.dropLast().last?.rate),
+                delta7d: percentChange(to: latest, from: closeAtOrBefore(points, days: 7)),
+                isStale: false
+            )
+            await cache.store(rate, key: key)
+            return rate
+        } catch {
+            // Stale-while-revalidate: serve last cached value flagged stale.
+            if let cached = await cache.load(Rate.self, key: key) {
+                let v = cached.value
+                return Rate(rate: v.rate, timestamp: v.timestamp,
+                            delta24h: v.delta24h, delta7d: v.delta7d, isStale: true)
+            }
+            throw error
+        }
     }
-    
+
     func getHistoricalRates(from: String, to: String, timeFrame: TimeFrame) async throws -> [HistoricalRate] {
-        try await Task.sleep(for: .milliseconds(300))
-        return MockData.generateHistoricalRates(timeFrame: timeFrame)
+        let key = "historical-\(from)-\(to)-\(timeFrame.rawValue)"
+        let memTTL: TimeInterval = timeFrame == .day24 ? 300 : 3600   // 24H 5min, ≥7D 1h
+
+        if let cached = await cache.load([HistoricalRate].self, key: key), cached.age < memTTL {
+            return cached.value
+        }
+
+        do {
+            let start = Calendar.current.date(byAdding: .day, value: -timeFrame.lookbackDays, to: Date())!
+            let url = Frankfurter.timeseriesURL(base: from, symbol: to, start: start, end: nil)
+            let series: FrankfurterTimeseries = try await http.get(url)
+            let rates = series.points(symbol: to).map {
+                HistoricalRate(date: $0.date, rate: $0.rate, provider: nil)
+            }
+            await cache.store(rates, key: key)
+            return rates
+        } catch {
+            if let cached = await cache.load([HistoricalRate].self, key: key) {
+                return cached.value
+            }
+            throw error
+        }
     }
-    
+
     func getRatesStream(from: String, to: String) -> AsyncStream<Double> {
         AsyncStream { continuation in
             let task = Task {
-                var rate = 63.50
                 while !Task.isCancelled {
-                    rate += Double.random(in: -0.05...0.05)
-                    continuation.yield(rate)
-                    try? await Task.sleep(for: .seconds(5))
+                    if let rate = try? await getCurrentRate(from: from, to: to) {
+                        // ECB updates daily; cosmetic jitter keeps the ticker moving.
+                        continuation.yield(rate.rate + Double.random(in: -0.02...0.02))
+                    }
+                    try? await Task.sleep(for: .seconds(60))
                 }
             }
             continuation.onTermination = { _ in
                 task.cancel()
             }
         }
+    }
+
+    // MARK: Delta helpers
+
+    private func percentChange(to latest: (date: Date, rate: Double), from previous: Double?) -> Double {
+        guard let previous, previous != 0 else { return 0 }
+        return (latest.rate - previous) / previous * 100
+    }
+
+    /// Most recent close at least `days` calendar days before the latest point.
+    private func closeAtOrBefore(_ points: [(date: Date, rate: Double)], days: Int) -> Double? {
+        guard let latest = points.last else { return nil }
+        let cutoff = Calendar.current.date(byAdding: .day, value: -days, to: latest.date)!
+        return points.last(where: { $0.date <= cutoff })?.rate ?? points.first?.rate
     }
 }
 
@@ -64,9 +124,11 @@ class TransferProviderService: TransferProviderServiceProtocol {
     static let shared = TransferProviderService()
     
     func getQuotes(amount: Double, from: String, to: String, deliveryMethod: DeliveryMethod? = nil) async throws -> [TransferQuote] {
-        try await Task.sleep(for: .milliseconds(800))
-        
-        var quotes = MockData.generateQuotes(for: amount)
+        // Provider quotes are still mock (server proxy /api/quotes is pending),
+        // but anchored to the real mid-market rate. See docs/services/exchange-rate.md.
+        let baseRate = (try? await ExchangeRateService.shared.getCurrentRate(from: from, to: to).rate) ?? 63.50
+
+        var quotes = MockData.generateQuotes(for: amount, baseRate: baseRate)
         
         if let deliveryMethod {
             // Filter by delivery method (mock - all providers support all methods)

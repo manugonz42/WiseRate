@@ -238,7 +238,7 @@ struct TriggeredAlertRow: View {
             
             Spacer()
             
-            if let triggeredAt {
+            if let triggeredAt = alert.triggeredAt {
                 Text(triggeredAt.formatted(.relative(presentation: .named)))
                     .font(SRTypography.caption2)
                     .foregroundColor(Color.brand.textTertiary)

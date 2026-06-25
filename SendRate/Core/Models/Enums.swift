@@ -24,6 +24,18 @@ enum TimeFrame: String, CaseIterable {
     case month30 = "30D"
     case month90 = "90D"
     case year1 = "1Y"
+
+    /// Calendar days of history to request. ECB data is daily, so 24H/7D are
+    /// approximated from recent daily closes — see docs/services/exchange-rate.md.
+    var lookbackDays: Int {
+        switch self {
+        case .day24: return 2
+        case .week7: return 7
+        case .month30: return 30
+        case .month90: return 90
+        case .year1: return 365
+        }
+    }
 }
 
 enum TabItem: String, CaseIterable {
