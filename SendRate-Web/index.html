@@ -1,0 +1,2416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SendRate – Compare Money Transfers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0A0A;
+            --surface: #141414;
+            --surface-elevated: #1C1C1E;
+            --surface-hover: #232325;
+            --border: rgba(255,255,255,0.08);
+            --border-subtle: rgba(255,255,255,0.04);
+            --primary: #6C5CE7;
+            --primary-light: #A29BFE;
+            --primary-dark: #4A3DB5;
+            --accent: #00D2D3;
+            --success: #00C48C;
+            --warning: #FFB800;
+            --error: #FF4757;
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255,255,255,0.6);
+            --text-tertiary: rgba(255,255,255,0.35);
+            --radius: 16px;
+            --radius-sm: 12px;
+            --radius-xs: 8px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            background: var(--bg);
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            padding-bottom: 100px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0 24px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 16px;
+        }
+
+        .icon-btn:hover {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(108,92,231,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-light);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--surface-elevated);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .card-gradient {
+            background: linear-gradient(135deg, rgba(108,92,231,0.08), var(--surface-elevated));
+        }
+
+        /* Input */
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .input-field {
+            width: 100%;
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 28px;
+            font-weight: 700;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary);
+        }
+
+        .input-field::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-prefix {
+            font-size: 20px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .swap-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(108,92,231,0.1);
+            border: none;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: -8px auto;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .swap-btn:hover {
+            background: rgba(108,92,231,0.2);
+            transform: rotate(180deg);
+        }
+
+        /* Result Display */
+        .result-box {
+            background: var(--surface-elevated);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .result-label {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .result-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--success);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .result-sub {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .result-provider {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--surface-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-hover);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--primary);
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 13px;
+            width: auto;
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .stat-box {
+            background: var(--surface-elevated);
+            border-radius: var(--radius-xs);
+            padding: 12px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .stat-positive { color: var(--success); }
+        .stat-negative { color: var(--error); }
+
+        /* Section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-top: 2px;
+        }
+
+        /* Chips */
+        .chips {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            scrollbar-width: none;
+        }
+
+        .chips::-webkit-scrollbar { display: none; }
+
+        .chip {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            background: var(--surface-elevated);
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+        }
+
+        .chip.active {
+            background: rgba(108,92,231,0.15);
+            color: var(--primary-light);
+            border-color: rgba(108,92,231,0.3);
+        }
+
+        .chip:hover { background: var(--surface-hover); }
+
+        /* Provider Cards Scroll */
+        .cards-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: none;
+            margin: 0 -20px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .cards-scroll::-webkit-scrollbar { display: none; }
+
+        .provider-card {
+            min-width: 200px;
+            background: var(--surface-elevated);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .provider-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .provider-card.best {
+            border-color: rgba(0,196,140,0.3);
+        }
+
+        .provider-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .provider-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .provider-meta {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .provider-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 12px;
+        }
+
+        .provider-amount {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .provider-fee {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-promo {
+            background: rgba(255,184,0,0.15);
+            color: var(--warning);
+        }
+
+        .badge-best {
+            background: rgba(0,196,140,0.15);
+            color: var(--success);
+        }
+
+        /* Chart */
+        .chart-container {
+            background: var(--surface-elevated);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .chart {
+            height: 120px;
+            position: relative;
+            margin: 12px 0;
+        }
+
+        .chart svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Comparison List */
+        .comparison-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .comparison-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .comparison-row:hover {
+            background: var(--surface-elevated);
+            border-color: var(--primary);
+        }
+
+        .comparison-row.best {
+            background: var(--surface-elevated);
+            border-color: rgba(0,196,140,0.3);
+        }
+
+        .comparison-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .comparison-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .comparison-name {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .comparison-meta {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            display: flex;
+            gap: 12px;
+        }
+
+        .comparison-amount {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .comparison-php {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .comparison-rate {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        /* Best Deal Banner */
+        .best-deal {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(255,184,0,0.08);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255,184,0,0.2);
+            margin-bottom: 16px;
+        }
+
+        .best-deal-icon {
+            font-size: 20px;
+            color: var(--warning);
+        }
+
+        .best-deal-info {
+            flex: 1;
+        }
+
+        .best-deal-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--warning);
+        }
+
+        .best-deal-text {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .best-deal-save {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        /* Detail Page */
+        .detail-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .detail-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .detail-name {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .detail-stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .detail-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .detail-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Trust Bar */
+        .trust-bar {
+            height: 8px;
+            background: var(--surface);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 12px 0 8px;
+        }
+
+        .trust-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .trust-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        /* Fee Table */
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .fee-row:last-child { border-bottom: none; }
+
+        .fee-method {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .fee-desc {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        .fee-amount {
+            text-align: right;
+        }
+
+        .fee-price {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .fee-percent {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* Delivery Tags */
+        .delivery-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .delivery-tag {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: rgba(108,92,231,0.1);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--primary-light);
+        }
+
+        /* Pros/Cons */
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .pros-list, .cons-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .pro-item, .con-item {
+            display: flex;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .pro-icon { color: var(--success); font-size: 10px; margin-top: 3px; }
+        .con-icon { color: var(--error); font-size: 10px; margin-top: 3px; }
+
+        .pros-title, .cons-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        /* Alert List */
+        .alert-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--surface-elevated);
+            border-radius: var(--radius);
+            margin-bottom: 8px;
+        }
+
+        .alert-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .alert-icon.active {
+            background: rgba(108,92,231,0.1);
+            color: var(--primary);
+        }
+
+        .alert-icon.triggered {
+            background: rgba(0,196,140,0.1);
+            color: var(--success);
+        }
+
+        .alert-info { flex: 1; }
+
+        .alert-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .alert-rate {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .alert-toggle {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .alert-toggle.on {
+            background: var(--success);
+            color: white;
+        }
+
+        .alert-toggle.off {
+            background: var(--surface);
+            color: var(--text-tertiary);
+        }
+
+        /* Plan Card */
+        .plan-card {
+            background: var(--surface-elevated);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .plan-card.selected {
+            background: rgba(108,92,231,0.08);
+            border-color: rgba(108,92,231,0.3);
+        }
+
+        .plan-card:hover {
+            border-color: var(--primary);
+        }
+
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .plan-name {
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .plan-price {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .plan-period {
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .plan-features {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .plan-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .plan-feature-check {
+            color: var(--success);
+            font-size: 12px;
+        }
+
+        /* Feature Row */
+        .feature-row {
+            display: flex;
+            gap: 16px;
+            padding: 12px 0;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .feature-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .feature-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Referral */
+        .referral-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .referral-stat {
+            text-align: center;
+            padding: 20px;
+            background: var(--surface-elevated);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .referral-stat-icon {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .referral-stat-value {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .referral-stat-label {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+
+        .referral-code-box {
+            text-align: center;
+            padding: 24px;
+            background: rgba(108,92,231,0.08);
+            border-radius: var(--radius);
+            border: 1px solid rgba(108,92,231,0.2);
+            margin-bottom: 16px;
+        }
+
+        .referral-code {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 4px;
+        }
+
+        /* How it works */
+        .how-row {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+        }
+
+        .how-step {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(108,92,231,0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .how-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .how-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Tabs */
+        .tabs {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            display: flex;
+            padding: 8px 0;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+            z-index: 100;
+        }
+
+        .tab {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: color 0.2s;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+        }
+
+        .tab-label {
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 200;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 480px;
+            background: var(--bg);
+            border-radius: 20px 20px 0 0;
+            padding: 24px;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-handle {
+            width: 40px;
+            height: 4px;
+            background: var(--text-tertiary);
+            border-radius: 2px;
+            margin: 0 auto 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-tertiary);
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        /* Insight Row */
+        .insight-row {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+        }
+
+        .insight-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .insight-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .insight-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Menu Row */
+        .menu-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--surface-elevated);
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .menu-row:hover { background: var(--surface-hover); }
+
+        .menu-icon {
+            font-size: 16px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .menu-title {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .menu-arrow {
+            color: var(--text-tertiary);
+            font-size: 12px;
+        }
+
+        /* Back button */
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 16px;
+            font-family: inherit;
+        }
+
+        /* Profile Header */
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px;
+            background: var(--surface-elevated);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .profile-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(108,92,231,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-bottom: 12px;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .profile-email {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+
+        .profile-stat {
+            text-align: center;
+            padding: 8px;
+            background: var(--surface);
+            border-radius: var(--radius-xs);
+        }
+
+        .profile-stat-value {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .profile-stat-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        /* Premium Banner */
+        .premium-banner {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(108,92,231,0.15), var(--surface-elevated));
+            border-radius: var(--radius);
+            border: 1px solid rgba(108,92,231,0.2);
+            margin-bottom: 16px;
+        }
+
+        .premium-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .premium-icon {
+            color: var(--warning);
+            font-size: 16px;
+        }
+
+        .premium-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .premium-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            color: var(--text-tertiary);
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Sponsored */
+        .sponsored-tag {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        /* Version */
+        .version {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        /* Search */
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+        }
+
+        .search-box input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-box input::placeholder { color: var(--text-tertiary); }
+
+        .search-icon { color: var(--text-tertiary); font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="app" id="app">
+
+        <!-- HOME SCREEN -->
+        <div class="screen active" id="screen-home">
+            <div class="header">
+                <h1>SendRate</h1>
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="showScreen('settings')">⚙</button>
+                    <div class="avatar">MS</div>
+                </div>
+            </div>
+
+            <div class="card card-gradient">
+                <div class="input-group">
+                    <label class="input-label">You send</label>
+                    <div class="input-row">
+                        <span class="input-prefix">€</span>
+                        <input type="number" class="input-field" id="amount-input" value="1000" placeholder="0" oninput="updateAmount()">
+                    </div>
+                </div>
+
+                <button class="swap-btn" onclick="swapCurrencies()">⇅</button>
+
+                <div class="result-box">
+                    <div class="result-label">Recipient gets</div>
+                    <div class="result-value" id="best-amount">₱63,338</div>
+                    <div class="result-sub">
+                        <span style="font-size:12px;color:var(--text-tertiary)">via</span>
+                        <span class="result-provider" id="best-provider">Wise</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="compareAll()">
+                    ⟷ Compare All Providers
+                </button>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-label">1 EUR</div>
+                    <div class="stat-value" id="rate-display">₱63.50</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">24h Change</div>
+                    <div class="stat-value stat-positive" id="rate-change">+0.52%</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Providers</div>
+                    <div class="stat-value">15+</div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <div>
+                    <div class="section-title">Top Providers</div>
+                    <div class="section-subtitle">Best rates right now</div>
+                </div>
+            </div>
+            <div class="cards-scroll" id="top-providers"></div>
+
+            <div style="margin-top:24px">
+                <div class="section-header">
+                    <div>
+                        <div class="section-title">Rate Trend</div>
+                        <div class="section-subtitle">EUR/PHP</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chips" id="timeframe-chips"></div>
+                    <div class="chart" id="home-chart"></div>
+                </div>
+            </div>
+
+            <div style="margin-top:24px">
+                <div class="section-header">
+                    <div>
+                        <div class="section-title">Offers</div>
+                        <div class="section-subtitle">Sponsored promotions</div>
+                    </div>
+                </div>
+                <div class="cards-scroll" id="sponsored-offers"></div>
+            </div>
+        </div>
+
+        <!-- COMPARISON SCREEN -->
+        <div class="screen" id="screen-compare">
+            <div class="header">
+                <h1>Compare</h1>
+                <span style="font-size:13px;color:var(--text-secondary)" id="compare-amount-label">€1,000 → ₱</span>
+            </div>
+
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search providers..." oninput="filterProviders(this.value)">
+            </div>
+
+            <div class="chips" id="sort-chips"></div>
+
+            <div class="best-deal" id="best-deal-banner" style="display:none"></div>
+
+            <div class="comparison-list" id="comparison-list"></div>
+        </div>
+
+        <!-- ANALYTICS SCREEN -->
+        <div class="screen" id="screen-analytics">
+            <div class="header">
+                <h1>Analytics</h1>
+                <span style="font-size:13px;color:var(--text-secondary)">EUR/PHP historical data</span>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-label">Current</div>
+                    <div class="stat-value" id="stat-current">₱63.50</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">High</div>
+                    <div class="stat-value stat-positive" id="stat-high">₱65.20</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Low</div>
+                    <div class="stat-value stat-negative" id="stat-low">₱61.80</div>
+                </div>
+            </div>
+
+            <div class="chips" id="analytics-chips"></div>
+
+            <div class="chart-container" style="margin-top:12px">
+                <div class="section-title" style="margin-bottom:8px">Rate History</div>
+                <div class="chart" id="analytics-chart" style="height:200px"></div>
+            </div>
+
+            <div class="card" style="margin-top:16px">
+                <div class="section-title" style="margin-bottom:12px">Insights</div>
+                <div class="insight-row">
+                    <div class="insight-icon" style="background:rgba(255,184,0,0.1);color:var(--warning)">💡</div>
+                    <div>
+                        <div class="insight-title">Best time to send</div>
+                        <div class="insight-desc">Rates are typically higher on weekdays between 9-11 AM CET</div>
+                    </div>
+                </div>
+                <div style="height:1px;background:var(--border);margin:4px 0"></div>
+                <div class="insight-row">
+                    <div class="insight-icon" style="background:rgba(0,196,140,0.1);color:var(--success)">📈</div>
+                    <div>
+                        <div class="insight-title">Trend analysis</div>
+                        <div class="insight-desc">EUR/PHP has been trending up over the selected period</div>
+                    </div>
+                </div>
+                <div style="height:1px;background:var(--border);margin:4px 0"></div>
+                <div class="insight-row">
+                    <div class="insight-icon" style="background:rgba(108,92,231,0.1);color:var(--primary)">🎯</div>
+                    <div>
+                        <div class="insight-title">Rate volatility</div>
+                        <div class="insight-desc">Low volatility detected - good time for transfers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ALERTS SCREEN -->
+        <div class="screen" id="screen-alerts">
+            <div class="header">
+                <h1>Alerts</h1>
+                <span style="font-size:13px;color:var(--text-secondary)">Get notified when rates change</span>
+            </div>
+
+            <div class="card" style="cursor:pointer;border-color:rgba(108,92,231,0.2)" onclick="openCreateAlert()">
+                <div style="display:flex;align-items:center;gap:12px">
+                    <span style="font-size:20px;color:var(--primary)">⊕</span>
+                    <div>
+                        <div style="font-size:14px;font-weight:600">Create Alert</div>
+                        <div style="font-size:12px;color:var(--text-tertiary)">Get notified when rates hit your target</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header" style="margin-top:20px">
+                <div class="section-title">Active Alerts</div>
+                <div class="section-subtitle" id="active-count">2 active</div>
+            </div>
+            <div id="active-alerts"></div>
+
+            <div class="section-header" style="margin-top:20px">
+                <div class="section-title">Triggered</div>
+            </div>
+            <div id="triggered-alerts"></div>
+        </div>
+
+        <!-- PROFILE SCREEN -->
+        <div class="screen" id="screen-profile">
+            <div class="header">
+                <h1>Profile</h1>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-avatar">MS</div>
+                <div class="profile-name">Maria Santos</div>
+                <div class="profile-email">maria@example.com</div>
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">142</div>
+                        <div class="profile-stat-label">Comparisons</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">€340</div>
+                        <div class="profile-stat-label">Saved</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">3</div>
+                        <div class="profile-stat-label">Referrals</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-row" onclick="showScreen('settings')">
+                <span class="menu-icon">⚙</span>
+                <span class="menu-title">Settings</span>
+                <span class="menu-arrow">›</span>
+            </div>
+            <div class="menu-row" onclick="showScreen('referral')">
+                <span class="menu-icon">🎁</span>
+                <span class="menu-title">Referral Center</span>
+                <span class="menu-arrow">›</span>
+            </div>
+            <div class="menu-row" onclick="showScreen('premium')">
+                <span class="menu-icon">💳</span>
+                <span class="menu-title">Premium</span>
+                <span class="menu-arrow">›</span>
+            </div>
+            <div class="menu-row">
+                <span class="menu-icon">❓</span>
+                <span class="menu-title">Help & Support</span>
+                <span class="menu-arrow">›</span>
+            </div>
+            <div class="menu-row">
+                <span class="menu-icon">📄</span>
+                <span class="menu-title">Terms of Service</span>
+                <span class="menu-arrow">›</span>
+            </div>
+
+            <div class="premium-banner">
+                <div class="premium-header">
+                    <span class="premium-icon">⭐</span>
+                    <span class="premium-title">Go Premium</span>
+                </div>
+                <div class="premium-desc">Unlock rate alerts, historical analytics, and unlimited comparisons</div>
+                <button class="btn btn-primary btn-sm" onclick="showScreen('premium')">Start Free Trial</button>
+            </div>
+
+            <div class="version">
+                SendRate v1.0.0<br>
+                Made with ❤️ for Filipinos in Spain
+            </div>
+        </div>
+
+        <!-- PROVIDER DETAIL SCREEN -->
+        <div class="screen" id="screen-detail">
+            <button class="back-btn" onclick="showScreen('compare')">← Back</button>
+            <div id="provider-detail-content"></div>
+        </div>
+
+        <!-- PREMIUM SCREEN -->
+        <div class="screen" id="screen-premium">
+            <button class="back-btn" onclick="showScreen('profile')">✕</button>
+            <div class="detail-header">
+                <div style="font-size:48px;margin-bottom:16px">👑</div>
+                <div class="detail-name">SendRate Premium</div>
+                <div style="font-size:14px;color:var(--text-secondary)">Unlock the full power of rate comparison</div>
+            </div>
+
+            <div class="card">
+                <div class="section-title" style="margin-bottom:12px">Premium Features</div>
+                <div class="feature-row">
+                    <div class="feature-icon" style="background:rgba(108,92,231,0.1);color:var(--primary)">🔔</div>
+                    <div>
+                        <div class="feature-title">Rate Alerts</div>
+                        <div class="feature-subtitle">Get instant notifications when rates hit your target</div>
+                    </div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-icon" style="background:rgba(0,210,211,0.1);color:var(--accent)">📊</div>
+                    <div>
+                        <div class="feature-title">Historical Analytics</div>
+                        <div class="feature-subtitle">Access full historical data and trend analysis</div>
+                    </div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-icon" style="background:rgba(0,196,140,0.1);color:var(--success)">🔄</div>
+                    <div>
+                        <div class="feature-title">Unlimited Comparisons</div>
+                        <div class="feature-subtitle">Compare across all providers without limits</div>
+                    </div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-icon" style="background:rgba(255,184,0,0.1);color:var(--warning)">✨</div>
+                    <div>
+                        <div class="feature-title">Personalized Recommendations</div>
+                        <div class="feature-subtitle">AI-powered suggestions based on your transfer history</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plan-card selected" onclick="selectPlan(this, 'monthly')">
+                <div class="plan-header">
+                    <div class="plan-name">Monthly</div>
+                    <div style="text-align:right">
+                        <div class="plan-price">€4.99</div>
+                        <div class="plan-period">/month</div>
+                    </div>
+                </div>
+                <div class="plan-features">
+                    <div class="plan-feature"><span class="plan-feature-check">✓</span> Rate alerts</div>
+                    <div class="plan-feature"><span class="plan-feature-check">✓</span> Historical analytics</div>
+                    <div class="plan-feature"><span class="plan-feature-check">✓</span> Unlimited comparisons</div>
+                    <div class="plan-feature"><span class="plan-feature-check">✓</span> No ads</div>
+                </div>
+            </div>
+
+            <div class="plan-card" onclick="selectPlan(this, 'yearly')">
+                <div class="plan-header">
+                    <div class="plan-name">Yearly <span class="badge badge-promo">POPULAR</span></div>
+                    <div style="text-align:right">
+                        <div class="plan-price">€39.99</div>
+                        <div class="plan-period">/year</div>
+                    </div>
+                </div>
+                <div class="plan-features">
+                    <div class="plan-feature"><span class="plan-feature-check">✓</span> All Monthly features</div>
+                    <div class="plan-feature"><span class="plan-feature-check">✓</span> Personalized recommendations</div>
+                    <div class="plan-feature"><span class="plan-feature-check">✓</span> Priority support</div>
+                    <div class="plan-feature"><span class="plan-feature-check">✓</span> Save 33%</div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" style="margin-top:16px">Start 7-Day Free Trial</button>
+            <div style="text-align:center;font-size:12px;color:var(--text-tertiary);margin-top:8px">Cancel anytime. No commitment required.</div>
+        </div>
+
+        <!-- SETTINGS SCREEN -->
+        <div class="screen" id="screen-settings">
+            <button class="back-btn" onclick="showScreen('profile')">← Back</button>
+            <h1 style="font-size:24px;font-weight:800;margin-bottom:24px">Settings</h1>
+
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <span>🔔</span> <span>Notifications</span>
+                    </div>
+                    <label style="position:relative;display:inline-block;width:44px;height:24px">
+                        <input type="checkbox" checked style="opacity:0;width:0;height:0">
+                        <span style="position:absolute;cursor:pointer;inset:0;background:var(--primary);border-radius:12px;transition:.3s"></span>
+                        <span style="position:absolute;cursor:pointer;top:2px;left:2px;width:20px;height:20px;background:white;border-radius:50%;transition:.3s"></span>
+                    </label>
+                </div>
+                <div style="height:1px;background:var(--border);margin:8px 0"></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <span>🌙</span> <span>Dark Mode</span>
+                    </div>
+                    <label style="position:relative;display:inline-block;width:44px;height:24px">
+                        <input type="checkbox" checked style="opacity:0;width:0;height:0">
+                        <span style="position:absolute;cursor:pointer;inset:0;background:var(--primary);border-radius:12px;transition:.3s"></span>
+                        <span style="position:absolute;cursor:pointer;top:2px;left:2px;width:20px;height:20px;background:white;border-radius:50%;transition:.3s"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title" style="margin-bottom:12px">Default Amount</div>
+                <div class="input-row">
+                    <span class="input-prefix">€</span>
+                    <input type="number" class="input-field" style="font-size:18px;padding:12px" value="1000">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title" style="margin-bottom:12px">Language</div>
+                <div style="display:flex;gap:8px">
+                    <div class="chip active">English</div>
+                    <div class="chip">Español</div>
+                    <div class="chip">Tagalog</div>
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" style="margin-top:16px;color:var(--error)">Sign Out</button>
+        </div>
+
+        <!-- REFERRAL SCREEN -->
+        <div class="screen" id="screen-referral">
+            <button class="back-btn" onclick="showScreen('profile')">← Back</button>
+
+            <div class="detail-header">
+                <div style="font-size:48px;margin-bottom:16px">🎁</div>
+                <div class="detail-name">Refer & Earn</div>
+                <div style="font-size:14px;color:var(--text-secondary)">Invite friends and earn rewards</div>
+            </div>
+
+            <div class="referral-stats">
+                <div class="referral-stat">
+                    <div class="referral-stat-icon">👥</div>
+                    <div class="referral-stat-value">3</div>
+                    <div class="referral-stat-label">Referrals</div>
+                </div>
+                <div class="referral-stat">
+                    <div class="referral-stat-icon">💰</div>
+                    <div class="referral-stat-value">€15.00</div>
+                    <div class="referral-stat-label">Earned</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title" style="margin-bottom:12px">Your Referral Code</div>
+                <div class="referral-code-box">
+                    <div class="referral-code">MARIA2024</div>
+                </div>
+                <button class="btn btn-secondary btn-sm" style="margin:0 auto;display:block" onclick="copyCode()">📋 Copy Code</button>
+            </div>
+
+            <div class="card" style="margin-top:16px">
+                <div class="section-title" style="margin-bottom:12px">How It Works</div>
+                <div class="how-row">
+                    <div class="how-step">1</div>
+                    <div>
+                        <div class="how-title">Share your code</div>
+                        <div class="how-desc">Send your referral code to friends</div>
+                    </div>
+                </div>
+                <div class="how-row">
+                    <div class="how-step">2</div>
+                    <div>
+                        <div class="how-title">They sign up</div>
+                        <div class="how-desc">Your friend creates a free account</div>
+                    </div>
+                </div>
+                <div class="how-row">
+                    <div class="how-step">3</div>
+                    <div>
+                        <div class="how-title">Both earn rewards</div>
+                        <div class="how-desc">You both get €5 credit when they make their first transfer</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" style="margin-top:16px">📤 Share Referral Link</button>
+            <div style="text-align:center;font-size:12px;color:var(--text-tertiary);margin-top:8px">Share via WhatsApp, Facebook, or any messaging app</div>
+        </div>
+
+        <!-- BOTTOM TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(this, 'home')">
+                <span class="tab-icon">🏠</span>
+                <span class="tab-label">Home</span>
+            </button>
+            <button class="tab" onclick="switchTab(this, 'compare')">
+                <span class="tab-icon">⇄</span>
+                <span class="tab-label">Compare</span>
+            </button>
+            <button class="tab" onclick="switchTab(this, 'analytics')">
+                <span class="tab-icon">📊</span>
+                <span class="tab-label">Analytics</span>
+            </button>
+            <button class="tab" onclick="switchTab(this, 'alerts')">
+                <span class="tab-icon">🔔</span>
+                <span class="tab-label">Alerts</span>
+            </button>
+            <button class="tab" onclick="switchTab(this, 'profile')">
+                <span class="tab-icon">👤</span>
+                <span class="tab-label">Profile</span>
+            </button>
+        </div>
+
+        <!-- CREATE ALERT MODAL -->
+        <div class="modal-overlay" id="alert-modal">
+            <div class="modal">
+                <div class="modal-handle"></div>
+                <div class="modal-title">Create Alert</div>
+                <div style="text-align:center;margin-bottom:20px">
+                    <div style="font-size:14px;font-weight:600;margin-bottom:4px">EUR/PHP Rate</div>
+                    <div style="font-size:13px;color:var(--text-secondary)">Current rate: 63.50</div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Alert Type</label>
+                    <select class="input-field" style="font-size:14px;padding:12px;font-weight:500" id="alert-type">
+                        <option>Rate Above</option>
+                        <option>Rate Below</option>
+                        <option>Provider is Cheapest</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Target Rate</label>
+                    <div class="input-row">
+                        <span class="input-prefix">₱</span>
+                        <input type="number" class="input-field" style="font-size:24px" placeholder="64.00" id="alert-rate">
+                    </div>
+                </div>
+                <div style="display:flex;gap:12px;margin-top:24px">
+                    <button class="btn btn-secondary" onclick="closeModal()" style="flex:1">Cancel</button>
+                    <button class="btn btn-primary" onclick="createAlert()" style="flex:1">Create Alert</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============ DATA ============
+        const providers = [
+            { id: 'wise', name: 'Wise', icon: 'W', color: '#00C48C', trust: 4.8, rating: 4.7, website: 'https://wise.com' },
+            { id: 'remitly', name: 'Remitly', icon: 'R', color: '#4A90D9', trust: 4.6, rating: 4.5, website: 'https://remitly.com' },
+            { id: 'western_union', name: 'Western Union', icon: 'WU', color: '#FFB800', trust: 4.2, rating: 4.0, website: 'https://westernunion.com' },
+            { id: 'worldremit', name: 'WorldRemit', icon: 'WR', color: '#00D2D3', trust: 4.5, rating: 4.3, website: 'https://worldremit.com' },
+            { id: 'xoom', name: 'Xoom', icon: 'X', color: '#6C5CE7', trust: 4.4, rating: 4.2, website: 'https://xoom.com' },
+            { id: 'moneygram', name: 'MoneyGram', icon: 'MG', color: '#FF4757', trust: 4.3, rating: 4.1, website: 'https://moneygram.com' },
+            { id: 'skrill', name: 'Skrill', icon: 'S', color: '#A29BFE', trust: 4.1, rating: 4.0, website: 'https://skrill.com' },
+            { id: 'revolut', name: 'Revolut', icon: 'R', color: '#4A90D9', trust: 4.6, rating: 4.5, website: 'https://revolut.com' },
+            { id: 'ofx', name: 'OFX', icon: 'O', color: '#00D2D3', trust: 4.5, rating: 4.4, website: 'https://ofx.com' },
+            { id: 'xe', name: 'Xe', icon: 'Xe', color: '#FF8C00', trust: 4.4, rating: 4.3, website: 'https://xe.com' },
+            { id: 'santander', name: 'Santander', icon: 'SB', color: '#FF4757', trust: 3.8, rating: 3.5, website: 'https://santander.com' },
+            { id: 'bbva', name: 'BBVA', icon: 'BBVA', color: '#4A90D9', trust: 3.9, rating: 3.6, website: 'https://bbva.com' },
+            { id: 'caixabank', name: 'CaixaBank', icon: 'CB', color: '#4A90D9', trust: 3.7, rating: 3.4, website: 'https://caixabank.com' },
+            { id: 'n26', name: 'N26', icon: 'N26', color: '#4A90D9', trust: 4.5, rating: 4.4, website: 'https://n26.com' },
+            { id: 'ing', name: 'ING', icon: 'ING', color: '#FF8C00', trust: 4.2, rating: 4.1, website: 'https://ing.com' }
+        ];
+
+        const providerQuotes = {
+            wise:       { fee: 2.99,  rate: 63.62, delivery: '1-24 hours', promo: null },
+            remitly:    { fee: 3.99,  rate: 63.55, delivery: 'Instant',     promo: null },
+            western_union: { fee: 4.99, rate: 63.20, delivery: 'Instant',  promo: null },
+            worldremit: { fee: 3.49,  rate: 63.52, delivery: 'Minutes',    promo: null },
+            xoom:       { fee: 3.99,  rate: 63.40, delivery: '1-24 hours', promo: null },
+            moneygram:  { fee: 5.99,  rate: 63.25, delivery: 'Instant',     promo: null },
+            skrill:     { fee: 4.49,  rate: 63.35, delivery: '1-24 hours', promo: null },
+            revolut:    { fee: 0.00,  rate: 63.65, delivery: '1-24 hours', promo: null },
+            ofx:        { fee: 0.00,  rate: 63.58, delivery: '1-2 days',   promo: null },
+            xe:         { fee: 2.49,  rate: 63.50, delivery: 'Same day',    promo: null },
+            santander:  { fee: 15.00, rate: 62.30, delivery: '2-3 days',   promo: null },
+            bbva:       { fee: 12.00, rate: 62.55, delivery: '2-3 days',   promo: null },
+            caixabank:  { fee: 14.00, rate: 62.40, delivery: '3-5 days',   promo: null },
+            n26:        { fee: 1.50,  rate: 63.60, delivery: '1-24 hours', promo: 'Special promotion - 0% fee on first transfer' },
+            ing:        { fee: 10.00, rate: 62.70, delivery: '1-2 days',   promo: null }
+        };
+
+        const providerDetails = {
+            wise: {
+                description: 'Wise (formerly TransferWise) provides international money transfer services with transparent fees and mid-market exchange rates.',
+                fees: [
+                    { method: 'Bank Transfer', fixed: 0.41, percent: 0.43, desc: 'Bank transfer from your Spanish bank account' },
+                    { method: 'Debit Card', fixed: 0, percent: 1.50, desc: 'Debit card payment' },
+                    { method: 'Credit Card', fixed: 0, percent: 2.00, desc: 'Credit card payment' }
+                ],
+                deliveryMethods: ['Bank Transfer', 'Mobile Wallet'],
+                pros: ['Mid-market exchange rate', 'Transparent fees', 'Fast transfers (hours)', 'Excellent mobile app', 'No hidden markups'],
+                cons: ['Higher fee for card payments', 'Limited cash pickup options', 'Requires verification for large amounts'],
+                limits: { min: 1, max: '1M+' }
+            },
+            remitly: {
+                description: 'Remitly is an American online remittance service providing international money transfers to over 170 countries.',
+                fees: [
+                    { method: 'Bank Transfer', fixed: 1.99, percent: 0, desc: 'Bank transfer' },
+                    { method: 'Debit Card', fixed: 3.99, percent: 0, desc: 'Debit card' },
+                    { method: 'Mobile Wallet', fixed: 0, percent: 0, desc: 'GCash, Maya, or bank deposit' }
+                ],
+                deliveryMethods: ['Bank Transfer', 'Cash Pickup', 'Mobile Wallet'],
+                pros: ['Fastest for GCash', 'No fees on mobile wallet transfers', 'Promotional rates', 'Good for regular senders'],
+                cons: ['Slightly lower exchange rates', 'Markup on exchange rate', 'Limited for large transfers'],
+                limits: { min: 1, max: '500K' }
+            },
+            western_union: {
+                description: 'Western Union is an American financial services company with a global network for money transfers.',
+                fees: [
+                    { method: 'Bank Transfer', fixed: 4.99, percent: 0, desc: 'Bank transfer' },
+                    { method: 'Cash Pickup', fixed: 9.99, percent: 0, desc: 'Cash pickup at agent location' },
+                    { method: 'Debit Card', fixed: 5.99, percent: 0, desc: 'Debit card' }
+                ],
+                deliveryMethods: ['Bank Transfer', 'Cash Pickup', 'Mobile Wallet'],
+                pros: ['Widest cash pickup network', 'Instant cash pickup', 'Available in most towns', 'No bank account needed'],
+                cons: ['Higher fees', 'Poorer exchange rates', 'Hidden markup in rates', 'Slow bank transfers'],
+                limits: { min: 1, max: '500K' }
+            }
+        };
+
+        let alerts = [
+            { id: 1, type: 'Rate Above', rate: 64.00, active: true, date: '7 days ago' },
+            { id: 2, type: 'Rate Below', rate: 63.00, active: true, date: '3 days ago' },
+            { id: 3, type: 'Rate Above', rate: 65.00, active: false, date: '14 days ago', triggered: '2 days ago' }
+        ];
+
+        const sponsoredOffers = [
+            { name: 'N26', icon: 'N26', headline: 'Open N26 & Get 0% Transfer Fee', desc: 'Send your first €500 with zero fees when you open an N26 account today.', cta: 'Open Account' },
+            { name: 'Revolut', icon: 'R', headline: 'Revolut Premium: Free Transfers', desc: 'Upgrade to Premium and enjoy unlimited free international transfers.', cta: 'Try Premium' }
+        ];
+
+        let currentAmount = 1000;
+        let currentSort = 'highest';
+        let currentTimeframe = '24H';
+
+        // ============ INIT ============
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTopProviders();
+            renderSponsoredOffers();
+            renderSortChips();
+            renderTimeframeChips('timeframe-chips');
+            renderTimeframeChips('analytics-chips');
+            renderAlerts();
+            updateBestDisplay();
+            drawChart('home-chart', generateRateData('24H'));
+            drawChart('analytics-chart', generateRateData('30D'));
+            updateAnalyticsStats('30D');
+        });
+
+        // ============ FUNCTIONS ============
+        function getQuotes(amount) {
+            const quotes = [];
+            for (const [id, data] of Object.entries(providerQuotes)) {
+                const provider = providers.find(p => p.id === id);
+                const receive = (amount - data.fee) * data.rate;
+                quotes.push({
+                    ...provider,
+                    ...data,
+                    receive: receive,
+                    effectiveRate: receive / amount
+                });
+            }
+            return quotes.sort((a, b) => b.receive - a.receive);
+        }
+
+        function formatPHP(value) {
+            return '₱' + Math.round(value).toLocaleString();
+        }
+
+        function formatEUR(value) {
+            return '€' + value.toFixed(2);
+        }
+
+        function updateAmount() {
+            currentAmount = parseFloat(document.getElementById('amount-input').value) || 0;
+            updateBestDisplay();
+            renderTopProviders();
+        }
+
+        function updateBestDisplay() {
+            const quotes = getQuotes(currentAmount);
+            const best = quotes[0];
+            document.getElementById('best-amount').textContent = formatPHP(best.receive);
+            document.getElementById('best-provider').textContent = best.name;
+            document.getElementById('rate-display').textContent = '₱' + best.rate.toFixed(2);
+        }
+
+        function swapCurrencies() {
+            const input = document.getElementById('amount-input');
+            input.value = Math.round(currentAmount * 63.5 / 100) * 100 || 1000;
+            updateAmount();
+        }
+
+        function renderTopProviders() {
+            const quotes = getQuotes(currentAmount).slice(0, 5);
+            const container = document.getElementById('top-providers');
+            container.innerHTML = quotes.map((q, i) => `
+                <div class="provider-card ${i === 0 ? 'best' : ''}" onclick="showProviderDetail('${q.id}')">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                        <div class="provider-icon" style="background:${q.color}22;color:${q.color}">${q.icon}</div>
+                        ${q.promo ? '<span class="badge badge-promo">PROMO</span>' : ''}
+                    </div>
+                    <div class="provider-name">${q.name}</div>
+                    <div class="provider-meta">⏱ ${q.delivery}</div>
+                    <div class="provider-divider"></div>
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <div>
+                            <div style="font-size:11px;color:var(--text-tertiary)">You get</div>
+                            <div class="provider-amount">${formatPHP(q.receive)}</div>
+                        </div>
+                        <div style="text-align:right">
+                            <div style="font-size:11px;color:var(--text-tertiary)">Fee</div>
+                            <div class="provider-fee">${formatEUR(q.fee)}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderSponsoredOffers() {
+            const container = document.getElementById('sponsored-offers');
+            container.innerHTML = sponsoredOffers.map(o => `
+                <div class="provider-card" style="min-width:220px">
+                    <div class="sponsored-tag">SPONSORED</div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                        <div class="provider-icon" style="width:32px;height:32px;font-size:11px;background:rgba(108,92,231,0.1);color:var(--primary)">${o.icon}</div>
+                    </div>
+                    <div class="provider-name">${o.headline}</div>
+                    <div style="font-size:12px;color:var(--text-secondary);margin:8px 0">${o.desc}</div>
+                    <button class="btn btn-secondary btn-sm">${o.cta}</button>
+                </div>
+            `).join('');
+        }
+
+        function renderSortChips() {
+            const options = [
+                { id: 'highest', label: 'Highest PHP' },
+                { id: 'lowest', label: 'Lowest Fee' },
+                { id: 'fastest', label: 'Fastest' },
+                { id: 'rate', label: 'Best Rate' }
+            ];
+            document.getElementById('sort-chips').innerHTML = options.map(o =>
+                `<div class="chip ${o.id === currentSort ? 'active' : ''}" onclick="setSort('${o.id}')">${o.label}</div>`
+            ).join('');
+        }
+
+        function setSort(sort) {
+            currentSort = sort;
+            renderSortChips();
+            renderComparisonList();
+        }
+
+        function renderComparisonList(search = '') {
+            let quotes = getQuotes(currentAmount);
+            if (search) {
+                quotes = quotes.filter(q => q.name.toLowerCase().includes(search.toLowerCase()));
+            }
+
+            switch (currentSort) {
+                case 'lowest': quotes.sort((a, b) => a.fee - b.fee); break;
+                case 'fastest': quotes.sort((a, b) => getDeliveryMinutes(a.delivery) - getDeliveryMinutes(b.delivery)); break;
+                case 'rate': quotes.sort((a, b) => b.rate - a.rate); break;
+                default: quotes.sort((a, b) => b.receive - a.receive);
+            }
+
+            const best = getQuotes(currentAmount)[0];
+
+            const banner = document.getElementById('best-deal-banner');
+            const worst = quotes[quotes.length - 1];
+            const savings = worst ? (best.receive - worst.receive) / best.rate : 0;
+            banner.style.display = 'flex';
+            banner.innerHTML = `
+                <div class="best-deal-icon">⭐</div>
+                <div class="best-deal-info">
+                    <div class="best-deal-label">Best Deal</div>
+                    <div class="best-deal-text">${best.name} — ${formatPHP(best.receive)}</div>
+                </div>
+                <div class="best-deal-save">Save ${formatEUR(savings)}</div>
+            `;
+
+            document.getElementById('compare-amount-label').textContent = `€${currentAmount.toLocaleString()} → ₱`;
+            document.getElementById('comparison-list').innerHTML = quotes.map(q => `
+                <div class="comparison-row ${q.id === best.id ? 'best' : ''}" onclick="showProviderDetail('${q.id}')">
+                    <div class="comparison-icon" style="background:${q.color}22;color:${q.color}">${q.icon}</div>
+                    <div class="comparison-info">
+                        <div class="comparison-name">
+                            ${q.name}
+                            ${q.promo ? '<span class="badge badge-promo">PROMO</span>' : ''}
+                            ${q.id === best.id ? '<span class="badge badge-best">BEST</span>' : ''}
+                        </div>
+                        <div class="comparison-meta">
+                            <span>⏱ ${q.delivery}</span>
+                            <span>💰 ${formatEUR(q.fee)}</span>
+                        </div>
+                    </div>
+                    <div class="comparison-amount">
+                        <div class="comparison-php" style="color:${q.id === best.id ? 'var(--success)' : 'var(--text-primary)'}">${formatPHP(q.receive)}</div>
+                        <div class="comparison-rate">${q.rate.toFixed(4)} EUR/PHP</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterProviders(search) {
+            renderComparisonList(search);
+        }
+
+        function getDeliveryMinutes(text) {
+            if (text.includes('Instant')) return 1;
+            if (text.includes('Minutes')) return 10;
+            if (text.includes('hour')) return 60;
+            if (text.includes('Same')) return 720;
+            if (text.includes('1-2 day')) return 2880;
+            if (text.includes('2-3')) return 5760;
+            if (text.includes('3-5')) return 10080;
+            return 999;
+        }
+
+        function compareAll() {
+            currentAmount = parseFloat(document.getElementById('amount-input').value) || 1000;
+            showScreen('compare');
+            renderComparisonList();
+        }
+
+        // ============ PROVIDER DETAIL ============
+        function showProviderDetail(id) {
+            const provider = providers.find(p => p.id === id);
+            const quote = providerQuotes[id];
+            const details = providerDetails[id] || {
+                description: `${provider.name} is a trusted money transfer provider.`,
+                fees: [{ method: 'Standard', fixed: quote.fee, percent: 0, desc: 'Standard transfer fee' }],
+                deliveryMethods: ['Bank Transfer'],
+                pros: ['Competitive rates', 'Fast transfers', 'Trusted provider'],
+                cons: ['May have hidden markups', 'Limited delivery options'],
+                limits: { min: 1, max: '500K' }
+            };
+
+            const container = document.getElementById('provider-detail-content');
+            container.innerHTML = `
+                <div class="detail-header">
+                    <div class="detail-icon" style="background:${provider.color}22;color:${provider.color}">${provider.icon}</div>
+                    <div class="detail-name">${provider.name}</div>
+                    <div class="detail-stats">
+                        <div class="detail-stat">⭐ ${provider.rating}</div>
+                        <div class="detail-stat">🛡️ ${Math.round(provider.trust * 20)}% Trust</div>
+                        <div class="detail-stat">👥 ${(Math.random() * 30 + 5).toFixed(0)}k reviews</div>
+                    </div>
+                    <div class="detail-desc">${details.description}</div>
+                </div>
+
+                <div class="card">
+                    <div class="section-title">Trust Score</div>
+                    <div style="display:flex;justify-content:space-between;margin-top:12px">
+                        <span style="font-size:13px;color:var(--text-secondary)">Score</span>
+                        <span style="font-size:18px;font-weight:700;color:var(--success)">${Math.round(provider.trust * 20)}%</span>
+                    </div>
+                    <div class="trust-bar">
+                        <div class="trust-fill" style="width:${provider.trust / 5 * 100}%"></div>
+                    </div>
+                    <div class="trust-labels"><span>0</span><span>5.0</span></div>
+                </div>
+
+                <div class="card">
+                    <div class="section-title">Fee Structure</div>
+                    ${details.fees.map(f => `
+                        <div class="fee-row">
+                            <div>
+                                <div class="fee-method">${f.method}</div>
+                                <div class="fee-desc">${f.desc}</div>
+                            </div>
+                            <div class="fee-amount">
+                                ${f.fixed > 0 ? `<div class="fee-price">${formatEUR(f.fixed)}</div>` : ''}
+                                ${f.percent > 0 ? `<div class="fee-percent">${f.percent}%</div>` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="card">
+                    <div class="section-title">Delivery Methods</div>
+                    <div class="delivery-tags">
+                        ${details.deliveryMethods.map(m => `<div class="delivery-tag">📍 ${m}</div>`).join('')}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="pros-cons">
+                        <div class="pros-list">
+                            <div class="pros-title" style="color:var(--success)">✓ Pros</div>
+                            ${details.pros.map(p => `<div class="pro-item"><span class="pro-icon">✓</span> ${p}</div>`).join('')}
+                        </div>
+                        <div class="cons-list">
+                            <div class="cons-title" style="color:var(--error)">✕ Cons</div>
+                            ${details.cons.map(c => `<div class="con-item"><span class="con-icon">✕</span> ${c}</div>`).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="section-title">Transfer Limits</div>
+                    <div style="display:flex;gap:32px;margin-top:12px">
+                        <div>
+                            <div style="font-size:12px;color:var(--text-tertiary)">Minimum</div>
+                            <div style="font-size:18px;font-weight:700">€${details.limits.min}</div>
+                        </div>
+                        <div>
+                            <div style="font-size:12px;color:var(--text-tertiary)">Maximum</div>
+                            <div style="font-size:18px;font-weight:700">€${details.limits.max}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="window.open('${provider.website}', '_blank')">
+                    Transfer Now →
+                </button>
+            `;
+
+            showScreen('detail');
+        }
+
+        // ============ CHARTS ============
+        function generateRateData(timeframe) {
+            const data = [];
+            let rate = 62.0;
+            const count = timeframe === '24H' ? 24 : timeframe === '7D' ? 168 : timeframe === '30D' ? 30 : timeframe === '90D' ? 90 : 52;
+            for (let i = 0; i < count; i++) {
+                rate += (Math.random() - 0.48) * 0.15;
+                rate = Math.max(58, Math.min(68, rate));
+                data.push(rate);
+            }
+            return data;
+        }
+
+        function drawChart(containerId, data) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const w = container.offsetWidth || 400;
+            const h = container.offsetHeight || 120;
+            const padding = 10;
+
+            const min = Math.min(...data);
+            const max = Math.max(...data);
+            const range = max - min || 1;
+
+            const points = data.map((v, i) => ({
+                x: padding + (i / (data.length - 1)) * (w - padding * 2),
+                y: padding + (1 - (v - min) / range) * (h - padding * 2)
+            }));
+
+            const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+            const areaD = pathD + ` L ${points[points.length-1].x} ${h} L ${points[0].x} ${h} Z`;
+            const last = points[points.length - 1];
+
+            container.innerHTML = `
+                <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="grad-${containerId}" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.3"/>
+                            <stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="${areaD}" fill="url(#grad-${containerId})" />
+                    <path d="${pathD}" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="${last.x}" cy="${last.y}" r="4" fill="var(--primary)"/>
+                    <circle cx="${last.x}" cy="${last.y}" r="8" fill="var(--primary)" opacity="0.3"/>
+                </svg>
+            `;
+        }
+
+        function renderTimeframeChips(containerId) {
+            const timeframes = ['24H', '7D', '30D', '90D', '1Y'];
+            document.getElementById(containerId).innerHTML = timeframes.map(t =>
+                `<div class="chip ${t === currentTimeframe ? 'active' : ''}" onclick="setTimeframe('${t}', '${containerId}')">${t}</div>`
+            ).join('');
+        }
+
+        function setTimeframe(tf, containerId) {
+            currentTimeframe = tf;
+            renderTimeframeChips(containerId);
+            const chartId = containerId === 'analytics-chips' ? 'analytics-chart' : 'home-chart';
+            drawChart(chartId, generateRateData(tf));
+            if (containerId === 'analytics-chips') updateAnalyticsStats(tf);
+        }
+
+        function updateAnalyticsStats(tf) {
+            const data = generateRateData(tf);
+            const current = data[data.length - 1];
+            const high = Math.max(...data);
+            const low = Math.min(...data);
+            document.getElementById('stat-current').textContent = '₱' + current.toFixed(2);
+            document.getElementById('stat-high').textContent = '₱' + high.toFixed(2);
+            document.getElementById('stat-low').textContent = '₱' + low.toFixed(2);
+        }
+
+        // ============ ALERTS ============
+        function renderAlerts() {
+            const active = alerts.filter(a => a.active);
+            const triggered = alerts.filter(a => !a.active);
+
+            document.getElementById('active-count').textContent = `${active.length} active`;
+
+            document.getElementById('active-alerts').innerHTML = active.length === 0
+                ? '<div class="empty-state"><div class="empty-icon">🔔</div><div>No active alerts</div></div>'
+                : active.map(a => `
+                    <div class="alert-row">
+                        <div class="alert-icon active">🔔</div>
+                        <div class="alert-info">
+                            <div class="alert-title">${a.type}</div>
+                            <div class="alert-rate">₱${a.rate.toFixed(2)}</div>
+                        </div>
+                        <button class="alert-toggle on" onclick="toggleAlert(${a.id})">✓</button>
+                    </div>
+                `).join('');
+
+            document.getElementById('triggered-alerts').innerHTML = triggered.length === 0
+                ? '<div class="empty-state"><div class="empty-icon">🔕</div><div>No triggered alerts yet</div></div>'
+                : triggered.map(a => `
+                    <div class="alert-row" style="opacity:0.6">
+                        <div class="alert-icon triggered">✓</div>
+                        <div class="alert-info">
+                            <div class="alert-title">${a.type}</div>
+                            <div style="font-size:12px;color:var(--text-secondary)">Target: ₱${a.rate.toFixed(2)}</div>
+                        </div>
+                        <div style="font-size:11px;color:var(--text-tertiary)">${a.triggered}</div>
+                    </div>
+                `).join('');
+        }
+
+        function toggleAlert(id) {
+            const alert = alerts.find(a => a.id === id);
+            if (alert) {
+                alert.active = !alert.active;
+                renderAlerts();
+            }
+        }
+
+        function openCreateAlert() {
+            document.getElementById('alert-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('alert-modal').classList.remove('active');
+        }
+
+        function createAlert() {
+            const type = document.getElementById('alert-type').value;
+            const rate = parseFloat(document.getElementById('alert-rate').value);
+            if (!rate) return;
+
+            alerts.unshift({
+                id: Date.now(),
+                type: type,
+                rate: rate,
+                active: true,
+                date: 'Just now'
+            });
+
+            renderAlerts();
+            closeModal();
+            document.getElementById('alert-rate').value = '';
+        }
+
+        // ============ NAVIGATION ============
+        function switchTab(el, screen) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            showScreen(screen);
+        }
+
+        function showScreen(screen) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen-' + screen).classList.add('active');
+
+            // Update tabs
+            const tabMap = { home: 0, compare: 1, analytics: 2, alerts: 3, profile: 4 };
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            if (tabMap[screen] !== undefined && tabs[tabMap[screen]]) {
+                tabs[tabMap[screen]].classList.add('active');
+            }
+
+            // Render comparison if needed
+            if (screen === 'compare') {
+                renderComparisonList();
+            }
+
+            // Re-render charts on screen show
+            setTimeout(() => {
+                if (screen === 'home') {
+                    drawChart('home-chart', generateRateData(currentTimeframe));
+                }
+                if (screen === 'analytics') {
+                    drawChart('analytics-chart', generateRateData(currentTimeframe));
+                }
+            }, 100);
+        }
+
+        function selectPlan(el, plan) {
+            document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function copyCode() {
+            navigator.clipboard.writeText('MARIA2024').then(() => {
+                alert('Code copied!');
+            });
+        }
+
+        // Handle window resize for charts
+        window.addEventListener('resize', () => {
+            drawChart('home-chart', generateRateData(currentTimeframe));
+            drawChart('analytics-chart', generateRateData(currentTimeframe));
+        });
+    </script>
+</body>
+</html>
