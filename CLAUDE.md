@@ -14,6 +14,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 When a module spec and the code disagree, **update the spec first, then change the code.**
 
+## Working preferences
+
+- Respond to the user in Spanish. Keep code, file paths, identifiers, and technical terms in English. Tagalog (`tl`) is a product locale, not a chat language.
+- Batch independent writes/edits in parallel. Don't pause for per-file confirmation inside an approved task.
+- Default to "light" specs in `docs/` — ~1 page per file. Split rather than bloat.
+- Every new spec under `docs/` (except `README.md` and `MODULES.md`) carries `## Dependencies` + `## Used by` directly after the title. Mark planned-but-unwired deps with ⏳.
+
 ## Repo layout
 
 ```
