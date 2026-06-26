@@ -111,6 +111,12 @@ struct AlertStore {
         try? context.save()
     }
 
+    func setTriggered(id: UUID, at date: Date) {
+        guard let s = fetch(id) else { return }
+        s.triggeredAt = date
+        try? context.save()
+    }
+
     func delete(id: UUID) {
         guard let s = fetch(id) else { return }
         context.delete(s)

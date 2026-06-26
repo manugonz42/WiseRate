@@ -25,7 +25,7 @@ checkAndFireDueAlerts()           # called on launch / foreground
 Fires when:
 - `notifyType = rateAbove` and current ≥ target
 - `notifyType = rateBelow` and current ≤ target
-- `notifyType = providerCheapest` and the bound provider is now cheapest
+- `notifyType = providerCheapest` and the bound provider is now cheapest — ⏳ **not yet evaluable**: `RateAlert` has no provider binding in the [data model](../architecture/data-model.md), so this case is currently skipped.
 
 Notification payload includes the alert ID so tapping deep-links to `sendrate://alert/<id>` ([navigation](../architecture/navigation.md)).
 
@@ -46,9 +46,30 @@ Categories:
 
 Triggered in [onboarding](../modules/onboarding.md) step 4. If declined, re-prompt path is Settings → Notifications. Never re-prompt automatically.
 
+## iOS status (implemented)
+
+`SendRate/Core/Services/Notifications/NotificationService.swift` — `UNUserNotificationCenter`-backed
+local rate alerts.
+
+- `requestPermission()` / `authorizationStatus()` wrap `UNUserNotificationCenter`. Caller-gated
+  (onboarding step 4 / Settings) — never auto re-prompts.
+- Rate alerts are condition-based, not date-based, so nothing is scheduled by time. `checkAndFireDueAlerts()`
+  runs on launch / scene-active (wired in `SendRateApp` via `scenePhase`) and on alert create/enable
+  (`schedule(alert:)`): it fetches the latest rate (`ExchangeRateService`), evaluates enabled,
+  not-yet-triggered alerts, posts an immediate notification for each due one, and marks it
+  `triggeredAt` via `PersistenceService.alerts.setTriggered` so it won't re-fire.
+- `cancel(alertID:)` removes pending + delivered notifications for the alert.
+- Tap handling: the notification carries `userInfo["alertID"]`; the service's
+  `UNUserNotificationCenterDelegate` decodes it and calls `onAlertTapped`, which `SendRateApp` wires to
+  `NavigationState.openAlert(id:)` (in-app routing for the `sendrate://alert/<id>` intent — no URL scheme yet).
+- **Gap:** `providerCheapest` alerts are skipped (no provider binding on `RateAlert`).
+- **Not done:** push (APNs) — no backend yet; Xcode Push capability + Background Modes to add when the
+  `.xcodeproj` is created. Build-unverified (no Swift toolchain on the dev box).
+
 ## Replaces
 
-Stubbed `NotificationService` in `SendRate/Core/Services/Services.swift` — currently empty bodies.
+~~Stubbed `NotificationService` in `SendRate/Core/Services/Services.swift`~~ — moved to its own file
+(see iOS status above).
 
 ## Open questions
 

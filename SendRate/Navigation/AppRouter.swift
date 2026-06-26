@@ -52,6 +52,13 @@ class NavigationState: ObservableObject {
         selectedTab = tab
         path.removeAll()
     }
+
+    /// Deep link from a tapped rate-alert notification (`sendrate://alert/<id>`).
+    func openAlert(id: UUID) {
+        selectedTab = .alerts
+        path.removeAll()
+        presentingSheet = nil
+    }
     
     func presentSheet(_ sheet: SheetType) {
         presentingSheet = sheet

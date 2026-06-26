@@ -1,9 +1,16 @@
 import SwiftUI
+import UserNotifications
 
 @main
 struct SendRateApp: App {
     @StateObject private var navigationState = NavigationState()
-    
+    @Environment(\.scenePhase) private var scenePhase
+
+    init() {
+        UNUserNotificationCenter.current().delegate = NotificationService.shared
+        _ = SubscriptionService.shared   // starts the Transaction.updates listener
+    }
+
     var body: some Scene {
         WindowGroup {
             Group {
@@ -19,6 +26,16 @@ struct SendRateApp: App {
                 }
             }
             .modelContainer(PersistenceService.shared.container)
+            .task {
+                NotificationService.shared.onAlertTapped = { id in
+                    navigationState.openAlert(id: id)
+                }
+            }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                Task { await NotificationService.shared.checkAndFireDueAlerts() }
+            }
         }
     }
 }

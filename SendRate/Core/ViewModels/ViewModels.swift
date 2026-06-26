@@ -256,18 +256,32 @@ class AlertsViewModel: ObservableObject {
 
         store.alerts.create(alert)
         alerts = store.alerts.list()
-        await notificationService.requestPermission()
+        _ = await notificationService.requestPermission()
+        notificationService.schedule(alert: alert)
         newAlertRate = ""
         isCreatingAlert = false
     }
 
     func toggleAlert(_ alert: RateAlert) {
-        store.alerts.setEnabled(id: alert.id, !alert.isEnabled)
+        let enabled = !alert.isEnabled
+        store.alerts.setEnabled(id: alert.id, enabled)
         alerts = store.alerts.list()
+        if enabled, let updated = alerts.first(where: { $0.id == alert.id }) {
+            notificationService.schedule(alert: updated)
+        } else {
+            notificationService.cancel(alertID: alert.id)
+        }
     }
 
     func deleteAlert(_ alert: RateAlert) {
         store.alerts.delete(id: alert.id)
+        notificationService.cancel(alertID: alert.id)
+        alerts = store.alerts.list()
+    }
+
+    /// Fires any due alerts against the latest rate, then refreshes the list.
+    func refresh() async {
+        await notificationService.checkAndFireDueAlerts()
         alerts = store.alerts.list()
     }
 }
@@ -295,7 +309,18 @@ class PremiumViewModel: ObservableObject {
         isLoading = true
         do {
             try await subscriptionService.purchasePlan(plan)
-            subscriptionStatus = .premium(plan: plan)
+            subscriptionStatus = await subscriptionService.getSubscriptionStatus()
+        } catch {
+            print("Error: \(error)")
+        }
+        isLoading = false
+    }
+
+    func restore() async {
+        isLoading = true
+        do {
+            try await subscriptionService.restorePurchases()
+            subscriptionStatus = await subscriptionService.getSubscriptionStatus()
         } catch {
             print("Error: \(error)")
         }

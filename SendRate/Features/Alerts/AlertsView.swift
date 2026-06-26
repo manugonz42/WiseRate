@@ -15,6 +15,7 @@ struct AlertsView: View {
             .padding(.bottom, SRSpacing.xxxxl)
         }
         .background(Color.brand.background)
+        .task { await viewModel.refresh() }
         .sheet(isPresented: $showCreateAlert) {
             createAlertSheet
         }

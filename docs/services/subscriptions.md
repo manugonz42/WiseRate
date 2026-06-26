@@ -48,9 +48,27 @@ Each purchase is verified server-side (App Store / Play / Stripe). The server ma
 
 Standard flow on iOS/Android (button in Settings → Subscriptions). Web restores via account login.
 
+## iOS status (implemented)
+
+`SendRate/Core/Services/Subscriptions/SubscriptionService.swift` — StoreKit 2.
+
+- `getAvailablePlans()` returns the two `SubscriptionPlan`s; each maps to a product id via `productID`
+  (`sendrate_premium_monthly` / `sendrate_premium_yearly`).
+- `getSubscriptionStatus()` derives the entitlement from `Transaction.currentEntitlements` (verified,
+  unexpired, not revoked) → `.premium(plan:)` else `.free`.
+- `purchasePlan(_:)` resolves the `Product`, calls `purchase()`, verifies, finishes, and optimistically
+  caches premium. `restorePurchases()` calls `AppStore.sync()` then re-reads status.
+- A `Transaction.updates` listener starts in `init` (touched at launch from `SendRateApp`) to catch
+  renewals / external purchases.
+- Entitlement is **cached only** (boolean on `UserProfile.isPremium` + `premiumExpiry` setting via
+  `PersistenceService`); the App Store remains source of truth.
+- **Not done:** server receipt reconciliation + RevenueCat (⏳ above); a `.storekit` config file +
+  App Store Connect products to add when the `.xcodeproj` is created. Build-unverified (no Swift toolchain).
+
 ## Replaces
 
-`SubscriptionService` in `SendRate/Core/Services/Services.swift` — currently returns `.free` unconditionally.
+~~`SubscriptionService` in `SendRate/Core/Services/Services.swift`~~ — moved to its own file
+(see iOS status above).
 
 ## Receipt storage
 

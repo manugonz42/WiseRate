@@ -45,13 +45,13 @@ On iOS today, ViewModels all live in `SendRate/Core/ViewModels/ViewModels.swift`
 
 ## Known stubs (most user-facing data is still mock)
 
-Exchange rate (spot/historical) and iOS persistence are now real; the rest below is still stubbed.
+Exchange rate (spot/historical), iOS persistence, notifications, and subscriptions are now real; the rest below is still stubbed.
 `SendRate/Core/Services/Services.swift` defines protocols and mock implementations for:
 
 - `ExchangeRateService` — **real**: fetches spot + historical EUR→PHP from Frankfurter (ECB daily, no key), with in-memory + disk caching and stale-while-revalidate. See [`docs/services/exchange-rate.md`](docs/services/exchange-rate.md)
 - `TransferProviderService` — per-provider quotes are still mock (reads `SendRate/Data/Mock/MockData.swift`, 15 providers) but anchored to the real mid-market rate. Real quotes/aggregator deferred — see the "Deferred: comparison engine" note in the exchange-rate spec
-- `NotificationService` — empty bodies. See [`docs/services/notifications.md`](docs/services/notifications.md)
-- `SubscriptionService` — always returns `.free`. See [`docs/services/subscriptions.md`](docs/services/subscriptions.md)
+- `NotificationService` — **real** (moved to `Core/Services/Notifications/`): local rate alerts via `UNUserNotificationCenter`, fired on launch/foreground; `providerCheapest` skipped (no provider binding) and push (APNs) deferred. See [`docs/services/notifications.md`](docs/services/notifications.md)
+- `SubscriptionService` — **real** (moved to `Core/Services/Subscriptions/`): StoreKit 2 entitlement; server reconciliation deferred. See [`docs/services/subscriptions.md`](docs/services/subscriptions.md)
 - `AnalyticsService` — `print()` only. Event taxonomy in [`docs/services/analytics.md`](docs/services/analytics.md)
 
 Persistence: **iOS is wired** — `PersistenceService` (SwiftData) in `SendRate/Core/Services/Persistence/` backs profile, alerts, favorites, recents, settings (cached-quote API reserved, not yet wired into Home/Comparison). Android (Room) / Web (IndexedDB) not started. See [`docs/services/persistence.md`](docs/services/persistence.md).
@@ -97,4 +97,6 @@ Per the approved plan, services land in this order: **exchange-rate → persiste
 Progress:
 - ✅ **exchange-rate** (iOS) — real spot/historical via Frankfurter; per-provider quotes deferred (see exchange-rate spec).
 - ✅ **persistence** (iOS) — SwiftData `PersistenceService`. ⚠️ not yet compiled/run (no `.xcodeproj`, no Swift toolchain on the dev box) — needs an Xcode build to verify.
-- ⏭️ **next: notifications + subscriptions** (parallel) — both still stubs in `Services.swift`; see [`docs/services/notifications.md`](docs/services/notifications.md) and [`docs/services/subscriptions.md`](docs/services/subscriptions.md).
+- ✅ **notifications + subscriptions** (iOS) — `NotificationService` (UNUserNotificationCenter, local rate alerts) + `SubscriptionService` (StoreKit 2), each in its own folder under `Core/Services/`. ⚠️ build-unverified (same toolchain caveat); push/APNs + server reconciliation deferred; `providerCheapest` blocked on a data-model binding.
+- ◐ **Web refactor** — Next.js 16 scaffold under `web/` (App Router, Tailwind v4 token binding, route stubs for all tabs + provider/onboarding; `npm run build` passes). Taken ahead of Android since it's the only target buildable on the current Windows box. Screen ports off `index.html` not started. See [`docs/platforms/web.md`](docs/platforms/web.md).
+- ⏭️ **remaining: Android scaffold**; then port web screens module-by-module.

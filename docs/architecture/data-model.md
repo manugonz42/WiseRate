@@ -80,6 +80,8 @@ createdAt    date
 triggeredAt  date?
 notifyType   enum            // rateAbove | rateBelow | providerCheapest
 ```
+⏳ **Open:** `providerCheapest` needs a bound provider (e.g. `providerID string?`) to be evaluable.
+Until added, the [notifications](../services/notifications.md) service skips that case.
 
 ### UserProfile
 ```
