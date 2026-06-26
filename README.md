@@ -2,9 +2,9 @@
 
 > Compare money transfer rates and save on international transfers
 
-![Swift](https://img.shields.io/badge/Swift-5.9-F05138?style=for-the-badge&logo=swift)
-![iOS](https://img.shields.io/badge/iOS-17+-000000?style=for-the-badge&logo=apple)
-![Fintech](https://img.shields.io/badge/Fintech-Blue?style=for-the-badge)
+![Swift](https://img.shields.io/badge/Swift-5.9-F05138?style=for-the-badge&logo=swift&labelColor=1a1b26)
+![iOS](https://img.shields.io/badge/iOS-17+-c0caf5?style=for-the-badge&logo=apple&labelColor=1a1b26)
+![Fintech](https://img.shields.io/badge/Fintech-7aa2f7?style=for-the-badge&labelColor=1a1b26)
 
 ---
 
