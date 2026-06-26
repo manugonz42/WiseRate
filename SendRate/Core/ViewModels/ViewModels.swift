@@ -161,21 +161,31 @@ class ProviderDetailViewModel: ObservableObject {
     @Published var provider: ProviderDetail?
     @Published var isLoading: Bool = false
     @Published var selectedTimeFrame: TimeFrame = .month30
-    
+    @Published var isFavorite: Bool = false
+
     private let providerService = TransferProviderService.shared
     private let analyticsService = AnalyticsService.shared
-    
+    private let persistence = PersistenceService.shared
+
     var displayRates: [HistoricalRate] {
         guard let provider else { return [] }
         return provider.historicalRates
     }
-    
+
     func loadProvider(id: String) async {
         isLoading = true
         provider = try? await providerService.getProviderDetail(id: id)
+        isFavorite = persistence.favorites.isFavorite(id)
+        persistence.recents.record(id)
         isLoading = false
     }
-    
+
+    func toggleFavorite() {
+        guard let provider else { return }
+        persistence.favorites.toggle(provider.id)
+        isFavorite = persistence.favorites.isFavorite(provider.id)
+    }
+
     func trackClick(source: String) {
         guard let provider else { return }
         analyticsService.trackProviderClick(providerID: provider.id, source: source)
@@ -213,24 +223,29 @@ class AnalyticsViewModel: ObservableObject {
 
 @MainActor
 class AlertsViewModel: ObservableObject {
-    @Published var alerts: [RateAlert] = MockData.mockAlerts
+    @Published var alerts: [RateAlert] = []
     @Published var isCreatingAlert: Bool = false
     @Published var newAlertRate: String = ""
     @Published var newAlertType: RateAlert.AlertNotifyType = .rateAbove
-    
+
     private let notificationService = NotificationService.shared
-    
+    private let store = PersistenceService.shared
+
+    init() {
+        alerts = store.alerts.list()
+    }
+
     var activeAlerts: [RateAlert] {
         alerts.filter(\.isEnabled)
     }
-    
+
     var triggeredAlerts: [RateAlert] {
         alerts.filter { $0.triggeredAt != nil }
     }
-    
+
     func createAlert() async {
         guard let rate = Double(newAlertRate), rate > 0 else { return }
-        
+
         let alert = RateAlert(
             targetRate: rate,
             isEnabled: true,
@@ -238,21 +253,22 @@ class AlertsViewModel: ObservableObject {
             triggeredAt: nil,
             notifyType: newAlertType
         )
-        
-        alerts.append(alert)
+
+        store.alerts.create(alert)
+        alerts = store.alerts.list()
         await notificationService.requestPermission()
         newAlertRate = ""
         isCreatingAlert = false
     }
-    
+
     func toggleAlert(_ alert: RateAlert) {
-        if let index = alerts.firstIndex(where: { $0.id == alert.id }) {
-            alerts[index].isEnabled.toggle()
-        }
+        store.alerts.setEnabled(id: alert.id, !alert.isEnabled)
+        alerts = store.alerts.list()
     }
-    
+
     func deleteAlert(_ alert: RateAlert) {
-        alerts.removeAll { $0.id == alert.id }
+        store.alerts.delete(id: alert.id)
+        alerts = store.alerts.list()
     }
 }
 
@@ -289,22 +305,39 @@ class PremiumViewModel: ObservableObject {
 
 @MainActor
 class ProfileViewModel: ObservableObject {
-    @Published var user: UserProfile = .mock
+    @Published var user: UserProfile
     @Published var isEditing: Bool = false
-    
+
+    private let store = PersistenceService.shared
+
+    init() {
+        user = PersistenceService.shared.profile.load()
+    }
+
     func saveProfile() {
+        store.profile.save(user)
         isEditing = false
     }
 }
 
 @MainActor
 class SettingsViewModel: ObservableObject {
-    @Published var notificationsEnabled: Bool = true
-    @Published var darkModeEnabled: Bool = true
-    @Published var defaultAmount: String = "1000"
-    @Published var language: String = "English"
+    @Published var notificationsEnabled: Bool = true { didSet { store.settings.set("notificationsEnabled", notificationsEnabled) } }
+    @Published var darkModeEnabled: Bool = true { didSet { store.settings.set("darkModeEnabled", darkModeEnabled) } }
+    @Published var defaultAmount: String = "1000" { didSet { store.settings.set("defaultAmount", defaultAmount) } }
+    @Published var language: String = "English" { didSet { store.settings.set("language", language) } }
     @Published var isClearingCache: Bool = false
-    
+
+    private let store = PersistenceService.shared
+
+    init() {
+        let settings = store.settings
+        notificationsEnabled = settings.bool("notificationsEnabled") ?? true
+        darkModeEnabled = settings.bool("darkModeEnabled") ?? true
+        defaultAmount = settings.string("defaultAmount") ?? "1000"
+        language = settings.string("language") ?? "English"
+    }
+
     func clearCache() async {
         isClearingCache = true
         try? await Task.sleep(for: .seconds(1))

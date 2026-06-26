@@ -50,3 +50,18 @@ Out of scope for v1. Once accounts exist, server-synced sync of alerts + favorit
 ## Wiring
 
 ViewModels never touch the persistence library directly — they call `PersistenceService.<entity>.<verb>()` so the underlying store can swap without touching feature code.
+
+### iOS status (implemented)
+
+`SendRate/Core/Services/Persistence/` — `PersistenceModels.swift` (`@Model` entities, internal) +
+`PersistenceService.swift` (one `ModelContainer`, namespaced stores: `.profile`, `.alerts`,
+`.favorites`, `.recents`, `.settings`, `.cache`). `init(inMemory:)` gives an in-memory variant for
+previews/tests. First launch seeds from `UserProfile.mock` + `MockData.mockAlerts` so the UI keeps
+its current content until accounts exist. Wired into `AlertsViewModel`, `ProfileViewModel`,
+`ProviderDetailViewModel` (favorites + recents), `SettingsViewModel`; container attached in
+`SendRateApp.swift`.
+
+**Overlap with `RateCache`:** spot + historical rate caching stays in `RateCache` (disk JSON, owned
+by the exchange-rate service). The SwiftData `CachedQuote` / `CachedHistorical` entities are reserved
+for cross-session offline *quote* snapshots; `cache.saveQuotes`/`loadQuotes` exist but aren't yet
+wired into Home/Comparison cold-start (thin second pass). Don't duplicate rate/historical caching here.

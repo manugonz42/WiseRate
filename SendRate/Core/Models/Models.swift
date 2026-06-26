@@ -32,7 +32,7 @@ struct TransferProvider: Identifiable, Hashable {
     }
 }
 
-struct TransferQuote: Identifiable {
+struct TransferQuote: Identifiable, Codable {
     let id = UUID()
     let providerID: String
     let providerName: String
@@ -62,9 +62,16 @@ struct TransferQuote: Identifiable {
     var markupPercentage: Double {
         markup * 100
     }
+
+    // `id` is regenerated on decode (cached quotes don't need a stable identity).
+    private enum CodingKeys: String, CodingKey {
+        case providerID, providerName, providerIcon, sendAmount, sendCurrency, receiveCurrency
+        case exchangeRate, fee, feeCurrency, receiveAmount, deliveryEstimate, deliveryMethod
+        case markup, rateValidUntil, isPromotion, promotionText
+    }
 }
 
-struct DeliveryEstimate: Hashable {
+struct DeliveryEstimate: Hashable, Codable {
     let minMinutes: Int
     let maxMinutes: Int
     let label: String
@@ -78,7 +85,7 @@ struct DeliveryEstimate: Hashable {
     static let threeToFiveDays = DeliveryEstimate(minMinutes: 10080, maxMinutes: 15120, label: "3-5 days")
 }
 
-enum DeliveryMethod: String, CaseIterable, Hashable {
+enum DeliveryMethod: String, CaseIterable, Hashable, Codable {
     case bankTransfer = "Bank Transfer"
     case cashPickup = "Cash Pickup"
     case mobileWallet = "Mobile Wallet"
@@ -115,13 +122,23 @@ struct Rate: Codable {
 }
 
 struct RateAlert: Identifiable {
-    let id = UUID()
+    let id: UUID
     var targetRate: Double
     var isEnabled: Bool
     let createdAt: Date
     var triggeredAt: Date?
     var notifyType: AlertNotifyType
-    
+
+    init(id: UUID = UUID(), targetRate: Double, isEnabled: Bool, createdAt: Date,
+         triggeredAt: Date?, notifyType: AlertNotifyType) {
+        self.id = id
+        self.targetRate = targetRate
+        self.isEnabled = isEnabled
+        self.createdAt = createdAt
+        self.triggeredAt = triggeredAt
+        self.notifyType = notifyType
+    }
+
     enum AlertNotifyType: String, CaseIterable {
         case rateAbove = "Rate Above"
         case rateBelow = "Rate Below"

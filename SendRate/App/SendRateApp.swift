@@ -6,16 +6,19 @@ struct SendRateApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if navigationState.isOnboarding {
-                OnboardingView()
-                    .environmentObject(navigationState)
-                    .onAppear {
-                        navigationState.completeOnboarding()
-                    }
-            } else {
-                AppRouter(navigationState: navigationState)
-                    .environmentObject(navigationState)
+            Group {
+                if navigationState.isOnboarding {
+                    OnboardingView()
+                        .environmentObject(navigationState)
+                        .onAppear {
+                            navigationState.completeOnboarding()
+                        }
+                } else {
+                    AppRouter(navigationState: navigationState)
+                        .environmentObject(navigationState)
+                }
             }
+            .modelContainer(PersistenceService.shared.container)
         }
     }
 }

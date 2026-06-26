@@ -22,7 +22,7 @@ Legend: ☐ not started · ◐ in-progress · ✅ shipped
 | Service | Status | Spec |
 |---|:-:|---|
 | Exchange Rate API | ◐ (spot + historical real via Frankfurter; per-provider quotes mock/deferred) | [exchange-rate.md](services/exchange-rate.md) |
-| Persistence | ☐ | [persistence.md](services/persistence.md) |
+| Persistence | ◐ (iOS SwiftData: profile, alerts, favorites, recents, settings; cached quotes reserved) | [persistence.md](services/persistence.md) |
 | Notifications | ☐ (stub) | [notifications.md](services/notifications.md) |
 | Subscriptions / IAP | ☐ (stub) | [subscriptions.md](services/subscriptions.md) |
 | Analytics | ☐ (console only) | [analytics.md](services/analytics.md) |

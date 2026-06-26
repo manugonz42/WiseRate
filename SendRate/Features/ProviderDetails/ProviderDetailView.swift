@@ -37,6 +37,15 @@ struct ProviderDetailView: View {
                         .foregroundColor(Color.brand.textPrimary)
                 }
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    viewModel.toggleFavorite()
+                } label: {
+                    Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(viewModel.isFavorite ? Color.brand.error : Color.brand.textPrimary)
+                }
+            }
         }
         .task {
             await viewModel.loadProvider(id: providerID)
