@@ -43,8 +43,9 @@ Three platforms, one shared spec. Each platform implements the same four layers:
 
 On iOS today, ViewModels all live in `SendRate/Core/ViewModels/ViewModels.swift` and services in `SendRate/Core/Services/Services.swift`. Both files are slated to split as features stabilize — see [`docs/platforms/ios.md`](docs/platforms/ios.md).
 
-## Known stubs (everything user-facing reads mock data)
+## Known stubs (most user-facing data is still mock)
 
+Exchange rate (spot/historical) and iOS persistence are now real; the rest below is still stubbed.
 `SendRate/Core/Services/Services.swift` defines protocols and mock implementations for:
 
 - `ExchangeRateService` — **real**: fetches spot + historical EUR→PHP from Frankfurter (ECB daily, no key), with in-memory + disk caching and stale-while-revalidate. See [`docs/services/exchange-rate.md`](docs/services/exchange-rate.md)
@@ -53,7 +54,7 @@ On iOS today, ViewModels all live in `SendRate/Core/ViewModels/ViewModels.swift`
 - `SubscriptionService` — always returns `.free`. See [`docs/services/subscriptions.md`](docs/services/subscriptions.md)
 - `AnalyticsService` — `print()` only. Event taxonomy in [`docs/services/analytics.md`](docs/services/analytics.md)
 
-Persistence (SwiftData / Room / IndexedDB) is not wired anywhere yet — see [`docs/services/persistence.md`](docs/services/persistence.md).
+Persistence: **iOS is wired** — `PersistenceService` (SwiftData) in `SendRate/Core/Services/Persistence/` backs profile, alerts, favorites, recents, settings (cached-quote API reserved, not yet wired into Home/Comparison). Android (Room) / Web (IndexedDB) not started. See [`docs/services/persistence.md`](docs/services/persistence.md).
 
 ## Build & run
 
@@ -91,4 +92,9 @@ Dark theme only. Canonical tokens live in [`docs/architecture/design-system.md`]
 
 ## Sequencing for new work
 
-Per the approved plan, services land in this order: **exchange-rate → persistence → notifications + subscriptions (parallel) → Android scaffold → Web refactor**. Home / Comparison / Analytics / Provider Details / Alerts all depend on the real exchange-rate service, so that's the highest-leverage first piece.
+Per the approved plan, services land in this order: **exchange-rate → persistence → notifications + subscriptions (parallel) → Android scaffold → Web refactor**.
+
+Progress:
+- ✅ **exchange-rate** (iOS) — real spot/historical via Frankfurter; per-provider quotes deferred (see exchange-rate spec).
+- ✅ **persistence** (iOS) — SwiftData `PersistenceService`. ⚠️ not yet compiled/run (no `.xcodeproj`, no Swift toolchain on the dev box) — needs an Xcode build to verify.
+- ⏭️ **next: notifications + subscriptions** (parallel) — both still stubs in `Services.swift`; see [`docs/services/notifications.md`](docs/services/notifications.md) and [`docs/services/subscriptions.md`](docs/services/subscriptions.md).
