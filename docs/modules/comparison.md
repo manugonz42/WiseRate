@@ -42,3 +42,6 @@ Full list of provider quotes for the user-entered amount, sortable and filterabl
 
 ## Open questions
 - Should the amount input live here or in a sticky top bar shared with Home?
+
+## Deferred: comparison engine (define later)
+Real comparison engineering is postponed — see [exchange-rate § Deferred](../services/exchange-rate.md). When picked up, revisit the 5 sort options: *best rate*, *lowest fee*, and *cheapest total* collapse into one once we normalize to fixed total outlay and rank by `receiveAmount`. Likely reduce to 3 (más dinero recibido [default] · más rápido · más confiable), with fee/rate/markup shown only as per-row breakdown.

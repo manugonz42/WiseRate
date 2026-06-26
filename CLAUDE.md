@@ -47,8 +47,8 @@ On iOS today, ViewModels all live in `SendRate/Core/ViewModels/ViewModels.swift`
 
 `SendRate/Core/Services/Services.swift` defines protocols and mock implementations for:
 
-- `ExchangeRateService` — returns a fixed 63.50 EUR→PHP with ±0.5 jitter. Real impl tracked in [`docs/services/exchange-rate.md`](docs/services/exchange-rate.md)
-- `TransferProviderService` — reads from `SendRate/Data/Mock/MockData.swift` (15 providers)
+- `ExchangeRateService` — **real**: fetches spot + historical EUR→PHP from Frankfurter (ECB daily, no key), with in-memory + disk caching and stale-while-revalidate. See [`docs/services/exchange-rate.md`](docs/services/exchange-rate.md)
+- `TransferProviderService` — per-provider quotes are still mock (reads `SendRate/Data/Mock/MockData.swift`, 15 providers) but anchored to the real mid-market rate. Real quotes/aggregator deferred — see the "Deferred: comparison engine" note in the exchange-rate spec
 - `NotificationService` — empty bodies. See [`docs/services/notifications.md`](docs/services/notifications.md)
 - `SubscriptionService` — always returns `.free`. See [`docs/services/subscriptions.md`](docs/services/subscriptions.md)
 - `AnalyticsService` — `print()` only. Event taxonomy in [`docs/services/analytics.md`](docs/services/analytics.md)

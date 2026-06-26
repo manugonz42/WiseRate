@@ -21,7 +21,7 @@ Legend: ☐ not started · ◐ in-progress · ✅ shipped
 
 | Service | Status | Spec |
 |---|:-:|---|
-| Exchange Rate API | ☐ (mock only) | [exchange-rate.md](services/exchange-rate.md) |
+| Exchange Rate API | ◐ (spot + historical real via Frankfurter; per-provider quotes mock/deferred) | [exchange-rate.md](services/exchange-rate.md) |
 | Persistence | ☐ | [persistence.md](services/persistence.md) |
 | Notifications | ☐ (stub) | [notifications.md](services/notifications.md) |
 | Subscriptions / IAP | ☐ (stub) | [subscriptions.md](services/subscriptions.md) |

@@ -139,6 +139,10 @@ historicalRates    HistoricalRate[]
 
 `FeeStructure`: `{ method: DeliveryMethod, fixedFee, percentageFee, description }`
 
+## Deferred: comparison engine (define later)
+
+Postponed — see [exchange-rate § Deferred](../services/exchange-rate.md). Decision to settle when picked up: define `sendAmount` as **total outlay** (lo que sale de la cuenta, fee incluido) so every provider's `receiveAmount` is directly comparable for "si envío 100, ¿dónde llega más?". Today `totalCost = fee + sendAmount*markup` implies the fee sits outside `sendAmount`; reconcile this then.
+
 ## Conventions
 
 - All currency values: number in major units (EUR, not cents).
