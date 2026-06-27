@@ -1,6 +1,6 @@
 # Module: Home
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ · Android ◐
 
 ## Dependencies
 - **Reads:** [exchange-rate](../services/exchange-rate.md), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)
@@ -35,7 +35,7 @@ Landing screen — current EUR→PHP rate at a glance, top 3 providers ordered b
 
 ## Platform notes
 - **iOS**: `WiseRate/Features/Home/HomeView.swift` (431 lines — split when over 500)
-- **Web**: `web/app/(tabs)/home/page.tsx`
+- **Web**: `web/app/(tabs)/home/page.tsx`. Responsive full-web layout (the reference pattern for the other ports): hero + stats in a wide column on desktop, **Top Providers as a grid** (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`, not a horizontal scroller), trend alongside. Collapses to a single column `< md`. See [web layout](../platforms/web.md#layout--responsive).
 - **Android**: `android/app/src/main/java/com/wiserate/features/home/HomeScreen.kt`
 
 ## Open questions

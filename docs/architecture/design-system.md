@@ -1,6 +1,6 @@
 # Design System
 
-Dark theme only (for now). Mobile-first. Values below are the canonical tokens — iOS `Design/Theme/Colors.swift` and the web `:root` vars in `index.html` already match.
+Dark theme only. **Responsive: mobile → desktop** — iOS/Android are native mobile; the web is a **full-web responsive** app (see [web platform](../platforms/web.md)). Values below are the canonical tokens — iOS `Design/Theme/Colors.swift` and the web `:root` vars in `index.html` already match.
 
 ## Dependencies
 - **Reads:** — (root spec)
@@ -46,6 +46,14 @@ Defaults: screen padding `xl (20)`, card padding `lg (16)`, card-to-card gap `md
 
 `xs 8 · sm 12 · default 16` (full pill = height/2).
 
+## Breakpoints (web)
+
+Aligned with Tailwind: `sm 640 · md 768 · lg 1024 · xl 1280 · 2xl 1536` (px).
+
+- Content container: fluid up to **`max-w-6xl`**, centered; horizontal padding scales with breakpoint (`px-lg` mobile → `px-xxl`+ desktop).
+- `< md` = mobile layout (1 column, bottom tab bar). `≥ md` = web layout (top nav, multi-column grids).
+- Native apps ignore breakpoints — they bind tokens only.
+
 ## Typography
 
 Family: **Inter** on web, `.rounded` system on iOS, Inter on Android.
@@ -87,3 +95,5 @@ Durations: `quick 150ms · standard 250ms · smooth 350ms · bouncy 450ms (sprin
 - **RateBadge** — number + delta arrow (Home, Analytics)
 
 Each platform re-implements these atop the same tokens. Component API parity is a non-goal — token parity is the goal.
+
+**Web navigation (responsive):** `TopNav` (logo + links, shown `≥ md`) and `MobileTabBar` (bottom bar, shown `< md`) are the web's responsive nav pattern — no equivalent on native, which use their own tab bars.

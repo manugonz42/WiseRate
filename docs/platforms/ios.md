@@ -66,3 +66,7 @@ Open the project in Xcode (no `.xcodeproj` committed yet — file references onl
 - `NotificationService` — empty bodies; see [notifications](../services/notifications.md).
 - `SubscriptionService` — always `.free`; see [subscriptions](../services/subscriptions.md).
 - `AnalyticsService` — `print()` only; see [analytics](../services/analytics.md).
+
+## ASO
+
+App Store listing (title/subtitle/keywords/screenshots per en/es/tl) + universal links — see [seo.md](../architecture/seo.md).

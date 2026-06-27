@@ -27,10 +27,9 @@ When a module spec and the code disagree, **update the spec first, then change t
 ```
 WiseRate/         iOS SwiftUI app (working scaffold, mock data)
 WiseRate-Web/     Single-file HTML/CSS/JS prototype (index.html, 2,416 lines)
+android/          Android Compose scaffold (stubs + mock data, mirrors iOS)
 docs/             Cross-platform spec scaffold (this is the brain)
 ```
-
-Android target exists in specs only — no code yet.
 
 ## High-level architecture
 
@@ -75,7 +74,15 @@ Then visit `http://localhost:8000`. The production target is a Next.js port unde
 
 ### Android
 
-Not started.
+Compose scaffold under `android/` (Kotlin 2 · Hilt · Room · Retrofit). Stub screens + mock data
+mirror iOS; service interfaces have mock impls only. The Gradle wrapper jar isn't committed —
+Android Studio generates it on first sync, or run `gradle wrapper`. Then:
+
+```sh
+cd android && ./gradlew :app:assembleDebug
+```
+
+Run on a Pixel 8 API 34 emulator. See `android/README.md` and [`docs/platforms/android.md`](docs/platforms/android.md).
 
 ## Tests
 
@@ -91,4 +98,6 @@ Dark theme only. Canonical tokens live in [`docs/architecture/design-system.md`]
 
 ## Sequencing for new work
 
-Per the approved plan, services land in this order: **exchange-rate → persistence → notifications + subscriptions (parallel) → Android scaffold → Web refactor**. Home / Comparison / Analytics / Provider Details / Alerts all depend on the real exchange-rate service, so that's the highest-leverage first piece.
+Per the approved plan, work lands in this order: **exchange-rate → persistence → notifications + subscriptions (parallel) → Android scaffold → Web full-web responsive redesign → SEO (web) + ASO (apps)**. Home / Comparison / Analytics / Provider Details / Alerts all depend on the real exchange-rate service, so that's the highest-leverage first piece.
+
+The web is a **full-web responsive** app (desktop-first, top nav; collapses to mobile) — not a phone-width clone of the native apps. SEO/ASO is the final step — see [`docs/architecture/seo.md`](docs/architecture/seo.md).

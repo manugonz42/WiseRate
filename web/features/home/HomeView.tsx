@@ -19,7 +19,7 @@ export function HomeView() {
   const vm = useHomeViewModel();
 
   return (
-    <div className="flex flex-col gap-xxl px-xl pb-xxxxl pt-xl">
+    <div className="flex flex-col gap-xxl px-xl pb-xxxxl pt-xl md:px-xxl">
       <header className="flex items-center justify-between">
         <h1 className="text-title font-extrabold">WiseRate</h1>
         <div className="flex items-center gap-md">
@@ -54,9 +54,9 @@ export function HomeView() {
 
           <section>
             <SectionHeader title="Top Providers" subtitle="Best rates right now" />
-            <div className="no-scrollbar -mx-xl flex gap-md overflow-x-auto px-xl pb-sm">
+            <div className="grid grid-cols-1 gap-md sm:grid-cols-2 lg:grid-cols-3">
               {vm.loading
-                ? [0, 1, 2].map((i) => <Skeleton key={i} className="h-[150px] min-w-[200px] shrink-0" />)
+                ? [0, 1, 2].map((i) => <Skeleton key={i} className="h-[150px] w-full" />)
                 : vm.topQuotes.map((quote, i) => (
                     <ProviderCard
                       key={quote.providerID}

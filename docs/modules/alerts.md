@@ -1,6 +1,6 @@
 # Module: Alerts
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ · Android ◐
 
 ## Dependencies
 - **Reads:** [persistence](../services/persistence.md), [notifications](../services/notifications.md), [exchange-rate](../services/exchange-rate.md), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)

@@ -1,6 +1,6 @@
 # Module: Profile
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ · Android ◐
 
 ## Dependencies
 - **Reads:** [persistence](../services/persistence.md), [subscriptions](../services/subscriptions.md) (Premium badge), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)

@@ -13,7 +13,7 @@ export function ProviderCard({ quote, rank, onClick }: ProviderCardProps) {
   return (
     <button
       onClick={onClick}
-      className="min-w-[200px] shrink-0 rounded border border-border bg-surface-elevated p-lg text-left transition-colors duration-quick ease-standard hover:bg-surface-hover"
+      className="w-full rounded border border-border bg-surface-elevated p-lg text-left transition-colors duration-quick ease-standard hover:bg-surface-hover"
     >
       <div className="flex items-center justify-between">
         <BrandAvatar icon={quote.providerIcon} color={quote.brandColor} />

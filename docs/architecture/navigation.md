@@ -20,6 +20,8 @@ Cross-platform route map. iOS is authoritative; other platforms mirror.
 | 4 | Alerts | bell | [alerts](../modules/alerts.md) |
 | 5 | Profile | person.circle | [profile](../modules/profile.md) |
 
+> **Web:** a bottom tab bar only at mobile widths (`< md`). On desktop (`≥ md`) these 5 destinations live in the **top nav** — see [web platform](../platforms/web.md#layout--responsive).
+
 ## Routes (push)
 
 | Route | Params | Module |
@@ -54,9 +56,9 @@ Scheme: `wiserate://`
 ## Per-platform mapping
 
 - **iOS**: `WiseRate/Navigation/AppRouter.swift` — `Route` enum + `NavigationState` observable.
-- **Web**: file-based routes under `app/` (Next.js App Router).
+- **Web**: file-based routes under `app/` (Next.js App Router). Responsive nav: `components/nav/TopNav.tsx` (`≥ md`) + `components/nav/MobileTabBar.tsx` (`< md`), both mapping the 5 destinations to the same `app/(tabs)/` routes.
 - **Android**: `NavHost` + sealed `Screen` class mirroring `Route` enum.
 
 ## Web gap
 
-Web prototype lacks onboarding — it drops straight into Home with hardcoded EUR→PHP. Onboarding has to be added when migrating off `index.html`.
+Web prototype lacks onboarding — it drops straight into Home with hardcoded EUR→PHP. Onboarding (and the public, indexable landing at `/` — see [seo.md](seo.md)) has to be added when migrating off `index.html`.

@@ -6,7 +6,7 @@ Legend: ☐ not started · ◐ in-progress · ✅ shipped
 
 Android column: ◐ = scaffolded (stub `Screen.kt` + `ViewModel.kt` rendering placeholders that match the spec's acceptance criteria; reads mock data via service interfaces). Real UI follows iOS sequencing.
 
-Web column: the Next.js port lives under `web/`. **Home is ported** (real components on mock services); remaining ◐ modules are still served only by the frozen `index.html` prototype, ported one-per-PR in table order.
+Web column: the Next.js port lives under `web/` — a **full-web responsive** app (top nav on desktop, not a phone-width mobile clone; see [web platform](platforms/web.md)). **Home is ported** (real components on mock services); remaining ◐ modules are still served only by the frozen `index.html` prototype, **redesigned** to responsive full-web layouts one-per-PR in table order (each module gets its desktop layout notes at port time).
 
 | Module | iOS | Web | Android | Spec |
 |---|:-:|:-:|:-:|---|
@@ -38,6 +38,7 @@ Web column: the Next.js port lives under `web/`. **Home is ported** (real compon
 - [Navigation](architecture/navigation.md) — routes, tabs, deep links
 - [Design system](architecture/design-system.md) — tokens
 - [Localization](architecture/localization.md) — en / es / tl
+- [SEO / ASO](architecture/seo.md) — web discoverability + app store optimization
 
 ## Platforms
 

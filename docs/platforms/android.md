@@ -2,14 +2,23 @@
 
 ## Dependencies
 - **Reads:** [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md), [navigation](../architecture/navigation.md), [localization](../architecture/localization.md), all [services](../services/)
-- **Future:** ⏳ initial scaffold (not started yet)
+- **Future:** ⏳ real service impls (Retrofit/Frankfurter, Room, FCM, Play Billing) — same sequencing as iOS
 
 ## Used by
-- Future Android module files (one per [module](../modules/)) will map their paths here
+- [navigation](../architecture/navigation.md) — `navigation/NavGraph.kt` + `Screen.kt`
+- Each [module](../modules/) → `features/<module>/<Module>Screen.kt` + `<Module>ViewModel.kt`
 
 ## Status
 
-Not started. This file is the brief for the initial scaffold.
+**Scaffolded** (code under [`/android`](../../android/)). Buildable Gradle project mirroring the iOS
+four-layer architecture: all models / mock data / design tokens ported, service interfaces with
+**mock** implementations, full navigation (5-tab bar + push/sheet routes + `wiserate://` deep
+links), and every module compiling as a stub `Screen.kt` + `ViewModel.kt` rendering placeholders
+that map to each module spec's acceptance criteria. Real service impls are next, following the iOS
+sequencing.
+
+Setup note: `gradle/wrapper/gradle-wrapper.jar` is not committed — Android Studio generates it on
+first sync, or run `gradle wrapper`. See [`/android/README.md`](../../android/README.md).
 
 ## Target stack
 
@@ -60,3 +69,7 @@ Gradle 8.x with Kotlin DSL. Hilt KSP (not kapt). Run on Pixel 8 emulator API 34 
 - StoreKit ↔ **Google Play Billing** ([subscriptions](../services/subscriptions.md))
 - APNs ↔ **FCM** ([notifications](../services/notifications.md))
 - SwiftData ↔ **Room** ([persistence](../services/persistence.md))
+
+## ASO
+
+Play Store listing (title/short+full description/keywords/screenshots per en/es/tl) + app links — see [seo.md](../architecture/seo.md).

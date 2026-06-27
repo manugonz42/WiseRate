@@ -1,6 +1,6 @@
 # Module: Settings
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ · Android ◐
 
 ## Dependencies
 - **Reads:** [persistence](../services/persistence.md), [notifications](../services/notifications.md), [subscriptions](../services/subscriptions.md) (manage subscription action), [localization](../architecture/localization.md), [design-system](../architecture/design-system.md)

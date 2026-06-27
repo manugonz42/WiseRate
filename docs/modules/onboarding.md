@@ -1,6 +1,6 @@
 # Module: Onboarding
 
-**Status:** iOS ◐ · Web ☐ (missing) · Android ☐
+**Status:** iOS ◐ · Web ☐ (missing) · Android ◐
 
 ## Dependencies
 - **Reads:** [notifications](../services/notifications.md) (permission request on page 4), [persistence](../services/persistence.md) (writes selected currencies + flag), [localization](../architecture/localization.md), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)

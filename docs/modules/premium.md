@@ -1,6 +1,6 @@
 # Module: Premium
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ · Android ◐
 
 ## Dependencies
 - **Reads:** [subscriptions](../services/subscriptions.md), [localization](../architecture/localization.md) (currency formatting), [design-system](../architecture/design-system.md)

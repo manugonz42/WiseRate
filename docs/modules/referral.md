@@ -1,6 +1,6 @@
 # Module: Referral
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ · Android ◐
 
 ## Dependencies
 - **Reads:** [localization](../architecture/localization.md) (share message), [design-system](../architecture/design-system.md)

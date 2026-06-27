@@ -1,11 +1,14 @@
-import { TabBar } from "./TabBar";
+import { TopNav } from "@/components/nav/TopNav";
+import { MobileTabBar } from "@/components/nav/MobileTabBar";
 
-// Phone-width column centered on larger screens — the app is mobile-first.
+// Full-web responsive shell: top nav on desktop, bottom tab bar on mobile.
+// Content is centered and fluid up to max-w-6xl (see design-system.md#breakpoints).
 export default function TabsLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto min-h-dvh max-w-md pb-[72px]">
-      {children}
-      <TabBar />
+    <div className="min-h-dvh">
+      <TopNav />
+      <main className="mx-auto w-full max-w-6xl pb-[72px] md:pb-0">{children}</main>
+      <MobileTabBar />
     </div>
   );
 }
