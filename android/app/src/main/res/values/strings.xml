@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Default (en) strings. es / tl locale files added when localization is wired.
+     See docs/architecture/localization.md. -->
+<resources>
+    <string name="app_name">WiseRate</string>
+</resources>
