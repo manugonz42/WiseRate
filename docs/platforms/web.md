@@ -69,6 +69,22 @@ web/
 5. Keep `WiseRate-Web/index.html` until web parity reaches Home + Compare + Provider Detail (the affiliate-link earning flow).
 6. **Final (◐ in progress):** public landing (`/`) + SEO (web) / ASO (apps) — see [seo.md](../architecture/seo.md). Landing + metadata/sitemap/robots/JSON-LD/OG/hreflang live under `web/app/`; canonical base URL is env-driven (`NEXT_PUBLIC_SITE_URL`) until the domain is provisioned (⏳ see [navigation](../architecture/navigation.md)).
 
+## Live quotes (`/api/quotes`)
+
+The web server fetches real provider quotes itself for the **API-only** sources, so no separate
+backend is needed for them:
+
+- `app/api/quotes/route.ts` calls the **public Wise Comparisons API** (no credentials) for
+  EUR→PHP at the requested amount, normalizes to `TransferQuote[]`, and caches with fetch-level
+  `revalidate: 900` — i.e. the server **stores and refreshes every 15 min** (a Vercel Cron in
+  `vercel.json` warms it on the same cadence). Falls back to mock quotes on upstream error.
+- `lib/services/wiseComparison.ts` holds the upstream fetch + mapping; `lib/services/index.ts`
+  wires the live `TransferProviderService` (client calls go through `/api/quotes`; SSR calls the
+  upstream directly).
+- Scrape-only legs (cash pickup / GCash for WorldRemit, Xoom; Revolut) come from the **separate
+  backend** in [quotes-server](../services/quotes-server.md); the route merges both behind one
+  `Quote[]`. See [provider-adapters](../services/provider-adapters.md).
+
 ## State management
 
 React state + Zustand for cross-screen state (current quote query, comparison result). No Redux.

@@ -36,6 +36,22 @@ Providers ──(adapters: official/affiliate API → scrape fallback)──▶ 
 - **Datastore:** Postgres for durable snapshots + rate history (feeds Analytics charts); Redis as
   hot cache mirroring the TTLs in [exchange-rate](exchange-rate.md).
 
+### Where each collector runs (split)
+
+Not every provider needs the heavy backend. Collection is split by cost of acquisition:
+
+- **API-only providers → hosted by the web's own Next.js server.** Sources reachable in one or a
+  few HTTP calls (the **public Wise Comparisons API**, plus partner APIs) are fetched and cached
+  **by the web app itself** via a Next.js route (`web/app/api/quotes/route.ts`), refreshed every
+  **15 min** (fetch-level `revalidate: 900` + a Vercel Cron warm). No separate service required.
+- **Scrape-only providers → the separate backend.** Only providers that need a headless browser
+  (cash-pickup / GCash legs of WorldRemit, Xoom; Revolut) run in the standalone scraping
+  worker/datastore described above. The web route merges both sources behind one `Quote[]`.
+
+The **Wise Comparisons API is public (no credentials)** and already returns real EUR→PHP quotes
+for Wise + ~12 tracked competitors (bank-transfer pay-in/pay-out only) — see
+[providers-eur-php](../reference/providers-eur-php.md). It is the web route's primary source.
+
 ## True-cost quote model
 
 Adapters return the provider's **actual quoted figures for the exact amount + method**, never a

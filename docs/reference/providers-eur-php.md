@@ -32,21 +32,38 @@ auditable. Banks that clear the bar but are evaluated for referral/competitivene
 
 | id | name | legalEntity | regulator + licenseNo | registerURL | licenseType | EUR→PHP | deliveryMethods | affiliateProgram | quoteSource | website / affiliateURL |
 |---|---|---|---|---|---|:-:|---|---|---|---|
-| wise | Wise | Wise Europe SA | TODO (NBB/Banco de España passport) | TODO | EMI-passport | TODO | bankTransfer, mobileWallet | TODO (network?) | Wise Comparisons API / official | TODO |
-| remitly | Remitly | TODO | TODO | TODO | EMI/EP | TODO | bankTransfer, cashPickup, mobileWallet | TODO (Impact?) | official API / scrape | TODO |
-| worldremit | WorldRemit | TODO | TODO (FCA EMI) | TODO | EMI-passport | TODO | bankTransfer, cashPickup, mobileWallet, airtime | TODO | scrape / affiliate | TODO |
-| xoom | Xoom (PayPal) | TODO | TODO | TODO | EMI | TODO | bankTransfer, cashPickup, mobileWallet | TODO | scrape | TODO |
-| western_union | Western Union | TODO | TODO | TODO | EP/EDE | TODO | bankTransfer, cashPickup, homeDelivery | TODO | affiliate / scrape | TODO |
-| moneygram | MoneyGram | TODO | TODO | TODO | EP | TODO | bankTransfer, cashPickup | TODO | scrape | TODO |
-| revolut | Revolut | Revolut Bank UAB | TODO (Lietuvos bankas) | TODO | bank/EMI | TODO | bankTransfer, mobileWallet | TODO | manual | TODO |
-| n26 | N26 | N26 Bank AG | TODO (BaFin) | TODO | bank | TODO | bankTransfer (Wise-powered) | TODO | manual | TODO |
-| skrill | Skrill | TODO | TODO (FCA EMI) | TODO | EMI-passport | TODO | mobileWallet, bankTransfer | TODO | scrape | TODO |
-| ofx | OFX | TODO | TODO | TODO | EP/EMI | TODO | bankTransfer | TODO | scrape | TODO |
-| xe | Xe | TODO | TODO | TODO | EP/EMI | TODO | bankTransfer | TODO | scrape | TODO |
+| wise | Wise | Wise Europe SA | TODO (NBB/Banco de España passport) | TODO | EMI-passport | TODO | bankTransfer, mobileWallet | TODO (network?) | **own API** — Wise Comparisons API + Wise Platform API | TODO |
+| remitly | Remitly | TODO | TODO | TODO | EMI/EP | TODO | bankTransfer, cashPickup, mobileWallet | TODO (Impact?) | **partner API** — developer.remitly.com; bank also via Wise Comparisons | TODO |
+| worldremit | WorldRemit | TODO | TODO (FCA EMI) | TODO | EMI-passport | TODO | bankTransfer, cashPickup, mobileWallet, airtime | TODO | bank via Wise Comparisons; **scrape** for cash/wallet (no public quote API found) | TODO |
+| xoom | Xoom (PayPal) | TODO | TODO | TODO | EMI | TODO | bankTransfer, cashPickup, mobileWallet | TODO | bank via Wise Comparisons; **scrape** for cash/wallet (PayPal FX API ≠ Xoom remittance quote) | TODO |
+| western_union | Western Union | TODO | TODO | TODO | EP/EDE | TODO | bankTransfer, cashPickup, homeDelivery | TODO | **partner API** — developer.westernunion.com (covers cash network) | TODO |
+| moneygram | MoneyGram | TODO | TODO | TODO | EP | TODO | bankTransfer, cashPickup | TODO | **partner API** — developer.moneygram.com Quote API (fee+FX locked 30 min) | TODO |
+| revolut | Revolut | Revolut Bank UAB | TODO (Lietuvos bankas) | TODO | bank/EMI | TODO | bankTransfer, mobileWallet | TODO | **scrape / manual** — no public consumer quote API | TODO |
+| n26 | N26 | N26 Bank AG | TODO (BaFin) | TODO | bank | TODO | bankTransfer (Wise-powered) | TODO | **manual** — transfers powered by Wise; reuse Wise quote | TODO |
+| skrill | Skrill | TODO | TODO (FCA EMI) | TODO | EMI-passport | TODO | mobileWallet, bankTransfer | TODO | **partner API** — Skrill Send Money Preview (PSD2): returns fee + rate + converted amount | TODO |
+| ofx | OFX | TODO | TODO | TODO | EP/EMI | TODO | bankTransfer | TODO | **partner API** — OFX Payments API (sandbox available) | TODO |
+| xe | Xe | TODO | TODO | TODO | EP/EMI | TODO | bankTransfer | TODO | **partner API** — Xe Payment API (+ Currency Data API for mid-market) | TODO |
 
 > `deliveryMethods` map to the `DeliveryMethod` enum in [data-model](../architecture/data-model.md):
 > `bankTransfer | cashPickup | mobileWallet | homeDelivery | debitCard`. PH mobile wallets =
 > GCash / Maya (treat as `mobileWallet`).
+
+### Quote source summary — who needs scraping
+
+The **Wise Comparisons API** returns real price+speed for Wise *and tracked competitors*,
+collected from providers' sites ~hourly — but **bank-transfer pay-in/pay-out only** (no cash
+pickup, no GCash/Maya). So coverage splits as:
+
+- **No scraping — bank transfer via Wise Comparisons API** (one integration covers many tracked
+  providers; confirm exact EUR→PHP coverage against a live call).
+- **No scraping — own/partner quote API** (needs credentials/partnership, but covers cash &
+  wallet too): `wise`, `western_union`, `moneygram`, `remitly`, `skrill`, `ofx`, `xe`.
+- **No quote API → scrape (or manual)**: `revolut`, `n26` (manual: Wise-powered), and the
+  **cash-pickup / mobile-wallet** legs of `worldremit` and `xoom`.
+
+Net: with Wise Comparisons + the seven partner APIs, **no scraping is needed for the bank-transfer
+comparison at all**; scraping is only required for cash-pickup / GCash quotes of the few providers
+that lack a partner API (WorldRemit, Xoom). Source links in *How to maintain* references below.
 
 ## List B — banks: referral program + competitive EUR→PHP
 
