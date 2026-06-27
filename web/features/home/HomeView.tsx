@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { ArrowsLeftRight, CaretDown, CaretUp } from "@phosphor-icons/react";
 import { TIME_FRAMES } from "@/lib/models";
 import { formatDelta, formatPHP, formatRate, relativeTime } from "@/lib/format";
 import { Card } from "@/components/Card";
@@ -12,6 +13,7 @@ import { ProviderCard } from "@/components/ProviderCard";
 import { Sparkline } from "@/components/Sparkline";
 import { Skeleton } from "@/components/Skeleton";
 import { BrandAvatar } from "@/components/BrandAvatar";
+import { Reveal } from "@/features/landing/Reveal";
 import { useHomeViewModel } from "@/features/home/useHomeViewModel";
 
 export function HomeView() {
@@ -26,7 +28,7 @@ export function HomeView() {
           <span className="text-caption text-text-tertiary">
             {vm.rate ? `Updated ${relativeTime(vm.rate.timestamp)}` : "—"}
           </span>
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-caption font-bold">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-caption font-bold text-on-primary">
             MS
           </div>
         </div>
@@ -36,7 +38,9 @@ export function HomeView() {
         <EmptyState />
       ) : (
         <>
-          <HeroCard vm={vm} onCompare={() => router.push("/compare")} />
+          <Reveal>
+            <HeroCard vm={vm} onCompare={() => router.push("/compare")} />
+          </Reveal>
 
           {vm.loading ? (
             <Skeleton className="h-[72px] w-full" />
@@ -45,7 +49,20 @@ export function HomeView() {
               <StatBox label="1 EUR" value={vm.rate ? `₱${formatRate(vm.rate.rate)}` : "—"} />
               <StatBox
                 label="24h Change"
-                value={vm.rate ? `${vm.rate.delta24h >= 0 ? "▲" : "▼"} ${formatDelta(vm.rate.delta24h)}` : "—"}
+                value={
+                  vm.rate ? (
+                    <span className="inline-flex items-center gap-xs">
+                      {vm.rate.delta24h >= 0 ? (
+                        <CaretUp size={16} weight="bold" />
+                      ) : (
+                        <CaretDown size={16} weight="bold" />
+                      )}
+                      {formatDelta(vm.rate.delta24h)}
+                    </span>
+                  ) : (
+                    "—"
+                  )
+                }
                 tone={vm.rate && vm.rate.delta24h < 0 ? "error" : "success"}
               />
               <StatBox label="Providers" value="15+" />
@@ -148,7 +165,10 @@ function HeroCard({ vm, onCompare }: { vm: ReturnType<typeof useHomeViewModel>; 
         )}
       </div>
 
-      <Button onClick={onCompare}>⟷ Compare All Providers</Button>
+      <Button onClick={onCompare} className="flex items-center justify-center gap-sm">
+        <ArrowsLeftRight size={18} weight="bold" />
+        Compare All Providers
+      </Button>
     </Card>
   );
 }

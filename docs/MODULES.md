@@ -31,6 +31,10 @@ Web column: the Next.js port lives under `web/` — a **full-web responsive** ap
 | Subscriptions / IAP | ◐ (iOS StoreKit 2) | [subscriptions.md](services/subscriptions.md) |
 | Analytics | ☐ (console only) | [analytics.md](services/analytics.md) |
 
+## Web landing + SEO
+
+The public landing (`web/app/page.tsx`) and web SEO (metadata, `sitemap.ts`, `robots.ts`, JSON-LD, OG image, hreflang) are ◐ in progress — the final web migration step. App surfaces under `(tabs)` are `noindex`. See [seo.md](architecture/seo.md) and [web platform](platforms/web.md).
+
 ## Architecture
 
 - [Overview](architecture/overview.md) — 3-platform topology

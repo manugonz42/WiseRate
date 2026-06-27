@@ -2,18 +2,22 @@
    Color + radius block copied verbatim from WiseRate-Web/index.html :root.
    Spacing / shadow / motion added to match the spec (prototype omits them). */
 :root {
-  /* Colors */
-  --bg: #0A0A0A;
-  --surface: #141414;
-  --surface-elevated: #1C1C1E;
-  --surface-hover: #232325;
+  /* Colors — WEB EMERALD OVERRIDE (taste LILA rule §4.2): the web moves off the
+     canonical purple/black brand to an emerald accent on a green-black base.
+     iOS/Android keep the purple tokens in docs/architecture/design-system.md. */
+  --bg: #0A0F0D;
+  --surface: #141A17;
+  --surface-elevated: #1C241F;
+  --surface-hover: #232E27;
   --border: rgba(255, 255, 255, 0.08);
   --border-subtle: rgba(255, 255, 255, 0.04);
-  --primary: #6C5CE7;
-  --primary-light: #A29BFE;
-  --primary-dark: #4A3DB5;
-  --accent: #00D2D3;
-  --success: #00C48C;
+  --primary: #10B981;
+  --primary-light: #34D399;
+  --primary-dark: #059669;
+  /* Text/icon color for content sitting on an emerald fill (WCAG AA on #10B981). */
+  --on-primary: #08110D;
+  --accent: #34D399;
+  --success: #10B981;
   --warning: #FFB800;
   --error: #FF4757;
   --text-primary: #FFFFFF;

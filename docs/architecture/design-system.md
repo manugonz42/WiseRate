@@ -31,6 +31,27 @@ Dark theme only. **Responsive: mobile → desktop** — iOS/Android are native m
 | `text-secondary` | `rgba(255,255,255,0.6)` | meta |
 | `text-tertiary` | `rgba(255,255,255,0.35)` | placeholder |
 
+### Web palette override (Emerald)
+
+The **web app only** moves off the purple brand to an emerald accent on a green-black base
+(taste-skill LILA rule — purple read as the AI-default tell for a marketing surface). iOS and
+Android keep the purple tokens above. Web values live in `web/styles/tokens.css`:
+
+| Token | Web (emerald) |
+|---|---|
+| `bg` | `#0A0F0D` |
+| `surface` | `#141A17` |
+| `surface-elevated` | `#1C241F` |
+| `surface-hover` | `#232E27` |
+| `primary` | `#10B981` |
+| `primary-light` / `accent` | `#34D399` |
+| `primary-dark` | `#059669` |
+| `success` | `#10B981` (unified with the accent) |
+| `on-primary` | `#08110D` (text on emerald fills, WCAG AA) |
+
+`warning`, `error`, text and border tokens are unchanged across platforms. This is a
+deliberate, documented divergence from token parity (decided web-only).
+
 ## Gradients
 
 - **Primary**: `linear-gradient(135deg, primary → primary-light)` — used on hero text, key buttons.

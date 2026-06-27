@@ -10,9 +10,9 @@ export function Button({ children, variant = "primary", className, ...rest }: Bu
   return (
     <button
       className={cn(
-        "w-full rounded-sm px-lg py-md text-headline font-semibold transition-colors duration-quick ease-standard",
+        "w-full rounded-sm px-lg py-md text-headline font-semibold transition duration-quick ease-standard active:scale-[0.98]",
         variant === "primary"
-          ? "bg-primary text-text-primary hover:bg-primary-dark"
+          ? "bg-primary text-on-primary hover:bg-primary-dark"
           : "bg-surface-elevated text-text-primary hover:bg-surface-hover",
         className,
       )}

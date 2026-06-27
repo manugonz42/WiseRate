@@ -52,8 +52,8 @@ export const DELIVERY_LABEL: Record<DeliveryEstimate, string> = {
   hours: "A few hours",
   sameDay: "Same day",
   nextDay: "Next day",
-  twoToThreeDays: "2–3 days",
-  threeToFiveDays: "3–5 days",
+  twoToThreeDays: "2-3 days",
+  threeToFiveDays: "3-5 days",
 };
 
 export interface TransferQuote {

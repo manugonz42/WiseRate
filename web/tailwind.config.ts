@@ -23,6 +23,7 @@ const config: Config = {
         light: "var(--primary-light)",
         dark: "var(--primary-dark)",
       },
+      "on-primary": "var(--on-primary)",
       accent: "var(--accent)",
       success: "var(--success)",
       warning: "var(--warning)",

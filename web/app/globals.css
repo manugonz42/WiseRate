@@ -19,3 +19,21 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* FAQ accordion caret (native <details>, no client JS) */
+details[open] .faq-caret {
+  transform: rotate(180deg);
+}
+
+/* Honor reduced-motion for CSS transitions/animations.
+   Motion-driven reveals degrade separately via useReducedMotion(). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

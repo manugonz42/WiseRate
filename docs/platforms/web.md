@@ -14,6 +14,8 @@
 
 **Next.js port underway under `web/`.** Scaffolded (Next.js 15 App Router · TS · Tailwind), tokens copied to `styles/tokens.css`, mock service layer (`lib/services/`) + TS models (`lib/models/`) + shared primitives (`components/`) in place, 5-destination shell wired. **Home is ported** (`app/(tabs)/home/`); the other four render placeholders pending their per-screen PRs. The shell is being moved off the original phone-width, bottom-tab-bar layout to the responsive top-nav layout below.
 
+**Public landing + SEO are in progress** (the final migration step, below): `app/page.tsx` is now a server-rendered, indexable marketing landing for the EUR→PHP corridor (built with the `design-taste-frontend` skill); the `(tabs)` app surfaces are `noindex`. Landing uses `motion` for reduced-motion-safe reveals and Phosphor icons in the shell. Web uses an **emerald palette override** (dark green-black base, emerald `--primary`, Inter) instead of the canonical purple — a documented web-only divergence; see [design-system](../architecture/design-system.md#web-palette-override-emerald).
+
 `WiseRate-Web/index.html` — a 2,416-line single-file prototype, kept as the **frozen visual reference** until web parity reaches Home + Compare + Provider Detail. Screens in it: Home, Compare, Analytics, Premium, Profile, Referral, Settings, Provider Detail. **Onboarding is missing** — flagged in [navigation](../architecture/navigation.md).
 
 ## Target stack
@@ -65,7 +67,7 @@ web/
 3. Move the shell off the phone-width / bottom-tab-bar layout to the responsive top-nav layout (above): `max-w-6xl` container + `TopNav`/`MobileTabBar`.
 4. **Redesign** each screen to a responsive full-web layout (not a 1:1 mobile port), one at a time, in [MODULES.md](../MODULES.md) order. Each = one PR. ✅ Home · next: Comparison → Provider Details → …
 5. Keep `WiseRate-Web/index.html` until web parity reaches Home + Compare + Provider Detail (the affiliate-link earning flow).
-6. **Final:** public landing (`/`) + SEO (web) / ASO (apps) — see [seo.md](../architecture/seo.md).
+6. **Final (◐ in progress):** public landing (`/`) + SEO (web) / ASO (apps) — see [seo.md](../architecture/seo.md). Landing + metadata/sitemap/robots/JSON-LD/OG/hreflang live under `web/app/`; canonical base URL is env-driven (`NEXT_PUBLIC_SITE_URL`) until the domain is provisioned (⏳ see [navigation](../architecture/navigation.md)).
 
 ## State management
 
