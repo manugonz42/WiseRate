@@ -26,6 +26,8 @@ Web column: the Next.js port lives under `web/` — a **full-web responsive** ap
 | Service | Status | Spec |
 |---|:-:|---|
 | Exchange Rate API | ◐ (real Frankfurter; quotes still mock via pending proxy) | [exchange-rate.md](services/exchange-rate.md) |
+| Quotes Server | ☐ (specced; separate backend) | [quotes-server.md](services/quotes-server.md) |
+| Provider Adapters | ☐ (specced; per-provider extraction) | [provider-adapters.md](services/provider-adapters.md) |
 | Persistence | ◐ (iOS SwiftData) | [persistence.md](services/persistence.md) |
 | Notifications | ◐ (iOS local; push pending) | [notifications.md](services/notifications.md) |
 | Subscriptions / IAP | ◐ (iOS StoreKit 2) | [subscriptions.md](services/subscriptions.md) |
@@ -43,6 +45,10 @@ The public landing (`web/app/page.tsx`) and web SEO (metadata, `sitemap.ts`, `ro
 - [Design system](architecture/design-system.md) — tokens
 - [Localization](architecture/localization.md) — en / es / tl
 - [SEO / ASO](architecture/seo.md) — web discoverability + app store optimization
+
+## Reference
+
+- [Providers EUR→PHP](reference/providers-eur-php.md) — legal/reliable provider universe + bank referral list for the Spain → Philippines corridor
 
 ## Platforms
 

@@ -3,8 +3,8 @@
 Replaces the mocked `ExchangeRateService` + `TransferProviderService` in `WiseRate/Core/Services/Services.swift`.
 
 ## Dependencies
-- **Reads:** [data-model](../architecture/data-model.md) (`TransferQuote`, `HistoricalRate`)
-- **Future:** ⏳ backend proxy endpoint `/api/quotes` (server-side scrape/affiliate aggregation)
+- **Reads:** [data-model](../architecture/data-model.md) (`TransferQuote`, `HistoricalRate`), [providers-eur-php](../reference/providers-eur-php.md) (legal/reliable provider universe + quote-source classification)
+- **Future:** ⏳ [quotes-server](quotes-server.md) — the backend that implements the `/api/quotes` proxy (server-side affiliate/API aggregation). Its real impl supersedes the Frankfurter-only client here.
 
 ## Used by
 - [home](../modules/home.md), [comparison](../modules/comparison.md), [provider-details](../modules/provider-details.md), [analytics](../modules/analytics.md), [alerts](../modules/alerts.md) (for "current rate" reference)
@@ -36,7 +36,7 @@ Two-tier approach:
    - **Wise Comparisons API** if approved (gives multi-provider quotes in one call), OR
    - direct fetch of each provider's rate page (server-side scrape + affiliate API where available — Remitly, Xoom, Western Union).
 
-Server-side proxy (`/api/quotes`) runs the scrapes; clients only see the unified `Quote[]`.
+Server-side proxy (`/api/quotes`) runs the scrapes; clients only see the unified `Quote[]`. The server architecture, true-cost model, and per-provider extraction are specced in [quotes-server](quotes-server.md) + [provider-adapters](provider-adapters.md).
 
 ## Caching
 
@@ -53,6 +53,6 @@ On network failure: serve the most recent cached value with a `stale: true` flag
 
 ## Open questions
 
-- Provider partnership / affiliate IDs — needed before launching scrapes legally.
+- Provider partnership / affiliate IDs — needed before launching scrapes legally. Tracked in [providers-eur-php](../reference/providers-eur-php.md) (per-provider `affiliateProgram` + `quoteSource`).
 - Rate limit headroom for free tier on mid-market source.
 - Do we surface mid-market vs receive-amount markup explicitly to users? (Spec says yes — see `markupPercentage` in [data-model](../architecture/data-model.md).)
