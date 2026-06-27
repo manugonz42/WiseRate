@@ -10,9 +10,9 @@
 
 ## Current state
 
-`WiseRate-Web/index.html` — a 2,416-line single-file prototype. Vanilla JS, no framework, no build step. Useful as a visual demo; not the production target.
+**Next.js port underway under `web/`.** Scaffolded (Next.js 15 App Router · TS · Tailwind), tokens copied to `styles/tokens.css`, mock service layer (`lib/services/`) + TS models (`lib/models/`) + shared primitives (`components/`) in place, 5-tab shell wired. **Home is fully ported** (`app/(tabs)/home/`); the other four tabs render placeholders pending their per-screen PRs.
 
-Screens implemented inline: Home, Compare, Analytics, Premium, Profile, Referral, Settings, Provider Detail. **Onboarding is missing** — flagged in [navigation](../architecture/navigation.md).
+`WiseRate-Web/index.html` — a 2,416-line single-file prototype, kept as the **frozen visual reference** until web parity reaches Home + Compare + Provider Detail. Screens in it: Home, Compare, Analytics, Premium, Profile, Referral, Settings, Provider Detail. **Onboarding is missing** — flagged in [navigation](../architecture/navigation.md).
 
 ## Target stack
 
@@ -46,9 +46,9 @@ web/
 
 ## Migration plan (from `index.html`)
 
-1. Scaffold Next.js project under `web/`.
-2. Copy `:root` CSS vars verbatim into `styles/tokens.css` (already matches [design-system](../architecture/design-system.md)).
-3. Port screens one at a time, in [MODULES.md](../MODULES.md) order. Each port = one PR.
+1. ✅ Scaffold Next.js project under `web/`.
+2. ✅ Copy `:root` CSS vars verbatim into `styles/tokens.css` (matches [design-system](../architecture/design-system.md)); bound to Tailwind in `tailwind.config.ts`.
+3. Port screens one at a time, in [MODULES.md](../MODULES.md) order. Each port = one PR. ✅ Home · next: Comparison → Provider Details → …
 4. Keep `WiseRate-Web/index.html` until web parity reaches Home + Compare + Provider Detail (the affiliate-link earning flow).
 
 ## State management
@@ -61,7 +61,9 @@ IndexedDB via Dexie — see [persistence](../services/persistence.md).
 
 ## Build / dev
 
-`pnpm dev` for local; deploy target Vercel. PWA wrapper deferred.
+`cd web && npm install && npm run dev` for local; deploy target Vercel. PWA wrapper deferred.
+
+Pin Next to a patched 15.5.x (`npm audit` clears the critical dev-server advisories). One moderate remains — a `postcss` XSS in the copy **bundled inside `next`'s own `node_modules`** (Next build tooling, not our top-level `postcss`); no non-breaking fix and no app-input attack surface, so it's accepted until a Next patch ships.
 
 ## Auth (later)
 

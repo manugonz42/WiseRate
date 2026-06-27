@@ -59,6 +59,17 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 
+# Android / Gradle
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/captures/
+android/.cxx/
+*.apk
+*.aab
+*.keystore
+
 # IDE
 .idea/
 .vscode/
@@ -68,6 +79,15 @@ Desktop.ini
 
 # Logs
 *.log
+
+# Web (Next.js / Node) — see web/.gitignore for the full list
+node_modules/
+web/.next/
+web/out/
+web/build/
+web/next-env.d.ts
+*.tsbuildinfo
+.eslintcache
 
 # Environment / Secrets
 .env

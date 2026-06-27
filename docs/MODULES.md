@@ -4,18 +4,22 @@ Status table for every feature module across the three platforms.
 
 Legend: ☐ not started · ◐ in-progress · ✅ shipped
 
+Android column: ◐ = scaffolded (stub `Screen.kt` + `ViewModel.kt` rendering placeholders that match the spec's acceptance criteria; reads mock data via service interfaces). Real UI follows iOS sequencing.
+
+Web column: the Next.js port lives under `web/`. **Home is ported** (real components on mock services); remaining ◐ modules are still served only by the frozen `index.html` prototype, ported one-per-PR in table order.
+
 | Module | iOS | Web | Android | Spec |
 |---|:-:|:-:|:-:|---|
-| Home | ◐ | ◐ | ☐ | [home.md](modules/home.md) |
-| Comparison | ◐ | ◐ | ☐ | [comparison.md](modules/comparison.md) |
-| Provider Details | ◐ | ◐ | ☐ | [provider-details.md](modules/provider-details.md) |
-| Analytics | ◐ | ◐ | ☐ | [analytics.md](modules/analytics.md) |
-| Alerts | ◐ | ◐ | ☐ | [alerts.md](modules/alerts.md) |
-| Profile | ◐ | ◐ | ☐ | [profile.md](modules/profile.md) |
-| Settings | ◐ | ◐ | ☐ | [settings.md](modules/settings.md) |
-| Premium | ◐ | ◐ | ☐ | [premium.md](modules/premium.md) |
-| Referral | ◐ | ◐ | ☐ | [referral.md](modules/referral.md) |
-| Onboarding | ◐ | ☐ | ☐ | [onboarding.md](modules/onboarding.md) |
+| Home | ◐ | ◐ | ◐ | [home.md](modules/home.md) |
+| Comparison | ◐ | ◐ | ◐ | [comparison.md](modules/comparison.md) |
+| Provider Details | ◐ | ◐ | ◐ | [provider-details.md](modules/provider-details.md) |
+| Analytics | ◐ | ◐ | ◐ | [analytics.md](modules/analytics.md) |
+| Alerts | ◐ | ◐ | ◐ | [alerts.md](modules/alerts.md) |
+| Profile | ◐ | ◐ | ◐ | [profile.md](modules/profile.md) |
+| Settings | ◐ | ◐ | ◐ | [settings.md](modules/settings.md) |
+| Premium | ◐ | ◐ | ◐ | [premium.md](modules/premium.md) |
+| Referral | ◐ | ◐ | ◐ | [referral.md](modules/referral.md) |
+| Onboarding | ◐ | ☐ | ◐ | [onboarding.md](modules/onboarding.md) |
 
 ## Services (cross-cutting)
 
