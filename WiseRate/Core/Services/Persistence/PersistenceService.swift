@@ -14,6 +14,7 @@ let recentProvidersCap = 10
     func add(_ alert: RateAlert)
     func toggle(_ alert: RateAlert)
     func delete(_ alert: RateAlert)
+    func markTriggered(_ id: UUID, at date: Date)
 }
 
 @MainActor protocol ProfileStore {
@@ -121,6 +122,10 @@ final class AlertStoreSD: AlertStore {
     func delete(_ alert: RateAlert) {
         guard let row = row(alert.id) else { return }
         context.delete(row); try? context.save()
+    }
+    func markTriggered(_ id: UUID, at date: Date) {
+        guard let row = row(id) else { return }
+        row.triggeredAt = date; try? context.save()
     }
     private func row(_ id: UUID) -> SDRateAlert? {
         fetch(context, FetchDescriptor<SDRateAlert>(predicate: #Predicate { $0.id == id })).first
@@ -231,6 +236,10 @@ final class InMemoryBacking {
         b.alerts[i].isEnabled.toggle()
     }
     func delete(_ alert: RateAlert) { b.alerts.removeAll { $0.id == alert.id } }
+    func markTriggered(_ id: UUID, at date: Date) {
+        guard let i = b.alerts.firstIndex(where: { $0.id == id }) else { return }
+        b.alerts[i].triggeredAt = date
+    }
 }
 
 @MainActor final class InMemoryFavoriteStore: FavoriteStore {

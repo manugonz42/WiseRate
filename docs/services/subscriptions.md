@@ -50,7 +50,7 @@ Standard flow on iOS/Android (button in Settings → Subscriptions). Web restore
 
 ## Replaces
 
-`SubscriptionService` in `WiseRate/Core/Services/Services.swift` — currently returns `.free` unconditionally.
+`SubscriptionService` in `WiseRate/Core/Services/Services.swift`. **iOS done** (StoreKit 2): `Product.products(for:)`, `product.purchase()` with verification, `Transaction.currentEntitlements` for status, `Transaction.updates` listener started at launch, `AppStore.sync()` for restore. SKU ids via `SubscriptionPlan.productID`. Server reconciliation still pending. Sim testing needs the bundled `WiseRate/Resources/Products.storekit` selected in the scheme.
 
 ## Receipt storage
 

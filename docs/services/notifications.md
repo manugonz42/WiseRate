@@ -48,7 +48,7 @@ Triggered in [onboarding](../modules/onboarding.md) step 4. If declined, re-prom
 
 ## Replaces
 
-Stubbed `NotificationService` in `WiseRate/Core/Services/Services.swift` — currently empty bodies.
+`NotificationService` in `WiseRate/Core/Services/Services.swift`. **iOS done** (local): `UNUserNotificationCenter` permission, `checkAndFireDueAlerts(_:currentRate:)` evaluates enabled, not-yet-triggered alerts against the current rate on foreground (`rateAbove`/`rateBelow`; `providerCheapest` still TODO — needs quotes), `cancel(alertID:)`, tap deep-links to the Alerts tab via `NotificationDelegate`. Push (APNs) still pending.
 
 ## Open questions
 

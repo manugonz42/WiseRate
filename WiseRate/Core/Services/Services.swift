@@ -1,5 +1,7 @@
 import Foundation
 import SwiftUI
+import UserNotifications
+import StoreKit
 
 // MARK: - Exchange Rate Service
 
@@ -209,28 +211,77 @@ class AnalyticsService: AnalyticsServiceProtocol {
 
 protocol NotificationServiceProtocol {
     func requestPermission() async -> Bool
-    func scheduleAlert(id: UUID, title: String, body: String, date: Date)
-    func cancelAlert(id: UUID)
-    func scheduleRateCheck()
+    func authorizationStatus() async -> UNAuthorizationStatus
+    func cancel(alertID: UUID)
+    /// Evaluates enabled, not-yet-triggered alerts against the current rate and fires
+    /// a local notification for each that is now due. Returns the IDs fired so the
+    /// caller can persist `triggeredAt`. See docs/services/notifications.md.
+    @discardableResult
+    func checkAndFireDueAlerts(_ alerts: [RateAlert], currentRate: Double) async -> [UUID]
 }
 
 class NotificationService: NotificationServiceProtocol {
     static let shared = NotificationService()
-    
+
+    private let center = UNUserNotificationCenter.current()
+    private func identifier(_ id: UUID) -> String { "alert-\(id.uuidString)" }
+
     func requestPermission() async -> Bool {
-        return true
+        (try? await center.requestAuthorization(options: [.alert, .sound, .badge])) ?? false
     }
-    
-    func scheduleAlert(id: UUID, title: String, body: String, date: Date) {
-        print("Scheduled alert: \(title) at \(date)")
+
+    func authorizationStatus() async -> UNAuthorizationStatus {
+        await center.notificationSettings().authorizationStatus
     }
-    
-    func cancelAlert(id: UUID) {
-        print("Cancelled alert: \(id)")
+
+    func cancel(alertID: UUID) {
+        let id = identifier(alertID)
+        center.removePendingNotificationRequests(withIdentifiers: [id])
+        center.removeDeliveredNotifications(withIdentifiers: [id])
     }
-    
-    func scheduleRateCheck() {
-        print("Scheduled rate check")
+
+    func checkAndFireDueAlerts(_ alerts: [RateAlert], currentRate: Double) async -> [UUID] {
+        guard await authorizationStatus() == .authorized else { return [] }
+        var fired: [UUID] = []
+        for alert in alerts where alert.isEnabled && alert.triggeredAt == nil {
+            let due: Bool
+            switch alert.notifyType {
+            case .rateAbove: due = currentRate >= alert.targetRate
+            case .rateBelow: due = currentRate <= alert.targetRate
+            case .providerCheapest: due = false // TODO: needs provider quotes to evaluate
+            }
+            guard due else { continue }
+
+            let content = UNMutableNotificationContent()
+            content.title = "Rate alert hit"
+            content.body = String(format: "EUR→PHP is now %.2f (target %.2f).", currentRate, alert.targetRate)
+            content.sound = .default
+            content.userInfo = ["alertID": alert.id.uuidString]
+
+            let request = UNNotificationRequest(identifier: identifier(alert.id), content: content, trigger: nil)
+            try? await center.add(request)
+            fired.append(alert.id)
+        }
+        return fired
+    }
+}
+
+/// Handles foreground presentation and taps. Tapping deep-links to the Alerts tab.
+final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
+    var onAlertTapped: ((UUID) -> Void)?
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+        [.banner, .sound]
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse) async {
+        if let raw = response.notification.request.content.userInfo["alertID"] as? String,
+           let id = UUID(uuidString: raw) {
+            let handler = onAlertTapped
+            await MainActor.run { handler?(id) }
+        }
     }
 }
 
@@ -256,7 +307,12 @@ struct SubscriptionPlan: Identifiable {
     let period: String
     let features: [String]
     let isPopular: Bool
-    
+
+    /// StoreKit / Play / Stripe SKU id. See docs/services/subscriptions.md.
+    var productID: String {
+        id == "yearly" ? "wiserate_premium_yearly" : "wiserate_premium_monthly"
+    }
+
     static let plans: [SubscriptionPlan] = [
         SubscriptionPlan(
             id: "monthly",
@@ -277,22 +333,81 @@ struct SubscriptionPlan: Identifiable {
     ]
 }
 
+enum SubscriptionError: LocalizedError {
+    case productNotFound
+    case verificationFailed
+    case cancelled
+    case pending
+    case purchaseFailed
+
+    var errorDescription: String? {
+        switch self {
+        case .productNotFound: return "Subscription product not available."
+        case .verificationFailed: return "Could not verify the purchase."
+        case .cancelled: return "Purchase cancelled."
+        case .pending: return "Purchase is pending approval."
+        case .purchaseFailed: return "Purchase failed."
+        }
+    }
+}
+
+/// StoreKit 2 implementation. See docs/services/subscriptions.md.
 class SubscriptionService: SubscriptionServiceProtocol {
     static let shared = SubscriptionService()
-    
-    func getSubscriptionStatus() async -> SubscriptionStatus {
-        return .free
+
+    private var products: [Product] = []
+    private var updatesTask: Task<Void, Never>?
+
+    /// Start the transaction-updates listener once, at app launch.
+    func startObservingTransactions() {
+        guard updatesTask == nil else { return }
+        updatesTask = Task.detached {
+            for await update in Transaction.updates {
+                if case .verified(let txn) = update { await txn.finish() }
+            }
+        }
     }
-    
+
     func getAvailablePlans() -> [SubscriptionPlan] {
         SubscriptionPlan.plans
     }
-    
-    func purchasePlan(_ plan: SubscriptionPlan) async throws {
-        try await Task.sleep(for: .seconds(1))
+
+    private func loadProducts() async {
+        guard products.isEmpty else { return }
+        products = (try? await Product.products(for: SubscriptionPlan.plans.map(\.productID))) ?? []
     }
-    
+
+    func getSubscriptionStatus() async -> SubscriptionStatus {
+        for await result in Transaction.currentEntitlements {
+            guard case .verified(let txn) = result,
+                  txn.revocationDate == nil,
+                  (txn.expirationDate ?? .distantFuture) > Date(),
+                  let plan = SubscriptionPlan.plans.first(where: { $0.productID == txn.productID })
+            else { continue }
+            return .premium(plan: plan)
+        }
+        return .free
+    }
+
+    func purchasePlan(_ plan: SubscriptionPlan) async throws {
+        await loadProducts()
+        guard let product = products.first(where: { $0.id == plan.productID }) else {
+            throw SubscriptionError.productNotFound
+        }
+        switch try await product.purchase() {
+        case .success(let verification):
+            guard case .verified(let txn) = verification else { throw SubscriptionError.verificationFailed }
+            await txn.finish()
+        case .userCancelled:
+            throw SubscriptionError.cancelled
+        case .pending:
+            throw SubscriptionError.pending
+        @unknown default:
+            throw SubscriptionError.purchaseFailed
+        }
+    }
+
     func restorePurchases() async throws {
-        try await Task.sleep(for: .seconds(1))
+        try await AppStore.sync()
     }
 }

@@ -260,7 +260,7 @@ class AlertsViewModel: ObservableObject {
 
         persistence.alerts.add(alert)
         alerts = persistence.alerts.all()
-        await notificationService.requestPermission()
+        _ = await notificationService.requestPermission()
         newAlertRate = ""
         isCreatingAlert = false
     }
@@ -268,9 +268,14 @@ class AlertsViewModel: ObservableObject {
     func toggleAlert(_ alert: RateAlert) {
         persistence.alerts.toggle(alert)
         alerts = persistence.alerts.all()
+        // A disabled alert should not fire; clear any pending/delivered notification.
+        if let updated = alerts.first(where: { $0.id == alert.id }), !updated.isEnabled {
+            notificationService.cancel(alertID: alert.id)
+        }
     }
 
     func deleteAlert(_ alert: RateAlert) {
+        notificationService.cancel(alertID: alert.id)
         persistence.alerts.delete(alert)
         alerts = persistence.alerts.all()
     }
@@ -299,7 +304,19 @@ class PremiumViewModel: ObservableObject {
         isLoading = true
         do {
             try await subscriptionService.purchasePlan(plan)
-            subscriptionStatus = .premium(plan: plan)
+            // Confirm from StoreKit entitlements rather than assuming success.
+            subscriptionStatus = await subscriptionService.getSubscriptionStatus()
+        } catch {
+            print("Error: \(error)")
+        }
+        isLoading = false
+    }
+
+    func restore() async {
+        isLoading = true
+        do {
+            try await subscriptionService.restorePurchases()
+            subscriptionStatus = await subscriptionService.getSubscriptionStatus()
         } catch {
             print("Error: \(error)")
         }
