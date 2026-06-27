@@ -25,7 +25,7 @@ Local data the user owns: profile, alerts, favorites, recent providers, cached q
 
 | Platform | Tech |
 |---|---|
-| iOS | **SwiftData** (iOS 17+). One `ModelContainer` in `SendRateApp.swift`. |
+| iOS | **SwiftData** (iOS 17+). One `ModelContainer` in `WiseRateApp.swift`. `CachedQuote`/`CachedHistorical` are **not** SwiftData — they are served by the rate-layer `RateCache` (disk+memory); SwiftData only owns user data (profile, alerts, favorites, recents, settings). |
 | Android | **Room** with KSP. DAOs per entity. |
 | Web | **IndexedDB via Dexie**. One DB, one table per entity. |
 

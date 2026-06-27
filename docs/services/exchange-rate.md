@@ -1,6 +1,6 @@
 # Service: Exchange Rate
 
-Replaces the mocked `ExchangeRateService` + `TransferProviderService` in `SendRate/Core/Services/Services.swift`.
+Replaces the mocked `ExchangeRateService` + `TransferProviderService` in `WiseRate/Core/Services/Services.swift`.
 
 ## Dependencies
 - **Reads:** [data-model](../architecture/data-model.md) (`TransferQuote`, `HistoricalRate`)

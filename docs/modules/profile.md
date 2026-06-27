@@ -35,7 +35,7 @@ View and edit user info, see favorite + recent providers, jump to Settings / Ref
 - Cancel reverts unsaved edits
 
 ## Platform notes
-- **iOS**: `SendRate/Features/Profile/ProfileView.swift`
+- **iOS**: `WiseRate/Features/Profile/ProfileView.swift`
 - **Web**: `web/app/(tabs)/profile/page.tsx`
 - **Android**: `android/.../features/profile/ProfileScreen.kt`
 

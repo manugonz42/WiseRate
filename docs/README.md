@@ -1,6 +1,6 @@
-# SendRate Docs
+# WiseRate Docs
 
-Source of truth for building SendRate across **iOS**, **Web**, and **Android**.
+Source of truth for building WiseRate across **iOS**, **Web**, and **Android**.
 
 ## How this folder works
 

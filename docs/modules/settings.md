@@ -35,7 +35,7 @@ App preferences: notifications, theme, language, default amount, data privacy, a
 - Manage subscription opens the platform's native flow (`SKShowManageSubscriptions` on iOS, billing center on Android)
 
 ## Platform notes
-- **iOS**: `SendRate/Features/Settings/SettingsView.swift`
+- **iOS**: `WiseRate/Features/Settings/SettingsView.swift`
 - **Web**: `web/app/(tabs)/profile/settings/page.tsx` (modal route)
 - **Android**: `android/.../features/settings/SettingsScreen.kt`
 

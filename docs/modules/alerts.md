@@ -10,7 +10,7 @@
 ## Used by
 - [navigation](../architecture/navigation.md) — tab 4
 - [analytics](analytics.md) "Set alert at this rate" deep link
-- [notifications](../services/notifications.md) deep link `sendrate://alert/<id>`
+- [notifications](../services/notifications.md) deep link `wiserate://alert/<id>`
 
 ## Purpose
 Create and manage rate alerts that notify the user when EUR→PHP crosses a target.
@@ -36,7 +36,7 @@ Create and manage rate alerts that notify the user when EUR→PHP crosses a targ
 - Validation: target rate must be > 0 and within ±50% of current
 
 ## Platform notes
-- **iOS**: `SendRate/Features/Alerts/AlertsView.swift`
+- **iOS**: `WiseRate/Features/Alerts/AlertsView.swift`
 - **Web**: `web/app/(tabs)/alerts/page.tsx`
 - **Android**: `android/.../features/alerts/AlertsScreen.kt`
 

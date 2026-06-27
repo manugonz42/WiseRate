@@ -1,6 +1,6 @@
 # Data Model
 
-Canonical entities. Source of truth for Swift structs (`SendRate/Core/Models/Models.swift`), Kotlin data classes (Android), and TS interfaces (Web).
+Canonical entities. Source of truth for Swift structs (`WiseRate/Core/Models/Models.swift`), Kotlin data classes (Android), and TS interfaces (Web).
 
 ## Dependencies
 - **Reads:** — (root spec; depends on nothing)

@@ -5,12 +5,12 @@
 - **Future:** ⏳ PWA wrapper, ⏳ account auth (magic link + OAuth)
 
 ## Used by
-- Web port lives under `web/` (after migration from `SendRate-Web/index.html`)
+- Web port lives under `web/` (after migration from `WiseRate-Web/index.html`)
 - Each [module](../modules/) maps its web path here in its Platform notes
 
 ## Current state
 
-`SendRate-Web/index.html` — a 2,416-line single-file prototype. Vanilla JS, no framework, no build step. Useful as a visual demo; not the production target.
+`WiseRate-Web/index.html` — a 2,416-line single-file prototype. Vanilla JS, no framework, no build step. Useful as a visual demo; not the production target.
 
 Screens implemented inline: Home, Compare, Analytics, Premium, Profile, Referral, Settings, Provider Detail. **Onboarding is missing** — flagged in [navigation](../architecture/navigation.md).
 
@@ -49,7 +49,7 @@ web/
 1. Scaffold Next.js project under `web/`.
 2. Copy `:root` CSS vars verbatim into `styles/tokens.css` (already matches [design-system](../architecture/design-system.md)).
 3. Port screens one at a time, in [MODULES.md](../MODULES.md) order. Each port = one PR.
-4. Keep `SendRate-Web/index.html` until web parity reaches Home + Compare + Provider Detail (the affiliate-link earning flow).
+4. Keep `WiseRate-Web/index.html` until web parity reaches Home + Compare + Provider Detail (the affiliate-link earning flow).
 
 ## State management
 

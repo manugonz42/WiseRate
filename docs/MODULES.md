@@ -21,8 +21,8 @@ Legend: ☐ not started · ◐ in-progress · ✅ shipped
 
 | Service | Status | Spec |
 |---|:-:|---|
-| Exchange Rate API | ☐ (mock only) | [exchange-rate.md](services/exchange-rate.md) |
-| Persistence | ☐ | [persistence.md](services/persistence.md) |
+| Exchange Rate API | ◐ (real Frankfurter; quotes still mock via pending proxy) | [exchange-rate.md](services/exchange-rate.md) |
+| Persistence | ◐ (iOS SwiftData) | [persistence.md](services/persistence.md) |
 | Notifications | ☐ (stub) | [notifications.md](services/notifications.md) |
 | Subscriptions / IAP | ☐ (stub) | [subscriptions.md](services/subscriptions.md) |
 | Analytics | ☐ (console only) | [analytics.md](services/analytics.md) |

@@ -161,21 +161,35 @@ class ProviderDetailViewModel: ObservableObject {
     @Published var provider: ProviderDetail?
     @Published var isLoading: Bool = false
     @Published var selectedTimeFrame: TimeFrame = .month30
-    
+    @Published var isFavorite: Bool = false
+
     private let providerService = TransferProviderService.shared
     private let analyticsService = AnalyticsService.shared
-    
+    private let persistence = PersistenceService.shared
+
     var displayRates: [HistoricalRate] {
         guard let provider else { return [] }
         return provider.historicalRates
     }
-    
+
     func loadProvider(id: String) async {
         isLoading = true
         provider = try? await providerService.getProviderDetail(id: id)
+        isFavorite = persistence.favorites.isFavorite(id)
+        persistence.recents.record(id)
         isLoading = false
     }
-    
+
+    func toggleFavorite() {
+        guard let provider else { return }
+        if isFavorite {
+            persistence.favorites.remove(provider.id)
+        } else {
+            persistence.favorites.add(provider.id)
+        }
+        isFavorite = persistence.favorites.isFavorite(provider.id)
+    }
+
     func trackClick(source: String) {
         guard let provider else { return }
         analyticsService.trackProviderClick(providerID: provider.id, source: source)
@@ -213,24 +227,29 @@ class AnalyticsViewModel: ObservableObject {
 
 @MainActor
 class AlertsViewModel: ObservableObject {
-    @Published var alerts: [RateAlert] = MockData.mockAlerts
+    @Published var alerts: [RateAlert] = PersistenceService.shared.alerts.all()
     @Published var isCreatingAlert: Bool = false
     @Published var newAlertRate: String = ""
     @Published var newAlertType: RateAlert.AlertNotifyType = .rateAbove
-    
+
     private let notificationService = NotificationService.shared
-    
+    private let persistence = PersistenceService.shared
+
     var activeAlerts: [RateAlert] {
         alerts.filter(\.isEnabled)
     }
-    
+
     var triggeredAlerts: [RateAlert] {
         alerts.filter { $0.triggeredAt != nil }
     }
-    
+
+    func load() {
+        alerts = persistence.alerts.all()
+    }
+
     func createAlert() async {
         guard let rate = Double(newAlertRate), rate > 0 else { return }
-        
+
         let alert = RateAlert(
             targetRate: rate,
             isEnabled: true,
@@ -238,21 +257,22 @@ class AlertsViewModel: ObservableObject {
             triggeredAt: nil,
             notifyType: newAlertType
         )
-        
-        alerts.append(alert)
+
+        persistence.alerts.add(alert)
+        alerts = persistence.alerts.all()
         await notificationService.requestPermission()
         newAlertRate = ""
         isCreatingAlert = false
     }
-    
+
     func toggleAlert(_ alert: RateAlert) {
-        if let index = alerts.firstIndex(where: { $0.id == alert.id }) {
-            alerts[index].isEnabled.toggle()
-        }
+        persistence.alerts.toggle(alert)
+        alerts = persistence.alerts.all()
     }
-    
+
     func deleteAlert(_ alert: RateAlert) {
-        alerts.removeAll { $0.id == alert.id }
+        persistence.alerts.delete(alert)
+        alerts = persistence.alerts.all()
     }
 }
 
@@ -289,22 +309,47 @@ class PremiumViewModel: ObservableObject {
 
 @MainActor
 class ProfileViewModel: ObservableObject {
-    @Published var user: UserProfile = .mock
+    @Published var user: UserProfile = PersistenceService.shared.profile.get()
     @Published var isEditing: Bool = false
-    
+
+    private let persistence = PersistenceService.shared
+
+    func load() {
+        user = persistence.profile.get()
+    }
+
     func saveProfile() {
+        persistence.profile.save(user)
         isEditing = false
     }
 }
 
 @MainActor
 class SettingsViewModel: ObservableObject {
-    @Published var notificationsEnabled: Bool = true
-    @Published var darkModeEnabled: Bool = true
-    @Published var defaultAmount: String = "1000"
-    @Published var language: String = "English"
+    @Published var notificationsEnabled: Bool { didSet { persistence.settings.setBool(Keys.notifications, notificationsEnabled) } }
+    @Published var darkModeEnabled: Bool { didSet { persistence.settings.setBool(Keys.darkMode, darkModeEnabled) } }
+    @Published var defaultAmount: String { didSet { persistence.settings.set(Keys.defaultAmount, defaultAmount) } }
+    @Published var language: String { didSet { persistence.settings.set(Keys.language, language) } }
     @Published var isClearingCache: Bool = false
-    
+
+    private let persistence = PersistenceService.shared
+
+    private enum Keys {
+        static let notifications = "notificationsEnabled"
+        static let darkMode = "darkModeEnabled"
+        static let defaultAmount = "defaultAmount"
+        static let language = "language"
+    }
+
+    init() {
+        // Assignments in init do not fire didSet, so this loads without re-persisting.
+        let s = PersistenceService.shared.settings
+        notificationsEnabled = s.bool(Keys.notifications, default: true)
+        darkModeEnabled = s.bool(Keys.darkMode, default: true)
+        defaultAmount = s.string(Keys.defaultAmount) ?? "1000"
+        language = s.string(Keys.language) ?? "English"
+    }
+
     func clearCache() async {
         isClearingCache = true
         try? await Task.sleep(for: .seconds(1))
@@ -357,7 +402,7 @@ class ReferralViewModel: ObservableObject {
     @Published var showShareSheet: Bool = false
     
     var referralLink: String {
-        "https://sendrate.app/ref/\(referralCode)"
+        "https://wiserate.app/ref/\(referralCode)"
     }
     
     func copyCode() {

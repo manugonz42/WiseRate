@@ -29,7 +29,7 @@ Historical rate trends for the user's preferred pair — high/low/avg, % change,
 - Loading shimmer matches chart shape
 
 ## Platform notes
-- **iOS**: `SendRate/Features/Analytics/AnalyticsView.swift` (chart component referenced but not yet implemented — needs Swift Charts)
+- **iOS**: `WiseRate/Features/Analytics/AnalyticsView.swift` (chart component referenced but not yet implemented — needs Swift Charts)
 - **Web**: `web/app/(tabs)/analytics/page.tsx` — chart via Recharts or Visx
 - **Android**: `android/.../features/analytics/AnalyticsScreen.kt` — chart via Vico
 

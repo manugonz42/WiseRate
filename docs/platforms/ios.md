@@ -5,15 +5,15 @@
 - **Future:** ⏳ `AppContainer` for proper DI (post-persistence)
 
 ## Used by
-- Every iOS file under `SendRate/` follows the conventions here
+- Every iOS file under `WiseRate/` follows the conventions here
 - Each [module](../modules/) maps its iOS path here in its Platform notes
 
 ## Folder layout (current)
 
 ```
-SendRate/
+WiseRate/
 ├── App/                          # entry point
-│   └── SendRateApp.swift
+│   └── WiseRateApp.swift
 ├── Core/
 │   ├── Models/{Models,Enums}.swift
 │   ├── ViewModels/ViewModels.swift   # all VMs in one file (split later)

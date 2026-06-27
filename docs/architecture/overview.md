@@ -8,7 +8,7 @@
 - [README](../README.md) — first stop for new contributors
 - All [platforms](../platforms/) reference the layer model defined here
 
-## What SendRate is
+## What WiseRate is
 
 A rate-comparison app for international money transfers. Primary corridor: **EUR → PHP**. The user types an amount, sees the best providers ranked by total cost / receive amount / speed, sets alerts, and taps out to the provider via affiliate links.
 

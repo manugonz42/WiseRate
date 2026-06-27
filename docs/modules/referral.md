@@ -19,7 +19,7 @@ Show the user their referral code, share it via system share, track earnings.
 
 ## Outputs / Actions
 - Tap "Copy code" → copy to clipboard + toast
-- Tap "Share" → system share sheet with prefilled message + deep link `sendrate://?ref=<code>` (analytics: `referral.shared { channel }`)
+- Tap "Share" → system share sheet with prefilled message + deep link `wiserate://?ref=<code>` (analytics: `referral.shared { channel }`)
 - Tap "How it works" → bottom sheet with terms
 
 ## Acceptance criteria
@@ -29,7 +29,7 @@ Show the user their referral code, share it via system share, track earnings.
 - Earnings credit themselves to either account credit or a payout-when-eligible model — flagged in open questions
 
 ## Platform notes
-- **iOS**: `SendRate/Features/Referral/ReferralView.swift`
+- **iOS**: `WiseRate/Features/Referral/ReferralView.swift`
 - **Web**: `web/app/(tabs)/profile/referral/page.tsx`
 - **Android**: `android/.../features/referral/ReferralScreen.kt`
 

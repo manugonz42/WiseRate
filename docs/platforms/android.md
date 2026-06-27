@@ -20,8 +20,8 @@ Minimum SDK: 28 (Android 9). Target: latest stable.
 ## Folder layout (target)
 
 ```
-android/app/src/main/java/com/sendrate/
-├── SendRateApplication.kt
+android/app/src/main/java/com/wiserate/
+├── WiseRateApplication.kt
 ├── di/                     # Hilt modules
 ├── core/
 │   ├── model/              # mirrors data-model.md
@@ -44,7 +44,7 @@ android/app/src/main/java/com/sendrate/
 
 - One `@Composable fun <Module>Screen(vm: <Module>ViewModel = hiltViewModel())` per feature.
 - `ViewModel` exposes `StateFlow<UiState>` and `fun on<Intent>()` handlers — no LiveData.
-- Theming via custom `SendRateTheme { ... }` wrapping Material 3, mapping tokens from [design-system](../architecture/design-system.md).
+- Theming via custom `WiseRateTheme { ... }` wrapping Material 3, mapping tokens from [design-system](../architecture/design-system.md).
 - Navigation: Compose Navigation with type-safe args (Kotlin 2 typed nav).
 
 ## Parity goal

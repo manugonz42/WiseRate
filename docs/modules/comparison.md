@@ -10,7 +10,7 @@
 ## Used by
 - [navigation](../architecture/navigation.md) — tab 2
 - [home](home.md) "Compare all" CTA
-- Deep link `sendrate://compare?from=&to=&amount=` — see [navigation](../architecture/navigation.md)
+- Deep link `wiserate://compare?from=&to=&amount=` — see [navigation](../architecture/navigation.md)
 
 ## Purpose
 Full list of provider quotes for the user-entered amount, sortable and filterable, with a clearly-marked best deal.
@@ -36,7 +36,7 @@ Full list of provider quotes for the user-entered amount, sortable and filterabl
 - Empty filter result shows a "no providers match" state with a reset action
 
 ## Platform notes
-- **iOS**: `SendRate/Features/Comparison/ComparisonView.swift`
+- **iOS**: `WiseRate/Features/Comparison/ComparisonView.swift`
 - **Web**: `web/app/(tabs)/compare/page.tsx`
 - **Android**: `android/.../features/comparison/ComparisonScreen.kt`
 

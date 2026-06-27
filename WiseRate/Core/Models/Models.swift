@@ -115,7 +115,7 @@ struct Rate: Codable {
 }
 
 struct RateAlert: Identifiable {
-    let id = UUID()
+    var id: UUID = UUID()
     var targetRate: Double
     var isEnabled: Bool
     let createdAt: Date

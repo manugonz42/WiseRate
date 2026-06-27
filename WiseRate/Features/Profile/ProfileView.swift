@@ -119,7 +119,7 @@ struct ProfileView: View {
     
     private var versionInfo: some View {
         VStack(spacing: SRSpacing.xs) {
-            Text("SendRate v1.0.0")
+            Text("WiseRate v1.0.0")
                 .font(SRTypography.caption)
                 .foregroundColor(Color.brand.textTertiary)
             Text("Made with ❤️ for Filipinos in Spain")

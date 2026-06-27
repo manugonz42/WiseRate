@@ -19,7 +19,7 @@ actor RateCache {
 
     init() {
         let caches = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        dir = caches.appendingPathComponent("SendRateCache", isDirectory: true)
+        dir = caches.appendingPathComponent("WiseRateCache", isDirectory: true)
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
     }
 

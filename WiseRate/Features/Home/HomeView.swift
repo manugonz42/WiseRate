@@ -26,7 +26,7 @@ struct HomeView: View {
     private var headerSection: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("SendRate")
+                Text("WiseRate")
                     .font(SRTypography.largeTitle)
                     .foregroundStyle(Color.brand.gradientPrimary)
                 

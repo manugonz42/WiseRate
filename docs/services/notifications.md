@@ -27,7 +27,7 @@ Fires when:
 - `notifyType = rateBelow` and current ≤ target
 - `notifyType = providerCheapest` and the bound provider is now cheapest
 
-Notification payload includes the alert ID so tapping deep-links to `sendrate://alert/<id>` ([navigation](../architecture/navigation.md)).
+Notification payload includes the alert ID so tapping deep-links to `wiserate://alert/<id>` ([navigation](../architecture/navigation.md)).
 
 ## Push notifications
 
@@ -48,7 +48,7 @@ Triggered in [onboarding](../modules/onboarding.md) step 4. If declined, re-prom
 
 ## Replaces
 
-Stubbed `NotificationService` in `SendRate/Core/Services/Services.swift` — currently empty bodies.
+Stubbed `NotificationService` in `WiseRate/Core/Services/Services.swift` — currently empty bodies.
 
 ## Open questions
 

@@ -1,6 +1,6 @@
 # Service: Subscriptions / IAP
 
-SendRate Premium. One entitlement: `isPremium`. Two SKUs.
+WiseRate Premium. One entitlement: `isPremium`. Two SKUs.
 
 ## Dependencies
 - **Reads:** [data-model](../architecture/data-model.md) (`UserProfile.isPremium`)
@@ -18,8 +18,8 @@ SendRate Premium. One entitlement: `isPremium`. Two SKUs.
 
 | SKU id | Period | Price (USD) | Notes |
 |---|---|---|---|
-| `sendrate_premium_monthly` | 1 month | 4.99 | matches `PremiumViewModel` |
-| `sendrate_premium_yearly` | 1 year | 39.99 | "save 33%" badge |
+| `wiserate_premium_monthly` | 1 month | 4.99 | matches `PremiumViewModel` |
+| `wiserate_premium_yearly` | 1 year | 39.99 | "save 33%" badge |
 
 Local-currency pricing comes from the platform store.
 
@@ -50,7 +50,7 @@ Standard flow on iOS/Android (button in Settings → Subscriptions). Web restore
 
 ## Replaces
 
-`SubscriptionService` in `SendRate/Core/Services/Services.swift` — currently returns `.free` unconditionally.
+`SubscriptionService` in `WiseRate/Core/Services/Services.swift` — currently returns `.free` unconditionally.
 
 ## Receipt storage
 

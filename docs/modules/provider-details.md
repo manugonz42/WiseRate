@@ -11,7 +11,7 @@
 - [home](home.md) (top-3 provider tap)
 - [comparison](comparison.md) (row tap)
 - [profile](profile.md) (favorite / recent provider tap)
-- [notifications](../services/notifications.md) deep link `sendrate://provider/<id>`
+- [notifications](../services/notifications.md) deep link `wiserate://provider/<id>`
 
 ## Purpose
 Deep-dive on one provider: trust, fees, delivery methods, pros/cons, historical rate, transfer limits — and the affiliate CTA that earns us revenue.
@@ -38,7 +38,7 @@ Deep-dive on one provider: trust, fees, delivery methods, pros/cons, historical 
 - CTA button is sticky-bottom on mobile, prominent on web
 
 ## Platform notes
-- **iOS**: `SendRate/Features/ProviderDetails/ProviderDetailView.swift` (359 lines)
+- **iOS**: `WiseRate/Features/ProviderDetails/ProviderDetailView.swift` (359 lines)
 - **Web**: `web/app/provider/[id]/page.tsx`
 - **Android**: `android/.../features/providerdetails/ProviderDetailScreen.kt`
 

@@ -43,17 +43,17 @@ App boots into [onboarding](../modules/onboarding.md) if `UserProfile.hasComplet
 
 ## Deep links
 
-Scheme: `sendrate://`
+Scheme: `wiserate://`
 
 | Path | Action |
 |---|---|
-| `sendrate://provider/<id>` | open Provider Details |
-| `sendrate://alert/<id>` | open Alerts → highlight alert |
-| `sendrate://compare?from=EUR&to=PHP&amount=500` | open Comparison with prefilled inputs |
+| `wiserate://provider/<id>` | open Provider Details |
+| `wiserate://alert/<id>` | open Alerts → highlight alert |
+| `wiserate://compare?from=EUR&to=PHP&amount=500` | open Comparison with prefilled inputs |
 
 ## Per-platform mapping
 
-- **iOS**: `SendRate/Navigation/AppRouter.swift` — `Route` enum + `NavigationState` observable.
+- **iOS**: `WiseRate/Navigation/AppRouter.swift` — `Route` enum + `NavigationState` observable.
 - **Web**: file-based routes under `app/` (Next.js App Router).
 - **Android**: `NavHost` + sealed `Screen` class mirroring `Route` enum.
 

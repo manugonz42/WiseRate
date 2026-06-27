@@ -25,8 +25,8 @@ When a module spec and the code disagree, **update the spec first, then change t
 ## Repo layout
 
 ```
-SendRate/         iOS SwiftUI app (working scaffold, mock data)
-SendRate-Web/     Single-file HTML/CSS/JS prototype (index.html, 2,416 lines)
+WiseRate/         iOS SwiftUI app (working scaffold, mock data)
+WiseRate-Web/     Single-file HTML/CSS/JS prototype (index.html, 2,416 lines)
 docs/             Cross-platform spec scaffold (this is the brain)
 ```
 
@@ -41,14 +41,14 @@ Three platforms, one shared spec. Each platform implements the same four layers:
 3. **Service** — protocol-defined I/O, swappable mock ↔ real
 4. **Model** — plain data mirroring [`docs/architecture/data-model.md`](docs/architecture/data-model.md)
 
-On iOS today, ViewModels all live in `SendRate/Core/ViewModels/ViewModels.swift` and services in `SendRate/Core/Services/Services.swift`. Both files are slated to split as features stabilize — see [`docs/platforms/ios.md`](docs/platforms/ios.md).
+On iOS today, ViewModels all live in `WiseRate/Core/ViewModels/ViewModels.swift` and services in `WiseRate/Core/Services/Services.swift`. Both files are slated to split as features stabilize — see [`docs/platforms/ios.md`](docs/platforms/ios.md).
 
 ## Known stubs (everything user-facing reads mock data)
 
-`SendRate/Core/Services/Services.swift` defines protocols and mock implementations for:
+`WiseRate/Core/Services/Services.swift` defines protocols and mock implementations for:
 
 - `ExchangeRateService` — returns a fixed 63.50 EUR→PHP with ±0.5 jitter. Real impl tracked in [`docs/services/exchange-rate.md`](docs/services/exchange-rate.md)
-- `TransferProviderService` — reads from `SendRate/Data/Mock/MockData.swift` (15 providers)
+- `TransferProviderService` — reads from `WiseRate/Data/Mock/MockData.swift` (15 providers)
 - `NotificationService` — empty bodies. See [`docs/services/notifications.md`](docs/services/notifications.md)
 - `SubscriptionService` — always returns `.free`. See [`docs/services/subscriptions.md`](docs/services/subscriptions.md)
 - `AnalyticsService` — `print()` only. Event taxonomy in [`docs/services/analytics.md`](docs/services/analytics.md)
@@ -59,16 +59,16 @@ Persistence (SwiftData / Room / IndexedDB) is not wired anywhere yet — see [`d
 
 ### iOS
 
-No `.xcodeproj` is checked in yet — the Swift files exist as a structured source tree under `SendRate/`. To run today, create an Xcode iOS App project and add the `SendRate/` folder as a reference, then build for an iPhone 15 Pro simulator (iOS 17+).
+No `.xcodeproj` is checked in yet — the Swift files exist as a structured source tree under `WiseRate/`. To run today, create an Xcode iOS App project and add the `WiseRate/` folder as a reference, then build for an iPhone 15 Pro simulator (iOS 17+).
 
-Entry point: `SendRate/App/SendRateApp.swift`. Onboarding currently auto-completes inside that file — remove that line when shipping real onboarding (noted in [`docs/modules/onboarding.md`](docs/modules/onboarding.md)).
+Entry point: `WiseRate/App/WiseRateApp.swift`. Onboarding currently auto-completes inside that file — remove that line when shipping real onboarding (noted in [`docs/modules/onboarding.md`](docs/modules/onboarding.md)).
 
 ### Web (current prototype)
 
-Static, no build step. Open `SendRate-Web/index.html` in a browser, or:
+Static, no build step. Open `WiseRate-Web/index.html` in a browser, or:
 
 ```sh
-python3 -m http.server 8000 --directory SendRate-Web
+python3 -m http.server 8000 --directory WiseRate-Web
 ```
 
 Then visit `http://localhost:8000`. The production target is a Next.js port under `web/` — see [`docs/platforms/web.md`](docs/platforms/web.md). Don't add new features to `index.html`; treat it as a frozen reference.
@@ -83,7 +83,7 @@ None yet. Snapshot + unit test conventions are sketched in [`docs/platforms/ios.
 
 ## Design tokens
 
-Dark theme only. Canonical tokens live in [`docs/architecture/design-system.md`](docs/architecture/design-system.md). The iOS values in `SendRate/Design/Theme/Colors.swift` and the web `:root` CSS vars in `SendRate-Web/index.html` already match — if you change a token in one place, update the spec **and** the other platform.
+Dark theme only. Canonical tokens live in [`docs/architecture/design-system.md`](docs/architecture/design-system.md). The iOS values in `WiseRate/Design/Theme/Colors.swift` and the web `:root` CSS vars in `WiseRate-Web/index.html` already match — if you change a token in one place, update the spec **and** the other platform.
 
 ## Locales
 

@@ -34,9 +34,9 @@ Landing screen — current EUR→PHP rate at a glance, top 3 providers ordered b
 - Empty state (no quotes for pair) shows a clear fallback ("we don't yet support EUR→XYZ")
 
 ## Platform notes
-- **iOS**: `SendRate/Features/Home/HomeView.swift` (431 lines — split when over 500)
+- **iOS**: `WiseRate/Features/Home/HomeView.swift` (431 lines — split when over 500)
 - **Web**: `web/app/(tabs)/home/page.tsx`
-- **Android**: `android/app/src/main/java/com/sendrate/features/home/HomeScreen.kt`
+- **Android**: `android/app/src/main/java/com/wiserate/features/home/HomeScreen.kt`
 
 ## Open questions
 - Default `sendAmount` for the rate card — fixed at €500 or remembered from last comparison?

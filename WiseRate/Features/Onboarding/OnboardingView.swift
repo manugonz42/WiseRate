@@ -33,7 +33,7 @@ struct OnboardingView: View {
                     .foregroundStyle(Color.brand.gradientPrimary)
                 
                 VStack(spacing: SRSpacing.md) {
-                    Text("SendRate")
+                    Text("WiseRate")
                         .font(SRTypography.largeTitle)
                         .foregroundStyle(Color.brand.gradientPrimary)
                     

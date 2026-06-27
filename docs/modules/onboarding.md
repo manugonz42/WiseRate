@@ -36,7 +36,7 @@
 - No analytics fired before consent (analytics consent is part of page 4)
 
 ## Platform notes
-- **iOS**: `SendRate/Features/Onboarding/OnboardingView.swift` — currently auto-completes in `SendRateApp.swift`; that line must be removed when this module ships.
+- **iOS**: `WiseRate/Features/Onboarding/OnboardingView.swift` — currently auto-completes in `WiseRateApp.swift`; that line must be removed when this module ships.
 - **Web**: not yet implemented — `web/app/onboarding/page.tsx` (route guarded by the same flag in `localStorage`/IDB)
 - **Android**: `android/.../features/onboarding/OnboardingScreen.kt`
 

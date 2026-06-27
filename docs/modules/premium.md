@@ -40,7 +40,7 @@ Upsell screen: pitch Premium, present the two plans, run the purchase flow, conf
 - Terms + Privacy links visible per store requirements
 
 ## Platform notes
-- **iOS**: `SendRate/Features/Premium/PremiumView.swift`
+- **iOS**: `WiseRate/Features/Premium/PremiumView.swift`
 - **Web**: `web/app/(tabs)/profile/premium/page.tsx` — Stripe Checkout redirect
 - **Android**: `android/.../features/premium/PremiumScreen.kt`
 
