@@ -1,0 +1,30 @@
+/* Canonical design tokens — mirror of docs/architecture/design-system.md.
+   Keep in sync with WiseRate/Design/Theme/Colors.swift and the web prototype. */
+:root {
+  /* Colors */
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface-elevated: #1c1c1e;
+  --surface-hover: #232325;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --primary: #6c5ce7;
+  --primary-light: #a29bfe;
+  --primary-dark: #4a3db5;
+  --accent: #00d2d3;
+  --success: #00c48c;
+  --warning: #ffb800;
+  --error: #ff4757;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-tertiary: rgba(255, 255, 255, 0.35);
+
+  /* Radius */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius: 16px;
+
+  /* Shadows */
+  --shadow-default: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-elevated: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
