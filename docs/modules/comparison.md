@@ -27,13 +27,14 @@ Full list of provider quotes for the user-entered amount, sortable and filterabl
 - Change amount / pair → re-fetches quotes
 
 ## Acceptance criteria
-- Sort options: best rate, lowest fee, fastest, most trusted, cheapest total — exactly 5
-- Best-deal banner pinned to top showing the winning quote's receive amount + savings vs avg
-- Filter chips for delivery method are multi-select; "All" toggles the rest off
-- Search filters provider names live (debounce 150ms)
-- Each row shows: provider icon, name, fee, delivery estimate, receive amount, markup %
-- "Promotional" badge on quotes with `isPromotion = true`
-- Empty filter result shows a "no providers match" state with a reset action
+- Sort options: best rate, lowest fee, fastest, most trusted, cheapest total — exactly 5 ✅ (web)
+- Best-deal banner pinned to top showing the winning quote's receive amount + savings vs avg ✅ (web) — amber (`--warning`), matching mobile; the winning row is also highlighted so the emphasis survives scrolling. See [web](../platforms/web.md#desktop-layout-web-is-not-a-phone-screen).
+- Desktop (`md+`) renders rows as a table (Provider · Recipient gets · Fee · Speed · Trust); below `md` falls back to stacked cards ✅ (web)
+- Filter chips for delivery method are multi-select; "All" toggles the rest off — ⏳ deferred on web: Wise Comparisons API doesn't expose delivery method (see [exchange-rate](../services/exchange-rate.md))
+- Search filters provider names live (debounce 150ms) ✅ (web)
+- Each row shows: provider icon, name, fee, delivery estimate, receive amount, markup % ✅ (web)
+- "Promotional" badge on quotes with `isPromotion = true` — n/a from current source (`isPromotion` always false)
+- Empty filter result shows a "no providers match" state with a reset action ✅ (web)
 
 ## Platform notes
 - **iOS**: `WiseRate/Features/Comparison/ComparisonView.swift`
