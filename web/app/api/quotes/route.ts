@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchWiseQuotes } from "@/lib/services/wise";
+import { getAggregatedQuotes } from "@/lib/services/quotes";
 import type { QuotesResponse } from "@/lib/models/types";
 
 // GET /api/quotes?from=EUR&to=PHP&amount=1000
 //
 // Server-side proxy so the client never deals with CORS or upstream keys
-// (docs/services/exchange-rate.md). Currently backed solely by the Wise
-// Comparisons API — the no-scraping source.
+// (docs/services/exchange-rate.md). Backed by the direct provider endpoints
+// plus the Wise Comparisons API as filler — see lib/services/quotes.ts.
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
   const from = (params.get("from") ?? "EUR").toUpperCase();
@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const { rate, quotes } = await fetchWiseQuotes(from, to, amount);
+    const { rate, quotes } = await getAggregatedQuotes(from, to, amount);
     const body: QuotesResponse = {
       from,
       to,

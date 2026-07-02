@@ -15,6 +15,22 @@ export interface DeliveryEstimate {
   label: string;
 }
 
+// Where a quote's numbers came from — see data-model.md `QuoteSource`.
+// "direct" = the provider's own public endpoint; "wise-comparisons" = filler
+// attributed to the provider by Wise's comparisons API; "mock" = local fixture.
+export type QuoteSource = "direct" | "wise-comparisons" | "mock";
+
+// First-transfer / new-customer offer. Base quote fields hold the standard
+// (no-promo) price whenever derivable; ranking always uses the base fields.
+export interface PromoInfo {
+  description: string;
+  promoFee: number;
+  promoReceiveAmount: number;
+  promoExchangeRate: number | null;
+  // false when the provider publishes no standard price (base == promo price)
+  baseIsStandard: boolean;
+}
+
 export interface TransferQuote {
   id: string;
   providerID: string;
@@ -31,8 +47,10 @@ export interface TransferQuote {
   deliveryMethod: DeliveryMethod;
   markup: number; // 0..1
   isPromotion: boolean;
+  promo?: PromoInfo;
   trustScore: number; // 0..1
   isMidMarketReference: boolean;
+  source: QuoteSource;
 }
 
 export interface Rate {

@@ -11,30 +11,9 @@ import type {
   Rate,
   TransferQuote,
 } from "@/lib/models/types";
+import { trustFor } from "./trust";
 
 const WISE_BASE = "https://api.wise.com/v4/comparisons/";
-
-// Editorial trust scores for the "most trusted" sort. Grounded in
-// proveedores.md ("100% fiables"). Keyed by Wise provider alias; unknown
-// providers fall back to DEFAULT_TRUST.
-const TRUST: Record<string, number> = {
-  wise: 0.98,
-  westernunion: 0.95,
-  moneygram: 0.93,
-  remitly: 0.93,
-  worldremit: 0.92,
-  ria: 0.9,
-  xoom: 0.9,
-  moneytrans: 0.9,
-  transfergo: 0.88,
-  instarem: 0.88,
-  smallworld: 0.87,
-  xe: 0.87,
-  currencyfair: 0.85,
-  ofx: 0.85,
-  revolut: 0.86,
-};
-const DEFAULT_TRUST = 0.75;
 
 interface WiseLogoVariant {
   svgUrl: string | null;
@@ -145,9 +124,10 @@ export async function fetchWiseQuotes(
   for (const p of data.providers) {
     const q = p.quotes[0];
     if (!q) continue;
-    // Skip the synthetic mid-market row; it is exposed via `rate`, not as a
-    // sendable provider quote.
-    if (q.isConsideredMidMarketRate) continue;
+    // `isConsideredMidMarketRate` flags a real, sendable quote whose rate
+    // equals mid-market (typically Wise's own, with a real fee). It feeds the
+    // `rate` reference above but must stay in the list — skipping it removed
+    // Wise itself from the comparison.
 
     quotes.push({
       id: `${p.alias}-${p.id}`,
@@ -167,8 +147,11 @@ export async function fetchWiseQuotes(
       deliveryMethod: "bankTransfer",
       markup: q.markup / 100, // percentage -> 0..1 per data-model
       isPromotion: false,
-      trustScore: TRUST[p.alias] ?? DEFAULT_TRUST,
+      trustScore: trustFor(p.alias),
       isMidMarketReference: false,
+      // Numbers Wise attributes to competitors — filler until a direct
+      // source covers the provider (docs/services/exchange-rate.md).
+      source: "wise-comparisons",
     });
   }
 

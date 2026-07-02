@@ -33,7 +33,8 @@ Full list of provider quotes for the user-entered amount, sortable and filterabl
 - Filter chips for delivery method are multi-select; "All" toggles the rest off — ⏳ deferred on web: Wise Comparisons API doesn't expose delivery method (see [exchange-rate](../services/exchange-rate.md))
 - Search filters provider names live (debounce 150ms) ✅ (web)
 - Each row shows: provider icon, name, fee, delivery estimate, receive amount, markup % ✅ (web)
-- "Promotional" badge on quotes with `isPromotion = true` — n/a from current source (`isPromotion` always false)
+- "Promo" badge on quotes with `isPromotion = true`, showing the first-transfer price next to the standard one (`PromoInfo`); when the provider publishes no standard price (`baseIsStandard = false`) the row says so ✅ (web)
+- Quotes not fetched from the provider's own endpoint carry a source tag: "via Wise" (`wise-comparisons`) or "mock" ✅ (web)
 - Empty filter result shows a "no providers match" state with a reset action ✅ (web)
 
 ## Platform notes
