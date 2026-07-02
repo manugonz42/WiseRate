@@ -1,0 +1,25 @@
+Provider,Supports_ES_to_PH,Public_API,Partner_API,Affiliate,REST,SOAP,GraphQL,Webhook,Scraping_Potential,Difficulty,Priority,Notes
+Wise,Yes,Yes,Yes,Yes,Yes,No,No,Yes,Medium,Low,1,Excellent public docs
+MoneyGram,Yes,Yes,Yes,Yes,Yes,No,No,Yes,Medium,Low,2,Developer portal
+Remitly,Yes,No,Yes,Yes,Private,No,Unknown,Unknown,Possible,Medium,3,Partner integration
+WorldRemit,Yes,No,Yes,Yes,Private,No,Unknown,Unknown,Possible,Medium,4,Partner integration
+Ria Money Transfer,Yes,No,Yes,Yes,Private,No,Unknown,Unknown,Possible,Medium,5,Private APIs
+Western Union,Yes,No,Enterprise,Yes,Private,No,Unknown,Unknown,Possible,High,6,Enterprise access
+Xoom,Yes,No,Limited,No,Private,No,Unknown,Unknown,Possible,High,7,PayPal
+Paysend,Yes,No,Yes,Yes,Private,No,Unknown,Unknown,Possible,Medium,8,Partner
+TransferGo,Yes,No,Yes,Yes,Private,No,Unknown,Unknown,Possible,Medium,9,Partner
+OFX,Yes,No,Yes,Yes,Private,No,Unknown,Unknown,Possible,Medium,10,Partner
+XE Money Transfer,Yes,No,Yes,Yes,Private,No,Unknown,Unknown,Possible,Medium,11,Partner
+Taptap Send,Yes,Limited,Limited,Unknown,REST,No,Unknown,Unknown,Possible,Medium,12,Varies
+Xendpay,Yes,No,Yes,Yes,Private,No,Unknown,Unknown,Possible,Medium,13,Partner
+Skrill Money Transfer,Yes,No,Unknown,No,Web,No,Unknown,Unknown,Possible,High,14,Web flow
+Revolut,Yes,No,Business,No,REST,No,No,Yes,Low,High,15,Business APIs
+Currencycloud,Infra,Yes,Yes,No,Yes,No,No,Yes,No,Low,16,Infrastructure
+Nium,Infra,Yes,Yes,No,Yes,No,No,Yes,No,Medium,17,Infrastructure
+Thunes,Infra,Yes,Yes,No,Yes,No,No,Yes,No,Medium,18,Infrastructure
+TerraPay,Infra,Yes,Yes,No,Yes,No,No,Yes,No,Medium,19,Infrastructure
+Rapyd,Infra,Yes,Yes,No,Yes,No,No,Yes,No,Medium,20,Infrastructure
+dLocal,Infra,Yes,Yes,No,Yes,No,No,Yes,No,Medium,21,Infrastructure
+Airwallex,Infra,Yes,Yes,No,Yes,No,No,Yes,No,Medium,22,Infrastructure
+LemFi,Yes,No,Unknown,No,Web,No,Unknown,Unknown,Possible,High,23,Consumer app
+NALA,Yes,No,Unknown,No,Web,No,Unknown,Unknown,Possible,High,24,Consumer app
