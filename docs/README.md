@@ -1,6 +1,6 @@
-# WiseRate Docs
+# SulitSend Docs
 
-Source of truth for building WiseRate across **iOS**, **Web**, and **Android**.
+Source of truth for building SulitSend (working name; repo dirs keep the legacy `WiseRate` naming — see [ROADMAP](ROADMAP.md) Phase 1) across **iOS**, **Web**, and **Android**.
 
 ## How this folder works
 
@@ -14,6 +14,8 @@ Source of truth for building WiseRate across **iOS**, **Web**, and **Android**.
 docs/
 ├── MODULES.md              # status table — every module × platform
 ├── ROADMAP.md              # launch phases, priorities, budget (€)
+├── plan/                   # ROADMAP broken into mechanical tasks for code-model sessions
+
 ├── architecture/           # cross-cutting decisions (data model, nav, design, i18n)
 ├── platforms/              # per-platform conventions (iOS / Web / Android)
 ├── services/               # service contracts (rate API, persistence, push, IAP, analytics)

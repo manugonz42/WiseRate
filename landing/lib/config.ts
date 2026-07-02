@@ -1,2 +1,2 @@
 export const APP_URL =
-  process.env.NEXT_PUBLIC_APP_URL ?? "https://app.wiserate.app/compare";
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://app.sulitsend.app/compare";

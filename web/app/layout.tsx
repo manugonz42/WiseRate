@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "WiseRate — Compare Money Transfers",
+  title: "SulitSend — Compare Money Transfers",
   description: "Compare EUR→PHP money transfer providers.",
 };
 

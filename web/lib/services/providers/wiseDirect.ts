@@ -27,23 +27,34 @@ export interface WiseDirectResult {
   rate: number; // Wise quotes at mid-market — usable as mid-market fallback
 }
 
-export async function fetchWiseDirect(
+export function buildRequest(
   from: string,
   to: string,
   amount: number,
-): Promise<WiseDirectResult | null> {
-  const res = await fetch(QUOTES_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({
-      sourceCurrency: from,
-      targetCurrency: to,
-      sourceAmount: amount,
-    }),
-    cache: "no-store", // aggregator holds its own 120 s TTL cache
-  });
-  if (!res.ok) throw new Error(`wise v3/quotes returned ${res.status}`);
-  const data = (await res.json()) as WiseDirectResponse;
+): { url: string; init?: RequestInit } {
+  return {
+    url: QUOTES_URL,
+    init: {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        sourceCurrency: from,
+        targetCurrency: to,
+        sourceAmount: amount,
+      }),
+      cache: "no-store", // aggregator holds its own 120 s TTL cache
+    },
+  };
+}
+
+export function parseWiseDirect(
+  json: unknown,
+  from: string,
+  to: string,
+  amount: number,
+): WiseDirectResult | null {
+  const data = json as WiseDirectResponse;
+  if (!data || !Array.isArray(data.paymentOptions)) return null;
 
   const opt = data.paymentOptions.find(
     (o) => !o.disabled && o.payIn === "BANK_TRANSFER" && o.payOut === "BANK_TRANSFER",
@@ -84,4 +95,16 @@ export async function fetchWiseDirect(
       source: "direct",
     },
   };
+}
+
+export async function fetchWiseDirect(
+  from: string,
+  to: string,
+  amount: number,
+): Promise<WiseDirectResult | null> {
+  const { url, init } = buildRequest(from, to, amount);
+  const res = await fetch(url, init);
+  if (!res.ok) throw new Error(`wise v3/quotes returned ${res.status}`);
+  const data = await res.json();
+  return parseWiseDirect(data, from, to, amount);
 }

@@ -2,7 +2,7 @@ import type { Dictionary } from "../dictionary";
 
 export const en: Dictionary = {
   meta: {
-    title: "WiseRate - Send more money to the Philippines",
+    title: "SulitSend - Send more money to the Philippines",
     description:
       "Compare the fee and the real exchange rate of 15 money transfer companies for the Spain-Philippines corridor, in seconds. No surprises, no fine print.",
   },
@@ -59,7 +59,7 @@ export const en: Dictionary = {
     cta: "Compare now",
   },
   values: {
-    title: "Why WiseRate exists",
+    title: "Why SulitSend exists",
     cards: [
       {
         title: "The real rate, not the marketing one",
@@ -95,7 +95,7 @@ export const en: Dictionary = {
     title: "Frequently asked questions",
     items: [
       {
-        q: "Does WiseRate send money?",
+        q: "Does SulitSend send money?",
         a: "No. We are not a money transfer company, we compare the ones that already exist and take you straight to their site to send with them.",
       },
       {
@@ -136,6 +136,6 @@ export const en: Dictionary = {
     howLabel: "How it works",
     faqLabel: "FAQ",
     languageLabel: "Language",
-    copyright: "© 2026 WiseRate. Independent comparison site, not a payment institution.",
+    copyright: "© 2026 SulitSend. Independent comparison site, not a payment institution.",
   },
 };

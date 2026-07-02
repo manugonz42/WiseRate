@@ -55,14 +55,20 @@ const logoUrl = (p: WiseProvider): string =>
   p.logos?.normal?.pngUrl ??
   "";
 
-// Wise durations, when present, are in seconds.
+// Wise durations, when present, are in seconds — but the API has also been
+// observed sending an ISO 8601 duration string (e.g. "PT24H"); guard against
+// both so a shape we don't recognize degrades to "Not specified" instead of
+// propagating NaN into the quote.
 const deliveryEstimate = (q: WiseQuote): DeliveryEstimate => {
   const d = q.deliveryEstimation?.duration;
   if (!d || d.min == null || d.max == null) {
     return { minMinutes: 0, maxMinutes: 0, label: "Not specified" };
   }
-  const minMinutes = Math.round(d.min / 60);
-  const maxMinutes = Math.round(d.max / 60);
+  const minMinutes = Math.round(Number(d.min) / 60);
+  const maxMinutes = Math.round(Number(d.max) / 60);
+  if (!Number.isFinite(minMinutes) || !Number.isFinite(maxMinutes)) {
+    return { minMinutes: 0, maxMinutes: 0, label: "Not specified" };
+  }
   return { minMinutes, maxMinutes, label: durationLabel(minMinutes, maxMinutes) };
 };
 
@@ -84,44 +90,48 @@ export interface WiseQuotesResult {
   quotes: TransferQuote[];
 }
 
-export async function fetchWiseQuotes(
+export function buildRequest(
   from: string,
   to: string,
   amount: number,
-): Promise<WiseQuotesResult> {
+): { url: string; init?: RequestInit } {
   const url = `${WISE_BASE}?sourceCurrency=${encodeURIComponent(
     from,
   )}&targetCurrency=${encodeURIComponent(to)}&sendAmount=${amount}`;
 
-  const res = await fetch(url, {
-    headers: { Accept: "application/json" },
-    // Cache per docs/services/exchange-rate.md: quotes TTL 2 min.
-    next: { revalidate: 120 },
-  });
+  return {
+    url,
+    init: {
+      headers: { Accept: "application/json" },
+      // Cache per docs/services/exchange-rate.md: quotes TTL 2 min.
+      next: { revalidate: 120 },
+    },
+  };
+}
 
-  if (!res.ok) {
-    throw new Error(`Wise comparisons API returned ${res.status}`);
-  }
-
-  const data = (await res.json()) as WiseResponse;
+export function parseWiseQuotes(
+  json: unknown,
+  from: string,
+  to: string,
+  amount: number,
+): WiseQuotesResult {
+  const data = json as WiseResponse;
   const timestamp = new Date().toISOString();
+  const providers = data?.providers ?? [];
 
   // Mid-market reference: prefer the flagged quote, else the highest rate seen.
   let midRate = 0;
-  for (const p of data.providers) {
+  for (const p of providers) {
     for (const q of p.quotes) {
       if (q.isConsideredMidMarketRate && q.rate > midRate) midRate = q.rate;
     }
   }
   if (midRate === 0) {
-    midRate = Math.max(
-      0,
-      ...data.providers.flatMap((p) => p.quotes.map((q) => q.rate)),
-    );
+    midRate = Math.max(0, ...providers.flatMap((p) => p.quotes.map((q) => q.rate)));
   }
 
   const quotes: TransferQuote[] = [];
-  for (const p of data.providers) {
+  for (const p of providers) {
     const q = p.quotes[0];
     if (!q) continue;
     // `isConsideredMidMarketRate` flags a real, sendable quote whose rate
@@ -159,4 +169,20 @@ export async function fetchWiseQuotes(
     rate: { rate: midRate, timestamp },
     quotes,
   };
+}
+
+export async function fetchWiseQuotes(
+  from: string,
+  to: string,
+  amount: number,
+): Promise<WiseQuotesResult> {
+  const { url, init } = buildRequest(from, to, amount);
+  const res = await fetch(url, init);
+
+  if (!res.ok) {
+    throw new Error(`Wise comparisons API returned ${res.status}`);
+  }
+
+  const data = await res.json();
+  return parseWiseQuotes(data, from, to, amount);
 }

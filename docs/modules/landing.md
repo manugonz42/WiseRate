@@ -5,11 +5,11 @@
 ## Dependencies
 - **Reads (architecture):** [localization](../architecture/localization.md)
 - **Deliberately does not read:** [design-system](../architecture/design-system.md) — the landing page uses its own standalone palette/type, not the app's tokens (see Platform notes)
-- **Navigates to:** the real app at `APP_URL` (`web/`, deployed at `app.wiserate.app`)
+- **Navigates to:** the real app at `APP_URL` (`web/`, deployed at `app.sulitsend.app`)
 - **Future:** ⏳ analytics wiring, ⏳ native `tl` copy review
 
 ## Used by
-- Root domain (`wiserate.app`) — first-touch marketing page for prospective users, before they reach the working comparison tool
+- Root domain (`sulitsend.app`) — first-touch marketing page for prospective users, before they reach the working comparison tool
 
 ## Purpose
 Convert visitors into users of the real comparison tool. Not a utility screen — a marketing surface, so it intentionally breaks from `docs/platforms/web.md`'s "no landing-page patterns" rule, which applies to the `web/` app, not this project.
@@ -23,7 +23,7 @@ Convert visitors into users of the real comparison tool. Not a utility screen �
 - **Web**: standalone Next.js 15 project at `landing/` (own `package.json`, not part of `web/`'s workspace). Tailwind v4, own token set in `landing/app/globals.css` (terracotta/slate, distinct from the app's violet/cyan), Outfit + Plus Jakarta Sans fonts, Motion for entrance/scroll animation.
 - i18n: `landing/lib/i18n/` (config, dictionary type, per-locale dictionaries, `get-dictionary`), `landing/middleware.ts` (Accept-Language + `NEXT_LOCALE` cookie detection, redirects `/` → `/{locale}`).
 - Translation tooling: `landing/scripts/translate-tl.mjs` (`npm run translate:tl`) regenerates `tl.ts` from `en.ts` by walking every dictionary leaf through `landing/scripts/google-translate.mjs`. That helper shells out to `curl` instead of using `fetch`, because Node's fetch/undici fails against `translate.google*` in this dev environment (TLS renegotiation), and builds the request URL in JS so non-ASCII text (`€`, `©`) survives — passing it as a raw `curl` argument gets mangled by Windows' argv encoding. Re-run after any `en.ts` copy change, then re-review the diff.
-- CTA target: `landing/lib/config.ts` (`APP_URL`, defaults to `https://app.wiserate.app/compare`).
+- CTA target: `landing/lib/config.ts` (`APP_URL`, defaults to `https://app.sulitsend.app/compare`).
 
 ## Open questions
 - Real product photography (family/remittance context) to replace the current Wikimedia landscape placeholders, once available.

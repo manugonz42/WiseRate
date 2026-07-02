@@ -30,13 +30,11 @@ const num = (s: string | null | undefined): number => {
   return Number.isFinite(n) ? n : 0;
 };
 
-export async function fetchRemitly(
+export function buildRequest(
   from: string,
   to: string,
   amount: number,
-): Promise<TransferQuote | null> {
-  if (from !== "EUR" || to !== "PHP") return null;
-
+): { url: string; init?: RequestInit } {
   const params = new URLSearchParams({
     conduit: "ESP:EUR-PHL:PHP",
     anchor: "SEND",
@@ -45,13 +43,23 @@ export async function fetchRemitly(
     customer_segment: "UNRECOGNIZED",
     strict_promo: "false",
   });
-  const res = await fetch(`${ESTIMATE_URL}?${params}`, {
-    headers: { Accept: "application/json" },
-    cache: "no-store", // aggregator holds its own 120 s TTL cache
-  });
-  if (!res.ok) throw new Error(`remitly estimate returned ${res.status}`);
-  const data = (await res.json()) as RemitlyResponse;
-  const est = data.estimate;
+  return {
+    url: `${ESTIMATE_URL}?${params}`,
+    init: {
+      headers: { Accept: "application/json" },
+      cache: "no-store", // aggregator holds its own 120 s TTL cache
+    },
+  };
+}
+
+export function parseRemitly(
+  json: unknown,
+  from: string,
+  to: string,
+  amount: number,
+): TransferQuote | null {
+  const data = json as RemitlyResponse;
+  const est = data?.estimate;
   if (!est) return null;
 
   const baseRate = num(est.exchange_rate?.base_rate);
@@ -106,4 +114,18 @@ export async function fetchRemitly(
     isMidMarketReference: false,
     source: "direct",
   };
+}
+
+export async function fetchRemitly(
+  from: string,
+  to: string,
+  amount: number,
+): Promise<TransferQuote | null> {
+  if (from !== "EUR" || to !== "PHP") return null;
+
+  const { url, init } = buildRequest(from, to, amount);
+  const res = await fetch(url, init);
+  if (!res.ok) throw new Error(`remitly estimate returned ${res.status}`);
+  const data = await res.json();
+  return parseRemitly(data, from, to, amount);
 }

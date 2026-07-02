@@ -2,7 +2,7 @@ import type { Dictionary } from "../dictionary";
 
 export const es: Dictionary = {
   meta: {
-    title: "WiseRate - Envía más dinero a Filipinas",
+    title: "SulitSend - Envía más dinero a Filipinas",
     description:
       "Compara en segundos la comisión y el tipo de cambio real de 15 empresas de envío del corredor España-Filipinas. Sin sorpresas, sin letra pequeña.",
   },
@@ -59,7 +59,7 @@ export const es: Dictionary = {
     cta: "Comparar ahora",
   },
   values: {
-    title: "Por qué existe WiseRate",
+    title: "Por qué existe SulitSend",
     cards: [
       {
         title: "El cambio real, no el de la campaña",
@@ -95,7 +95,7 @@ export const es: Dictionary = {
     title: "Preguntas frecuentes",
     items: [
       {
-        q: "¿WiseRate envía dinero?",
+        q: "¿SulitSend envía dinero?",
         a: "No. No somos una empresa de envío de dinero, comparamos las que ya existen y te llevamos directamente a su web para que envíes con ellas.",
       },
       {
@@ -136,6 +136,6 @@ export const es: Dictionary = {
     howLabel: "Cómo funciona",
     faqLabel: "Preguntas frecuentes",
     languageLabel: "Idioma",
-    copyright: "© 2026 WiseRate. Comparador independiente, no somos una entidad de pago.",
+    copyright: "© 2026 SulitSend. Comparador independiente, no somos una entidad de pago.",
   },
 };

@@ -7,7 +7,7 @@ import type { Dictionary } from "../dictionary";
 // `npm run translate:tl` after en.ts changes, then re-review.
 export const tl: Dictionary = {
   meta: {
-    title: "WiseRate - Magpadala ng mas maraming pera sa Pilipinas",
+    title: "SulitSend - Magpadala ng mas maraming pera sa Pilipinas",
     description: "Ikumpara ang bayad at ang tunay na halaga ng palitan ng 15 money transfer companies para sa Spain-Philippines corridor, sa ilang segundo. Walang sorpresa, walang fine print.",
   },
   nav: {
@@ -61,7 +61,7 @@ export const tl: Dictionary = {
     cta: "Ikumpara ngayon",
   },
   values: {
-    title: "Bakit umiiral ang WiseRate",
+    title: "Bakit umiiral ang SulitSend",
     cards: [
       {
         title: "Ang tunay na rate, hindi ang marketing",
@@ -97,7 +97,7 @@ export const tl: Dictionary = {
     title: "Mga madalas itanong",
     items: [
       {
-        q: "Nagpapadala ba ng pera ang WiseRate?",
+        q: "Nagpapadala ba ng pera ang SulitSend?",
         a: "Hindi. Hindi kami isang kumpanya ng money transfer, ikinukumpara namin ang mga umiiral na at dumiretso ka sa kanilang site upang ipadala sa kanila.",
       },
       {
@@ -136,6 +136,6 @@ export const tl: Dictionary = {
     howLabel: "Paano ito gumagana",
     faqLabel: "FAQ",
     languageLabel: "Wika",
-    copyright: "© 2026 WiseRate. Independiyenteng paghahambing na site, hindi isang institusyon ng pagbabayad.",
+    copyright: "© 2026 SulitSend. Independiyenteng paghahambing na site, hindi isang institusyon ng pagbabayad.",
   },
 };

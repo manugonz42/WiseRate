@@ -52,13 +52,11 @@ const humanizeEstimate = (label: string | null | undefined): string => {
     .replace(/\bthree\b/, "3");
 };
 
-export async function fetchTransferGo(
+export function buildRequest(
   from: string,
   to: string,
   amount: number,
-): Promise<TransferQuote | null> {
-  if (from !== "EUR" || to !== "PHP") return null;
-
+): { url: string; init?: RequestInit } {
   const params = new URLSearchParams({
     fromCurrencyCode: from,
     toCurrencyCode: to,
@@ -67,14 +65,24 @@ export async function fetchTransferGo(
     amount: String(amount),
     calculationBase: "sendAmount",
   });
-  const res = await fetch(`${QUOTES_URL}?${params}`, {
-    headers: { Accept: "application/json" },
-    cache: "no-store", // aggregator holds its own 120 s TTL cache
-  });
-  if (!res.ok) throw new Error(`transfergo quotes returned ${res.status}`);
-  const data = (await res.json()) as TgResponse;
+  return {
+    url: `${QUOTES_URL}?${params}`,
+    init: {
+      headers: { Accept: "application/json" },
+      cache: "no-store", // aggregator holds its own 120 s TTL cache
+    },
+  };
+}
 
-  const candidates = (data.options ?? []).filter(
+export function parseTransferGo(
+  json: unknown,
+  from: string,
+  to: string,
+  amount: number,
+): TransferQuote | null {
+  const data = json as TgResponse;
+
+  const candidates = (data?.options ?? []).filter(
     (o) =>
       o.availability?.isAvailable !== false &&
       o.payIn?.code === "bank" &&
@@ -128,4 +136,18 @@ export async function fetchTransferGo(
     isMidMarketReference: false,
     source: "direct",
   };
+}
+
+export async function fetchTransferGo(
+  from: string,
+  to: string,
+  amount: number,
+): Promise<TransferQuote | null> {
+  if (from !== "EUR" || to !== "PHP") return null;
+
+  const { url, init } = buildRequest(from, to, amount);
+  const res = await fetch(url, init);
+  if (!res.ok) throw new Error(`transfergo quotes returned ${res.status}`);
+  const data = await res.json();
+  return parseTransferGo(data, from, to, amount);
 }

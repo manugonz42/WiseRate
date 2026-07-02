@@ -1,0 +1,1208 @@
+{
+  "sourceAmount": 1000,
+  "guaranteedTargetAmountAllowed": false,
+  "targetAmountAllowed": true,
+  "paymentOptions": [
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "CHEAP",
+      "feePercentage": 0.0081,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "BANK_TRANSFER",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 8.12,
+            "currency": "EUR",
+            "label": "8.12 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 0,
+              "currency": "EUR",
+              "label": "0 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 8.12,
+              "currency": "EUR",
+              "label": "8.12 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 991.8800601428212,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 8.12,
+        "payIn": 0,
+        "discount": 0,
+        "total": 8.12,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 69634.74,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0219,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "APPLE_PAY",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 21.9,
+            "currency": "EUR",
+            "label": "21.90 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 13.89,
+              "currency": "EUR",
+              "label": "13.89 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 8.01,
+              "currency": "EUR",
+              "label": "8.01 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 978.0999724377068,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 8.01,
+        "payIn": 13.89,
+        "discount": 0,
+        "total": 21.9,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 68667.31,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0159,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "DEBIT",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 15.92,
+            "currency": "EUR",
+            "label": "15.92 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 7.87,
+              "currency": "EUR",
+              "label": "7.87 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 8.05,
+              "currency": "EUR",
+              "label": "8.05 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 984.079877981953,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 8.05,
+        "payIn": 7.87,
+        "discount": 0,
+        "total": 15.92,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 69087.14,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0219,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "CREDIT",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 21.9,
+            "currency": "EUR",
+            "label": "21.90 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 13.89,
+              "currency": "EUR",
+              "label": "13.89 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 8.01,
+              "currency": "EUR",
+              "label": "8.01 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 978.0999724377068,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 8.01,
+        "payIn": 13.89,
+        "discount": 0,
+        "total": 21.9,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 68667.31,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "CHEAP",
+      "feePercentage": 0.0099,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "IDEAL",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 9.94,
+            "currency": "EUR",
+            "label": "9.94 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 1.84,
+              "currency": "EUR",
+              "label": "1.84 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 8.1,
+              "currency": "EUR",
+              "label": "8.10 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 990.0600463909053,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 8.1,
+        "payIn": 1.84,
+        "discount": 0,
+        "total": 9.94,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 69506.96,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0576,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "INTERNATIONAL_DEBIT",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 57.6,
+            "currency": "EUR",
+            "label": "57.60 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 49.85,
+              "currency": "EUR",
+              "label": "49.85 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 7.75,
+              "currency": "EUR",
+              "label": "7.75 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 942.390126267883,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 7.75,
+        "payIn": 49.85,
+        "discount": 0,
+        "total": 57.6,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 66161,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0421,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "MC_BUSINESS_CREDIT",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 42.07,
+            "currency": "EUR",
+            "label": "42.07 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 34.2,
+              "currency": "EUR",
+              "label": "34.20 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 7.87,
+              "currency": "EUR",
+              "label": "7.87 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 957.9301894659662,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 7.87,
+        "payIn": 34.2,
+        "discount": 0,
+        "total": 42.07,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 67251.28,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0159,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "MC_DEBIT_OR_PREPAID",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 15.92,
+            "currency": "EUR",
+            "label": "15.92 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 7.87,
+              "currency": "EUR",
+              "label": "7.87 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 8.05,
+              "currency": "EUR",
+              "label": "8.05 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 984.079877981953,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 8.05,
+        "payIn": 7.87,
+        "discount": 0,
+        "total": 15.92,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 69087.14,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0159,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "CARD",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 15.92,
+            "currency": "EUR",
+            "label": "15.92 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 7.87,
+              "currency": "EUR",
+              "label": "7.87 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 8.05,
+              "currency": "EUR",
+              "label": "8.05 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 984.079877981953,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 8.05,
+        "payIn": 7.87,
+        "discount": 0,
+        "total": 15.92,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 69087.14,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0159,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "MAESTRO",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 15.92,
+            "currency": "EUR",
+            "label": "15.92 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 7.87,
+              "currency": "EUR",
+              "label": "7.87 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 8.05,
+              "currency": "EUR",
+              "label": "8.05 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 984.079877981953,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 8.05,
+        "payIn": 7.87,
+        "discount": 0,
+        "total": 15.92,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 69087.14,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0443,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "VISA_BUSINESS_DEBIT",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 44.26,
+            "currency": "EUR",
+            "label": "44.26 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 36.41,
+              "currency": "EUR",
+              "label": "36.41 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 7.85,
+              "currency": "EUR",
+              "label": "7.85 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 955.7397913169267,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 7.85,
+        "payIn": 36.41,
+        "discount": 0,
+        "total": 44.26,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 67097.54,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0117,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "VISA_DEBIT_OR_PREPAID",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 11.65,
+            "currency": "EUR",
+            "label": "11.65 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 3.56,
+              "currency": "EUR",
+              "label": "3.56 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 8.09,
+              "currency": "EUR",
+              "label": "8.09 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 988.3500615528225,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 8.09,
+        "payIn": 3.56,
+        "discount": 0,
+        "total": 11.65,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 69386.91,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0219,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "MC_CREDIT",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 21.9,
+            "currency": "EUR",
+            "label": "21.90 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 13.89,
+              "currency": "EUR",
+              "label": "13.89 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 8.01,
+              "currency": "EUR",
+              "label": "8.01 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 978.0999724377068,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 8.01,
+        "payIn": 13.89,
+        "discount": 0,
+        "total": 21.9,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 68667.31,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0443,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "MC_BUSINESS_DEBIT",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 44.26,
+            "currency": "EUR",
+            "label": "44.26 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 36.41,
+              "currency": "EUR",
+              "label": "36.41 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 7.85,
+              "currency": "EUR",
+              "label": "7.85 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 955.7397913169267,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 7.85,
+        "payIn": 36.41,
+        "discount": 0,
+        "total": 44.26,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 67097.54,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0421,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "VISA_BUSINESS_CREDIT",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 42.07,
+            "currency": "EUR",
+            "label": "42.07 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 34.2,
+              "currency": "EUR",
+              "label": "34.20 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 7.87,
+              "currency": "EUR",
+              "label": "7.87 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 957.9301894659662,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 7.87,
+        "payIn": 34.2,
+        "discount": 0,
+        "total": 42.07,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 67251.28,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0576,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "INTERNATIONAL_CREDIT",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 57.6,
+            "currency": "EUR",
+            "label": "57.60 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 49.85,
+              "currency": "EUR",
+              "label": "49.85 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 7.75,
+              "currency": "EUR",
+              "label": "7.75 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 942.390126267883,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 7.75,
+        "payIn": 49.85,
+        "discount": 0,
+        "total": 57.6,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 66161,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "JUST_FAST",
+      "feePercentage": 0.0186,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "VISA_CREDIT",
+      "price": {
+        "priceSetId": 5146,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 18.63,
+            "currency": "EUR",
+            "label": "18.63 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 10.6,
+              "currency": "EUR",
+              "label": "10.60 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 8.03,
+              "currency": "EUR",
+              "label": "8.03 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 981.3699179752455,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 8.03,
+        "payIn": 10.6,
+        "discount": 0,
+        "total": 18.63,
+        "priceSetId": 5146,
+        "partner": 0
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 68896.88,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": false
+    },
+    {
+      "formattedEstimatedDelivery": "by Fri",
+      "estimatedDeliveryDelays": [],
+      "allowedProfileTypes": [
+        "PERSONAL",
+        "BUSINESS"
+      ],
+      "payInProduct": "BALANCE",
+      "feePercentage": 0.0077,
+      "estimatedDelivery": "2026-07-03T05:00:00Z",
+      "payIn": "BALANCE",
+      "price": {
+        "priceSetId": 5161,
+        "total": {
+          "type": "TOTAL",
+          "label": "Total fees",
+          "value": {
+            "amount": 7.65,
+            "currency": "EUR",
+            "label": "7.65 EUR"
+          }
+        },
+        "items": [
+          {
+            "type": "PAYIN",
+            "label": "fee",
+            "value": {
+              "amount": 0,
+              "currency": "EUR",
+              "label": "0 EUR"
+            }
+          },
+          {
+            "type": "TRANSFERWISE",
+            "label": "Our fee",
+            "value": {
+              "amount": 7.65,
+              "currency": "EUR",
+              "label": "7.65 EUR"
+            }
+          }
+        ],
+        "priceDecisionReferenceId": "7c8b349c-1f49-49a9-1a47-653f0744876b",
+        "calculatedOn": {
+          "unroundedAmountToConvert": {
+            "amount": 992.3500360802093,
+            "currency": "EUR"
+          }
+        }
+      },
+      "fee": {
+        "transferwise": 7.65,
+        "payIn": 0,
+        "discount": 0,
+        "total": 7.65,
+        "priceSetId": 5161,
+        "partner": 0
+      },
+      "disabledReason": {
+        "code": "error.payInmethod.disabled",
+        "message": "Sorry, using a multi currency account is currently not available in your country. Please choose another payment method.",
+        "arguments": []
+      },
+      "payOut": "BANK_TRANSFER",
+      "sourceAmount": 1000,
+      "targetAmount": 69667.73,
+      "sourceCurrency": "EUR",
+      "targetCurrency": "PHP",
+      "disabled": true
+    }
+  ],
+  "notices": [],
+  "transferFlowConfig": {
+    "highAmount": {
+      "showFeePercentage": false,
+      "trackAsHighAmountSender": false,
+      "showEducationStep": false,
+      "offerPrefundingOption": false,
+      "overLimitThroughCs": false,
+      "overLimitThroughWiseAccount": false
+    }
+  },
+  "rateTimestamp": "2026-07-02T12:27:32Z",
+  "clientId": "unknown",
+  "rateExpirationTime": "2026-07-06T14:59:59Z",
+  "guaranteedTargetAmount": false,
+  "providedAmountType": "SOURCE",
+  "createdTime": "2026-07-02T12:28:18Z",
+  "rateType": "FIXED",
+  "payOut": "BANK_TRANSFER",
+  "funding": "POST",
+  "sourceCurrency": "EUR",
+  "targetCurrency": "PHP",
+  "status": "PENDING",
+  "expirationTime": "2026-07-02T12:58:18Z",
+  "rate": 70.2048,
+  "type": "REGULAR"
+}

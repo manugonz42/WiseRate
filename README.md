@@ -1,4 +1,4 @@
-# 💱 WiseRate
+# 💱 SulitSend
 
 > Compare money transfer rates and save on international transfers
 

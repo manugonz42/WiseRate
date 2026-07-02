@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - [`docs/MODULES.md`](docs/MODULES.md) — **single status source**: every module × platform + service state (what's real vs mock)
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — launch phases, priorities, budget
+- [`docs/plan/`](docs/plan/README.md) — ROADMAP Phase 1 as self-contained mechanical tasks (T01–T11); executing one = read `plan/README.md` rules + the task file, nothing else
 - [`docs/modules/<name>.md`](docs/modules/) — one spec per feature, with Dependencies / Used by / Acceptance criteria
 - [`docs/architecture/`](docs/architecture/) — data model, navigation, design tokens, localization
 - [`docs/services/`](docs/services/) — contracts: exchange-rate, persistence, notifications, subscriptions, analytics
@@ -25,10 +26,12 @@ When a spec and the code disagree, **update the spec first, then change the code
 
 ## Repo layout
 
+Product name: **SulitSend** (working name since 2026-07). Directories and internal identifiers (`WiseRate/`, `com.wiserate`, `wiserate://`, SKUs) keep the legacy naming until the definitive rebrand — see the ROADMAP Phase 1 rename item before touching any of them.
+
 ```
 WiseRate/       iOS SwiftUI app — Frankfurter networking, SwiftData, StoreKit 2, local notifications
 web/            Next.js 15 production web app — Compare wired to real provider quotes via /api/quotes
-landing/        Marketing site (standalone Next.js, own design system; root domain — app is app.wiserate.app)
+landing/        Marketing site (standalone Next.js, own design system; root domain — app is app.sulitsend.app)
 android/        Jetpack Compose scaffold — all screens present, mock data
 WiseRate-Web/   Frozen single-file prototype (visual reference only — never add features here)
 docs/           Cross-platform spec (the brain)

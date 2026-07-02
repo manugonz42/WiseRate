@@ -1,0 +1,195 @@
+{
+  "estimate": {
+    "conduit": {
+      "source_country": "ESP",
+      "source_currency": {
+        "alpha3": "EUR",
+        "decimal_count": 2,
+        "name": "Euro",
+        "symbol": "€"
+      },
+      "target_country": "PHL",
+      "target_currency": {
+        "alpha3": "PHP",
+        "decimal_count": 2,
+        "name": "Philippine Peso",
+        "symbol": "₱"
+      }
+    },
+    "discount": {
+      "fee_discount_amount": "2.99",
+      "send_discount_amount": "0.00"
+    },
+    "exchange_rate": {
+      "base_rate": "69.46",
+      "capped_promotional_exchange_rate_amount": "1000.00",
+      "promotional_exchange_rate": "71.37"
+    },
+    "fee": {
+      "total_fee_amount": "2.99"
+    },
+    "pay_in_method": "DEBIT",
+    "pay_out_method": "CASH_PICKUP",
+    "receive_amount": "71370.00",
+    "send_amount": "1000.00",
+    "tax_details": null,
+    "total_charge_amount": "1000.00",
+    "vet": null
+  },
+  "pay_out_price_estimates": {
+    "estimates": [
+      {
+        "conduit": {
+          "source_country": "ESP",
+          "source_currency": {
+            "alpha3": "EUR",
+            "decimal_count": 2,
+            "name": "Euro",
+            "symbol": "€"
+          },
+          "target_country": "PHL",
+          "target_currency": {
+            "alpha3": "PHP",
+            "decimal_count": 2,
+            "name": "Philippine Peso",
+            "symbol": "₱"
+          }
+        },
+        "discount": {
+          "fee_discount_amount": "2.99",
+          "send_discount_amount": "0.00"
+        },
+        "exchange_rate": {
+          "base_rate": "69.46",
+          "capped_promotional_exchange_rate_amount": "1000.00",
+          "promotional_exchange_rate": "71.37"
+        },
+        "fee": {
+          "total_fee_amount": "2.99"
+        },
+        "pay_in_method": "DEBIT",
+        "pay_out_method": "HOME_DELIVERY",
+        "receive_amount": "71370.00",
+        "send_amount": "1000.00",
+        "tax_details": null,
+        "total_charge_amount": "1000.00",
+        "vet": null
+      },
+      {
+        "conduit": {
+          "source_country": "ESP",
+          "source_currency": {
+            "alpha3": "EUR",
+            "decimal_count": 2,
+            "name": "Euro",
+            "symbol": "€"
+          },
+          "target_country": "PHL",
+          "target_currency": {
+            "alpha3": "PHP",
+            "decimal_count": 2,
+            "name": "Philippine Peso",
+            "symbol": "₱"
+          }
+        },
+        "discount": {
+          "fee_discount_amount": "0.99",
+          "send_discount_amount": "0.00"
+        },
+        "exchange_rate": {
+          "base_rate": "69.46",
+          "capped_promotional_exchange_rate_amount": "1000.00",
+          "promotional_exchange_rate": "71.37"
+        },
+        "fee": {
+          "total_fee_amount": "0.99"
+        },
+        "pay_in_method": "DEBIT",
+        "pay_out_method": "BANK_DEPOSIT",
+        "receive_amount": "71370.00",
+        "send_amount": "1000.00",
+        "tax_details": null,
+        "total_charge_amount": "1000.00",
+        "vet": null
+      },
+      {
+        "conduit": {
+          "source_country": "ESP",
+          "source_currency": {
+            "alpha3": "EUR",
+            "decimal_count": 2,
+            "name": "Euro",
+            "symbol": "€"
+          },
+          "target_country": "PHL",
+          "target_currency": {
+            "alpha3": "PHP",
+            "decimal_count": 2,
+            "name": "Philippine Peso",
+            "symbol": "₱"
+          }
+        },
+        "discount": {
+          "fee_discount_amount": "0.99",
+          "send_discount_amount": "0.00"
+        },
+        "exchange_rate": {
+          "base_rate": "69.46",
+          "capped_promotional_exchange_rate_amount": "1000.00",
+          "promotional_exchange_rate": "71.37"
+        },
+        "fee": {
+          "total_fee_amount": "0.99"
+        },
+        "pay_in_method": "DEBIT",
+        "pay_out_method": "PUSH_TO_CARD",
+        "receive_amount": "71370.00",
+        "send_amount": "1000.00",
+        "tax_details": null,
+        "total_charge_amount": "1000.00",
+        "vet": null
+      },
+      {
+        "conduit": {
+          "source_country": "ESP",
+          "source_currency": {
+            "alpha3": "EUR",
+            "decimal_count": 2,
+            "name": "Euro",
+            "symbol": "€"
+          },
+          "target_country": "PHL",
+          "target_currency": {
+            "alpha3": "PHP",
+            "decimal_count": 2,
+            "name": "Philippine Peso",
+            "symbol": "₱"
+          }
+        },
+        "discount": {
+          "fee_discount_amount": "0.99",
+          "send_discount_amount": "0.00"
+        },
+        "exchange_rate": {
+          "base_rate": "69.46",
+          "capped_promotional_exchange_rate_amount": "1000.00",
+          "promotional_exchange_rate": "71.37"
+        },
+        "fee": {
+          "total_fee_amount": "0.99"
+        },
+        "pay_in_method": "DEBIT",
+        "pay_out_method": "DIRECT_TO_PHONE",
+        "receive_amount": "71370.00",
+        "send_amount": "1000.00",
+        "tax_details": null,
+        "total_charge_amount": "1000.00",
+        "vet": null
+      }
+    ]
+  },
+  "disclaimer": {
+    "primary": "New customers only. One per customer. Limited time offer. Any rates shown are subject to change. Promotional FX rate applies to first 1.000,00 EUR sent. See [Terms and Conditions](https://www.remitly.com/es/en/philippines/fx-plus-freetxn-tnc?promo_code=ESP-PHL-FXBOOST-BEST-275BPS-1000CAP-DEC25) for details.",
+    "secondary": null
+  }
+}

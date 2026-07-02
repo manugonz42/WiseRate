@@ -32,33 +32,41 @@ interface WuCatalogResponse {
   services_groups?: WuServiceGroup[];
 }
 
-export async function fetchWesternUnion(
+export function buildRequest(
   from: string,
   to: string,
   amount: number,
-): Promise<TransferQuote | null> {
-  // Corridor-specific request body; only ES(EUR) -> PH(PHP) wired for now.
-  if (from !== "EUR" || to !== "PHP") return null;
+): { url: string; init?: RequestInit } {
+  return {
+    url: CATALOG_URL,
+    init: {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        header_request: { version: "0.5", request_type: "PRICECATALOG" },
+        sender: {
+          client: "WUCOM",
+          channel: "WWEB",
+          funds_in: "*",
+          curr_iso3: from,
+          cty_iso2_ext: "ES",
+          send_amount: amount,
+        },
+        receiver: { curr_iso3: to, cty_iso2_ext: "PH", cty_iso2: "PH" },
+      }),
+      cache: "no-store", // aggregator holds its own 120 s TTL cache
+    },
+  };
+}
 
-  const res = await fetch(CATALOG_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({
-      header_request: { version: "0.5", request_type: "PRICECATALOG" },
-      sender: {
-        client: "WUCOM",
-        channel: "WWEB",
-        funds_in: "*",
-        curr_iso3: from,
-        cty_iso2_ext: "ES",
-        send_amount: amount,
-      },
-      receiver: { curr_iso3: to, cty_iso2_ext: "PH", cty_iso2: "PH" },
-    }),
-    cache: "no-store", // aggregator holds its own 120 s TTL cache
-  });
-  if (!res.ok) throw new Error(`wu prices/catalog returned ${res.status}`);
-  const data = (await res.json()) as WuCatalogResponse;
+export function parseWesternUnion(
+  json: unknown,
+  from: string,
+  to: string,
+  amount: number,
+): TransferQuote | null {
+  const data = json as WuCatalogResponse;
+  if (!data) return null;
 
   const bank = data.services_groups?.find((s) => s.service === "500");
   const pay = bank?.pay_groups?.find((p) => p.fund_in === "EB");
@@ -97,4 +105,19 @@ export async function fetchWesternUnion(
     isMidMarketReference: false,
     source: "direct",
   };
+}
+
+export async function fetchWesternUnion(
+  from: string,
+  to: string,
+  amount: number,
+): Promise<TransferQuote | null> {
+  // Corridor-specific request body; only ES(EUR) -> PH(PHP) wired for now.
+  if (from !== "EUR" || to !== "PHP") return null;
+
+  const { url, init } = buildRequest(from, to, amount);
+  const res = await fetch(url, init);
+  if (!res.ok) throw new Error(`wu prices/catalog returned ${res.status}`);
+  const data = await res.json();
+  return parseWesternUnion(data, from, to, amount);
 }

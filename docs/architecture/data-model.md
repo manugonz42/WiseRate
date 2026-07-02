@@ -99,7 +99,10 @@ isEnabled    boolean
 createdAt    date
 triggeredAt  date?
 notifyType   enum            // rateAbove | rateBelow | providerCheapest
+providerID   string?         // required when notifyType = providerCheapest
 ```
+
+(`providerID` added 2026-07 — platform mirrors that predate it, e.g. iOS `Models.swift`, still lack the field; add it when wiring real alerts.)
 
 ### UserProfile
 ```

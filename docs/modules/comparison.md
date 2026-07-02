@@ -5,7 +5,7 @@
 ## Dependencies
 - **Reads:** [exchange-rate](../services/exchange-rate.md), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)
 - **Navigates to:** [provider-details](provider-details.md), external affiliate URL (via system browser)
-- **Future:** ⏳ [persistence](../services/persistence.md) (recent searches, last sort preference), ⏳ [subscriptions](../services/subscriptions.md) (ad-free row layout when Premium)
+- **Future:** ⏳ [persistence](../services/persistence.md) (recent searches, last sort preference), ⏳ [subscriptions](../services/subscriptions.md) (ad-free row layout when Premium), ⏳ [brokers](brokers.md) (specialist-broker card below the list when amount ≥ €5,000)
 
 ## Used by
 - [navigation](../architecture/navigation.md) — tab 2

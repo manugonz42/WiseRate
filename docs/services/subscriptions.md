@@ -1,6 +1,6 @@
 # Service: Subscriptions / IAP
 
-WiseRate Premium. One entitlement: `isPremium`. Two SKUs.
+SulitSend Premium. One entitlement: `isPremium`. Two SKUs.
 
 ## Dependencies
 - **Reads:** [data-model](../architecture/data-model.md) (`UserProfile.isPremium`)
@@ -22,6 +22,8 @@ WiseRate Premium. One entitlement: `isPremium`. Two SKUs.
 | `wiserate_premium_yearly` | 1 year | 39.99 | "save 33%" badge |
 
 Local-currency pricing comes from the platform store.
+
+SKU ids keep the legacy `wiserate_` prefix — rename to `sulitsend_` **before** they're registered in App Store Connect / Play Console (immutable once live). See [ROADMAP](../ROADMAP.md) Phase 1 rename item.
 
 ## What Premium unlocks (v1)
 

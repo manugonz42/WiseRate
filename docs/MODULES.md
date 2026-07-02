@@ -19,6 +19,7 @@ Android column: Compose screens + ViewModels exist for every module (mock data) 
 | Referral | ◐ | ◐ | ◐ | [referral.md](modules/referral.md) |
 | Onboarding | ◐ | ☐ | ◐ | [onboarding.md](modules/onboarding.md) |
 | Landing | — | ◐ | — | [landing.md](modules/landing.md) |
+| Brokers (high-amount) | ☐ | ☐ | ☐ | [brokers.md](modules/brokers.md) |
 
 ## Services (cross-cutting)
 

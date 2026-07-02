@@ -12,7 +12,7 @@ export function Nav({ dict, locale }: { dict: Dictionary["nav"]; locale: Locale 
         <Link href={`/${locale}`} className="flex items-center gap-2.5">
           <Logomark className="h-8 w-8" />
           <span className="font-display text-[17px] font-semibold tracking-tight text-ink">
-            WiseRate
+            SulitSend
           </span>
         </Link>
 

@@ -34,7 +34,7 @@ export default function TabsLayout({
       <header className="sticky top-0 z-10 border-b border-border bg-surface">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3 sm:px-6">
           <span className="text-base font-extrabold tracking-tight">
-            WiseRate
+            SulitSend
           </span>
           <nav className="flex items-center gap-0.5 sm:gap-1">
             {TABS.map((tab) => {

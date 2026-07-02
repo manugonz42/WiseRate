@@ -19,7 +19,7 @@ export function Footer({
             <div className="flex items-center gap-2.5">
               <Logomark className="h-7 w-7" />
               <span className="font-display text-[16px] font-semibold text-ink">
-                WiseRate
+                SulitSend
               </span>
             </div>
             <p className="mt-4 max-w-[38ch] leading-relaxed text-ink-faint">
