@@ -1,6 +1,6 @@
 # Module: Provider Details
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ (editorial data static — Wise, Western Union, Remitly, TransferGo only; other providers get a generic live-quote view) · Android ☐
 
 ## Dependencies
 - **Reads:** [exchange-rate](../services/exchange-rate.md), [persistence](../services/persistence.md) (favorites toggle), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)

@@ -86,6 +86,31 @@ export interface HistoryResponse {
   rates: HistoricalRate[];
 }
 
+export interface FeeStructure {
+  method: DeliveryMethod;
+  fixedFee: number;
+  percentageFee: number;
+  description: string;
+}
+
+// Extends TransferProvider (data-model.md) with the deep-dive view payload.
+export interface ProviderDetail {
+  id: string;
+  name: string;
+  brandColor: string;
+  trustScore: number; // 0..1, same scale as TransferQuote.trustScore
+  userRating: number; // 0..5
+  websiteURL: string;
+  affiliateURL: string | null;
+  description: string;
+  reviewCount: number;
+  transferLimits: { minAmount: number; maxAmount: number; currency: string };
+  fees: FeeStructure[];
+  deliveryMethods: DeliveryMethod[];
+  pros: string[];
+  cons: string[];
+}
+
 // --- derived helpers (mirror the `derived` fields in data-model.md) ---
 
 export const totalCost = (q: TransferQuote): number =>

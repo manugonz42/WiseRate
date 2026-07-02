@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getQuotes } from "@/lib/services/rate";
 import {
   markupPercentage,
@@ -354,13 +355,22 @@ function TrustDots({ value }: { value: number }) {
 }
 
 function QuoteTableRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
+  const router = useRouter();
   const cell = `py-3 transition-colors ${
     isBest
       ? "border-y border-warning/30 bg-warning/[0.06] first:border-l-2 first:border-l-warning first:pl-2.5 last:border-r last:border-r-warning/30"
       : "border-b border-border-subtle"
   }`;
   return (
-    <tr className={isBest ? "" : "hover:bg-surface/60"}>
+    <tr
+      className={`cursor-pointer ${isBest ? "" : "hover:bg-surface/60"}`}
+      tabIndex={0}
+      role="link"
+      onClick={() => router.push(`/provider/${q.providerID}`)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") router.push(`/provider/${q.providerID}`);
+      }}
+    >
       <td className={`${cell} pr-3`}>
         <div className="flex min-w-0 items-center gap-2">
           <ProviderIcon q={q} size={24} />
@@ -394,11 +404,18 @@ function QuoteTableRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
 }
 
 function QuoteRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
+  const router = useRouter();
   return (
     <li
-      className={`rounded bg-surface p-4 shadow ${
+      className={`cursor-pointer rounded bg-surface p-4 shadow transition hover:bg-surface-hover ${
         isBest ? "border border-warning/30 bg-warning/[0.06]" : ""
       }`}
+      tabIndex={0}
+      role="link"
+      onClick={() => router.push(`/provider/${q.providerID}`)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") router.push(`/provider/${q.providerID}`);
+      }}
     >
       <div className="flex items-center gap-3">
         <ProviderIcon q={q} size={36} />
