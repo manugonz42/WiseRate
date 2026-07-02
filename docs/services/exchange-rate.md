@@ -82,6 +82,14 @@ About the comparisons endpoint:
 
 On network failure: serve the most recent cached value with a `stale: true` flag. UI shows a "last updated X ago" hint when stale.
 
+## Health
+
+`GET /api/health` (`web/app/api/health/route.ts`) exposes per-source outcomes from the last EUR→PHP 1000 aggregation (`getSourceHealth()` in `web/lib/services/quotes.ts`), for an external uptime monitor to alert on a broken revenue-carrying source. Triggers `getAggregatedQuotes` first, so it reads through the same 120 s cache as `/api/quotes` — cheap to poll.
+
+Response: JSON array of `{ source, ok, error?, at }` for `wise-comparisons`, `wise`, `western-union`, `remitly`, `transfergo`. A fulfilled fetch that returned no quote counts as `ok: false, error: "no quote returned"`. `Cache-Control: no-store`.
+
+Status **200** when every source is `ok`, **503** when any failed.
+
 ## Open questions
 
 - Provider partnership / affiliate IDs — needed before launching scrapes legally.

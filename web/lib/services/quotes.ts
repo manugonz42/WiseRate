@@ -20,11 +20,35 @@ export interface AggregatedQuotes {
   quotes: TransferQuote[];
 }
 
+export type SourceStatus = { source: string; ok: boolean; error?: string; at: string };
+
 // Direct sources POST or vary per amount, so Next's fetch cache doesn't help;
 // hold one in-memory TTL cache over the whole aggregated result instead
 // (quotes TTL 2 min per docs/services/exchange-rate.md).
 const TTL_MS = 120_000;
 const cache = new Map<string, { at: number; value: AggregatedQuotes }>();
+
+// Snapshot from the most recent actual fetch (not cache hits) — /api/health
+// reads this. Stays fresh for the same 120 s window as the quotes cache.
+let lastHealth: SourceStatus[] = [];
+
+export function getSourceHealth(): SourceStatus[] {
+  return lastHealth;
+}
+
+const sourceStatus = (
+  source: string,
+  result: PromiseSettledResult<unknown>,
+  hasValue: boolean,
+  at: string,
+): SourceStatus => {
+  if (result.status === "rejected") {
+    const reason = result.reason;
+    return { source, ok: false, error: reason instanceof Error ? reason.message : String(reason), at };
+  }
+  if (!hasValue) return { source, ok: false, error: "no quote returned", at };
+  return { source, ok: true, at };
+};
 
 export async function getAggregatedQuotes(
   from: string,
@@ -42,6 +66,15 @@ export async function getAggregatedQuotes(
     fetchRemitly(from, to, amount),
     fetchTransferGo(from, to, amount),
   ]);
+
+  const at = new Date().toISOString();
+  lastHealth = [
+    sourceStatus("wise-comparisons", cmp, cmp.status === "fulfilled", at),
+    sourceStatus("wise", wise, wise.status === "fulfilled" && wise.value != null, at),
+    sourceStatus("western-union", wu, wu.status === "fulfilled" && wu.value != null, at),
+    sourceStatus("remitly", remitly, remitly.status === "fulfilled" && remitly.value != null, at),
+    sourceStatus("transfergo", transfergo, transfergo.status === "fulfilled" && transfergo.value != null, at),
+  ];
 
   const byProvider = new Map<string, TransferQuote>();
   let midRate = 0;
