@@ -67,6 +67,25 @@ export interface QuotesResponse {
   stale: boolean;
 }
 
+// Frankfurter (ECB) is one rate per business day — no 24H range. See
+// docs/services/exchange-rate.md "Known source limitations" and
+// docs/plan/T03-history-api.md.
+export type HistoryRange = "7D" | "30D" | "3M" | "6M" | "1Y";
+
+// Deliberate subset of data-model.md's HistoricalRate entity: `id`/`provider`
+// are omitted — an ECB series needs neither. Not a spec conflict.
+export interface HistoricalRate {
+  date: string; // ISO 8601 (YYYY-MM-DD)
+  rate: number;
+}
+
+export interface HistoryResponse {
+  from: string;
+  to: string;
+  range: HistoryRange;
+  rates: HistoricalRate[];
+}
+
 // --- derived helpers (mirror the `derived` fields in data-model.md) ---
 
 export const totalCost = (q: TransferQuote): number =>
