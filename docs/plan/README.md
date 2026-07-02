@@ -27,7 +27,7 @@ One session per task, in order. Prompt template:
 | ☑ T01 | [Provider parser fixture tests](T01-parser-fixture-tests.md) | 1 | — |
 | ☑ T02 | [Quote-source health endpoint](T02-health-endpoint.md) | 1 | T01 |
 | ☑ T03 | [Historical rates API](T03-history-api.md) | 1 | — |
-| ☐ T04 | [Home screen](T04-home-screen.md) | 1 | T03 |
+| ☑ T04 | [Home screen](T04-home-screen.md) | 1 | T03 |
 | ☐ T05 | [Provider Detail screen](T05-provider-detail.md) | 1 | T03 |
 | ☐ T06 | [Alerts screen (UI only)](T06-alerts-ui.md) | 1 | — |
 | ☐ T07 | [Analytics screen](T07-analytics-screen.md) | 1 | T03 |
