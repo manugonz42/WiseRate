@@ -4,15 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Start here
 
-**`docs/` is the source of truth for what this product is and how each module behaves.** Before touching any feature code, read the relevant spec:
+**`docs/` is the source of truth.** Read only the spec you need — don't re-explore the repo to re-derive status:
 
-- [`docs/MODULES.md`](docs/MODULES.md) — index of every module × platform with status
-- [`docs/modules/<name>.md`](docs/modules/) — one spec per feature (Home, Comparison, Alerts, …). Each has Dependencies / Used by / Acceptance criteria
+- [`docs/MODULES.md`](docs/MODULES.md) — **single status source**: every module × platform + service state (what's real vs mock)
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — launch phases, priorities, budget
+- [`docs/modules/<name>.md`](docs/modules/) — one spec per feature, with Dependencies / Used by / Acceptance criteria
 - [`docs/architecture/`](docs/architecture/) — data model, navigation, design tokens, localization
-- [`docs/services/`](docs/services/) — contracts for exchange-rate, persistence, notifications, subscriptions, analytics
+- [`docs/services/`](docs/services/) — contracts: exchange-rate, persistence, notifications, subscriptions, analytics
 - [`docs/platforms/{ios,web,android}.md`](docs/platforms/) — per-platform conventions
 
-When a module spec and the code disagree, **update the spec first, then change the code.**
+When a spec and the code disagree, **update the spec first, then change the code.**
 
 ## Working preferences
 
@@ -25,70 +26,34 @@ When a module spec and the code disagree, **update the spec first, then change t
 ## Repo layout
 
 ```
-WiseRate/         iOS SwiftUI app (working scaffold, mock data)
-WiseRate-Web/     Single-file HTML/CSS/JS prototype (index.html, 2,416 lines)
-docs/             Cross-platform spec scaffold (this is the brain)
+WiseRate/       iOS SwiftUI app — Frankfurter networking, SwiftData, StoreKit 2, local notifications
+web/            Next.js 15 production web app — Compare wired to real provider quotes via /api/quotes
+landing/        Marketing site (standalone Next.js, own design system; root domain — app is app.wiserate.app)
+android/        Jetpack Compose scaffold — all screens present, mock data
+WiseRate-Web/   Frozen single-file prototype (visual reference only — never add features here)
+docs/           Cross-platform spec (the brain)
 ```
 
-Android target exists in specs only — no code yet.
+## Architecture
 
-## High-level architecture
-
-Three platforms, one shared spec. Each platform implements the same four layers:
-
-1. **View** (SwiftUI / Compose / React) — UI only
-2. **ViewModel** — observable state + intents, no I/O
-3. **Service** — protocol-defined I/O, swappable mock ↔ real
-4. **Model** — plain data mirroring [`docs/architecture/data-model.md`](docs/architecture/data-model.md)
-
-On iOS today, ViewModels all live in `WiseRate/Core/ViewModels/ViewModels.swift` and services in `WiseRate/Core/Services/Services.swift`. Both files are slated to split as features stabilize — see [`docs/platforms/ios.md`](docs/platforms/ios.md).
-
-## Known stubs (everything user-facing reads mock data)
-
-`WiseRate/Core/Services/Services.swift` defines protocols and mock implementations for:
-
-- `ExchangeRateService` — returns a fixed 63.50 EUR→PHP with ±0.5 jitter. Real impl tracked in [`docs/services/exchange-rate.md`](docs/services/exchange-rate.md)
-- `TransferProviderService` — reads from `WiseRate/Data/Mock/MockData.swift` (15 providers)
-- `NotificationService` — empty bodies. See [`docs/services/notifications.md`](docs/services/notifications.md)
-- `SubscriptionService` — always returns `.free`. See [`docs/services/subscriptions.md`](docs/services/subscriptions.md)
-- `AnalyticsService` — `print()` only. Event taxonomy in [`docs/services/analytics.md`](docs/services/analytics.md)
-
-Persistence (SwiftData / Room / IndexedDB) is not wired anywhere yet — see [`docs/services/persistence.md`](docs/services/persistence.md).
+Three platforms, one shared spec, four layers each: **View** (SwiftUI / Compose / React) → **ViewModel** (observable state + intents, no I/O) → **Service** (protocol-defined I/O, mock ↔ real swappable) → **Model** (mirrors [`docs/architecture/data-model.md`](docs/architecture/data-model.md)).
 
 ## Build & run
 
-### iOS
-
-No `.xcodeproj` is checked in yet — the Swift files exist as a structured source tree under `WiseRate/`. To run today, create an Xcode iOS App project and add the `WiseRate/` folder as a reference, then build for an iPhone 15 Pro simulator (iOS 17+).
-
-Entry point: `WiseRate/App/WiseRateApp.swift`. Onboarding currently auto-completes inside that file — remove that line when shipping real onboarding (noted in [`docs/modules/onboarding.md`](docs/modules/onboarding.md)).
-
-### Web (current prototype)
-
-Static, no build step. Open `WiseRate-Web/index.html` in a browser, or:
-
-```sh
-python3 -m http.server 8000 --directory WiseRate-Web
-```
-
-Then visit `http://localhost:8000`. The production target is a Next.js port under `web/` — see [`docs/platforms/web.md`](docs/platforms/web.md). Don't add new features to `index.html`; treat it as a frozen reference.
-
-### Android
-
-Not started.
+- **Web**: `cd web && npm install && npm run dev` → localhost:3000. Deploy target: Vercel.
+- **Landing**: `cd landing && npm install && npm run dev`
+- **iOS**: no `.xcodeproj` checked in — create an Xcode iOS App project referencing `WiseRate/` (iOS 17+, iPhone 15 Pro sim). Onboarding auto-completes in `WiseRate/App/WiseRateApp.swift`; remove that line when shipping real onboarding.
+- **Android**: `cd android && ./gradlew assembleDebug`
+- **Prototype**: open `WiseRate-Web/index.html` directly (no build).
 
 ## Tests
 
-None yet. Snapshot + unit test conventions are sketched in [`docs/platforms/ios.md`](docs/platforms/ios.md) but no tooling is wired.
+None wired yet. Conventions sketched in [`docs/platforms/ios.md`](docs/platforms/ios.md).
 
-## Design tokens
+## Design tokens & locales
 
-Dark theme only. Canonical tokens live in [`docs/architecture/design-system.md`](docs/architecture/design-system.md). The iOS values in `WiseRate/Design/Theme/Colors.swift` and the web `:root` CSS vars in `WiseRate-Web/index.html` already match — if you change a token in one place, update the spec **and** the other platform.
-
-## Locales
-
-`en` (default), `es`, `tl` (Tagalog — primary user audience: EUR→PHP corridor). See [`docs/architecture/localization.md`](docs/architecture/localization.md). Do not commit machine-translated `tl` strings.
+Dark theme only. Canonical tokens: [`docs/architecture/design-system.md`](docs/architecture/design-system.md). Changing a token = update the spec **and** every platform copy. Locales: `en` (default), `es`, `tl` — see [`docs/architecture/localization.md`](docs/architecture/localization.md); never commit machine-translated `tl` (the landing page carries a documented, deliberate exception).
 
 ## Sequencing for new work
 
-Per the approved plan, services land in this order: **exchange-rate → persistence → notifications + subscriptions (parallel) → Android scaffold → Web refactor**. Home / Comparison / Analytics / Provider Details / Alerts all depend on the real exchange-rate service, so that's the highest-leverage first piece.
+Follow [`docs/ROADMAP.md`](docs/ROADMAP.md) — web revenue path first, then iOS, backend, Android.

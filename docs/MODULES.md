@@ -4,18 +4,20 @@ Status table for every feature module across the three platforms.
 
 Legend: ☐ not started · ◐ in-progress · ✅ shipped
 
+Android column: Compose screens + ViewModels exist for every module (mock data) — ◐ means scaffolded on mocks, not wired to real services.
+
 | Module | iOS | Web | Android | Spec |
 |---|:-:|:-:|:-:|---|
-| Home | ◐ | ◐ | ☐ | [home.md](modules/home.md) |
-| Comparison | ◐ | ◐ | ☐ | [comparison.md](modules/comparison.md) |
-| Provider Details | ◐ | ◐ | ☐ | [provider-details.md](modules/provider-details.md) |
-| Analytics | ◐ | ◐ | ☐ | [analytics.md](modules/analytics.md) |
-| Alerts | ◐ | ◐ | ☐ | [alerts.md](modules/alerts.md) |
-| Profile | ◐ | ◐ | ☐ | [profile.md](modules/profile.md) |
-| Settings | ◐ | ◐ | ☐ | [settings.md](modules/settings.md) |
-| Premium | ◐ | ◐ | ☐ | [premium.md](modules/premium.md) |
-| Referral | ◐ | ◐ | ☐ | [referral.md](modules/referral.md) |
-| Onboarding | ◐ | ☐ | ☐ | [onboarding.md](modules/onboarding.md) |
+| Home | ◐ | ◐ | ◐ | [home.md](modules/home.md) |
+| Comparison | ◐ | ◐ | ◐ | [comparison.md](modules/comparison.md) |
+| Provider Details | ◐ | ◐ | ◐ | [provider-details.md](modules/provider-details.md) |
+| Analytics | ◐ | ◐ | ◐ | [analytics.md](modules/analytics.md) |
+| Alerts | ◐ | ◐ | ◐ | [alerts.md](modules/alerts.md) |
+| Profile | ◐ | ◐ | ◐ | [profile.md](modules/profile.md) |
+| Settings | ◐ | ◐ | ◐ | [settings.md](modules/settings.md) |
+| Premium | ◐ | ◐ | ◐ | [premium.md](modules/premium.md) |
+| Referral | ◐ | ◐ | ◐ | [referral.md](modules/referral.md) |
+| Onboarding | ◐ | ☐ | ◐ | [onboarding.md](modules/onboarding.md) |
 | Landing | — | ◐ | — | [landing.md](modules/landing.md) |
 
 ## Services (cross-cutting)

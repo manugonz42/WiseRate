@@ -13,6 +13,7 @@ Source of truth for building WiseRate across **iOS**, **Web**, and **Android**.
 ```
 docs/
 ├── MODULES.md              # status table — every module × platform
+├── ROADMAP.md              # launch phases, priorities, budget (€)
 ├── architecture/           # cross-cutting decisions (data model, nav, design, i18n)
 ├── platforms/              # per-platform conventions (iOS / Web / Android)
 ├── services/               # service contracts (rate API, persistence, push, IAP, analytics)
