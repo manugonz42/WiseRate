@@ -16,7 +16,9 @@ All prices ≈ July 2026, EUR, VAT excluded. Recurring costs marked /yr or /mo.
 
 **Goal:** `wiserate.app` public — Landing + Compare with real quotes and working affiliate links (first revenue).
 
-- [ ] Port remaining web screens in order: Home → Provider Detail → Alerts (local, IndexedDB) → Analytics
+- [ ] ⚠️ **Rename first** — "WiseRate" contains the Wise trademark; affiliate programs reject look-alike brands and App Store rule 2.3.7 can too. Pick name → check EUIPO + domain + both app stores → only then buy the domain and open dev accounts. Shortlist (checked 2026-07, no collisions found): SulitSend · PisoRate · RemitScan · PadalaKo
+- [ ] Fixture tests for `web/lib/services/providers/*` parsers + broken-parser alerting — the revenue flow must not fail silently
+- [ ] Port remaining web screens in order: Home → Provider Detail → Alerts (UI only — real alerts are Phase 3) → Analytics
 - [ ] Affiliate program signups: Wise, Remitly, WU, TransferGo — also unblocks the legal question in [exchange-rate](services/exchange-rate.md)
 - [ ] Deploy: landing at root, app at `app.wiserate.app`
 - [ ] Privacy policy + cookie banner (DIY / Termly free tier)
@@ -26,6 +28,8 @@ All prices ≈ July 2026, EUR, VAT excluded. Recurring costs marked /yr or /mo.
 |---|---|
 | Domain `wiserate.app` (requires HTTPS, included via Vercel) | ~15 €/yr |
 | Vercel Hobby → **Pro required once affiliate links go live** (Hobby forbids commercial use) | 0 € → ~19 €/mo |
+| — or VPS (Hetzner CX-class) instead of Vercel | ~5 €/mo |
+| — or self-host at home behind Cloudflare Tunnel (see Hosting note below) | ~0 € + ~20–30 €/yr electricity |
 | Affiliate signups, DIY legal, analytics free tiers | 0 € |
 
 **Phase total: ~15 € up front, ~245 €/yr once commercial.**
@@ -50,7 +54,10 @@ All prices ≈ July 2026, EUR, VAT excluded. Recurring costs marked /yr or /mo.
 
 **Goal:** server-side pieces that unlock cross-platform parity: shared `/api/quotes` for the apps, scheduled rate checks → push alerts.
 
+**Alerts only become real here** — local-only alerts (web tab must stay open; iOS BGTaskScheduler is best-effort) are demo-grade. Don't invest further in client-side alert evaluation before this phase.
+
 - [ ] Point iOS (later Android) at the existing `web/app/api/quotes` proxy instead of per-app fetching
+- [ ] Move quotes cache off in-memory `Map` (dies on serverless cold starts, not shared across instances) → Vercel KV / Upstash free tier
 - [ ] Cron job (Vercel Cron, included in Pro) evaluating alert conditions
 - [ ] Push: APNs + FCM directly (free) or via Firebase Cloud Messaging (free)
 - [ ] Alert/user storage: Supabase / Turso / Vercel KV free tiers
@@ -62,6 +69,8 @@ All prices ≈ July 2026, EUR, VAT excluded. Recurring costs marked /yr or /mo.
 
 **Goal:** bring the Compose scaffold to parity (real services via Phase 3 backend) and publish.
 
+The `android/` scaffold is **frozen until this phase** — don't port data-model or feature changes there earlier; reconcile divergence when the phase starts.
+
 - [ ] Google Play Console — **25 $ ≈ 23 € one-time**
 - [ ] ⚠️ Personal dev accounts: Google requires a closed test with **12 testers for 14 days** before production — recruit testers early
 - [ ] Wire Retrofit services to `/api/quotes`, Room persistence, Play Billing for premium
@@ -71,8 +80,11 @@ All prices ≈ July 2026, EUR, VAT excluded. Recurring costs marked /yr or /mo.
 
 ## Phase 5 — Growth 🔵
 
+**Premium and Referral are gated here on purpose:** both need accounts/auth + backend (neither exists, no earlier phase builds them) and traffic proving demand. Affiliate links are the primary monetization until then — a paywall competes with your own affiliate clicks.
+
 - [ ] `es` + `tl` localization complete — human `tl` translation, freelance: **~60–150 € one-time**
-- [ ] Referral program live (spec: [referral](modules/referral.md))
+- [ ] i18n single source: one canonical strings file generating `Localizable.xcstrings` / `strings.xml` / web JSON (today each platform is hand-maintained; web has no i18n wired at all yet)
+- [ ] Referral program live (spec: [referral](modules/referral.md)) — needs backend `ReferralService` + anti-fraud
 - [ ] Premium cross-platform (web Stripe? decide then — Stripe ~1.5 % + 0.25 € per EU charge, no fixed cost)
 - [ ] SEO: per-corridor landing pages (EUR→PHP first), sitemap
 - [ ] Optional: iubenda-class legal upgrade ~5–30 €/mo when traffic justifies it
@@ -90,3 +102,11 @@ All prices ≈ July 2026, EUR, VAT excluded. Recurring costs marked /yr or /mo.
 | **Realistic full launch, first year** | **~500–800 €** | **~350 €/yr thereafter** |
 
 Not budgeted: your time, paid marketing, an LLC/company (start as individual/autónomo; revisit if affiliate revenue becomes significant).
+
+## Hosting note
+
+Three viable tiers, in order of increasing cost/reliability. Home hosting is fine pre-revenue; move up when affiliate links go live.
+
+1. **Home server (~0 €/mo):** laptop as primary (built-in battery = free UPS) + Cloudflare Tunnel free (fixes dynamic IP/CGNAT, no open ports, TLS, hides home IP) + UptimeRobot free. Weak point: a power cut kills the router/ONT too, so a second machine adds nothing there — a small UPS for router+ONT (~60 €) matters more. Expect ~99–99.5 % uptime.
+2. **VPS (~5 €/mo):** Hetzner/Contabo class. Always-on cron for alerts, no home-network coupling. Best €/reliability once anything depends on uptime.
+3. **Vercel Pro (~19 €/mo):** zero-ops, preview deploys, Cron + KV integrated. Default once revenue covers it.

@@ -1,6 +1,8 @@
 # Module: Alerts
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ · Android ◐ (scaffold, frozen)
+
+> **Planning note:** local-only alerts are demo-grade — web can't fire with the tab closed, and iOS background polling (BGTaskScheduler) is best-effort by design. Real alerts = backend cron + push, [ROADMAP](../ROADMAP.md) Phase 3. Build the UI/CRUD; don't invest further in client-side alert *evaluation*.
 
 ## Dependencies
 - **Reads:** [persistence](../services/persistence.md), [notifications](../services/notifications.md), [exchange-rate](../services/exchange-rate.md), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)

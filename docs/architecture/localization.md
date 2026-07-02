@@ -2,7 +2,7 @@
 
 ## Dependencies
 - **Reads:** — (root spec)
-- **Future:** ⏳ `tl` translations after content freeze per module, ⏳ id/fr/pt-BR/ar locales
+- **Future:** ⏳ canonical single-source strings file (one source generating `Localizable.xcstrings` / `strings.xml` / web JSON — today each platform is hand-maintained and web has no i18n wired yet), ⏳ `tl` translations after content freeze per module, ⏳ id/fr/pt-BR/ar locales
 
 ## Used by
 - Every [module](../modules/) (string keys consumed in views)

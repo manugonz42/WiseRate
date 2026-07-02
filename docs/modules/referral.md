@@ -1,6 +1,8 @@
 # Module: Referral
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ · Android ◐ (scaffold, frozen)
+
+> **Planning note:** deferred to [ROADMAP](../ROADMAP.md) Phase 5 — requires backend `ReferralService`, accounts, and anti-fraud, none of which exist or are scheduled earlier. Mock UI only until traffic justifies it.
 
 ## Dependencies
 - **Reads:** [localization](../architecture/localization.md) (share message), [design-system](../architecture/design-system.md)

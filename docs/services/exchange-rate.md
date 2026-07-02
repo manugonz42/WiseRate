@@ -64,6 +64,11 @@ About the comparisons endpoint:
 - `trustScore` for the "most trusted" sort is editorial, keyed by provider alias against the `proveedores.md` "100% fiables" list (`TRUST` map in `wise.ts`).
 - Caching: server `fetch` uses `next: { revalidate: 120 }` (quotes TTL 2 min, per the table below).
 
+## Known source limitations
+
+- **No intraday source.** Frankfurter/ECB publishes one reference rate per business day (~16:00 CET) — the `24H` historical range and a true `delta24h` cannot be served from it. ⏳ intraday source needed (or drop `24H` from the UI). Until then, 24H views must not present daily data as live intraday movement.
+- **Serverless cache reality.** The 120 s in-memory `Map` in `web/lib/services/quotes.ts` doesn't survive Vercel cold starts and isn't shared across instances — effective hit rate in prod is low. Move to Vercel KV / Upstash ([ROADMAP](../ROADMAP.md) Phase 3) before traffic grows.
+
 ## Caching
 
 | Data | TTL (mem) | TTL (disk) | Stale-while-revalidate |
@@ -82,3 +87,4 @@ On network failure: serve the most recent cached value with a `stale: true` flag
 - Provider partnership / affiliate IDs — needed before launching scrapes legally.
 - Rate limit headroom for free tier on mid-market source.
 - Do we surface mid-market vs receive-amount markup explicitly to users? (Spec says yes — see `markupPercentage` in [data-model](../architecture/data-model.md).)
+- `trustScore` is editorial (keyed off the root `proveedores.md` "100% fiables" list) with no documented methodology — document the criteria and label it as editorial in the UI before public launch; `proveedores.md` should move under `docs/`.

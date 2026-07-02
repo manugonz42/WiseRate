@@ -76,7 +76,7 @@ IndexedDB via Dexie — see [persistence](../services/persistence.md).
 
 ## Build / dev
 
-`pnpm dev` for local; deploy target Vercel. PWA wrapper deferred.
+`npm run dev` for local (repo uses npm — `package-lock.json` checked in); deploy target Vercel. PWA wrapper deferred.
 
 ## Auth (later)
 
