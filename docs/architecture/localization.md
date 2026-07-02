@@ -64,3 +64,5 @@ Never hardcode. Use the platform formatter with the user's preferred locale (fal
 ## Sourcing translations
 
 `tl` will be done by a native speaker after content freeze per module. Until then, keep `tl` aligned with `en` (no machine-translated strings in source — flag with comments instead).
+
+**Exception:** [landing](../modules/landing.md) ships a machine-translated `tl` draft on purpose, so its language switcher has real text instead of `en` copy under a `tl` label. Generated via `landing/scripts/translate-tl.mjs` (Google Translate, reusable for other modules once they need a same-day `tl` draft), flagged with a header comment in the generated file and still pending native-speaker review before being final. Default to the mirror-`en` approach for new modules unless there's a similar reason to need draft copy immediately.
