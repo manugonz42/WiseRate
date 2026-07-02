@@ -40,7 +40,7 @@ const config: Config = {
         elevated: "var(--shadow-elevated)",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
     },
   },
