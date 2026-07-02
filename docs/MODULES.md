@@ -16,6 +16,7 @@ Legend: ☐ not started · ◐ in-progress · ✅ shipped
 | Premium | ◐ | ◐ | ☐ | [premium.md](modules/premium.md) |
 | Referral | ◐ | ◐ | ☐ | [referral.md](modules/referral.md) |
 | Onboarding | ◐ | ☐ | ☐ | [onboarding.md](modules/onboarding.md) |
+| Landing | — | ◐ | — | [landing.md](modules/landing.md) |
 
 ## Services (cross-cutting)
 

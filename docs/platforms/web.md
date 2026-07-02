@@ -37,7 +37,7 @@ The mobile prototype (`index.html`) and the early `web/` scaffold both used a ph
 - **Content width**: data-dense screens (Compare) use `max-w-4xl` centered, not a phone-width `max-w-lg` — wide enough for a real table, still short enough to read comfortably (this is a utility app, not a full-bleed dashboard).
 - **Compare table**: at `md+`, quotes render as a real `<table>` (Provider · Recipient gets · Fee · Speed · Trust) instead of a stacked card list. Below `md`, falls back to the existing card-row layout.
 - **Best-deal emphasis**: matches the mobile prototype's semantic choice — `--warning` (amber `#FFB800`), not `--primary`. Shown twice on purpose (banner above the table/list **and** the matching row gets the amber left-border + tinted background) so it isn't lost on scroll. Trust score renders as 5 filled/empty dots (`trustScore * 5`, rounded) rather than a raw decimal.
-- **No landing-page patterns**: no hero sections, marquees, scroll-hijacking, or macro-whitespace (`py-24`+). This is a utility/dashboard surface — see the rejected `design-taste-frontend` / `high-end-visual-design` / `minimalist-ui` skills, which target marketing pages, not this app.
+- **No landing-page patterns**: no hero sections, marquees, scroll-hijacking, or macro-whitespace (`py-24`+). This is a utility/dashboard surface — see the rejected `design-taste-frontend` / `high-end-visual-design` / `minimalist-ui` skills, which target marketing pages, not this app. The marketing landing page lives in its own project instead: see [landing](../modules/landing.md) (`landing/`, standalone Next.js, own design system, deployed at the root domain while this app serves `app.wiserate.app`).
 
 ## Folder layout (target)
 
