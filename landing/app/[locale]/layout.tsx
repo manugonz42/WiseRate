@@ -3,6 +3,7 @@ import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import "../globals.css";
 import { locales, isLocale, defaultLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { SITE_URL } from "@/lib/site";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -30,7 +31,30 @@ export async function generateMetadata({
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
   const dict = getDictionary(locale);
-  return { title: dict.meta.title, description: dict.meta.description };
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: dict.meta.title,
+    description: dict.meta.description,
+    alternates: {
+      canonical: `/${locale}`,
+      languages: {
+        en: "/en",
+        es: "/es",
+        tl: "/tl",
+        "x-default": "/en",
+      },
+    },
+    openGraph: {
+      title: dict.meta.title,
+      description: dict.meta.description,
+      url: `${SITE_URL}/${locale}`,
+      siteName: "SulitSend",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+    },
+  };
 }
 
 export default async function LocaleLayout({

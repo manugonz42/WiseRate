@@ -133,6 +133,7 @@ export const es: Dictionary = {
       "Comparador independiente para el envío de dinero España-Filipinas. No somos una entidad de pago ni gestionamos transferencias.",
     productLabel: "Producto",
     compareLabel: "Comparar ahora",
+    corridorLabel: "Comparar tasas EUR→PHP",
     howLabel: "Cómo funciona",
     faqLabel: "Preguntas frecuentes",
     languageLabel: "Idioma",

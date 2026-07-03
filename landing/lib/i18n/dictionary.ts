@@ -50,6 +50,7 @@ export type Dictionary = {
     description: string;
     productLabel: string;
     compareLabel: string;
+    corridorLabel: string;
     howLabel: string;
     faqLabel: string;
     languageLabel: string;

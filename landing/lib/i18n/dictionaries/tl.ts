@@ -1,6 +1,6 @@
 import type { Dictionary } from "../dictionary";
 
-// MACHINE-TRANSLATED DRAFT (en -> tl), generated 2026-07-02 by
+// MACHINE-TRANSLATED DRAFT (en -> tl), generated 2026-07-03 by
 // scripts/translate-tl.mjs (Google Translate, unofficial endpoint).
 // docs/architecture/localization.md requires a native Tagalog speaker to
 // review this before it's treated as final, shipped copy. Regenerate with
@@ -133,6 +133,7 @@ export const tl: Dictionary = {
     description: "Malayang paghahambing na site para sa mga paglilipat ng pera mula sa Espanya patungo sa Pilipinas. Hindi kami isang institusyon ng pagbabayad at hindi kami humahawak ng mga paglilipat.",
     productLabel: "produkto",
     compareLabel: "Ikumpara ngayon",
+    corridorLabel: "Ihambing ang mga rate ng EUR→PHP",
     howLabel: "Paano ito gumagana",
     faqLabel: "FAQ",
     languageLabel: "Wika",

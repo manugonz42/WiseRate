@@ -7,7 +7,7 @@ Next codeable work: Phase 2 (iOS) is Mac-blocked and Phase 1's remainder is huma
 - [x] [T12 — SEO foundation (web app)](T12-seo-foundation.md): metadata/canonical/OG image/robots/sitemap
 - [x] [T13 — Corridor SEO page EUR→PHP](T13-corridor-page.md): `/send/eur-to-php`, registry, FAQ + JSON-LD ([spec](../modules/corridors.md))
 - [x] [T14 — Provider pages metadata + internal linking](T14-provider-seo.md)
-- [ ] [T15 — Landing SEO](T15-landing-seo.md): hreflang en/es/tl, robots/sitemap, JSON-LD, cross-link to app
+- [x] [T15 — Landing SEO](T15-landing-seo.md): hreflang en/es/tl, robots/sitemap, JSON-LD, cross-link to app
 - [ ] [T16 — Corridor expansion](T16-corridor-expansion.md): verify GBP/USD/CAD/AUD→PHP, ship passing ones
 
 Site-wide SEO rules that outlive these tasks live in [modules/corridors.md](../modules/corridors.md) (notably: never emit AggregateRating/Review JSON-LD).

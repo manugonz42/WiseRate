@@ -133,6 +133,7 @@ export const en: Dictionary = {
       "Independent comparison site for money transfers from Spain to the Philippines. We are not a payment institution and we do not handle transfers.",
     productLabel: "Product",
     compareLabel: "Compare now",
+    corridorLabel: "Compare EUR→PHP rates",
     howLabel: "How it works",
     faqLabel: "FAQ",
     languageLabel: "Language",

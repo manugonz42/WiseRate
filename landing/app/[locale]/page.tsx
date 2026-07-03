@@ -10,6 +10,7 @@ import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { isLocale, defaultLocale, type Locale } from "@/lib/i18n/config";
+import { SITE_URL } from "@/lib/site";
 
 export default async function LandingPage({
   params,
@@ -20,8 +21,31 @@ export default async function LandingPage({
   const locale: Locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
   const dict = getDictionary(locale);
 
+  const orgJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "SulitSend",
+    url: SITE_URL,
+    logo: `${SITE_URL}/opengraph-image`,
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "SulitSend",
+    url: SITE_URL,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
       <Nav dict={dict.nav} locale={locale} />
       <main>
         <Hero dict={dict.hero} />

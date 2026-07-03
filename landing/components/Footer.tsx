@@ -1,6 +1,6 @@
 import { Logomark } from "./Logomark";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { APP_URL } from "@/lib/config";
+import { APP_URL, CORRIDOR_URL } from "@/lib/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -35,6 +35,11 @@ export function Footer({
               <li>
                 <a href={APP_URL} className="text-ink-soft hover:text-ink">
                   {dict.compareLabel}
+                </a>
+              </li>
+              <li>
+                <a href={CORRIDOR_URL} className="text-ink-soft hover:text-ink">
+                  {dict.corridorLabel}
                 </a>
               </li>
               <li>
