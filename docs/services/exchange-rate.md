@@ -40,7 +40,7 @@ Server-side proxy (`/api/quotes`) runs the scrapes; clients only see the unified
 
 ### Implemented: no-scraping sources (web)
 
-Web `/api/quotes` (`web/app/api/quotes/route.ts` → `web/lib/services/quotes.ts`) aggregates, in parallel (`Promise.allSettled`, 120 s in-memory TTL keyed by pair+amount):
+Web `/api/quotes` (`web/app/api/quotes/route.ts` → `web/lib/services/quotes.ts`) aggregates, in parallel (`Promise.allSettled`, 120 s TTL keyed by pair+amount — `quotes:v1:${from}:${to}:${amount}`, see Caching below):
 
 | Tier | Endpoint | Providers | Notes |
 |---|---|---|---|
@@ -67,7 +67,7 @@ About the comparisons endpoint:
 ## Known source limitations
 
 - **No intraday source.** Frankfurter/ECB publishes one reference rate per business day (~16:00 CET) — the `24H` historical range and a true `delta24h` cannot be served from it. ⏳ intraday source needed (or drop `24H` from the UI). Until then, 24H views must not present daily data as live intraday movement.
-- **Serverless cache reality.** The 120 s in-memory `Map` in `web/lib/services/quotes.ts` doesn't survive Vercel cold starts and isn't shared across instances — effective hit rate in prod is low. Move to Vercel KV / Upstash ([ROADMAP](../ROADMAP.md) Phase 3) before traffic grows.
+- **Serverless cache reality.** Quotes are now cached via `web/lib/services/cache.ts`: Upstash Redis (REST, `ex: 120`) when `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` are set, shared across instances and survives cold starts. Unset (local dev) falls back to the previous in-memory `Map`, which still doesn't survive cold starts or share across instances — set the env vars in prod. Upstash errors are logged and treated as a cache miss; they never fail the request.
 
 ## Caching
 

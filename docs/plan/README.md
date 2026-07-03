@@ -38,7 +38,7 @@ One session per task, in order. Prompt template:
 | ☑ T08 | [Brokers card in Compare](T08-brokers-card.md) | 1 | — |
 | ☑ T09 | [Privacy, cookies, footer](T09-legal-pages.md) | 1 | — |
 | ☑ T10 | [Product analytics wiring](T10-analytics-wiring.md) | 1 | T09 |
-| ☐ T11 | [Quotes cache → Upstash KV](T11-kv-cache.md) | 3 | — |
+| ☑ T11 | [Quotes cache → Upstash KV](T11-kv-cache.md) | 3 | — |
 
 Not specced here (need human accounts/hardware or design decisions first): iOS Phase 2 (Mac + Apple account), Phase 3 cron + push alerts (backend/auth design), Phase 4 Android wiring.
 

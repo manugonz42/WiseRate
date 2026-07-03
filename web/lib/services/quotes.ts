@@ -14,6 +14,7 @@ import { fetchWiseDirect } from "./providers/wiseDirect";
 import { fetchWesternUnion } from "./providers/westernUnion";
 import { fetchRemitly } from "./providers/remitly";
 import { fetchTransferGo } from "./providers/transfergo";
+import { getCached, setCached } from "./cache";
 
 export interface AggregatedQuotes {
   rate: Rate;
@@ -23,10 +24,10 @@ export interface AggregatedQuotes {
 export type SourceStatus = { source: string; ok: boolean; error?: string; at: string };
 
 // Direct sources POST or vary per amount, so Next's fetch cache doesn't help;
-// hold one in-memory TTL cache over the whole aggregated result instead
-// (quotes TTL 2 min per docs/services/exchange-rate.md).
-const TTL_MS = 120_000;
-const cache = new Map<string, { at: number; value: AggregatedQuotes }>();
+// hold one TTL cache over the whole aggregated result instead (quotes TTL
+// 2 min per docs/services/exchange-rate.md). Backed by Upstash KV in prod,
+// falling back to an in-memory Map when unconfigured (see ./cache.ts).
+const TTL_SECONDS = 120;
 
 // Snapshot from the most recent actual fetch (not cache hits) — /api/health
 // reads this. Stays fresh for the same 120 s window as the quotes cache.
@@ -55,9 +56,9 @@ export async function getAggregatedQuotes(
   to: string,
   amount: number,
 ): Promise<AggregatedQuotes> {
-  const key = `${from}:${to}:${amount}`;
-  const hit = cache.get(key);
-  if (hit && Date.now() - hit.at < TTL_MS) return hit.value;
+  const key = `quotes:v1:${from}:${to}:${amount}`;
+  const hit = await getCached<AggregatedQuotes>(key);
+  if (hit) return hit;
 
   const [cmp, wise, wu, remitly, transfergo] = await Promise.allSettled([
     fetchWiseQuotes(from, to, amount),
@@ -119,6 +120,6 @@ export async function getAggregatedQuotes(
     rate: { rate: midRate, timestamp: new Date().toISOString() },
     quotes: [...byProvider.values()],
   };
-  cache.set(key, { at: Date.now(), value });
+  await setCached(key, value, TTL_SECONDS);
   return value;
 }
