@@ -58,8 +58,8 @@ Prices ≈ July 2026, EUR, VAT excluded.
 - [ ] Point iOS (later Android) at the existing `web/app/api/quotes` proxy
 - [x] Quotes cache off in-memory `Map` → Upstash Redis with Map fallback (T11)
 - [ ] Cron job (Vercel Cron, in Pro) evaluating alert conditions
-- [ ] Push: APNs + FCM (free)
-- [ ] Alert/user storage: Supabase / Turso / Vercel KV free tiers
+- [ ] Web alert delivery: **email via Resend** (decided 2026-07-03; free tier 3k/mo — user leaves email on alert creation, no auth). Push (APNs + FCM, free) when the apps need it
+- [ ] Alert storage: **Upstash Redis** (decided 2026-07-03 — already integrated since T11; Supabase only if/when accounts arrive in Phase 5)
 - [ ] Rate-source fallback: Open Exchange Rates free 1 000 req/mo (paid ~11 €/mo only if needed)
 
 **Phase total: 0 € incremental.**
@@ -83,7 +83,7 @@ Prices ≈ July 2026, EUR, VAT excluded.
 - [ ] i18n single source: one canonical strings file generating `Localizable.xcstrings` / `strings.xml` / web JSON (today hand-maintained per platform; web has no i18n wired)
 - [ ] Referral program ([referral](modules/referral.md)) — needs backend `ReferralService` + anti-fraud
 - [ ] Premium cross-platform (web Stripe ~1.5 % + 0.25 €/EU charge, no fixed cost — decide then)
-- [ ] SEO: per-corridor landing pages (EUR→PHP first), sitemap
+- [ ] SEO: per-corridor landing pages (EUR→PHP first), sitemap — **pulled forward 2026-07-03** as tasks T12–T16 ([plan/](plan/README.md), [corridors](modules/corridors.md)); Phase 5 keeps only what those tasks exclude (localized corridor copy, further corridors)
 - [ ] Optional: iubenda-class legal upgrade ~5–30 €/mo when traffic justifies
 
 ---
