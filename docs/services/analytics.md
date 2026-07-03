@@ -34,7 +34,7 @@ Format: `<surface>.<action>` snake_case.
 - `compare.viewed` `{ amount, from, to }`
 - `compare.sort_changed` `{ sortBy }`
 - `compare.provider_tapped` `{ providerID, position, sortBy }`
-- `compare.affiliate_outbound` `{ providerID }` — ⏳ web: rows link to Provider Detail rather than an inline "Send" CTA, so this fires from `provider.affiliate_outbound` instead; revisit if Compare grows a row-level CTA
+- `compare.affiliate_outbound` `{ providerID }` — web: fires from the row-level "Send" CTA (providers with an editorial profile)
 
 ### Provider Detail
 - `provider.viewed` `{ providerID }`

@@ -22,7 +22,7 @@
 
 | Platform | Stack | State |
 |----------|-------|-------|
-| **Web** (`web/`) | Next.js 15 · TypeScript · Tailwind | Compare wired to real quotes via `/api/quotes` |
+| **Web** (`web/`) | Next.js 15 · TypeScript · Tailwind | Home/Compare/Analytics/Alerts/Provider live on real quotes |
 | **iOS** (`WiseRate/`) | SwiftUI · SwiftData · StoreKit 2 | All screens; Frankfurter rates; quotes still mock |
 | **Android** (`android/`) | Jetpack Compose · Room | All screens scaffolded on mock data |
 | **Landing** (`landing/`) | Next.js (standalone) | Marketing site for the root domain |

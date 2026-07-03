@@ -210,7 +210,7 @@ function ProviderIcon({ q, size }: { q: TransferQuote; size: number }) {
   );
 }
 
-// Same tag/copy as Compare's SourceTag (docs/plan/T04-home-screen.md step 3).
+// Same tag/copy as Compare's SourceTag (docs/modules/comparison.md).
 function SourceTag({ q }: { q: TransferQuote }) {
   if (q.source === "direct") return null;
   return (

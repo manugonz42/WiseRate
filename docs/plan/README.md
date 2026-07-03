@@ -1,54 +1,29 @@
-# Execution plan — mechanical tasks for code models
+# Execution plan — Phase 1 record
 
-Step-by-step breakdown of [ROADMAP](../ROADMAP.md) Phase 1 (+ the codeable slice of Phase 3) into self-contained tasks a code model (Sonnet-class) can execute without making product decisions. All decisions are pre-made inside each task.
+ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical tasks and **fully executed 2026-07-03** (commits `f9dcd4e`…`e8d93db`, task title = commit message). The task files are deleted; recover any from git history. Their durable decisions live in the specs and code they produced:
 
-## How to run a task
+| Task | Landed as |
+|---|---|
+| T01 parser fixture tests | `web/lib/services/providers/__tests__` + `__fixtures__`, vitest; parsers split `buildRequest`/`parseX`/`fetchX` |
+| T02 health endpoint | `/api/health` — [exchange-rate](../services/exchange-rate.md#health) |
+| T03 history API | `/api/history` (Frankfurter, no 24H) — [exchange-rate](../services/exchange-rate.md) |
+| T04–T07 screens | Home, Provider Detail (Recharts, editorial data in `web/lib/data/providers.ts`), Alerts (localStorage CRUD, cap 3), Analytics (7D/30D live, ≥3M gated) |
+| T08 brokers card | `web/lib/brokers.ts`, threshold €5,000 — [brokers](../modules/brokers.md) |
+| T09 legal | `/privacy`, `/cookies` (DRAFT), consent banner, footer |
+| T10 analytics | PostHog EU, consent-gated — [analytics service](../services/analytics.md) |
+| T11 KV cache | Upstash + Map fallback, `web/lib/services/cache.ts` |
 
-One session per task, in order. Prompt template:
+## Runtime UI verification (reusable recipe)
 
-> Read `docs/plan/README.md` (rules), then execute `docs/plan/T0X-<name>.md` exactly. Do not exceed its scope. When done, run the Verify section, check the task off in `docs/plan/README.md`, and update `docs/MODULES.md` if the task says so.
+`playwright` + headless Chromium are devDependencies in `web/`. Start `npm run dev` (3000 may be taken — note the port), drive pages from a Node script via `chromium.launch()`. Caveats: use `waitUntil: "domcontentloaded"` (`networkidle` times out on first compile), and **wait for a client-rendered element before interacting** — inputs exist in SSR markup before hydration, so typing too early is silently lost.
 
-## Global rules (apply to every task)
+## Human-only checklist (still open)
 
-1. **Scope is the task file.** No refactors, renames, or "improvements" outside the listed files.
-2. **Specs win.** If a task contradicts a spec in `docs/`, stop and report — don't guess.
-3. **Never touch:** `android/` (frozen until Phase 4), `WiseRate-Web/` (frozen prototype), internal identifiers (`WiseRate/` dirs, `com.wiserate`, `wiserate://`, `wiserate_premium_*` SKUs — see ROADMAP Phase 1 rename item).
-4. **Brand name in UI copy: SulitSend.** Never "WiseRate" in new user-facing strings.
-5. **Design tokens** come from `web/styles/tokens.css` / `web/tailwind.config.ts` (canonical: [design-system](../architecture/design-system.md)). Dark theme only. No new colors.
-6. **Match existing code style** — study `web/app/(tabs)/compare/page.tsx` before writing any new page. Desktop-first rules: [platforms/web](../platforms/web.md).
-7. Every task ends with: `cd web && npm run build && npm run lint` passing (plus the task's own Verify steps).
-8. New TS types mirror [data-model](../architecture/data-model.md) — copy field names exactly.
-9. Commit per task: `T0X: <task title>`.
-
-## Runtime UI verification
-
-`playwright` + headless Chromium are installed as devDependencies in `web/` (added 2026-07-03). To verify interactive flows beyond `build`/`lint`: start `npm run dev` (note the port — 3000 may be taken), then drive the page from a plain Node script via `require("playwright")` → `chromium.launch()`. Dev-server caveats: wait for hydration before asserting (e.g. `locator.waitFor()` on a client-rendered element, never bare `isVisible()` right after `goto`), and use `waitUntil: "domcontentloaded"` — `networkidle` times out on first compile. Reference script: T06 was verified this way (17 checks: CRUD, cap upsell, `?rate=` prefill, validation, persistence across reloads).
-
-## Task order
-
-| # | Task | Phase | Blocked by |
-|---|---|---|---|
-| ☑ T01 | [Provider parser fixture tests](T01-parser-fixture-tests.md) | 1 | — |
-| ☑ T02 | [Quote-source health endpoint](T02-health-endpoint.md) | 1 | T01 |
-| ☑ T03 | [Historical rates API](T03-history-api.md) | 1 | — |
-| ☑ T04 | [Home screen](T04-home-screen.md) | 1 | T03 |
-| ☑ T05 | [Provider Detail screen](T05-provider-detail.md) | 1 | T03 |
-| ☑ T06 | [Alerts screen (UI only)](T06-alerts-ui.md) | 1 | — |
-| ☑ T07 | [Analytics screen](T07-analytics-screen.md) | 1 | T03 |
-| ☑ T08 | [Brokers card in Compare](T08-brokers-card.md) | 1 | — |
-| ☑ T09 | [Privacy, cookies, footer](T09-legal-pages.md) | 1 | — |
-| ☑ T10 | [Product analytics wiring](T10-analytics-wiring.md) | 1 | T09 |
-| ☑ T11 | [Quotes cache → Upstash KV](T11-kv-cache.md) | 3 | — |
-
-Not specced here (need human accounts/hardware or design decisions first): iOS Phase 2 (Mac + Apple account), Phase 3 cron + push alerts (backend/auth design), Phase 4 Android wiring.
-
-## Human-only checklist (not for the model)
-
-- [ ] Verify SulitSend: EUIPO + domain + both-store search → buy `sulitsend.app` (ROADMAP Phase 1)
-- [ ] Affiliate signups: Wise (Partnerize), Remitly, WU, TransferGo → paste real affiliate URLs/IDs when granted
-- [ ] Broker introducer applications: TorFX, Currencies Direct, OFX → confirm EUR→PHP coverage + placement terms
-- [ ] Vercel project + Pro upgrade when affiliate links go live; deploy landing at root, app at `app.sulitsend.app`
-- [ ] PostHog account (EU cloud) → `NEXT_PUBLIC_POSTHOG_KEY` + `NEXT_PUBLIC_POSTHOG_HOST` env vars (T10)
-- [ ] UptimeRobot monitor on `/api/health` (after T02)
-- [ ] Upstash Redis database → env vars (T11)
-- [ ] Legal review of the T09 draft policies before launch
+- [ ] Verify SulitSend: EUIPO + domain + both-store search → buy `sulitsend.app`
+- [ ] Affiliate signups: Wise (Partnerize), Remitly, WU, TransferGo → paste real affiliate URLs (`web/lib/data/providers.ts`)
+- [ ] Broker introducer applications: TorFX, Currencies Direct, OFX → confirm EUR→PHP coverage; replace URLs in `web/lib/brokers.ts`
+- [ ] Vercel project + Pro when affiliate links go live; landing at root, app at `app.sulitsend.app`
+- [ ] PostHog account (EU) → `NEXT_PUBLIC_POSTHOG_KEY`/`_HOST` env vars
+- [ ] UptimeRobot monitor on `/api/health`
+- [ ] Upstash Redis database → env vars
+- [ ] Legal review of the draft policies + contact email (`TODO(human)` in `/privacy`)

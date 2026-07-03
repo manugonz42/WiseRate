@@ -30,11 +30,21 @@ export type SourceStatus = { source: string; ok: boolean; error?: string; at: st
 const TTL_SECONDS = 120;
 
 // Snapshot from the most recent actual fetch (not cache hits) — /api/health
-// reads this. Stays fresh for the same 120 s window as the quotes cache.
+// reads this. Persisted in the shared cache next to the quotes entry (same
+// TTL): a cold serverless instance hitting a warm Upstash quotes cache never
+// runs an aggregation, so module state alone would report an empty (= failing)
+// health snapshot.
 let lastHealth: SourceStatus[] = [];
 
-export function getSourceHealth(): SourceStatus[] {
-  return lastHealth;
+const healthKey = (from: string, to: string, amount: number) =>
+  `health:v1:${from}:${to}:${amount}`;
+
+export async function getSourceHealth(
+  from = "EUR",
+  to = "PHP",
+  amount = 1000,
+): Promise<SourceStatus[]> {
+  return (await getCached<SourceStatus[]>(healthKey(from, to, amount))) ?? lastHealth;
 }
 
 const sourceStatus = (
@@ -76,6 +86,8 @@ export async function getAggregatedQuotes(
     sourceStatus("remitly", remitly, remitly.status === "fulfilled" && remitly.value != null, at),
     sourceStatus("transfergo", transfergo, transfergo.status === "fulfilled" && transfergo.value != null, at),
   ];
+  // Before the all-failed throw below, so a total outage still records health.
+  await setCached(healthKey(from, to, amount), lastHealth, TTL_SECONDS);
 
   const byProvider = new Map<string, TransferQuote>();
   let midRate = 0;

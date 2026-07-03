@@ -11,6 +11,7 @@ import {
   type TransferQuote,
 } from "@/lib/models/types";
 import { BROKER_THRESHOLD_EUR, BROKERS, amountBucket } from "@/lib/brokers";
+import { PROVIDERS } from "@/lib/data/providers";
 import { ArrowClockwise, ArrowSquareOut, Circle, Star } from "@phosphor-icons/react/dist/ssr";
 
 // Shape rule for this page: surfaces and inputs use the 16px token
@@ -55,6 +56,14 @@ const eur = new Intl.NumberFormat("en-US", {
 
 const speedLabel = (q: TransferQuote) =>
   q.deliveryEstimate.maxMinutes === 0 ? "n/a" : q.deliveryEstimate.label;
+
+// Outbound URL for the row's "Send" CTA (docs/modules/comparison.md Outputs).
+// Only providers with an editorial profile carry one; affiliateURL stays null
+// until agreements are signed, falling back to the provider's site.
+const sendURL = (q: TransferQuote): string | null => {
+  const p = PROVIDERS[q.providerID];
+  return p ? (p.affiliateURL ?? p.websiteURL) : null;
+};
 
 export default function ComparePage() {
   const [amount, setAmount] = useState(1000);
@@ -252,7 +261,10 @@ export default function ComparePage() {
                 <th className="px-3 py-2.5 text-right font-medium">Fee</th>
                 <th className="px-3 py-2.5 text-right font-medium">Markup</th>
                 <th className="px-3 py-2.5 font-medium">Speed</th>
-                <th className="py-2.5 pl-3 font-medium">Trust</th>
+                <th className="px-3 py-2.5 font-medium">Trust</th>
+                <th className="py-2.5 pl-3 font-medium">
+                  <span className="sr-only">Send</span>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -267,10 +279,16 @@ export default function ComparePage() {
               <QuoteRow key={q.id} q={q} isBest={best?.id === q.id} />
             ))}
           </ul>
+
+          <p className="mt-4 text-[11px] text-text-tertiary">
+            We may earn a commission — you pay the same.
+          </p>
         </div>
       )}
 
-      {amount >= BROKER_THRESHOLD_EUR && <BrokerCard amount={amount} />}
+      {!loading && !error && amount >= BROKER_THRESHOLD_EUR && (
+        <BrokerCard amount={amount} />
+      )}
     </main>
   );
 }
@@ -401,6 +419,28 @@ function PromoReceiveLine({ q }: { q: TransferQuote }) {
   );
 }
 
+// Per-row affiliate CTA. Stops propagation so the row's navigate-to-detail
+// click doesn't also fire.
+function SendButton({ q }: { q: TransferQuote }) {
+  const url = sendURL(q);
+  if (!url) return null;
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="sponsored noopener"
+      onClick={(e) => {
+        e.stopPropagation();
+        track("compare.affiliate_outbound", { providerID: q.providerID });
+      }}
+      className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-white transition active:scale-[0.97]"
+    >
+      Send
+      <ArrowSquareOut size={12} weight="bold" />
+    </a>
+  );
+}
+
 function TrustDots({ value }: { value: number }) {
   const filled = Math.round(value * 5);
   return (
@@ -459,8 +499,11 @@ function QuoteTableRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
         {markupPercentage(q).toFixed(2)}%
       </td>
       <td className={`${cell} px-3 text-text-secondary`}>{speedLabel(q)}</td>
-      <td className={`${cell} pl-3`}>
+      <td className={`${cell} px-3`}>
         <TrustDots value={q.trustScore} />
+      </td>
+      <td className={`${cell} pl-3 text-right`}>
+        <SendButton q={q} />
       </td>
     </tr>
   );
@@ -508,6 +551,11 @@ function QuoteRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
           </div>
         </div>
       </div>
+      {sendURL(q) && (
+        <div className="mt-3 flex justify-end">
+          <SendButton q={q} />
+        </div>
+      )}
     </li>
   );
 }

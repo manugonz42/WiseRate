@@ -13,7 +13,7 @@ export async function GET() {
     console.error("[/api/health] aggregation failed:", err);
   }
 
-  const sources = getSourceHealth();
+  const sources = await getSourceHealth();
   const allOk = sources.length > 0 && sources.every((s) => s.ok);
 
   return NextResponse.json(sources, {

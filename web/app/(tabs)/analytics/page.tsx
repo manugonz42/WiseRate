@@ -64,6 +64,7 @@ export default function AnalyticsPage() {
 
   const handleRangeChange = (r: HistoryRange) => {
     if (LOCKED_RANGES.has(r) || r === range) return;
+    // Props per docs/services/analytics.md: { from, to } transition, not { range }.
     track("analytics.timeframe_changed", { from: range, to: r });
     setRange(r);
   };

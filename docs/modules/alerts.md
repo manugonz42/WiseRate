@@ -32,7 +32,7 @@ Create and manage rate alerts that notify the user when EUR→PHP crosses a targ
 ## Acceptance criteria
 - Active alerts and triggered alerts shown in two sections
 - Create form: target rate input, type selector (rate above / rate below / provider is cheapest), provider picker when type is `providerCheapest`
-- Free users capped at 3 active alerts; UI shows Premium upsell at limit
+- Free users capped at 3 **enabled** alerts (disabled don't count); Premium upsell on create *and* on re-enable at the cap
 - Disabled alerts show greyed-out with a toggle
 - Triggered alerts show fired-at timestamp (relative)
 - Validation: target rate must be > 0 and within ±50% of current

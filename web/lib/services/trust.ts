@@ -1,5 +1,5 @@
 // Editorial trust scores for the "most trusted" sort. Grounded in
-// proveedores.md ("100% fiables"). Keyed by provider alias (the Wise
+// docs/proveedores.md ("100% fiables"). Keyed by provider alias (the Wise
 // comparisons alias where the provider appears there).
 const TRUST: Record<string, number> = {
   wise: 0.98,

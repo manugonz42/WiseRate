@@ -25,7 +25,7 @@ Android column: Compose screens + ViewModels exist for every module (mock data) 
 
 | Service | Status | Spec |
 |---|:-:|---|
-| Exchange Rate API | ◐ (real Frankfurter; quotes still mock via pending proxy) | [exchange-rate.md](services/exchange-rate.md) |
+| Exchange Rate API | ◐ (web real: quotes aggregator + history + health; iOS Frankfurter rate only, quotes mock) | [exchange-rate.md](services/exchange-rate.md) |
 | Persistence | ◐ (iOS SwiftData) | [persistence.md](services/persistence.md) |
 | Notifications | ◐ (iOS local; push pending) | [notifications.md](services/notifications.md) |
 | Subscriptions / IAP | ◐ (iOS StoreKit 2) | [subscriptions.md](services/subscriptions.md) |

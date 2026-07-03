@@ -7,7 +7,7 @@ export interface RateStats {
   changePct: number; // signed, first -> last over the series
 }
 
-// Pure so it's unit-testable without mocking fetch (docs/plan/T07-analytics-screen.md).
+// Pure so it's unit-testable without mocking fetch.
 export function computeStats(rates: HistoricalRate[]): RateStats | null {
   if (rates.length === 0) return null;
 

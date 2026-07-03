@@ -22,7 +22,7 @@ Full list of provider quotes for the user-entered amount, sortable and filterabl
 
 ## Outputs / Actions
 - Tap provider row → `providerDetail(providerID)`
-- Tap "Send" CTA on a row → outbound affiliate URL (analytics: `compare.affiliate_outbound`)
+- Tap "Send" CTA on a row → outbound affiliate URL (analytics: `compare.affiliate_outbound`) ✅ (web: rows with an editorial profile in `web/lib/data/providers.ts`)
 - Sort change → re-orders list (`compare.sort_changed`)
 - Change amount / pair → re-fetches quotes
 

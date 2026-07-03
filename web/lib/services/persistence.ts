@@ -42,8 +42,8 @@ export function deleteAlert(id: string): RateAlert[] {
   return alerts;
 }
 
-// Unused until T05's favorites toggle is revisited — kept here so that
-// storage surface lands in one place per docs/plan/T06-alerts-ui.md.
+// Unused until Provider Detail's favorites toggle is revisited — kept here so
+// the whole storage surface lives in one place.
 export function listFavorites(): FavoriteProvider[] {
   return readList<FavoriteProvider>(FAVORITES_KEY);
 }

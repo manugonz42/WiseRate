@@ -68,8 +68,7 @@ export interface QuotesResponse {
 }
 
 // Frankfurter (ECB) is one rate per business day — no 24H range. See
-// docs/services/exchange-rate.md "Known source limitations" and
-// docs/plan/T03-history-api.md.
+// docs/services/exchange-rate.md "Known source limitations".
 export type HistoryRange = "7D" | "30D" | "3M" | "6M" | "1Y";
 
 // Deliberate subset of data-model.md's HistoricalRate entity: `id`/`provider`

@@ -39,4 +39,4 @@ Landing screen — current EUR→PHP rate at a glance, top 3 providers ordered b
 - **Android**: `android/app/src/main/java/com/wiserate/features/home/HomeScreen.kt`
 
 ## Open questions
-- Default `sendAmount` for the rate card — fixed at €500 or remembered from last comparison?
+- — (default `sendAmount` decided 2026-07: fixed €500; remembering the last amount is the ⏳ persistence dep above)

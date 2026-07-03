@@ -1,6 +1,6 @@
 # Module: Brokers (high-amount tier)
 
-**Status:** iOS ☐ · Web ☐ · Android ☐
+**Status:** iOS ☐ · Web ◐ (card live; placeholder URLs until introducer agreements) · Android ☐
 
 ## Dependencies
 - **Reads:** [comparison](comparison.md) (host screen), [design-system](../architecture/design-system.md), [localization](../architecture/localization.md)

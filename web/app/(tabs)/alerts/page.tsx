@@ -105,6 +105,8 @@ function AlertsPageContent() {
 
   const active = alerts.filter((a) => !a.triggeredAt);
   const triggered = alerts.filter((a) => a.triggeredAt);
+  // Free cap counts alerts that would actually fire — disabled ones don't.
+  const enabledCount = active.filter((a) => a.isEnabled).length;
 
   const dismissBanner = () => {
     window.localStorage.setItem(BANNER_KEY, "1");
@@ -114,6 +116,11 @@ function AlertsPageContent() {
   const refresh = () => setAlerts(listAlerts());
 
   const handleToggle = (alert: RateAlert) => {
+    if (!alert.isEnabled && enabledCount >= FREE_ALERT_CAP) {
+      setShowUpsell(true);
+      return;
+    }
+    setShowUpsell(false);
     upsertAlert({ ...alert, isEnabled: !alert.isEnabled });
     refresh();
   };
@@ -145,7 +152,7 @@ function AlertsPageContent() {
       setFormError("Pick a provider.");
       return;
     }
-    if (active.length >= FREE_ALERT_CAP) {
+    if (enabledCount >= FREE_ALERT_CAP) {
       setShowUpsell(true);
       return;
     }

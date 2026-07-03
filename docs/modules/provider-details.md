@@ -34,7 +34,7 @@ Deep-dive on one provider: trust, fees, delivery methods, pros/cons, historical 
 - Fee structure section: one row per `FeeStructure`, with delivery method icon
 - Delivery methods chips
 - Pros / cons two-column or stacked
-- Historical rate chart with timeframe chips (24H, 7D, 30D, 3M, 6M, 1Y) — Premium gates >30D
+- Historical rate chart with timeframe chips (7D, 30D, 3M, 6M, 1Y; no 24H — see [exchange-rate](../services/exchange-rate.md)) — Premium gates >30D
 - CTA button is sticky-bottom on mobile, prominent on web
 
 ## Platform notes

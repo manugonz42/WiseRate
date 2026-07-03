@@ -1,8 +1,8 @@
 import type { HistoryRange, HistoryResponse } from "@/lib/models/types";
 
 // Range -> Frankfurter date window, pure so it's unit-testable without
-// mocking `fetch`/`Date.now()` (docs/plan/T03-history-api.md). `today` is
-// injectable for deterministic tests; defaults to the real clock.
+// mocking `fetch`/`Date.now()`. `today` is injectable for deterministic
+// tests; defaults to the real clock.
 export function rangeToDateWindow(
   range: HistoryRange,
   today: Date = new Date(),

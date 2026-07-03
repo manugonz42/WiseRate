@@ -1,5 +1,5 @@
 // Shared KV cache — Upstash Redis (REST) when configured, else an in-memory
-// Map so local dev works with zero setup (docs/plan/T11-kv-cache.md).
+// Map so local dev works with zero setup (docs/services/exchange-rate.md).
 // Upstash errors are logged and treated as a cache miss: the cache being
 // down must never fail the request it's caching.
 
