@@ -39,7 +39,7 @@ Deep-dive on one provider: trust, fees, delivery methods, pros/cons, historical 
 
 ## Platform notes
 - **iOS**: `WiseRate/Features/ProviderDetails/ProviderDetailView.swift` (359 lines)
-- **Web**: `web/app/provider/[id]/page.tsx`
+- **Web**: `web/app/provider/[id]/page.tsx` — per-provider `generateMetadata` (title/description/canonical) for known ids; unknown ids get `robots: noindex, follow: false` and a generic title.
 - **Android**: `android/.../features/providerdetails/ProviderDetailScreen.kt`
 
 ## Open questions
