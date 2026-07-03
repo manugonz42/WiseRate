@@ -9,7 +9,8 @@ import {
   type QuotesResponse,
   type TransferQuote,
 } from "@/lib/models/types";
-import { ArrowClockwise, Circle, Star } from "@phosphor-icons/react/dist/ssr";
+import { BROKER_THRESHOLD_EUR, BROKERS, amountBucket } from "@/lib/brokers";
+import { ArrowClockwise, ArrowSquareOut, Circle, Star } from "@phosphor-icons/react/dist/ssr";
 
 // Shape rule for this page: surfaces and inputs use the 16px token
 // (`rounded`), interactive chips are full pills; skeleton bars use
@@ -261,7 +262,62 @@ export default function ComparePage() {
           </ul>
         </div>
       )}
+
+      {amount >= BROKER_THRESHOLD_EUR && <BrokerCard amount={amount} />}
     </main>
+  );
+}
+
+// Below-threshold: renders nothing, no layout shift. Kept separate from the
+// ranked quote rows — brokers publish no machine-readable quotes to rank.
+function BrokerCard({ amount }: { amount: number }) {
+  const bucket = amountBucket(amount);
+  return (
+    <section
+      aria-label="Specialist brokers"
+      className="mt-8 rounded border border-accent/30 bg-surface-elevated p-5"
+    >
+      <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-accent">
+        Specialist broker — quote via registration/phone
+      </div>
+      <p className="mb-4 text-sm text-text-secondary">
+        Sending a large amount? A specialist broker can beat these rates.
+      </p>
+      <ul className="grid gap-3 sm:grid-cols-3">
+        {BROKERS.map((b) => (
+          <li key={b.id} className="flex flex-col gap-2 rounded bg-surface p-4">
+            <div className="flex items-center gap-2">
+              <span
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/20 text-xs font-bold text-accent"
+                aria-hidden
+              >
+                {b.name.charAt(0)}
+              </span>
+              <span className="font-semibold">{b.name}</span>
+            </div>
+            <p className="flex-1 text-xs text-text-secondary">{b.pitch}</p>
+            <a
+              href={b.url}
+              target="_blank"
+              rel="sponsored noopener"
+              onClick={() =>
+                console.info("analytics: compare.broker_outbound", {
+                  brokerID: b.id,
+                  amountBucket: bucket,
+                })
+              }
+              className="inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-white transition active:scale-[0.97]"
+            >
+              Get a quote
+              <ArrowSquareOut size={12} weight="bold" />
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-4 text-[11px] text-text-tertiary">
+        We may earn a commission — you pay the same.
+      </p>
+    </section>
   );
 }
 
