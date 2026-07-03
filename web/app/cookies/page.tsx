@@ -2,7 +2,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Cookie Notice — SulitSend",
+  title: "Cookie Notice",
+  alternates: { canonical: "/cookies" },
 };
 
 export default function CookiesPage() {

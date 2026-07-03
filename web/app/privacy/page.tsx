@@ -2,7 +2,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy Policy — SulitSend",
+  title: "Privacy Policy",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

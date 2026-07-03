@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Suspense } from "react";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 // Self-hosted via next/font: no render-blocking Google Fonts <link>, no CLS
@@ -15,8 +16,19 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SulitSend — Compare Money Transfers",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    template: "%s · SulitSend",
+    default: "SulitSend — Compare Money Transfers",
+  },
   description: "Compare EUR→PHP money transfer providers.",
+  openGraph: {
+    siteName: "SulitSend",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({

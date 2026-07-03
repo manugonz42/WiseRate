@@ -10,7 +10,7 @@
 
 ## Stack
 
-**Next.js 15 (App Router) + TypeScript + Tailwind** (tokens bound in `tailwind.config.ts` / `styles/tokens.css`). Charts: **Recharts** (decided T05, all web charts). State: React state (+ Zustand if cross-screen state appears; no Redux). Persistence: localStorage via `lib/services/persistence.ts` today; IndexedDB/Dexie when data outgrows it ([persistence](../services/persistence.md)). i18n: i18next, not wired yet. `npm run dev` (repo uses npm); deploy target Vercel.
+**Next.js 15 (App Router) + TypeScript + Tailwind** (tokens bound in `tailwind.config.ts` / `styles/tokens.css`). Charts: **Recharts** (decided T05, all web charts). State: React state (+ Zustand if cross-screen state appears; no Redux). Persistence: localStorage via `lib/services/persistence.ts` today; IndexedDB/Dexie when data outgrows it ([persistence](../services/persistence.md)). i18n: i18next, not wired yet. `npm run dev` (repo uses npm); deploy target Vercel. SEO: `NEXT_PUBLIC_SITE_URL` (`lib/site.ts`) backs metadataBase/sitemap/robots/canonical — unset defaults to `https://app.sulitsend.app`.
 
 ## Desktop layout (web is not a phone screen)
 
