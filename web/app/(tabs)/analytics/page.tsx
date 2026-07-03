@@ -14,6 +14,7 @@ import {
 import { getHistory } from "@/lib/services/history";
 import { getQuotes } from "@/lib/services/rate";
 import { computeStats } from "@/lib/services/analytics-stats";
+import { track } from "@/lib/analytics";
 import type { HistoryRange, HistoryResponse } from "@/lib/models/types";
 
 const SEND_AMOUNT = 500;
@@ -63,8 +64,8 @@ export default function AnalyticsPage() {
 
   const handleRangeChange = (r: HistoryRange) => {
     if (LOCKED_RANGES.has(r) || r === range) return;
+    track("analytics.timeframe_changed", { from: range, to: r });
     setRange(r);
-    console.info("analytics: analytics.timeframe_changed", { range: r });
   };
 
   const alertHref =

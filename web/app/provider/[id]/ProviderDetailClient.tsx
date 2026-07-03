@@ -28,6 +28,7 @@ import {
 import { getQuotes } from "@/lib/services/rate";
 import { getHistory } from "@/lib/services/history";
 import { PROVIDERS, genericProviderDetail } from "@/lib/data/providers";
+import { track } from "@/lib/analytics";
 import type {
   DeliveryMethod,
   HistoryRange,
@@ -423,7 +424,7 @@ export default function ProviderDetailClient({ id }: { id: string }) {
             target="_blank"
             rel="sponsored noopener"
             onClick={() =>
-              console.info("analytics: provider.affiliate_outbound", { providerID: provider.id })
+              track("provider.affiliate_outbound", { providerID: provider.id })
             }
             className="flex items-center justify-center gap-2 rounded bg-primary px-4 py-3.5 text-sm font-bold text-white transition active:scale-[0.99]"
           >

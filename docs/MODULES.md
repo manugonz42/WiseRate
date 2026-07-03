@@ -29,7 +29,7 @@ Android column: Compose screens + ViewModels exist for every module (mock data) 
 | Persistence | ◐ (iOS SwiftData) | [persistence.md](services/persistence.md) |
 | Notifications | ◐ (iOS local; push pending) | [notifications.md](services/notifications.md) |
 | Subscriptions / IAP | ◐ (iOS StoreKit 2) | [subscriptions.md](services/subscriptions.md) |
-| Analytics — event tracking (distinct from the Analytics *charts* module above) | ☐ (console only) | [analytics.md](services/analytics.md) |
+| Analytics — event tracking (distinct from the Analytics *charts* module above) | ◐ (web wired: PostHog EU, consent-gated; iOS/Android console only) | [analytics.md](services/analytics.md) |
 
 ## Architecture
 

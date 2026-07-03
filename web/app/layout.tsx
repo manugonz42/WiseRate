@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 import { ConsentBanner } from "@/components/ConsentBanner";
+import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import "./globals.css";
 
 // Self-hosted via next/font: no render-blocking Google Fonts <link>, no CLS
@@ -25,6 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
+        <Suspense fallback={null}>
+          <AnalyticsProvider />
+        </Suspense>
         {children}
         <ConsentBanner />
       </body>

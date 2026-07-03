@@ -2,6 +2,8 @@
 
 Event taxonomy + transport. Replaces `AnalyticsService` (currently just `print()`).
 
+**Status:** Web = wired (PostHog EU, consent-gated via `web/lib/analytics.ts` + `web/lib/consent.ts`). No `NEXT_PUBLIC_POSTHOG_KEY` or consent not `"granted"` → `track()` logs to console in dev, no-ops in prod. iOS/Android still console-only.
+
 ## Dependencies
 - **Reads:** — (none — opaque `userID` only)
 - **Future:** ⏳ backend consent management endpoint, ⏳ event schema validation in CI
@@ -32,7 +34,7 @@ Format: `<surface>.<action>` snake_case.
 - `compare.viewed` `{ amount, from, to }`
 - `compare.sort_changed` `{ sortBy }`
 - `compare.provider_tapped` `{ providerID, position, sortBy }`
-- `compare.affiliate_outbound` `{ providerID }`
+- `compare.affiliate_outbound` `{ providerID }` — ⏳ web: rows link to Provider Detail rather than an inline "Send" CTA, so this fires from `provider.affiliate_outbound` instead; revisit if Compare grows a row-level CTA
 
 ### Provider Detail
 - `provider.viewed` `{ providerID }`

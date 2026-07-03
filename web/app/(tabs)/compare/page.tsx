@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getQuotes } from "@/lib/services/rate";
+import { track } from "@/lib/analytics";
 import {
   markupPercentage,
   totalCost,
@@ -64,6 +65,12 @@ export default function ComparePage() {
   const [search, setSearch] = useState("");
   const [debounced, setDebounced] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
+
+  const handleSortChange = (next: SortOption) => {
+    if (next === sort) return;
+    setSort(next);
+    track("compare.sort_changed", { sortBy: next });
+  };
 
   // debounce search 150ms (acceptance criteria)
   useEffect(() => {
@@ -169,7 +176,7 @@ export default function ComparePage() {
         {SORTS.map((s) => (
           <button
             key={s.id}
-            onClick={() => setSort(s.id)}
+            onClick={() => handleSortChange(s.id)}
             className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
               sort === s.id
                 ? "bg-primary text-white"
@@ -301,7 +308,7 @@ function BrokerCard({ amount }: { amount: number }) {
               target="_blank"
               rel="sponsored noopener"
               onClick={() =>
-                console.info("analytics: compare.broker_outbound", {
+                track("compare.broker_outbound", {
                   brokerID: b.id,
                   amountBucket: bucket,
                 })

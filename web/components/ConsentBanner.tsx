@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getConsent, setConsent } from "@/lib/consent";
+import { initAnalytics } from "@/lib/analytics";
 
 export function ConsentBanner() {
   const [visible, setVisible] = useState(false);
@@ -15,6 +16,7 @@ export function ConsentBanner() {
 
   const choose = (state: "granted" | "denied") => {
     setConsent(state);
+    if (state === "granted") initAnalytics();
     setVisible(false);
   };
 
