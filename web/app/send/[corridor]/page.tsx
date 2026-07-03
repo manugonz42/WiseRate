@@ -73,7 +73,8 @@ export default async function CorridorPage({
     maximumFractionDigits: 0,
   });
 
-  const compareSupported = corridor.from === "EUR" && corridor.to === "PHP";
+  const compareSupported = corridor.hasCompareCTA;
+  const otherCorridors = CORRIDORS.filter((c) => c.slug !== corridor.slug);
   const breadcrumbLabel = `Send ${corridor.from} to ${corridor.to}`;
 
   const faqJsonLd = {
@@ -246,6 +247,26 @@ export default async function CorridorPage({
             ))}
           </div>
         </section>
+
+        {otherCorridors.length > 0 && (
+          <section className="mt-10 rounded bg-surface p-4">
+            <h2 className="mb-2 text-sm font-semibold text-text-secondary">
+              Sending from somewhere else?
+            </h2>
+            <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
+              {otherCorridors.map((c) => (
+                <li key={c.slug}>
+                  <Link
+                    href={`/send/${c.slug}`}
+                    className="text-primary hover:underline"
+                  >
+                    {c.from} → {c.to}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </main>
 
       <footer className="border-t border-border px-4 py-4 text-center text-xs text-text-tertiary sm:px-6">
