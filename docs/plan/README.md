@@ -36,7 +36,7 @@ One session per task, in order. Prompt template:
 | ☑ T06 | [Alerts screen (UI only)](T06-alerts-ui.md) | 1 | — |
 | ☑ T07 | [Analytics screen](T07-analytics-screen.md) | 1 | T03 |
 | ☑ T08 | [Brokers card in Compare](T08-brokers-card.md) | 1 | — |
-| ☐ T09 | [Privacy, cookies, footer](T09-legal-pages.md) | 1 | — |
+| ☑ T09 | [Privacy, cookies, footer](T09-legal-pages.md) | 1 | — |
 | ☐ T10 | [Product analytics wiring](T10-analytics-wiring.md) | 1 | T09 |
 | ☐ T11 | [Quotes cache → Upstash KV](T11-kv-cache.md) | 3 | — |
 

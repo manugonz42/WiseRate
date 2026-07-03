@@ -70,6 +70,17 @@ export default function TabsLayout({
         </div>
       </header>
       {children}
+      <footer className="border-t border-border px-4 py-4 text-center text-xs text-text-tertiary sm:px-6">
+        © 2026 SulitSend · Independent comparison site, not a payment
+        institution ·{" "}
+        <Link href="/privacy" className="underline hover:text-text-secondary">
+          Privacy
+        </Link>{" "}
+        ·{" "}
+        <Link href="/cookies" className="underline hover:text-text-secondary">
+          Cookies
+        </Link>
+      </footer>
     </>
   );
 }
