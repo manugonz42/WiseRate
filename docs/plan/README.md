@@ -34,7 +34,7 @@ One session per task, in order. Prompt template:
 | ☑ T04 | [Home screen](T04-home-screen.md) | 1 | T03 |
 | ☑ T05 | [Provider Detail screen](T05-provider-detail.md) | 1 | T03 |
 | ☑ T06 | [Alerts screen (UI only)](T06-alerts-ui.md) | 1 | — |
-| ☐ T07 | [Analytics screen](T07-analytics-screen.md) | 1 | T03 |
+| ☑ T07 | [Analytics screen](T07-analytics-screen.md) | 1 | T03 |
 | ☐ T08 | [Brokers card in Compare](T08-brokers-card.md) | 1 | — |
 | ☐ T09 | [Privacy, cookies, footer](T09-legal-pages.md) | 1 | — |
 | ☐ T10 | [Product analytics wiring](T10-analytics-wiring.md) | 1 | T09 |
