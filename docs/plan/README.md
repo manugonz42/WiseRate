@@ -20,6 +20,10 @@ One session per task, in order. Prompt template:
 8. New TS types mirror [data-model](../architecture/data-model.md) — copy field names exactly.
 9. Commit per task: `T0X: <task title>`.
 
+## Runtime UI verification
+
+`playwright` + headless Chromium are installed as devDependencies in `web/` (added 2026-07-03). To verify interactive flows beyond `build`/`lint`: start `npm run dev` (note the port — 3000 may be taken), then drive the page from a plain Node script via `require("playwright")` → `chromium.launch()`. Dev-server caveats: wait for hydration before asserting (e.g. `locator.waitFor()` on a client-rendered element, never bare `isVisible()` right after `goto`), and use `waitUntil: "domcontentloaded"` — `networkidle` times out on first compile. Reference script: T06 was verified this way (17 checks: CRUD, cap upsell, `?rate=` prefill, validation, persistence across reloads).
+
 ## Task order
 
 | # | Task | Phase | Blocked by |
@@ -29,7 +33,7 @@ One session per task, in order. Prompt template:
 | ☑ T03 | [Historical rates API](T03-history-api.md) | 1 | — |
 | ☑ T04 | [Home screen](T04-home-screen.md) | 1 | T03 |
 | ☑ T05 | [Provider Detail screen](T05-provider-detail.md) | 1 | T03 |
-| ☐ T06 | [Alerts screen (UI only)](T06-alerts-ui.md) | 1 | — |
+| ☑ T06 | [Alerts screen (UI only)](T06-alerts-ui.md) | 1 | — |
 | ☐ T07 | [Analytics screen](T07-analytics-screen.md) | 1 | T03 |
 | ☐ T08 | [Brokers card in Compare](T08-brokers-card.md) | 1 | — |
 | ☐ T09 | [Privacy, cookies, footer](T09-legal-pages.md) | 1 | — |

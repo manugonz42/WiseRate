@@ -14,13 +14,13 @@ type Tab = {
   href?: string;
 };
 
-// Home + Compare are ported to web/ so far — see docs/MODULES.md.
+// Home + Compare + Alerts are ported to web/ so far — see docs/MODULES.md.
 // The rest render disabled instead of linking to a page that doesn't exist yet.
 const TABS: Tab[] = [
   { label: "Home", icon: House, href: "/home" },
   { label: "Compare", icon: ArrowsLeftRight, href: "/compare" },
   { label: "Analytics", icon: ChartLineUp },
-  { label: "Alerts", icon: Bell },
+  { label: "Alerts", icon: Bell, href: "/alerts" },
   { label: "Profile", icon: UserCircle },
 ];
 

@@ -1,6 +1,6 @@
 # Module: Alerts
 
-**Status:** iOS ◐ · Web ◐ · Android ◐ (scaffold, frozen)
+**Status:** iOS ◐ · Web ◐ (UI + local CRUD; evaluation Phase 3) · Android ◐ (scaffold, frozen)
 
 > **Planning note:** local-only alerts are demo-grade — web can't fire with the tab closed, and iOS background polling (BGTaskScheduler) is best-effort by design. Real alerts = backend cron + push, [ROADMAP](../ROADMAP.md) Phase 3. Build the UI/CRUD; don't invest further in client-side alert *evaluation*.
 

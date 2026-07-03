@@ -111,6 +111,23 @@ export interface ProviderDetail {
   cons: string[];
 }
 
+export type AlertNotifyType = "rateAbove" | "rateBelow" | "providerCheapest";
+
+export interface RateAlert {
+  id: string;
+  targetRate: number;
+  isEnabled: boolean;
+  createdAt: string; // ISO 8601
+  triggeredAt: string | null;
+  notifyType: AlertNotifyType;
+  providerID?: string; // required when notifyType === "providerCheapest"
+}
+
+export interface FavoriteProvider {
+  providerID: string;
+  addedAt: string; // ISO 8601
+}
+
 // --- derived helpers (mirror the `derived` fields in data-model.md) ---
 
 export const totalCost = (q: TransferQuote): number =>
