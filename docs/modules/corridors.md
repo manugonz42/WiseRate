@@ -24,14 +24,14 @@ Server-rendered, indexable landing pages per remittance corridor (`/send/eur-to-
 
 ## Acceptance criteria
 
-- [ ] `/send/eur-to-php` renders statically with live snapshot, FAQ, JSON-LD, canonical URL
-- [ ] Unknown slugs 404; every registry corridor appears in `sitemap.xml`
-- [ ] Page builds even when all quote sources fail (editorial fallback)
+- [x] `/send/eur-to-php` renders statically with live snapshot, FAQ, JSON-LD, canonical URL
+- [x] Unknown slugs 404; every registry corridor appears in `sitemap.xml`
+- [x] Page builds even when all quote sources fail (editorial fallback)
 - [ ] Corridors enabled beyond EUR→PHP pass the ≥3-provider harness
 
 ## Corridor status
 
 | Corridor | Slug | Status |
 |---|---|---|
-| EUR→PHP | `eur-to-php` | ☐ (T13) |
+| EUR→PHP | `eur-to-php` | ◐ (T13) |
 | GBP→PHP / USD→PHP / CAD→PHP / AUD→PHP | — | candidates, gated on harness (T16) |

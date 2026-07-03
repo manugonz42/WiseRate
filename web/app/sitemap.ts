@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
 import { PROVIDERS } from "@/lib/data/providers";
+import { CORRIDORS } from "@/lib/data/corridors";
 
 const STATIC_ROUTES = [
   "/home",
@@ -22,5 +23,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  return [...staticEntries, ...providerEntries];
+  const corridorEntries: MetadataRoute.Sitemap = CORRIDORS.map((c) => ({
+    url: `${SITE_URL}/send/${c.slug}`,
+  }));
+
+  return [...staticEntries, ...providerEntries, ...corridorEntries];
 }

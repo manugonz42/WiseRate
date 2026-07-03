@@ -20,7 +20,7 @@ Android column: Compose screens + ViewModels exist for every module (mock data) 
 | Onboarding | ◐ | ☐ | ◐ | [onboarding.md](modules/onboarding.md) |
 | Landing | — | ◐ | — | [landing.md](modules/landing.md) |
 | Brokers (high-amount) | ☐ | ◐ | ☐ | [brokers.md](modules/brokers.md) |
-| Corridor pages (SEO) | — | ☐ | — | [corridors.md](modules/corridors.md) |
+| Corridor pages (SEO) | — | ◐ | — | [corridors.md](modules/corridors.md) |
 
 ## Services (cross-cutting)
 

@@ -5,7 +5,7 @@
 Next codeable work: Phase 2 (iOS) is Mac-blocked and Phase 1's remainder is human-only, so the ROADMAP Phase 5 SEO item was pulled forward. Say **"proceed TXX"** to execute a task; each task file carries binding pre-made decisions, steps, and its verify gate (`npm test && npm run build && npm run lint` minimum). Execute in order — later tasks depend on earlier ones.
 
 - [x] [T12 — SEO foundation (web app)](T12-seo-foundation.md): metadata/canonical/OG image/robots/sitemap
-- [ ] [T13 — Corridor SEO page EUR→PHP](T13-corridor-page.md): `/send/eur-to-php`, registry, FAQ + JSON-LD ([spec](../modules/corridors.md))
+- [x] [T13 — Corridor SEO page EUR→PHP](T13-corridor-page.md): `/send/eur-to-php`, registry, FAQ + JSON-LD ([spec](../modules/corridors.md))
 - [ ] [T14 — Provider pages metadata + internal linking](T14-provider-seo.md)
 - [ ] [T15 — Landing SEO](T15-landing-seo.md): hreflang en/es/tl, robots/sitemap, JSON-LD, cross-link to app
 - [ ] [T16 — Corridor expansion](T16-corridor-expansion.md): verify GBP/USD/CAD/AUD→PHP, ship passing ones
