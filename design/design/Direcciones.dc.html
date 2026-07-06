@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#26262b; }
+  </style>
+</helmet>
+
+<section style="display:flex; gap:56px; padding:56px 56px 0 56px; align-items:flex-start; flex-wrap:wrap; font-family:Inter,sans-serif;">
+
+  <!-- ============ OPTION 2a — PISTACHO ============ -->
+  <div id="2a" style="display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="#2a" style="background:#7BA428; color:#fff; font:700 13px Inter,sans-serif; padding:4px 10px; border-radius:6px; text-decoration:none;">2a</a>
+      <span style="color:#bbb; font:600 14px Inter,sans-serif;">Pistacho — podio, dopamina, racha de ahorro</span>
+    </div>
+
+    <div data-screen-label="2a Pistacho" style="width:390px; background:#F2F6E4; border-radius:32px; overflow:hidden; border:1px solid rgba(0,0,0,0.08); color:#1E2A12; font-family:Outfit,sans-serif; display:flex; flex-direction:column;">
+      <!-- header + new icon -->
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:20px 20px 8px 20px;">
+        <div style="display:flex; align-items:center; gap:9px;">
+          <div style="width:34px; height:34px; border-radius:12px; background:linear-gradient(135deg,#C6E84E,#F5D93B); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:17px; color:#1E2A12; box-shadow:0 3px 0 #1E2A12;">₱</div>
+          <span style="font-weight:800; font-size:18px; letter-spacing:-0.4px;">sulitsend</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:5px; background:#fff; border-radius:99px; padding:6px 12px; box-shadow:0 2px 0 rgba(30,42,18,0.15);">
+          <span style="font-size:14px;">🔥</span>
+          <span style="font-size:13px; font-weight:800;">5 sem.</span>
+        </div>
+      </div>
+
+      <!-- savings streak card -->
+      <div style="margin:12px 20px 0 20px; background:#1E2A12; border-radius:20px; padding:16px 18px; color:#F2F6E4; display:flex; align-items:center; gap:14px;">
+        <div style="display:flex; flex-direction:column; flex:1;">
+          <span style="font-size:12px; font-weight:600; opacity:0.7;">HAS AHORRADO ESTE AÑO</span>
+          <span style="font-size:28px; font-weight:800; font-variant-numeric:tabular-nums; color:#C6E84E; letter-spacing:-0.5px;">₱4.820</span>
+          <span style="font-size:12px; opacity:0.7;">eligiendo siempre la mejor oferta 💪</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+          <div style="width:52px; height:52px; border-radius:50%; background:conic-gradient(#C6E84E 0 72%, rgba(255,255,255,0.15) 72% 100%); display:flex; align-items:center; justify-content:center;">
+            <div style="width:40px; height:40px; border-radius:50%; background:#1E2A12; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#C6E84E;">72%</div>
+          </div>
+          <span style="font-size:10px; opacity:0.7;">meta ₱6.500</span>
+        </div>
+      </div>
+
+      <!-- amount chips + hero number -->
+      <div style="padding:18px 20px 6px 20px; display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; gap:8px;">
+          <div style="flex:1; text-align:center; padding:10px; border-radius:14px; background:#fff; font-weight:700; font-size:15px; color:#8a936f; box-shadow:0 2px 0 rgba(30,42,18,0.1);">€100</div>
+          <div style="flex:1; text-align:center; padding:10px; border-radius:14px; background:#1E2A12; color:#C6E84E; font-weight:800; font-size:15px; box-shadow:0 3px 0 #7BA428;">€200</div>
+          <div style="flex:1; text-align:center; padding:10px; border-radius:14px; background:#fff; font-weight:700; font-size:15px; color:#8a936f; box-shadow:0 2px 0 rgba(30,42,18,0.1);">€500</div>
+          <div style="flex:1; text-align:center; padding:10px; border-radius:14px; background:#fff; font-weight:700; font-size:15px; color:#8a936f; box-shadow:0 2px 0 rgba(30,42,18,0.1);">···</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+          <span style="font-size:13px; font-weight:600; color:#5d6a45;">tu familia recibe hasta</span>
+          <span style="font-size:44px; font-weight:800; letter-spacing:-1.5px; font-variant-numeric:tabular-nums; line-height:1;">₱12.730</span>
+          <span style="font-size:12px; color:#5d6a45;">₱63,50/€ · hace 2 min · <span style="color:#7BA428; font-weight:700;">▲ subiendo</span></span>
+        </div>
+      </div>
+
+      <!-- podium -->
+      <div style="display:flex; align-items:flex-end; gap:8px; padding:14px 20px 0 20px;">
+        <!-- 2nd -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
+          <div style="width:40px; height:40px; border-radius:14px; background:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; color:#1E2A12; box-shadow:0 2px 0 rgba(30,42,18,0.12);">N26</div>
+          <div style="width:100%; background:#DFE9C4; border-radius:14px 14px 0 0; padding:12px 6px 10px 6px; display:flex; flex-direction:column; align-items:center; gap:2px;">
+            <span style="font-size:15px; font-weight:800; font-variant-numeric:tabular-nums;">12.625</span>
+            <span style="font-size:10px; font-weight:700; color:#5d6a45;">🥈 €1,50 fee</span>
+          </div>
+        </div>
+        <!-- 1st -->
+        <div style="flex:1.15; display:flex; flex-direction:column; align-items:center; gap:6px;">
+          <span style="font-size:20px;">👑</span>
+          <div style="width:44px; height:44px; border-radius:15px; background:#1E2A12; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px; color:#C6E84E;">R</div>
+          <div style="width:100%; background:linear-gradient(180deg,#C6E84E,#B5DC3B); border-radius:16px 16px 0 0; padding:16px 6px 14px 6px; display:flex; flex-direction:column; align-items:center; gap:2px; box-shadow:0 -4px 20px rgba(198,232,78,0.45);">
+            <span style="font-size:18px; font-weight:800; font-variant-numeric:tabular-nums;">12.730</span>
+            <span style="font-size:11px; font-weight:800;">Revolut · 0€ fee</span>
+            <span style="background:#1E2A12; color:#F5D93B; font-size:10px; font-weight:800; padding:2px 8px; border-radius:99px; margin-top:3px;">+₱404 EXTRA</span>
+          </div>
+        </div>
+        <!-- 3rd -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
+          <div style="width:40px; height:40px; border-radius:14px; background:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; color:#3ba05f; box-shadow:0 2px 0 rgba(30,42,18,0.12);">W</div>
+          <div style="width:100%; background:#E7EDD3; border-radius:14px 14px 0 0; padding:8px 6px; display:flex; flex-direction:column; align-items:center; gap:2px;">
+            <span style="font-size:14px; font-weight:800; font-variant-numeric:tabular-nums;">12.534</span>
+            <span style="font-size:10px; font-weight:700; color:#5d6a45;">🥉 Wise</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div style="padding:0 20px; margin-top:-2px;">
+        <div style="background:#1E2A12; border-radius:16px; padding:15px; text-align:center; color:#C6E84E; font-weight:800; font-size:16px; box-shadow:0 4px 0 #7BA428; cursor:pointer;">Enviar con Revolut 🚀</div>
+      </div>
+
+      <!-- rest compact -->
+      <div style="display:flex; flex-direction:column; gap:8px; padding:16px 20px 20px 20px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; background:#fff; border-radius:14px; padding:12px 16px; box-shadow:0 2px 0 rgba(30,42,18,0.08);">
+          <span style="font-weight:700; font-size:14px;">4º Remitly <span style="font-weight:600; font-size:12px; color:#8a936f;">· GCash ⚡</span></span>
+          <span style="font-weight:800; font-size:15px; font-variant-numeric:tabular-nums;">₱12.456</span>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; background:#fff; border-radius:14px; padding:12px 16px; box-shadow:0 2px 0 rgba(30,42,18,0.08);">
+          <span style="font-weight:700; font-size:14px;">5º Western Union <span style="font-weight:600; font-size:12px; color:#8a936f;">· cash</span></span>
+          <span style="font-weight:800; font-size:15px; font-variant-numeric:tabular-nums;">₱12.325</span>
+        </div>
+        <span style="text-align:center; font-size:13px; color:#7BA428; font-weight:800;">Ver el ranking completo (15) ↓</span>
+      </div>
+
+      <!-- tab bar -->
+      <div style="display:flex; border-top:1px solid rgba(30,42,18,0.1); background:#fff; padding:12px 20px 24px 20px; justify-content:space-around;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#1E2A12;"><span style="font-size:18px;">⌂</span><span style="font-size:10px; font-weight:800;">Inicio</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#b0b899;"><span style="font-size:18px;">⇄</span><span style="font-size:10px; font-weight:800;">Comparar</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#b0b899;"><span style="font-size:18px;">🔔</span><span style="font-size:10px; font-weight:800;">Alertas</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#b0b899;"><span style="font-size:18px;">◌</span><span style="font-size:10px; font-weight:800;">Perfil</span></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section style="display:flex; gap:56px; padding:56px; align-items:flex-start; flex-wrap:wrap; font-family:Inter,sans-serif;">
+
+  <!-- ============ OPTION 1a — NIGHT PESO ============ -->
+  <div id="1a" style="display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="#1a" style="background:#6C5CE7; color:#fff; font:700 13px Inter,sans-serif; padding:4px 10px; border-radius:6px; text-decoration:none;">1a</a>
+      <span style="color:#bbb; font:600 14px Inter,sans-serif;">Night Peso — tu dark theme, refinado</span>
+    </div>
+
+    <div data-screen-label="1a Night Peso" style="width:390px; background:#0A0A0A; border-radius:32px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); color:#fff; font-family:Inter,sans-serif; display:flex; flex-direction:column;">
+      <!-- header -->
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:20px 20px 12px 20px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:30px; height:30px; border-radius:9px; background:linear-gradient(135deg,#6C5CE7,#A29BFE); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px;">S</div>
+          <span style="font-weight:800; font-size:17px; letter-spacing:-0.3px;">SulitSend</span>
+        </div>
+        <div style="width:34px; height:34px; border-radius:50%; background:#1C1C1E; border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.6); font-size:13px; font-weight:600;">MG</div>
+      </div>
+
+      <!-- hero rate card -->
+      <div style="margin:8px 20px 0 20px; padding:20px; border-radius:16px; background:linear-gradient(135deg,#1a1440,#141414 60%); border:1px solid rgba(108,92,231,0.35); display:flex; flex-direction:column; gap:6px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="color:rgba(255,255,255,0.6); font-size:13px;">EUR → PHP · mid-market</span>
+          <span style="color:rgba(255,255,255,0.35); font-size:11px;">hace 2 min</span>
+        </div>
+        <div style="display:flex; align-items:baseline; gap:10px;">
+          <span style="font-size:34px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-1px;">₱63.50</span>
+          <span style="color:#00C48C; font-size:14px; font-weight:600;">▲ 0.4% 24h</span>
+        </div>
+        <!-- amount input -->
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <div style="flex:1; display:flex; align-items:center; justify-content:space-between; background:#0A0A0A; border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:12px 14px;">
+            <span style="font-size:20px; font-weight:700; font-variant-numeric:tabular-nums;">200</span>
+            <span style="color:rgba(255,255,255,0.6); font-size:14px; font-weight:600;">EUR €</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; background:#1C1C1E; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 14px;">
+            <span style="font-size:14px; font-weight:600;">🇵🇭 PHP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- best deal -->
+      <div style="margin:12px 20px 0 20px; padding:16px; border-radius:16px; background:#141414; border:1px solid #00C48C; box-shadow:0 0 24px rgba(0,196,140,0.12); display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="color:#00C48C; font-size:11px; font-weight:700; letter-spacing:1px;">MEJOR OFERTA</span>
+          <span style="color:rgba(255,255,255,0.35); font-size:11px;">ahorras ₱404 vs media</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:40px; height:40px; border-radius:12px; background:#191919; border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; color:#A29BFE;">R</div>
+          <div style="flex:1; display:flex; flex-direction:column;">
+            <span style="font-weight:700; font-size:15px;">Revolut</span>
+            <span style="color:rgba(255,255,255,0.6); font-size:12px;">Sin comisión · llega en horas</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end;">
+            <span style="font-weight:800; font-size:18px; font-variant-numeric:tabular-nums;">₱12,730</span>
+            <span style="color:rgba(255,255,255,0.35); font-size:11px;">reciben</span>
+          </div>
+        </div>
+        <div style="background:linear-gradient(135deg,#6C5CE7,#A29BFE); border-radius:12px; padding:12px; text-align:center; font-weight:700; font-size:15px; cursor:pointer;">Enviar con Revolut</div>
+      </div>
+
+      <!-- provider list -->
+      <div style="display:flex; flex-direction:column; gap:8px; padding:16px 20px 20px 20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:700; font-size:15px;">Todos los proveedores</span>
+          <span style="color:#A29BFE; font-size:13px; font-weight:600;">Ordenar ▾</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; background:#141414; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 14px;">
+          <div style="width:36px; height:36px; border-radius:10px; background:#0e2a1e; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; color:#00C48C;">N26</div>
+          <div style="flex:1; display:flex; flex-direction:column;">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="font-weight:600; font-size:14px;">N26</span>
+              <span style="background:rgba(255,184,0,0.15); color:#FFB800; font-size:10px; font-weight:700; padding:2px 6px; border-radius:5px;">PROMO</span>
+            </div>
+            <span style="color:rgba(255,255,255,0.6); font-size:12px;">€1.50 · horas</span>
+          </div>
+          <span style="font-weight:700; font-size:15px; font-variant-numeric:tabular-nums;">₱12,625</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; background:#141414; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 14px;">
+          <div style="width:36px; height:36px; border-radius:10px; background:#12301d; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; color:#63d68a;">W</div>
+          <div style="flex:1; display:flex; flex-direction:column;">
+            <span style="font-weight:600; font-size:14px;">Wise</span>
+            <span style="color:rgba(255,255,255,0.6); font-size:12px;">€2.99 · horas</span>
+          </div>
+          <span style="font-weight:700; font-size:15px; font-variant-numeric:tabular-nums;">₱12,534</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; background:#141414; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 14px;">
+          <div style="width:36px; height:36px; border-radius:10px; background:#12233d; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; color:#6aa5ff;">R</div>
+          <div style="flex:1; display:flex; flex-direction:column;">
+            <span style="font-weight:600; font-size:14px;">Remitly</span>
+            <span style="color:rgba(255,255,255,0.6); font-size:12px;">€3.99 · instantáneo</span>
+          </div>
+          <span style="font-weight:700; font-size:15px; font-variant-numeric:tabular-nums;">₱12,456</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; background:#141414; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 14px;">
+          <div style="width:36px; height:36px; border-radius:10px; background:#3d3312; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; color:#FFB800;">WU</div>
+          <div style="flex:1; display:flex; flex-direction:column;">
+            <span style="font-weight:600; font-size:14px;">Western Union</span>
+            <span style="color:rgba(255,255,255,0.6); font-size:12px;">€4.99 · instantáneo</span>
+          </div>
+          <span style="font-weight:700; font-size:15px; font-variant-numeric:tabular-nums;">₱12,325</span>
+        </div>
+      </div>
+
+      <!-- tab bar -->
+      <div style="display:flex; border-top:1px solid rgba(255,255,255,0.08); background:#0A0A0A; padding:12px 20px 24px 20px; justify-content:space-around;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#A29BFE;"><span style="font-size:18px;">◉</span><span style="font-size:10px; font-weight:600;">Inicio</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:rgba(255,255,255,0.35);"><span style="font-size:18px;">⇄</span><span style="font-size:10px; font-weight:600;">Comparar</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:rgba(255,255,255,0.35);"><span style="font-size:18px;">◷</span><span style="font-size:10px; font-weight:600;">Alertas</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:rgba(255,255,255,0.35);"><span style="font-size:18px;">◌</span><span style="font-size:10px; font-weight:600;">Perfil</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ OPTION 1b — SULIT ============ -->
+  <div id="1b" style="display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="#1b" style="background:#0B7A55; color:#fff; font:700 13px Inter,sans-serif; padding:4px 10px; border-radius:6px; text-decoration:none;">1b</a>
+      <span style="color:#bbb; font:600 14px Inter,sans-serif;">Sulit — cálida, clara, ahorro primero</span>
+    </div>
+
+    <div data-screen-label="1b Sulit" style="width:390px; background:#FAF7F2; border-radius:32px; overflow:hidden; border:1px solid rgba(0,0,0,0.08); color:#1C1B18; font-family:Outfit,sans-serif; display:flex; flex-direction:column;">
+      <!-- header -->
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:20px 20px 8px 20px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:30px; height:30px; border-radius:50%; background:#0B7A55; display:flex; align-items:center; justify-content:center; color:#FAF7F2; font-weight:800; font-size:15px;">₱</div>
+          <span style="font-weight:800; font-size:18px; letter-spacing:-0.3px;">sulit<span style="color:#0B7A55;">send</span></span>
+        </div>
+        <span style="font-size:13px; color:#8A857C; font-weight:600;">ES · EN · TL</span>
+      </div>
+
+      <!-- greeting -->
+      <div style="padding:8px 20px 0 20px; display:flex; flex-direction:column; gap:2px;">
+        <span style="font-size:24px; font-weight:800; letter-spacing:-0.5px;">Kamusta, María 👋</span>
+        <span style="font-size:14px; color:#8A857C;">Hoy el euro está fuerte. Buen día para enviar.</span>
+      </div>
+
+      <!-- calculator card -->
+      <div style="margin:16px 20px 0 20px; background:#fff; border-radius:20px; padding:18px; box-shadow:0 4px 20px rgba(28,27,24,0.06); border:1px solid rgba(0,0,0,0.05); display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <span style="font-size:12px; font-weight:600; color:#8A857C;">TÚ ENVÍAS</span>
+          <div style="display:flex; align-items:center; justify-content:space-between; background:#FAF7F2; border-radius:14px; padding:14px 16px;">
+            <span style="font-size:26px; font-weight:800; font-variant-numeric:tabular-nums;">200,00</span>
+            <span style="font-weight:700; font-size:15px; color:#1C1B18;">🇪🇺 EUR</span>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <span style="font-size:12px; font-weight:600; color:#8A857C;">TU FAMILIA RECIBE</span>
+          <div style="display:flex; align-items:center; justify-content:space-between; background:#EAF5F0; border-radius:14px; padding:14px 16px;">
+            <span style="font-size:26px; font-weight:800; font-variant-numeric:tabular-nums; color:#0B7A55;">12.730</span>
+            <span style="font-weight:700; font-size:15px;">🇵🇭 PHP</span>
+          </div>
+        </div>
+        <span style="font-size:12px; color:#8A857C; text-align:center;">Tipo real: ₱63,50 por €1 · actualizado hace 2 min</span>
+      </div>
+
+      <!-- ranked list -->
+      <div style="display:flex; flex-direction:column; gap:10px; padding:20px;">
+        <span style="font-weight:800; font-size:16px;">¿Con quién sale más a cuenta?</span>
+
+        <!-- rank 1 -->
+        <div style="background:#0B7A55; border-radius:18px; padding:16px; color:#FAF7F2; display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:28px; height:28px; border-radius:50%; background:#FFD84D; color:#1C1B18; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px;">1</div>
+            <div style="width:38px; height:38px; border-radius:12px; background:rgba(250,247,242,0.15); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px;">R</div>
+            <div style="flex:1; display:flex; flex-direction:column;">
+              <span style="font-weight:700; font-size:15px;">Revolut</span>
+              <span style="font-size:12px; opacity:0.75;">Sin comisión · en horas</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end;">
+              <span style="font-weight:800; font-size:18px; font-variant-numeric:tabular-nums;">₱12.730</span>
+              <span style="font-size:11px; background:#FFD84D; color:#1C1B18; font-weight:700; padding:2px 8px; border-radius:99px;">¡Sulit! +₱404</span>
+            </div>
+          </div>
+          <div style="background:#FAF7F2; color:#0B7A55; border-radius:12px; padding:12px; text-align:center; font-weight:800; font-size:15px; cursor:pointer;">Ipadala na → Enviar</div>
+        </div>
+
+        <!-- rank 2 -->
+        <div style="background:#fff; border-radius:18px; padding:14px 16px; border:1px solid rgba(0,0,0,0.05); display:flex; align-items:center; gap:12px;">
+          <div style="width:28px; height:28px; border-radius:50%; background:#EAE6DF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; color:#8A857C;">2</div>
+          <div style="flex:1; display:flex; flex-direction:column;">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="font-weight:700; font-size:15px;">N26</span>
+              <span style="background:#FFF3CC; color:#9a7b00; font-size:10px; font-weight:700; padding:2px 7px; border-radius:99px;">1ª GRATIS</span>
+            </div>
+            <span style="font-size:12px; color:#8A857C;">€1,50 · en horas</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end;">
+            <span style="font-weight:700; font-size:16px; font-variant-numeric:tabular-nums;">₱12.625</span>
+            <span style="font-size:11px; color:#C0392B;">−₱105</span>
+          </div>
+        </div>
+
+        <!-- rank 3 -->
+        <div style="background:#fff; border-radius:18px; padding:14px 16px; border:1px solid rgba(0,0,0,0.05); display:flex; align-items:center; gap:12px;">
+          <div style="width:28px; height:28px; border-radius:50%; background:#EAE6DF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; color:#8A857C;">3</div>
+          <div style="flex:1; display:flex; flex-direction:column;">
+            <span style="font-weight:700; font-size:15px;">Wise</span>
+            <span style="font-size:12px; color:#8A857C;">€2,99 · en horas</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end;">
+            <span style="font-weight:700; font-size:16px; font-variant-numeric:tabular-nums;">₱12.534</span>
+            <span style="font-size:11px; color:#C0392B;">−₱196</span>
+          </div>
+        </div>
+
+        <!-- rank 4 -->
+        <div style="background:#fff; border-radius:18px; padding:14px 16px; border:1px solid rgba(0,0,0,0.05); display:flex; align-items:center; gap:12px;">
+          <div style="width:28px; height:28px; border-radius:50%; background:#EAE6DF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; color:#8A857C;">4</div>
+          <div style="flex:1; display:flex; flex-direction:column;">
+            <span style="font-weight:700; font-size:15px;">Remitly</span>
+            <span style="font-size:12px; color:#8A857C;">€3,99 · GCash al instante</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end;">
+            <span style="font-weight:700; font-size:16px; font-variant-numeric:tabular-nums;">₱12.456</span>
+            <span style="font-size:11px; color:#C0392B;">−₱274</span>
+          </div>
+        </div>
+
+        <span style="text-align:center; font-size:13px; color:#0B7A55; font-weight:700;">Ver los 15 proveedores ↓</span>
+      </div>
+
+      <!-- tab bar -->
+      <div style="display:flex; border-top:1px solid rgba(0,0,0,0.06); background:#fff; padding:12px 20px 24px 20px; justify-content:space-around;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#0B7A55;"><span style="font-size:18px;">⌂</span><span style="font-size:10px; font-weight:700;">Inicio</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B5B0A6;"><span style="font-size:18px;">⇄</span><span style="font-size:10px; font-weight:700;">Comparar</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B5B0A6;"><span style="font-size:18px;">✦</span><span style="font-size:10px; font-weight:700;">Alertas</span></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B5B0A6;"><span style="font-size:18px;">◌</span><span style="font-size:10px; font-weight:700;">Perfil</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ OPTION 1c — LEDGER ============ -->
+  <div id="1c" style="display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="#1c" style="background:#1C1B18; color:#F2EFE8; font:700 13px Inter,sans-serif; padding:4px 10px; border-radius:6px; text-decoration:none;">1c</a>
+      <span style="color:#bbb; font:600 14px Inter,sans-serif;">Ledger — editorial, datos al desnudo</span>
+    </div>
+
+    <div data-screen-label="1c Ledger" style="width:390px; background:#F2EFE8; border-radius:32px; overflow:hidden; border:1px solid rgba(0,0,0,0.12); color:#191813; font-family:'Space Grotesk',sans-serif; display:flex; flex-direction:column;">
+      <!-- header -->
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:20px; border-bottom:2px solid #191813;">
+        <span style="font-weight:700; font-size:17px; letter-spacing:-0.3px;">SULIT/SEND</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#191813;">EUR→PHP · 13:12</span>
+      </div>
+
+      <!-- big rate -->
+      <div style="padding:24px 20px 16px 20px; display:flex; flex-direction:column; gap:4px; border-bottom:1px solid rgba(25,24,19,0.15);">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1px; color:#6B675C;">TIPO MEDIO DE MERCADO</span>
+        <div style="display:flex; align-items:baseline; gap:12px;">
+          <span style="font-size:52px; font-weight:700; letter-spacing:-2px; font-variant-numeric:tabular-nums; line-height:1;">63.50</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#0B7A55;">+0.4% ▲</span>
+        </div>
+        <!-- amount row -->
+        <div style="display:flex; align-items:center; gap:10px; margin-top:14px;">
+          <div style="flex:1; display:flex; align-items:center; justify-content:space-between; border:2px solid #191813; border-radius:10px; padding:10px 14px; background:#fff;">
+            <span style="font-size:19px; font-weight:700; font-variant-numeric:tabular-nums;">€200</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:12px;">EDIT</span>
+          </div>
+          <span style="font-size:18px;">→</span>
+          <div style="flex:1; display:flex; align-items:center; border:2px solid #191813; border-radius:10px; padding:10px 14px; background:#191813; color:#F2EFE8;">
+            <span style="font-size:19px; font-weight:700; font-variant-numeric:tabular-nums;">₱12,730</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ledger table -->
+      <div style="display:flex; flex-direction:column; padding:16px 20px;">
+        <div style="display:flex; justify-content:space-between; padding-bottom:8px;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#6B675C;">PROVEEDOR</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#6B675C;">RECIBEN (PHP)</span>
+        </div>
+
+        <!-- row 1 best -->
+        <div style="display:flex; flex-direction:column; gap:6px; padding:12px 12px; background:#191813; color:#F2EFE8; border-radius:12px; margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-weight:700; font-size:15px;">Revolut</span>
+              <span style="background:#D8FF3E; color:#191813; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; padding:2px 7px; border-radius:4px;">BEST</span>
+            </div>
+            <span style="font-weight:700; font-size:17px; font-variant-numeric:tabular-nums;">12,730</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; opacity:0.65;">fee 0.00 · horas</span>
+            <div style="width:140px; height:6px; background:rgba(242,239,232,0.15); border-radius:3px;"><div style="width:100%; height:6px; background:#D8FF3E; border-radius:3px;"></div></div>
+          </div>
+        </div>
+
+        <!-- row 2 -->
+        <div style="display:flex; flex-direction:column; gap:6px; padding:12px; border-bottom:1px solid rgba(25,24,19,0.12);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-weight:700; font-size:15px;">N26</span>
+              <span style="border:1px solid #191813; font-family:'IBM Plex Mono',monospace; font-size:10px; padding:1px 6px; border-radius:4px;">PROMO</span>
+            </div>
+            <span style="font-weight:700; font-size:16px; font-variant-numeric:tabular-nums;">12,625</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#6B675C;">fee 1.50 · horas</span>
+            <div style="width:140px; height:6px; background:rgba(25,24,19,0.08); border-radius:3px;"><div style="width:91%; height:6px; background:#191813; border-radius:3px;"></div></div>
+          </div>
+        </div>
+
+        <!-- row 3 -->
+        <div style="display:flex; flex-direction:column; gap:6px; padding:12px; border-bottom:1px solid rgba(25,24,19,0.12);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:700; font-size:15px;">Wise</span>
+            <span style="font-weight:700; font-size:16px; font-variant-numeric:tabular-nums;">12,534</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#6B675C;">fee 2.99 · horas</span>
+            <div style="width:140px; height:6px; background:rgba(25,24,19,0.08); border-radius:3px;"><div style="width:84%; height:6px; background:#191813; border-radius:3px;"></div></div>
+          </div>
+        </div>
+
+        <!-- row 4 -->
+        <div style="display:flex; flex-direction:column; gap:6px; padding:12px; border-bottom:1px solid rgba(25,24,19,0.12);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:700; font-size:15px;">Remitly</span>
+            <span style="font-weight:700; font-size:16px; font-variant-numeric:tabular-nums;">12,456</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#6B675C;">fee 3.99 · instant · GCash</span>
+            <div style="width:140px; height:6px; background:rgba(25,24,19,0.08); border-radius:3px;"><div style="width:78%; height:6px; background:#191813; border-radius:3px;"></div></div>
+          </div>
+        </div>
+
+        <!-- row 5 -->
+        <div style="display:flex; flex-direction:column; gap:6px; padding:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:700; font-size:15px;">Western Union</span>
+            <span style="font-weight:700; font-size:16px; font-variant-numeric:tabular-nums;">12,325</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#6B675C;">fee 4.99 · instant · cash</span>
+            <div style="width:140px; height:6px; background:rgba(25,24,19,0.08); border-radius:3px;"><div style="width:64%; height:6px; background:#191813; border-radius:3px;"></div></div>
+          </div>
+        </div>
+
+        <div style="border:2px solid #191813; border-radius:10px; padding:12px; text-align:center; font-weight:700; font-size:15px; margin-top:8px; cursor:pointer;">VER LOS 15 →</div>
+      </div>
+
+      <!-- tab bar -->
+      <div style="display:flex; border-top:2px solid #191813; background:#F2EFE8; padding:12px 20px 24px 20px; justify-content:space-around; font-family:'IBM Plex Mono',monospace;">
+        <span style="font-size:11px; font-weight:600; border-bottom:2px solid #191813; padding-bottom:2px;">INICIO</span>
+        <span style="font-size:11px; color:#6B675C;">COMPARAR</span>
+        <span style="font-size:11px; color:#6B675C;">ALERTAS</span>
+        <span style="font-size:11px; color:#6B675C;">PERFIL</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+</x-dc>
+</body>
+</html>
