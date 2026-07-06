@@ -7,7 +7,7 @@ Goal: web MVP 100% presentable to affiliate/partner reviewers (Wise, Remitly, WU
 - [x] [T17 — Trust & transparency pages](T17-trust-pages.md): /about, /how-we-make-money, /terms (DRAFT), contact email, inline affiliate disclosure
 - [x] [T18 — Production polish](T18-production-polish.md): drop disabled Profile tab, 404/error pages, no mock quotes in prod, honest provider fallback
 - [ ] [T19 — Provider editorial coverage](T19-provider-coverage.md): profile every provider visible in default compare lists
-- [ ] [T20 — Deploy readiness](T20-deploy-readiness.md): DEPLOY.md runbook, preview noindex, env audit, merge to main
+- [x] [T20 — Deploy readiness](T20-deploy-readiness.md): DEPLOY.md runbook, preview noindex, env audit, merge to main
 - [ ] [T21 — QA sweep + status flip](T21-qa-sweep.md): Playwright pass over every route × 2 viewports, fix all, MODULES.md → ✅
 
 ## Done — SEO slice (Phase 5 pulled forward, planned 2026-07-03)
@@ -50,10 +50,9 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 - [ ] `git push` of the T17–T21 work + merged `main` (T20 merges locally, never pushes)
 - [ ] Affiliate signups: Wise (Partnerize), Remitly, WU, TransferGo → paste real affiliate URLs (`web/lib/data/providers.ts`)
 - [ ] Broker introducer applications: TorFX, Currencies Direct, OFX → confirm EUR→PHP coverage; replace URLs in `web/lib/brokers.ts`
-- [ ] Vercel project + Pro when affiliate links go live; landing at root, app at `app.sulitsend.app`
-- [ ] PostHog account (EU) → `NEXT_PUBLIC_POSTHOG_KEY`/`_HOST` env vars
-- [ ] UptimeRobot monitor on `/api/health`
-- [ ] Upstash Redis database → env vars
+- [ ] Deploy both Vercel projects + flip to Pro when affiliate links go live — follow [`DEPLOY.md`](DEPLOY.md) §1–4
+- [ ] PostHog account (EU) → `NEXT_PUBLIC_POSTHOG_KEY`/`_HOST` env vars (`DEPLOY.md` §3)
+- [ ] Upstash Redis database → env vars (`DEPLOY.md` §3)
 - [ ] Legal review of the draft policies + contact email (`TODO(human)` in `/privacy`)
-- [ ] Post-deploy SEO (after T12–T16 + deploy): Google Search Console + Bing Webmaster for both domains, submit both sitemaps, spot-check OG cards (opengraph.xyz)
+- [ ] Post-deploy checks: `DEPLOY.md` §6 (health/sitemap curls, OG spot-check, UptimeRobot, Search Console + Bing Webmaster, preview-noindex confirmation)
 - [ ] Resend account (Phase 3 alert emails — decided 2026-07-03) → API key env var, verify sending domain

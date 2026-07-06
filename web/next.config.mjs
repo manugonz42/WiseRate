@@ -6,6 +6,16 @@ const nextConfig = {
       { protocol: "https", hostname: "dq8dwmysp7hk1.cloudfront.net" },
     ],
   },
+  async headers() {
+    // Vercel preview deploys must never get indexed — only `production` is public.
+    if (process.env.VERCEL_ENV === "production") return [];
+    return [
+      {
+        source: "/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
