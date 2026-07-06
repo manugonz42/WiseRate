@@ -56,6 +56,8 @@ Applying the pre-made decisions (existing `PROVIDERS` keys — wise, remitly, we
 
 **Scope note (2026-07-06, after T22 was planned):** T22 keeps Wise Comparisons as tagged fallback but excludes banks without a confirmed referral/affiliate program. If T22 runs first, drop its excluded banks from the "must write"/"skip" lists above before writing profiles (likely removes abn-amro-bank, bnp, unicredit, wells-fargo, barclays, hsbc, nationwide, bank-of-america, bmo, anz, commonwealth-bank-of-australia, national-australia-bank, hsbc-australia — pending T22's audit).
 
+**Resolved by T22 (2026-07-06, later same day):** the bank referral audit found no relevant program for any of abn-amro-bank, bnp, unicredit, wells-fargo, hsbc-australia — all 5 were removed from `providers.ts` and added to `EXCLUDED_PROVIDER_IDS` in `quotes.ts` (dropped from every corridor entirely, not just left un-profiled). This task's "Goal met" claim below still holds for what's left: the EUR→PHP default compare list shrank by its 3 EUR-corridor banks (abn-amro-bank, bnp, unicredit) and the remaining 9 T19 profiles are unaffected; wells-fargo/hsbc-australia (USD/AUD-only) are similarly dropped from those corridors.
+
 **Retried same day:** still `529 Overloaded` on a single test query (Instarem Trustpilot). Per user instruction, not retrying further this session — T19 stays blocked/open, proceeding to T21 with only the existing 4 profiles (wise, remitly, western-union, transfergo). T21 will test a generic-fallback provider id instead of a "T19-added id," and Provider Details module status will NOT flip to ✅ (still ◐, thin editorial coverage).
 
 ## Completion (2026-07-06, later same day)

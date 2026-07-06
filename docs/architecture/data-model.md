@@ -23,6 +23,7 @@ trustScore      number    // 0..1
 userRating      number    // 0..5
 websiteURL      string
 affiliateURL    string?
+referralPromo   ReferralPromo?  // unset until a real affiliate deal exists (T22)
 isSponsored     boolean
 ```
 
@@ -72,12 +73,25 @@ mock              // local fixture (iOS scaffold)
 ### PromoInfo
 First-transfer / new-customer offer attached to a quote. Base quote fields hold the **standard** (no-promo) price whenever it is derivable; ranking always uses the base fields.
 ```
+kind               enum<PromoKind>  // first-transfer | referral | other
 description        string
+conditions         string?
 promoFee           number
 promoReceiveAmount number
 promoExchangeRate  number?
 baseIsStandard     boolean  // false when the provider doesn't publish a no-promo price
                             // (then base fields == promo price, e.g. TransferGo FX discount)
+```
+
+### PromoKind (enum)
+`first-transfer` (provider's own new-customer pricing, detected from its quote API — Remitly, TransferGo) | `referral` (bonus for using our affiliate link specifically — editorial `ReferralPromo` on `ProviderDetail`, not derived from any quote API) | `other`
+
+### ReferralPromo
+Editorial "use our link" bonus on `ProviderDetail`; unset until a real affiliate/referral deal exists for that provider (T22, 2026-07-06).
+```
+amount      string
+conditions  string
+sourceURL   string
 ```
 
 ### DeliveryMethod (enum)

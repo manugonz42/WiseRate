@@ -124,6 +124,7 @@ export function parseTransferGo(
     isPromotion: promoApplied,
     promo: promoApplied
       ? {
+          kind: "first-transfer",
           description:
             "Promotional pricing (new customers, capped); standard rate not published",
           promoFee: fee,

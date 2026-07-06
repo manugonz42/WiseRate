@@ -393,14 +393,33 @@ function SourceTag({ q }: { q: TransferQuote }) {
   );
 }
 
+// "Promo" badge is per-kind: the provider's own first-transfer pricing is
+// distinct from a referral bonus for using our link — both notify the user
+// an offer exists without overloading one generic badge.
 function PromoTag({ q }: { q: TransferQuote }) {
-  if (!q.isPromotion) return null;
+  if (!q.isPromotion || !q.promo) return null;
+  const label = q.promo.kind === "referral" ? "REFERRAL" : "FIRST TRANSFER";
   return (
     <span
-      title={q.promo?.description}
+      title={q.promo.conditions ?? q.promo.description}
       className="shrink-0 rounded-full bg-success/15 px-1.5 py-0.5 text-[10px] font-bold text-success"
     >
-      PROMO
+      {label}
+    </span>
+  );
+}
+
+// Editorial "use our link" bonus (providers.ts), shown alongside — not
+// instead of — any API-detected first-transfer promo above.
+function ReferralTag({ q }: { q: TransferQuote }) {
+  const referral = PROVIDERS[q.providerID]?.referralPromo;
+  if (!referral) return null;
+  return (
+    <span
+      title={referral.conditions}
+      className="shrink-0 rounded-full bg-accent/15 px-1.5 py-0.5 text-[10px] font-bold text-accent"
+    >
+      VIA OUR LINK: {referral.amount}
     </span>
   );
 }
@@ -483,6 +502,7 @@ function QuoteTableRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
           <ProviderIcon q={q} size={24} />
           <span className="truncate font-semibold">{q.providerName}</span>
           <PromoTag q={q} />
+          <ReferralTag q={q} />
           <SourceTag q={q} />
           {isBest && <Star size={14} weight="fill" className="shrink-0 text-warning" />}
         </div>
@@ -533,6 +553,7 @@ function QuoteRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
           <div className="flex items-center gap-2">
             <span className="truncate font-semibold">{q.providerName}</span>
             <PromoTag q={q} />
+            <ReferralTag q={q} />
             <SourceTag q={q} />
             {isBest && (
               <span className="flex items-center gap-1 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-bold text-warning">

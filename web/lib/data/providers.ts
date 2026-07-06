@@ -167,70 +167,6 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
   // counts are from each provider's public Trustpilot page unless noted;
   // bank transferLimits.maxAmount is an editorial figure (banks don't publish
   // a hard per-transaction cap) reflecting typical unrestricted retail wire limits.
-  "abn-amro-bank": {
-    id: "abn-amro-bank",
-    name: "ABN AMRO",
-    brandColor: "text-tertiary",
-    trustScore: 0.35,
-    userRating: 1.3,
-    websiteURL: "https://www.abnamro.nl",
-    affiliateURL: null,
-    description:
-      "ABN AMRO is a Dutch retail bank; sending abroad through your account is convenient if you already bank there, but a roughly 5% exchange-rate margin plus a flat commission makes it far costlier than dedicated transfer services.",
-    reviewCount: 2000,
-    transferLimits: { minAmount: 1, maxAmount: 50000, currency: "EUR" },
-    fees: [
-      {
-        method: "bankTransfer",
-        fixedFee: 20,
-        percentageFee: 5,
-        description: "International transfer commission (~€15–30) plus a roughly 5% exchange-rate margin",
-      },
-    ],
-    deliveryMethods: ["bankTransfer"],
-    pros: [
-      "Convenient if you already hold an ABN AMRO account",
-      "Funds move through a well-established banking network",
-    ],
-    cons: [
-      "~5% exchange-rate margin, far above dedicated money-transfer services",
-      "Flat commission of roughly €15–30 on top",
-      "Bank transfer only, 1–5 business days",
-      "Poor Trustpilot rating (1.3/5, ~2,000 reviews), largely customer-service complaints",
-    ],
-  },
-  bnp: {
-    id: "bnp",
-    name: "BNP Paribas",
-    brandColor: "text-tertiary",
-    trustScore: 0.3,
-    userRating: 1.3,
-    websiteURL: "https://mabanque.bnpparibas",
-    affiliateURL: null,
-    description:
-      "BNP Paribas is a French retail bank whose international transfers carry a roughly 4% exchange-rate margin baked into the rate rather than shown as a fee — convenient for existing customers, expensive next to specialists.",
-    reviewCount: 500,
-    transferLimits: { minAmount: 1, maxAmount: 50000, currency: "EUR" },
-    fees: [
-      {
-        method: "bankTransfer",
-        fixedFee: 4.5,
-        percentageFee: 4,
-        description: "Non-SEPA transfer fee (~€4.50) plus a roughly 4% exchange-rate margin",
-      },
-    ],
-    deliveryMethods: ["bankTransfer"],
-    pros: [
-      "Full banking relationship for existing BNP Paribas customers",
-      "Transfers move through a well-established international network",
-    ],
-    cons: [
-      "~4% exchange-rate margin not clearly disclosed at the point of transfer",
-      "1–5 (up to 7) business days to arrive",
-      "Bank transfer only",
-      "Very poor Trustpilot rating (1.3/5, ~500 reviews, dated 2026-07-02)",
-    ],
-  },
   instarem: {
     id: "instarem",
     name: "Instarem",
@@ -406,35 +342,6 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
       "Trustpilot rating of 1.5/5 (36,900 reviews), driven largely by dispute-resolution complaints",
     ],
   },
-  unicredit: {
-    id: "unicredit",
-    name: "UniCredit",
-    brandColor: "text-tertiary",
-    trustScore: 0.32,
-    userRating: 2.2,
-    websiteURL: "https://www.unicredit.eu",
-    affiliateURL: null,
-    description:
-      "UniCredit is a pan-European bank (Italy, Austria, Central and Eastern Europe); its international transfers apply a roughly 3.6% exchange-rate margin, well above dedicated remittance providers.",
-    reviewCount: 3100,
-    transferLimits: { minAmount: 1, maxAmount: 50000, currency: "EUR" },
-    fees: [
-      {
-        method: "bankTransfer",
-        fixedFee: 15,
-        percentageFee: 3.6,
-        description: "Commission fee plus a roughly 3.6% exchange-rate margin",
-      },
-    ],
-    deliveryMethods: ["bankTransfer"],
-    pros: ["Full banking relationship for existing UniCredit customers across its European network"],
-    cons: [
-      "~3.6% exchange-rate margin, well above dedicated transfer services",
-      "5–7 business days unless paying a premium",
-      "Bank transfer only",
-      "Low Trustpilot rating (2.2/5, ~3,100 reviews), citing app and customer-service issues",
-    ],
-  },
   "world-remit": {
     id: "world-remit",
     name: "WorldRemit",
@@ -511,71 +418,40 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
       "True cost is hidden in the rate more than the fee",
     ],
   },
-  "wells-fargo": {
-    id: "wells-fargo",
-    name: "Wells Fargo",
-    brandColor: "text-tertiary",
-    trustScore: 0.3,
-    userRating: 1.4,
-    websiteURL: "https://www.wellsfargo.com",
+  // T22 (2026-07-06): direct source via api.currencyfair.com/comparisonQuotes
+  // (see docs/plan/T22-quote-fidelity.md). Fee/limit facts from
+  // businessexpert.co.uk's 2026-07-06 review; Trustpilot rating/count from
+  // trustpilot.com/review/currencyfair.com, same date.
+  currencyfair: {
+    id: "currencyfair",
+    name: "CurrencyFair",
+    brandColor: "success",
+    trustScore: 0.85,
+    userRating: 4.5,
+    websiteURL: "https://www.currencyfair.com",
     affiliateURL: null,
     description:
-      "Wells Fargo charges a flat $25–$40 wire fee for international transfers plus a discretionary exchange-rate markup that varies by currency pair and transaction size — no fixed FX rate is published.",
-    reviewCount: 800,
-    transferLimits: { minAmount: 1, maxAmount: 50000, currency: "EUR" },
+      "CurrencyFair is an Ireland-based FX broker offering peer-to-peer and instant transfers at a small margin over mid-market, funded and paid out entirely through bank accounts — no cash pickup or mobile wallet.",
+    reviewCount: 12100,
+    transferLimits: { minAmount: 8, maxAmount: 1000000, currency: "EUR" },
     fees: [
       {
         method: "bankTransfer",
-        fixedFee: 25,
-        percentageFee: 0,
-        description: "Digital wire fee of $25 ($40 at a branch), plus an exchange-rate markup set at Wells Fargo's discretion",
+        fixedFee: 3,
+        percentageFee: 0.3,
+        description: "Flat transfer fee (~€3) plus a 0.25%–0.6% exchange-rate margin depending on marketplace vs. instant rate",
       },
     ],
     deliveryMethods: ["bankTransfer"],
     pros: [
-      "Full banking relationship for existing Wells Fargo customers",
-      "Fee can be waived from an eligible account",
+      "Low, transparent flat fee plus a small FX margin",
+      "No published maximum transfer limit",
+      "Strong Trustpilot rating (4.5/5, ~12,100 reviews)",
     ],
     cons: [
-      "Flat $25–$40 wire fee on top of an undisclosed exchange-rate markup",
-      "Additional weekend/after-hours FX markup applies",
-      "Bank transfer only, several business days",
-      "Very poor Trustpilot rating (1.4/5, ~800 reviews)",
-    ],
-  },
-  "hsbc-australia": {
-    id: "hsbc-australia",
-    name: "HSBC Australia",
-    brandColor: "text-tertiary",
-    trustScore: 0.32,
-    // Trustpilot average for hsbc.com.au wasn't confirmable (page lists ~83
-    // reviews with no aggregate score surfaced); rating sourced from
-    // ProductReview.com.au (1.2/5, 887 reviews) instead, 2026-07-06.
-    userRating: 1.2,
-    websiteURL: "https://www.hsbc.com.au",
-    affiliateURL: null,
-    description:
-      "HSBC Australia's Global Money Transfers carry no HSBC-side fee for supported currencies, but the exchange rate includes a markup over mid-market, and correspondent-bank fees can apply depending on the destination.",
-    reviewCount: 900,
-    transferLimits: { minAmount: 1, maxAmount: 50000, currency: "EUR" },
-    fees: [
-      {
-        method: "bankTransfer",
-        fixedFee: 0,
-        percentageFee: 2,
-        description: "No HSBC transfer fee via Global Money Transfers, but the exchange rate carries a markup over mid-market (correspondent fees, e.g. AUD 30, may also apply)",
-      },
-    ],
-    deliveryMethods: ["bankTransfer"],
-    pros: [
-      "No HSBC-side transfer fee via Global Money Transfers",
-      "Full banking relationship for existing HSBC Australia customers",
-    ],
-    cons: [
-      "Exchange rate includes a markup over mid-market, plus an added weekend risk margin",
-      "Correspondent bank fees (e.g. AUD 30) can apply on top",
-      "Bank transfer only",
-      "Poor customer reviews (1.2/5 on ProductReview.com.au, 887 reviews)",
+      "Bank transfer only — no cash pickup or mobile wallet payout",
+      "~€8 minimum, not built for the smallest sends",
+      "KYC/source-of-funds checks can pause a first large transfer",
     ],
   },
 };

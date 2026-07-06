@@ -14,11 +14,29 @@ import { fetchWiseDirect } from "./providers/wiseDirect";
 import { fetchWesternUnion } from "./providers/westernUnion";
 import { fetchRemitly } from "./providers/remitly";
 import { fetchTransferGo } from "./providers/transfergo";
+import { fetchCurrencyFair } from "./providers/currencyfair";
 import { getCached, setCached } from "./cache";
 
 export interface AggregatedQuotes {
   rate: Rate;
   quotes: TransferQuote[];
+}
+
+// T22 bank referral audit (2026-07-06, docs/plan/T22-quote-fidelity.md): none
+// of these traditional banks have a referral/affiliate program for
+// international transfers, and we don't trust Wise Comparisons' numbers for
+// them either — an unmonetizable, unreliable row has no reason to stay
+// listed, so they're dropped from every corridor.
+export const EXCLUDED_PROVIDER_IDS = new Set([
+  "abn-amro-bank",
+  "bnp",
+  "unicredit",
+  "wells-fargo",
+  "hsbc-australia",
+]);
+
+export function filterExcludedProviders(quotes: TransferQuote[]): TransferQuote[] {
+  return quotes.filter((q) => !EXCLUDED_PROVIDER_IDS.has(q.providerID));
 }
 
 export type SourceStatus = { source: string; ok: boolean; error?: string; at: string };
@@ -70,12 +88,13 @@ export async function getAggregatedQuotes(
   const hit = await getCached<AggregatedQuotes>(key);
   if (hit) return hit;
 
-  const [cmp, wise, wu, remitly, transfergo] = await Promise.allSettled([
+  const [cmp, wise, wu, remitly, transfergo, currencyfair] = await Promise.allSettled([
     fetchWiseQuotes(from, to, amount),
     fetchWiseDirect(from, to, amount),
     fetchWesternUnion(from, to, amount),
     fetchRemitly(from, to, amount),
     fetchTransferGo(from, to, amount),
+    fetchCurrencyFair(from, to, amount),
   ]);
 
   const at = new Date().toISOString();
@@ -85,6 +104,7 @@ export async function getAggregatedQuotes(
     sourceStatus("western-union", wu, wu.status === "fulfilled" && wu.value != null, at),
     sourceStatus("remitly", remitly, remitly.status === "fulfilled" && remitly.value != null, at),
     sourceStatus("transfergo", transfergo, transfergo.status === "fulfilled" && transfergo.value != null, at),
+    sourceStatus("currencyfair", currencyfair, currencyfair.status === "fulfilled" && currencyfair.value != null, at),
   ];
   // Before the all-failed throw below, so a total outage still records health.
   await setCached(healthKey(from, to, amount), lastHealth, TTL_SECONDS);
@@ -94,7 +114,7 @@ export async function getAggregatedQuotes(
 
   if (cmp.status === "fulfilled") {
     midRate = cmp.value.rate.rate;
-    for (const q of cmp.value.quotes) byProvider.set(q.providerID, q);
+    for (const q of filterExcludedProviders(cmp.value.quotes)) byProvider.set(q.providerID, q);
   } else {
     console.error("[quotes] wise comparisons failed:", cmp.reason);
   }
@@ -109,8 +129,9 @@ export async function getAggregatedQuotes(
     wu.status === "fulfilled" ? wu.value : null,
     remitly.status === "fulfilled" ? remitly.value : null,
     transfergo.status === "fulfilled" ? transfergo.value : null,
+    currencyfair.status === "fulfilled" ? currencyfair.value : null,
   ];
-  for (const r of [wise, wu, remitly, transfergo]) {
+  for (const r of [wise, wu, remitly, transfergo, currencyfair]) {
     if (r.status === "rejected") console.error("[quotes] direct source failed:", r.reason);
   }
 

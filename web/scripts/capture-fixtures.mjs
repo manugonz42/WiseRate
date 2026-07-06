@@ -12,6 +12,7 @@ import { buildRequest as buildWiseDirect } from "../lib/services/providers/wiseD
 import { buildRequest as buildWesternUnion } from "../lib/services/providers/westernUnion.ts";
 import { buildRequest as buildRemitly } from "../lib/services/providers/remitly.ts";
 import { buildRequest as buildTransferGo } from "../lib/services/providers/transfergo.ts";
+import { buildRequest as buildCurrencyFair } from "../lib/services/providers/currencyfair.ts";
 import { buildRequest as buildWiseComparisons } from "../lib/services/wise.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -25,6 +26,7 @@ const PROVIDERS = [
   { name: "westernUnion", build: buildWesternUnion },
   { name: "remitly", build: buildRemitly },
   { name: "transfergo", build: buildTransferGo },
+  { name: "currencyfair", build: buildCurrencyFair },
   { name: "wise", build: buildWiseComparisons },
 ];
 

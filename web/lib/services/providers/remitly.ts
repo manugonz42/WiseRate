@@ -99,6 +99,7 @@ export function parseRemitly(
     isPromotion: hasPromo,
     promo: hasPromo
       ? {
+          kind: "first-transfer",
           description:
             promoRate !== null && promoRate > baseRate
               ? "New-customer offer: boosted rate" +

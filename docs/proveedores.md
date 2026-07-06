@@ -21,9 +21,9 @@ Todos regulados en UE/España con corredor EUR→PHP activo:
 - **Moneytrans** — regulada BE+ES, muy usada por la comunidad filipina en España; Cebuana Lhuillier, MLhuillier, BDO, GCash
 - **TransferGo** — FCA/EU, Trustpilot 4★ +38k reseñas
 - **Instarem (Nium)** — multi-jurisdicción, +2M clientes
-- **Small World (Sigue)** — histórica en el corredor ES-PH
+- ~~**Small World (Sigue)** — histórica en el corredor ES-PH~~ — **cesó operaciones en 2026** (Sigue con orden de cese en marzo 2026; Small World Financial Services en administración especial desde el 18 de junio de 2026, confirmado T22 2026-07-06); ambos dominios ya no operan el producto — retirar de "100% fiables"
 - **XE Money Transfer** — corredor activo, wallets PH
-- **CurrencyFair** — broker FX regulado, EUR→PHP confirmado (solo banco-a-banco, ver "dudosos")
+- **CurrencyFair** — broker FX regulado, EUR→PHP confirmado, solo banco-a-banco; fuente directa integrada T22 (2026-07-06, `api.currencyfair.com/comparisonQuotes`)
 - **OFX** — fiable pero el margen cambiario más alto (cara, no dudosa)
 - **Revolut** — envío ES→PH confirmado, pero vía SWIFT genérico sin red de efectivo ni GCash (ver "dudosos")
 - **Correos Giro Internacional (Eurogiro)** — entrega en agencia, entidad pública
@@ -35,7 +35,6 @@ Todos regulados en UE/España con corredor EUR→PHP activo:
 - **Sendwave** — emisores foco US/UK; ¿opera desde España?
 - **PandaRemit** — Singapur, ~850 reseñas, sin licencia clara en España
 - **Paysend** — modelo tarjeta-a-tarjeta; ¿soporta efectivo/GCash/banco en PH?
-- **CurrencyFair** — ¿cobertura efectivo/wallets PH? ¿pensado para importes pequeños?
 - **Revolut** — coste real difícil de comparar (SWIFT genérico)
 - **Agencias locales/informales no registradas** — fuera del ámbito por definición
 
