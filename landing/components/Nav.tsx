@@ -38,10 +38,12 @@ export function Nav({ dict, locale }: { dict: Dictionary["nav"]; locale: Locale 
         </nav>
 
         <div className="flex items-center gap-3">
-          <LanguageSwitcher locale={locale} />
+          <div className="hidden sm:block">
+            <LanguageSwitcher locale={locale} />
+          </div>
           <a
             href={APP_URL}
-            className="rounded-full bg-accent px-5 py-2.5 text-[14px] font-semibold text-accent-on transition-transform active:scale-[0.98]"
+            className="whitespace-nowrap rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-accent-on transition-transform active:scale-[0.98] sm:px-5 sm:py-2.5 sm:text-[14px]"
           >
             {dict.cta}
           </a>

@@ -1,6 +1,6 @@
 # Module: Analytics
 
-**Status:** iOS ◐ · Web ◐ (7D/30D live; ≥3M gated) · Android ☐
+**Status:** iOS ◐ · Web ✅ (7D/30D live; ≥3M gated) · Android ☐
 
 ## Dependencies
 - **Reads:** [exchange-rate](../services/exchange-rate.md), [subscriptions](../services/subscriptions.md) (gate ≥3M ranges), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)

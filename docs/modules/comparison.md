@@ -1,6 +1,6 @@
 # Module: Comparison
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ✅ · Android ☐
 
 ## Dependencies
 - **Reads:** [exchange-rate](../services/exchange-rate.md), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)
