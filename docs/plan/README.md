@@ -1,6 +1,16 @@
 # Execution plan
 
-## Active — SEO slice (Phase 5 pulled forward, planned 2026-07-03)
+## Active — MVP launch readiness (planned 2026-07-06)
+
+Goal: web MVP 100% presentable to affiliate/partner reviewers (Wise, Remitly, WU, TransferGo, brokers — application guide: `SolicitarAfiliados.md`, repo root). Same protocol as below: **"proceed TXX"**, in order, verify gate per task.
+
+- [x] [T17 — Trust & transparency pages](T17-trust-pages.md): /about, /how-we-make-money, /terms (DRAFT), contact email, inline affiliate disclosure
+- [ ] [T18 — Production polish](T18-production-polish.md): drop disabled Profile tab, 404/error pages, no mock quotes in prod, honest provider fallback
+- [ ] [T19 — Provider editorial coverage](T19-provider-coverage.md): profile every provider visible in default compare lists
+- [ ] [T20 — Deploy readiness](T20-deploy-readiness.md): DEPLOY.md runbook, preview noindex, env audit, merge to main
+- [ ] [T21 — QA sweep + status flip](T21-qa-sweep.md): Playwright pass over every route × 2 viewports, fix all, MODULES.md → ✅
+
+## Done — SEO slice (Phase 5 pulled forward, planned 2026-07-03)
 
 Next codeable work: Phase 2 (iOS) is Mac-blocked and Phase 1's remainder is human-only, so the ROADMAP Phase 5 SEO item was pulled forward. Say **"proceed TXX"** to execute a task; each task file carries binding pre-made decisions, steps, and its verify gate (`npm test && npm run build && npm run lint` minimum). Execute in order — later tasks depend on earlier ones.
 
@@ -34,6 +44,10 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 ## Human-only checklist (still open)
 
 - [ ] Verify SulitSend: EUIPO + domain + both-store search → buy `sulitsend.app`
+- [ ] Contact email: create real address (e.g. `hello@sulitsend.app` forwarding) → set `CONTACT_EMAIL` in `web/lib/site.ts` (after T17)
+- [ ] Legal review now also covers `/terms` draft (after T17)
+- [ ] Send affiliate/broker applications following `SolicitarAfiliados.md` (repo root) — after deploy, the live site is the credential
+- [ ] `git push` of the T17–T21 work + merged `main` (T20 merges locally, never pushes)
 - [ ] Affiliate signups: Wise (Partnerize), Remitly, WU, TransferGo → paste real affiliate URLs (`web/lib/data/providers.ts`)
 - [ ] Broker introducer applications: TorFX, Currencies Direct, OFX → confirm EUR→PHP coverage; replace URLs in `web/lib/brokers.ts`
 - [ ] Vercel project + Pro when affiliate links go live; landing at root, app at `app.sulitsend.app`

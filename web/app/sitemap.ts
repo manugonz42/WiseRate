@@ -8,6 +8,9 @@ const STATIC_ROUTES = [
   "/compare",
   "/analytics",
   "/alerts",
+  "/about",
+  "/how-we-make-money",
+  "/terms",
   "/privacy",
   "/cookies",
 ];

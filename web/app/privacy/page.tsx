@@ -1,5 +1,6 @@
 // DRAFT — human/legal review required before launch (ROADMAP Phase 1)
 import Link from "next/link";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata = {
   title: "Privacy Policy",
@@ -106,7 +107,7 @@ export default function PrivacyPage() {
             time from the cookie banner. Since we don&apos;t use accounts, most
             of what we hold lives in your own browser&apos;s local storage —
             clearing it removes it. For anything else, contact us at{" "}
-            <span className="font-mono">TODO(human)</span>.
+            <span className="font-mono">{CONTACT_EMAIL}</span>.
           </p>
         </section>
       </div>

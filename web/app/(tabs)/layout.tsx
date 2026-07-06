@@ -73,6 +73,21 @@ export default function TabsLayout({
       <footer className="border-t border-border px-4 py-4 text-center text-xs text-text-tertiary sm:px-6">
         © 2026 SulitSend · Independent comparison site, not a payment
         institution ·{" "}
+        <Link href="/about" className="underline hover:text-text-secondary">
+          About
+        </Link>{" "}
+        ·{" "}
+        <Link
+          href="/how-we-make-money"
+          className="underline hover:text-text-secondary"
+        >
+          How we make money
+        </Link>{" "}
+        ·{" "}
+        <Link href="/terms" className="underline hover:text-text-secondary">
+          Terms
+        </Link>{" "}
+        ·{" "}
         <Link href="/privacy" className="underline hover:text-text-secondary">
           Privacy
         </Link>{" "}

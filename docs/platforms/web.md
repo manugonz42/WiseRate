@@ -27,6 +27,7 @@
 web/
 ├── app/(tabs)/{home,compare,analytics,alerts}/page.tsx   # profile pending
 ├── app/provider/[id]/ · app/{privacy,cookies}/ · app/api/{quotes,history,health}/
+├── app/{about,how-we-make-money,terms}/   # trust pages — T17
 ├── components/          # ConsentBanner, AnalyticsProvider, shared primitives
 ├── lib/
 │   ├── services/        # quotes aggregator, providers/*, cache, history, persistence, trust

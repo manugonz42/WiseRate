@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { getQuotes } from "@/lib/services/rate";
 import { track } from "@/lib/analytics";
 import {
@@ -281,7 +282,10 @@ export default function ComparePage() {
           </ul>
 
           <p className="mt-4 text-[11px] text-text-tertiary">
-            We may earn a commission — you pay the same.
+            We may earn a commission — you pay the same.{" "}
+            <Link href="/how-we-make-money" className="underline">
+              How we make money
+            </Link>
           </p>
         </div>
       )}

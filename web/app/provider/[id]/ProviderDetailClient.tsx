@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   Bank,
   CreditCard,
@@ -432,7 +433,10 @@ export default function ProviderDetailClient({ id }: { id: string }) {
             <ArrowSquareOut size={16} weight="bold" />
           </a>
           <p className="mt-2 text-center text-[11px] text-text-tertiary">
-            We may earn a commission — you pay the same.
+            We may earn a commission — you pay the same.{" "}
+            <Link href="/how-we-make-money" className="underline">
+              How we make money
+            </Link>
           </p>
         </div>
       )}
