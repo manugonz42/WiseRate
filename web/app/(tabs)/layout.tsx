@@ -4,24 +4,22 @@ import {
   Bell,
   ChartLineUp,
   House,
-  UserCircle,
 } from "@phosphor-icons/react/dist/ssr";
 import type { Icon } from "@phosphor-icons/react/lib";
 
 type Tab = {
   label: string;
   icon: Icon;
-  href?: string;
+  href: string;
 };
 
-// Home + Compare + Analytics + Alerts are ported to web/ so far — see docs/MODULES.md.
-// The rest render disabled instead of linking to a page that doesn't exist yet.
+// The full web tab bar — Profile/Settings/Premium/Referral are app-phase
+// modules, not part of the web MVP (see docs/architecture/navigation.md).
 const TABS: Tab[] = [
   { label: "Home", icon: House, href: "/home" },
   { label: "Compare", icon: ArrowsLeftRight, href: "/compare" },
   { label: "Analytics", icon: ChartLineUp, href: "/analytics" },
   { label: "Alerts", icon: Bell, href: "/alerts" },
-  { label: "Profile", icon: UserCircle },
 ];
 
 export default function TabsLayout({
@@ -39,31 +37,18 @@ export default function TabsLayout({
           <nav className="flex items-center gap-0.5 sm:gap-1">
             {TABS.map((tab) => {
               const Icon = tab.icon;
-              const active = Boolean(tab.href);
-              const content = (
-                <span className="flex items-center gap-1.5 rounded-full px-2 py-1.5 text-sm font-medium sm:px-3">
-                  <Icon size={18} weight={active ? "fill" : "regular"} />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                </span>
-              );
-              return tab.href ? (
+              return (
                 <Link
                   key={tab.label}
                   href={tab.href}
                   aria-label={tab.label}
                   className="text-primary hover:bg-surface-hover"
                 >
-                  {content}
+                  <span className="flex items-center gap-1.5 rounded-full px-2 py-1.5 text-sm font-medium sm:px-3">
+                    <Icon size={18} weight="fill" />
+                    <span className="hidden sm:inline">{tab.label}</span>
+                  </span>
                 </Link>
-              ) : (
-                <span
-                  key={tab.label}
-                  aria-disabled="true"
-                  aria-label={tab.label}
-                  className="cursor-not-allowed text-text-tertiary opacity-50"
-                >
-                  {content}
-                </span>
               );
             })}
           </nav>

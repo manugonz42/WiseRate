@@ -187,8 +187,8 @@ function AlertsPageContent() {
         <div className="mb-5 flex items-start gap-3 rounded border border-primary/20 bg-primary/[0.08] px-4 py-3">
           <Info size={18} weight="fill" className="mt-0.5 shrink-0 text-primary" />
           <p className="flex-1 text-sm text-text-secondary">
-            Alerts are saved on this device. Notifications arrive once server
-            alerts ship.
+            Alerts are saved in this browser and checked while a tab is open.
+            Email delivery is coming soon.
           </p>
           <button
             onClick={dismissBanner}

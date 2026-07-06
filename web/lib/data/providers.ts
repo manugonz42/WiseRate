@@ -174,7 +174,7 @@ export function genericProviderDetail(id: string, name: string): ProviderDetail 
     userRating: 0,
     websiteURL: "",
     affiliateURL: null,
-    description: "Detailed profile coming soon.",
+    description: `We don't have a full profile for ${name} yet.`,
     reviewCount: 0,
     transferLimits: { minAmount: 0, maxAmount: 0, currency: "EUR" },
     fees: [],

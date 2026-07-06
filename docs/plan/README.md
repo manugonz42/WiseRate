@@ -5,7 +5,7 @@
 Goal: web MVP 100% presentable to affiliate/partner reviewers (Wise, Remitly, WU, TransferGo, brokers — application guide: `SolicitarAfiliados.md`, repo root). Same protocol as below: **"proceed TXX"**, in order, verify gate per task.
 
 - [x] [T17 — Trust & transparency pages](T17-trust-pages.md): /about, /how-we-make-money, /terms (DRAFT), contact email, inline affiliate disclosure
-- [ ] [T18 — Production polish](T18-production-polish.md): drop disabled Profile tab, 404/error pages, no mock quotes in prod, honest provider fallback
+- [x] [T18 — Production polish](T18-production-polish.md): drop disabled Profile tab, 404/error pages, no mock quotes in prod, honest provider fallback
 - [ ] [T19 — Provider editorial coverage](T19-provider-coverage.md): profile every provider visible in default compare lists
 - [ ] [T20 — Deploy readiness](T20-deploy-readiness.md): DEPLOY.md runbook, preview noindex, env audit, merge to main
 - [ ] [T21 — QA sweep + status flip](T21-qa-sweep.md): Playwright pass over every route × 2 viewports, fix all, MODULES.md → ✅

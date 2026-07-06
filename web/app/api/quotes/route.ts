@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAggregatedQuotes } from "@/lib/services/quotes";
+import { getAggregatedQuotes, stripMockInProduction } from "@/lib/services/quotes";
 import type { QuotesResponse } from "@/lib/models/types";
 
 // GET /api/quotes?from=EUR&to=PHP&amount=1000
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
       to,
       amount,
       rate,
-      quotes,
+      quotes: stripMockInProduction(quotes),
       stale: false,
     };
     return NextResponse.json(body);

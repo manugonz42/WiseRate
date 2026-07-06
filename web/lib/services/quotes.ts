@@ -135,3 +135,10 @@ export async function getAggregatedQuotes(
   await setCached(key, value, TTL_SECONDS);
   return value;
 }
+
+// Defense in depth: no live source currently produces a "mock" quote, but a
+// prod response must never surface one if a future fixture/dev path does.
+export function stripMockInProduction(quotes: TransferQuote[]): TransferQuote[] {
+  if (process.env.NODE_ENV !== "production") return quotes;
+  return quotes.filter((q) => q.source !== "mock");
+}
