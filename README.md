@@ -1,86 +1,49 @@
-# 💱 WiseRate
+# 💱 SulitSend
 
 > Compare money transfer rates and save on international transfers
 
-![Swift](https://img.shields.io/badge/Swift-5.9-F05138?style=for-the-badge&logo=swift&labelColor=1a1b26)
-![iOS](https://img.shields.io/badge/iOS-17+-c0caf5?style=for-the-badge&logo=apple&labelColor=1a1b26)
-![Fintech](https://img.shields.io/badge/Fintech-7aa2f7?style=for-the-badge&labelColor=1a1b26)
+![Swift](https://img.shields.io/badge/SwiftUI-iOS_17+-F05138?style=for-the-badge&logo=swift&labelColor=1a1b26)
+![Next.js](https://img.shields.io/badge/Next.js-15-c0caf5?style=for-the-badge&logo=nextdotjs&labelColor=1a1b26)
+![Compose](https://img.shields.io/badge/Jetpack_Compose-Android-3DDC84?style=for-the-badge&logo=android&labelColor=1a1b26)
 
----
-
-## 📸 Screenshot
-
-![WiseRate Dashboard](./assets/screenshot.png)
+**Status: pre-launch.** Roadmap and budget: [docs/ROADMAP.md](docs/ROADMAP.md) · Per-module status: [docs/MODULES.md](docs/MODULES.md)
 
 ---
 
 ## ✨ Features
 
-- 📊 **Real-time exchange rates** — Always up-to-date market rates
-- 💰 **Multi-currency support** — Compare 50+ currencies
-- 🧮 **Fee calculator** — Know the true cost of your transfer
-- 📍 **Save favorite corridors** — Quick access to your frequent transfers
-- 🔔 **Rate alerts** — Get notified when rates reach your target
+- 📊 **Real provider quotes** — live prices fetched from Wise, Western Union, Remitly, TransferGo + Wise Comparisons as filler
+- 💰 **True-cost comparison** — receive amount normalized so fees and FX markup can't hide
+- 🏷️ **Promo-aware** — first-transfer offers shown separately; ranking always uses the standard price
+- 📈 **Rate history & analytics** — mid-market trend per corridor (EUR→PHP first)
+- 🔔 **Rate alerts** — get notified when rates reach your target
 
----
+## 🛠 Tech stack
 
-## 📱 Installation
+| Platform | Stack | State |
+|----------|-------|-------|
+| **Web** (`web/`) | Next.js 15 · TypeScript · Tailwind | Home/Compare/Analytics/Alerts/Provider live on real quotes |
+| **iOS** (`WiseRate/`) | SwiftUI · SwiftData · StoreKit 2 | All screens; Frankfurter rates; quotes still mock |
+| **Android** (`android/`) | Jetpack Compose · Room | All screens scaffolded on mock data |
+| **Landing** (`landing/`) | Next.js (standalone) | Marketing site for the root domain |
 
-### iOS
+Cross-platform specs live in [`docs/`](docs/README.md) — one spec per module, specs drive code.
 
-1. Download from the App Store
-2. Open and allow notifications
-3. Set your preferred currencies
+## 🚀 Run locally
 
-### Web
+```sh
+# Web app
+cd web && npm install && npm run dev     # http://localhost:3000
 
-1. Visit [WiseRate Web](your-deployment-url)
-2. No account required
-3. Start comparing rates
+# Landing
+cd landing && npm install && npm run dev
 
----
+# Android
+cd android && ./gradlew assembleDebug
+```
 
-## 🛠 Tech Stack
-
-| Platform | Technologies |
-|----------|--------------|
-| **iOS** | Swift, UIKit/SwiftUI |
-| **Web** | HTML, CSS, JavaScript |
-| **API** | Currency exchange rates |
-
----
-
-## 🚀 How It Works
-
-1. Select your source currency
-2. Enter the amount
-3. Choose destination currency
-4. Compare rates from different providers
-5. See the best deal with total fees included
-
----
-
-## 🔗 Links
-
-- [App Store](your-app-store-link)
-- [Web App](your-web-url)
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-
----
+iOS: no `.xcodeproj` checked in yet — create an Xcode iOS App project referencing `WiseRate/` (iOS 17+).
 
 ## 📫 Contact
 
-Manuel González - [LinkedIn](https://linkedin.com/in/manugonz42) - manuel.gonzalez@example.com
-
-Project Link: [https://github.com/manugonz42/WiseRate](https://github.com/manugonz42/WiseRate)
+Manuel González — [LinkedIn](https://linkedin.com/in/manugonz42) · [GitHub](https://github.com/manugonz42)

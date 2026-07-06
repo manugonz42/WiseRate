@@ -46,6 +46,8 @@ markup          number    // 0..1
 rateValidUntil  date?
 isPromotion     boolean
 promotionText   string?
+source          enum<QuoteSource>   // direct | wise-comparisons | mock — where the numbers came from
+promo           PromoInfo?          // set when isPromotion
 
 // derived
 totalCost          = fee + (sendAmount * markup)
@@ -58,6 +60,24 @@ markupPercentage   = markup * 100
 minMinutes  int
 maxMinutes  int
 label       string         // "Instant", "Minutes", "1-24 hours", ...
+```
+
+### QuoteSource
+```
+direct            // fetched from the provider's own public endpoint
+wise-comparisons  // filler: what Wise's comparisons API attributes to the provider
+mock              // local fixture (iOS scaffold)
+```
+
+### PromoInfo
+First-transfer / new-customer offer attached to a quote. Base quote fields hold the **standard** (no-promo) price whenever it is derivable; ranking always uses the base fields.
+```
+description        string
+promoFee           number
+promoReceiveAmount number
+promoExchangeRate  number?
+baseIsStandard     boolean  // false when the provider doesn't publish a no-promo price
+                            // (then base fields == promo price, e.g. TransferGo FX discount)
 ```
 
 ### DeliveryMethod (enum)
@@ -79,7 +99,10 @@ isEnabled    boolean
 createdAt    date
 triggeredAt  date?
 notifyType   enum            // rateAbove | rateBelow | providerCheapest
+providerID   string?         // required when notifyType = providerCheapest
 ```
+
+(`providerID` added 2026-07 — platform mirrors that predate it, e.g. iOS `Models.swift`, still lack the field; add it when wiring real alerts.)
 
 ### UserProfile
 ```

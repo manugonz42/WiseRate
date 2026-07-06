@@ -1,6 +1,6 @@
 # Module: Analytics
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ (7D/30D live; ≥3M gated) · Android ☐
 
 ## Dependencies
 - **Reads:** [exchange-rate](../services/exchange-rate.md), [subscriptions](../services/subscriptions.md) (gate ≥3M ranges), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)
@@ -22,7 +22,7 @@ Historical rate trends for the user's preferred pair — high/low/avg, % change,
 - Tap "Set alert at this rate" → open Alerts pre-filled
 
 ## Acceptance criteria
-- Timeframe chips: 24H, 7D, 30D, 3M, 6M, 1Y (≥3M gated behind Premium — see [subscriptions](../services/subscriptions.md))
+- Timeframe chips: 7D, 30D, 3M, 6M, 1Y (≥3M gated behind Premium — see [subscriptions](../services/subscriptions.md)); 24H only once an intraday source exists ([exchange-rate](../services/exchange-rate.md) known limitations)
 - Stats card shows: high, low, average, % change over the selected range
 - Line chart spans the full width with axis labels; tap-to-scrub shows value tooltip
 - Empty state when historical data unavailable for the pair
@@ -30,7 +30,7 @@ Historical rate trends for the user's preferred pair — high/low/avg, % change,
 
 ## Platform notes
 - **iOS**: `WiseRate/Features/Analytics/AnalyticsView.swift` (chart component referenced but not yet implemented — needs Swift Charts)
-- **Web**: `web/app/(tabs)/analytics/page.tsx` — chart via Recharts or Visx
+- **Web**: `web/app/(tabs)/analytics/page.tsx` — chart via Recharts (decided, all web charts)
 - **Android**: `android/.../features/analytics/AnalyticsScreen.kt` — chart via Vico
 
 ## Open questions

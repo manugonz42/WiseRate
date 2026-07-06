@@ -20,6 +20,8 @@ Cross-platform route map. iOS is authoritative; other platforms mirror.
 | 4 | Alerts | bell | [alerts](../modules/alerts.md) |
 | 5 | Profile | person.circle | [profile](../modules/profile.md) |
 
+**Web note:** the web tab bar ships tabs 1–4 only (Home, Compare, Analytics, Alerts). Profile — and its Settings/Premium/Referral children — are app-phase modules, not part of the web MVP.
+
 ## Routes (push)
 
 | Route | Params | Module |

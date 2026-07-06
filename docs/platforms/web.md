@@ -2,67 +2,45 @@
 
 ## Dependencies
 - **Reads:** [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md), [navigation](../architecture/navigation.md), [localization](../architecture/localization.md), all [services](../services/)
-- **Future:** ⏳ PWA wrapper, ⏳ account auth (magic link + OAuth)
+- **Future:** ⏳ PWA wrapper, ⏳ account auth (magic link + OAuth), ⏳ i18next wiring
 
 ## Used by
-- Web port lives under `web/` (after migration from `WiseRate-Web/index.html`)
-- Each [module](../modules/) maps its web path here in its Platform notes
+- Production app under `web/`; each [module](../modules/) maps its web path in its Platform notes
+- `WiseRate-Web/index.html` is the frozen single-file prototype — visual reference only, never add features there
 
-## Current state
+## Stack
 
-`WiseRate-Web/index.html` — a 2,416-line single-file prototype. Vanilla JS, no framework, no build step. Useful as a visual demo; not the production target.
+**Next.js 15 (App Router) + TypeScript + Tailwind** (tokens bound in `tailwind.config.ts` / `styles/tokens.css`). Charts: **Recharts** (decided T05, all web charts). State: React state (+ Zustand if cross-screen state appears; no Redux). Persistence: localStorage via `lib/services/persistence.ts` today; IndexedDB/Dexie when data outgrows it ([persistence](../services/persistence.md)). i18n: i18next, not wired yet. `npm run dev` (repo uses npm); deploy target Vercel. SEO: `NEXT_PUBLIC_SITE_URL` (`lib/site.ts`) backs metadataBase/sitemap/robots/canonical — unset defaults to `https://app.sulitsend.app`.
 
-Screens implemented inline: Home, Compare, Analytics, Premium, Profile, Referral, Settings, Provider Detail. **Onboarding is missing** — flagged in [navigation](../architecture/navigation.md).
+## Desktop layout (web is not a phone screen)
 
-## Target stack
+- **Top nav bar**, not bottom tabs: sticky header, SulitSend wordmark + all 5 [tabs](../architecture/navigation.md#tab-bar-5-tabs) inline. Icons `@phosphor-icons/react`; labels show at `sm`+, icon-only below (`aria-label` carries the name). Unported tabs render disabled/muted, never 404 — un-disable as modules land per [MODULES.md](../MODULES.md).
+- **Breakpoints**: standard Tailwind; `md` (768) is the phone→desktop hinge — tables/multi-column at `md`+, stacked cards below.
+- **Content width**: data screens use `max-w-4xl` centered — real-table wide, still readable; never phone-width `max-w-lg`.
+- **Compare table** at `md`+: Provider · Recipient gets · Fee · Markup · Speed · Trust (· Send); cards below `md`.
+- **Best-deal emphasis**: `--warning` amber (matches mobile), shown twice on purpose — banner + highlighted row — so it survives scrolling. Trust = 5 dots (`trustScore * 5`, rounded).
+- **No landing-page patterns** (heroes, marquees, `py-24`+ whitespace): this is a utility surface. The marketing page is the separate `landing/` project ([landing](../modules/landing.md)) at the root domain; this app serves `app.sulitsend.app`.
 
-**Next.js 15 (App Router) + TypeScript + Tailwind + i18next**.
-
-Why:
-- TypeScript lets us share generated types from [data-model](../architecture/data-model.md) with backend.
-- App Router gives file-based routing that maps 1:1 to our routes.
-- Tailwind binds our design tokens via `tailwind.config.ts`.
-- i18next is the most ecosystem-aligned choice for en/es/tl.
-
-## Folder layout (target)
+## Layout
 
 ```
 web/
-├── app/
-│   ├── (tabs)/{home,compare,analytics,alerts,profile}/page.tsx
-│   ├── provider/[id]/page.tsx
-│   ├── onboarding/page.tsx
-│   └── layout.tsx
-├── components/         # shared UI primitives (Card, Button, Chip, ...)
-├── features/<module>/  # feature-local components + hooks + state
+├── app/(tabs)/{home,compare,analytics,alerts}/page.tsx   # profile pending
+├── app/provider/[id]/ · app/{privacy,cookies}/ · app/api/{quotes,history,health}/
+├── app/{about,how-we-make-money,terms}/   # trust pages — T17
+├── components/          # ConsentBanner, AnalyticsProvider, shared primitives
 ├── lib/
-│   ├── services/       # rate, alerts, persistence (IndexedDB)
-│   ├── i18n/
-│   └── models/         # generated TS types from data-model.md
-├── public/
-└── styles/
-    └── tokens.css      # CSS vars from design-system.md
+│   ├── services/        # quotes aggregator, providers/*, cache, history, persistence, trust
+│   ├── models/types.ts  # mirrors data-model.md
+│   ├── data/providers.ts  # editorial profiles (affiliate URLs land here)
+│   └── {analytics,consent,brokers}.ts
+└── styles/tokens.css    # CSS vars from design-system.md
 ```
 
-## Migration plan (from `index.html`)
+## Verification
 
-1. Scaffold Next.js project under `web/`.
-2. Copy `:root` CSS vars verbatim into `styles/tokens.css` (already matches [design-system](../architecture/design-system.md)).
-3. Port screens one at a time, in [MODULES.md](../MODULES.md) order. Each port = one PR.
-4. Keep `WiseRate-Web/index.html` until web parity reaches Home + Compare + Provider Detail (the affiliate-link earning flow).
-
-## State management
-
-React state + Zustand for cross-screen state (current quote query, comparison result). No Redux.
-
-## Persistence
-
-IndexedDB via Dexie — see [persistence](../services/persistence.md).
-
-## Build / dev
-
-`pnpm dev` for local; deploy target Vercel. PWA wrapper deferred.
+`npm test` (vitest) + `npm run build` + `npm run lint` must pass on every change. For interactive flows use the Playwright recipe in [plan/README](../plan/README.md#runtime-ui-verification-reusable-recipe).
 
 ## Auth (later)
 
-Same backend as iOS/Android — magic link + Apple/Google OAuth. Out of scope for the initial port.
+Same backend as iOS/Android — magic link + Apple/Google OAuth. Out of scope for now.

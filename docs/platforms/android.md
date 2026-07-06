@@ -2,14 +2,14 @@
 
 ## Dependencies
 - **Reads:** [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md), [navigation](../architecture/navigation.md), [localization](../architecture/localization.md), all [services](../services/)
-- **Future:** ⏳ initial scaffold (not started yet)
+- **Future:** ⏳ real services wiring ([ROADMAP](../ROADMAP.md) Phase 4)
 
 ## Used by
 - Future Android module files (one per [module](../modules/)) will map their paths here
 
 ## Status
 
-Not started. This file is the brief for the initial scaffold.
+Scaffold **built** — all screens + ViewModels exist under `android/` on mock data — and **frozen until [ROADMAP](../ROADMAP.md) Phase 4**. Don't port data-model or feature changes here before then; reconcile divergence when the phase starts.
 
 ## Target stack
 

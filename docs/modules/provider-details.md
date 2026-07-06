@@ -1,6 +1,6 @@
 # Module: Provider Details
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ (editorial data static — Wise, Western Union, Remitly, TransferGo only; other providers get a generic live-quote view) · Android ☐
 
 ## Dependencies
 - **Reads:** [exchange-rate](../services/exchange-rate.md), [persistence](../services/persistence.md) (favorites toggle), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)
@@ -34,12 +34,13 @@ Deep-dive on one provider: trust, fees, delivery methods, pros/cons, historical 
 - Fee structure section: one row per `FeeStructure`, with delivery method icon
 - Delivery methods chips
 - Pros / cons two-column or stacked
-- Historical rate chart with timeframe chips (24H, 7D, 30D, 3M, 6M, 1Y) — Premium gates >30D
+- Historical rate chart with timeframe chips (7D, 30D, 3M, 6M, 1Y; no 24H — see [exchange-rate](../services/exchange-rate.md)) — Premium gates >30D
 - CTA button is sticky-bottom on mobile, prominent on web
+- Unknown provider ids (`genericProviderDetail`): trust/rating/review line and the limits/fees/delivery/pros-cons sections are hidden rather than shown at zero; copy reads "We don't have a full profile for {name} yet.", live quote shows if available, "Compare all providers →" link stays below
 
 ## Platform notes
 - **iOS**: `WiseRate/Features/ProviderDetails/ProviderDetailView.swift` (359 lines)
-- **Web**: `web/app/provider/[id]/page.tsx`
+- **Web**: `web/app/provider/[id]/page.tsx` — per-provider `generateMetadata` (title/description/canonical) for known ids; unknown ids get `robots: noindex, follow: false` and a generic title.
 - **Android**: `android/.../features/providerdetails/ProviderDetailScreen.kt`
 
 ## Open questions

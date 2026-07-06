@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+/*
+ * Standalone marketing palette, deliberately not the app's tokens
+ * (docs/architecture/design-system.md: violet/cyan on near-black).
+ * Terracotta accent on a cool slate neutral, light by default,
+ * dark via prefers-color-scheme.
+ */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-tint: #eceef1;
+  --ink: #14171c;
+  --ink-soft: rgba(20, 23, 28, 0.64);
+  --ink-faint: rgba(20, 23, 28, 0.4);
+  --line: rgba(20, 23, 28, 0.1);
+  --accent: #d9622e;
+  --accent-strong: #b84d1f;
+  --accent-soft: rgba(217, 98, 46, 0.12);
+  --accent-on: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101216;
+    --surface: #171a20;
+    --surface-tint: #1d2027;
+    --ink: #f2f3f5;
+    --ink-soft: rgba(242, 243, 245, 0.66);
+    --ink-faint: rgba(242, 243, 245, 0.42);
+    --line: rgba(255, 255, 255, 0.09);
+    --accent: #e8834e;
+    --accent-strong: #f2a06e;
+    --accent-soft: rgba(232, 131, 78, 0.16);
+    --accent-on: #14171c;
+  }
+}
+
+@theme {
+  --color-paper: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-tint: var(--surface-tint);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-on: var(--accent-on);
+
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 32s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

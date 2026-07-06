@@ -1,6 +1,8 @@
 # Module: Premium
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ · Android ◐ (scaffold, frozen)
+
+> **Planning note:** deferred to [ROADMAP](../ROADMAP.md) Phase 5. Web/Android premium needs auth + Stripe/Play Billing backend (none scheduled earlier); iOS StoreKit works account-less but affiliate links are the primary monetization until traffic proves demand — a paywall competes with our own affiliate clicks.
 
 ## Dependencies
 - **Reads:** [subscriptions](../services/subscriptions.md), [localization](../architecture/localization.md) (currency formatting), [design-system](../architecture/design-system.md)

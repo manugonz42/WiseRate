@@ -74,7 +74,7 @@ enum OnboardingPage: Int, CaseIterable {
     
     var title: String {
         switch self {
-        case .welcome: return "Welcome to WiseRate"
+        case .welcome: return "Welcome to SulitSend"
         case .features: return "Compare & Save"
         case .currency: return "Your Currencies"
         case .notifications: return "Stay Updated"

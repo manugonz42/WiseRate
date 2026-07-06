@@ -1,0 +1,32 @@
+Provider,Tier,Data_Source,Verified,Quote_Endpoint,Runs_On,Payout_PH,Affiliate,Research_Owner,Research_Needed,Priority
+Wise,reliable,direct-endpoint,2026-07-02,POST https://api.wise.com/v3/quotes/ (public; per pay-in paymentOptions + delivery),web-server,bank+GCash,Yes,done,,1
+MoneyGram,reliable,wise-comparisons,2026-07-02,direct consumerapi.moneygram.com feeLookup -> 401 (needs ClientKey header),web-server,bank+cash+GCash,Yes,user,Capture calculator XHR incl. ClientKey header on moneygram.com,1
+Remitly,reliable,direct-endpoint,2026-07-02,GET https://api.remitly.io/v3/calculator/estimate?conduit=ESP:EUR-PHL:PHP (public),web-server,bank+cash+GCash+Maya,Yes,decision,Decide promo vs standard rate (response includes new-customer discount),1
+WorldRemit,reliable,wise-comparisons,2026-07-02,POST https://api.worldremit.com/graphql (open; introspection disabled),web-server,bank+cash+GCash+GrabPay+Maya+ShopeePay,Yes,user,Capture createCalculation mutation XHR on worldremit.com,1
+Western Union,reliable,direct-endpoint,2026-07-02,POST https://www.westernunion.com/wuconnect/prices/catalog (public; full catalog per service x pay-in),web-server,bank+cash+GCash,Yes,done,Map service codes (000/500/800) and fund_in codes (CC/EB/AP/GP...),1
+Xoom,reliable,wise-comparisons,2026-07-02,direct calculate-fee-table -> 302 redirect,web-server,bank+cash,No,user,Capture calculator XHR on xoom.com (PayPal session likely),1
+Instarem,reliable,wise-comparisons,2026-07-02,direct /api/v1/public/prices -> 401 session,web-server,bank,Yes,user,Capture calculator XHR on instarem.com,2
+OFX,reliable,wise-comparisons,2026-07-02,direct PublicSite.ApiService -> 500 (pair or path),web-server,bank,Yes,user,Capture calculator XHR on ofx.com,3
+PayPal,extra,wise-comparisons,2026-07-02,(via Wise API),web-server,PayPal balance,No,decision,Decide if shown (not a remittance product),3
+EU banks (UniCredit/BNP/ABN AMRO/Monese),extra,wise-comparisons,2026-07-02,(via Wise API),web-server,bank,No,decision,Decide if bank SWIFT rows are shown or filtered,4
+TransferGo,reliable,public-endpoint,2026-07-02,https://my.transfergo.com/api/booking/quotes?fromCurrencyCode=EUR&toCurrencyCode=PHP&fromCountryCode=ES&toCountryCode=PH&amount=1000&calculationBase=sendAmount,web-server,bank+PH wallet (per-method options in response),Yes,claude,Map option codes (e.g. bank-phWallet) to delivery methods,1
+Ria Money Transfer,reliable,scraper,no,unknown,scraper-backend,bank+cash+wallets,Yes,user,Capture calculator XHR (F12>Network) on riamoneytransfer.com/es; note Cloudflare,1
+Moneytrans,reliable,scraper,no,unknown,scraper-backend,bank+cash (Cebuana/MLhuillier)+GCash,Unknown,user,Capture calculator XHR; confirm affiliate program exists,1
+Small World,reliable,scraper,no,unknown,scraper-backend,bank+cash,Yes,user,Capture calculator XHR on smallworldfs.com,2
+XE Money Transfer,reliable,scraper,no,unknown,scraper-backend,bank+wallet,Yes,claude+user,Claude probes endpoint first; user captures XHR if blocked,2
+Paysend,doubtful,scraper,probe-failed(500),unknown,scraper-backend,card+bank? (PH methods unconfirmed),Yes,user,Capture calculator XHR; confirm GCash/bank payout exists,2
+Taptap Send,doubtful,verify,no,unknown,tbd,GCash+bank?,Unknown,claude+user,User confirms ES is a send country in the app; Claude probes endpoint,2
+Xendpay,doubtful,verify,no,unknown,tbd,bank,Yes,user,Confirm ES->PH corridor still active,3
+CurrencyFair,doubtful,verify,no,unknown,tbd,bank only,Yes,decision,No cash/wallet payout; decide relevance for small remittances,3
+Skrill Money Transfer,doubtful,verify,no,unknown,tbd,unknown,No,user,Confirm ES->PH + payout methods,3
+LemFi,doubtful,verify,no,unknown,tbd,bank+GCash?,Unknown,user,Confirm ES is a send country,3
+Sendwave,doubtful,verify,no,unknown,tbd,GCash+bank,Unknown,user,Confirm ES is a send country,3
+iRemit,doubtful,verify,no,unknown,tbd,bank+cash,Unknown,user,Check Banco de Espana registry for ES licence,4
+Revolut,doubtful,drop?,no,n/a,n/a,SWIFT bank only,No,decision,Quote requires logged-in account; no public price to compare,4
+Correos Giro Internacional,reliable,static-tariff,no,n/a (fixed tariff table),web-server (static),cash pickup,No,user,Get current international giro tariff table,3
+Azimo,drop,,n/a,,,,,done,Papaya Global pivot to B2B payroll; consumer product discontinued,-
+PandaRemit,drop,,n/a,,,,,done,No ES licence evidence; low review volume,-
+OrbitRemit,drop,,n/a,,,,,done,NZ/AU send countries only,-
+SingX,drop,,n/a,,,,,done,SG send country only,-
+TorFX,drop,,n/a,,,,,done,UK FX broker; no ES->PH retail remittance,-
+Halo Financial,drop,,n/a,,,,,done,UK FX broker; no ES->PH retail remittance,-

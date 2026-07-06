@@ -1,0 +1,40 @@
+Provider,Category,Country,ES_to_PH,Public_API,Partner_API,Affiliate,Website,Priority
+Wise,Consumer,UK,Yes,Yes,Yes,Yes,https://wise.com,1
+MoneyGram,Consumer,USA,Yes,Yes,Yes,Yes,https://moneygram.com,1
+Remitly,Consumer,USA,Yes,No,Yes,Yes,https://remitly.com,1
+WorldRemit,Consumer,UK,Yes,No,Yes,Yes,https://worldremit.com,1
+Ria Money Transfer,Consumer,USA,Yes,No,Yes,Yes,https://riamoneytransfer.com,1
+Western Union,Consumer,USA,Yes,No,Enterprise,Yes,https://westernunion.com,1
+Xoom,Consumer,USA,Yes,No,Limited,No,https://xoom.com,1
+Paysend,Consumer,UK,Yes,No,Yes,Yes,https://paysend.com,1
+TransferGo,Consumer,UK,Yes,No,Yes,Yes,https://transfergo.com,1
+XE Money Transfer,Consumer,Canada,Yes,No,Yes,Yes,https://xe.com,1
+OFX,Consumer,Australia,Yes,No,Yes,Yes,https://ofx.com,1
+Taptap Send,Consumer,USA,Yes,Limited,Limited,Unknown,https://taptapsend.com,1
+Xendpay,Consumer,UK,Yes,No,Yes,Yes,https://xendpay.com,1
+Skrill,Consumer,UK,Yes,No,Unknown,No,https://skrill.com,2
+Revolut,Fintech,UK,Yes,No,Business,No,https://revolut.com,2
+Currencycloud,Infrastructure,UK,Infra,Yes,Yes,No,https://currencycloud.com,1
+Nium,Infrastructure,Singapore,Infra,Yes,Yes,No,https://nium.com,1
+Thunes,Infrastructure,Singapore,Infra,Yes,Yes,No,https://thunes.com,1
+TerraPay,Infrastructure,Netherlands,Infra,Yes,Yes,No,https://terrapay.com,1
+Rapyd,Infrastructure,Israel,Infra,Yes,Yes,No,https://rapyd.net,2
+dLocal,Infrastructure,Uruguay,Infra,Yes,Yes,No,https://dlocal.com,2
+Airwallex,Infrastructure,Australia,Infra,Yes,Yes,No,https://airwallex.com,2
+LemFi,Consumer,UK,Yes,No,Unknown,No,https://lemfi.com,2
+NALA,Consumer,Tanzania,Yes,No,Unknown,No,https://nala.com,2
+Instarem,Consumer,Singapore,Yes,No,Yes,Yes,https://instarem.com,2
+CurrencyFair,Consumer,Ireland,Yes,No,Yes,Yes,https://currencyfair.com,2
+Small World,Consumer,UK,Yes,No,Yes,Yes,https://smallworldfs.com,2
+OrbitRemit,Consumer,NZ,Yes,No,Unknown,Unknown,https://orbitremit.com,3
+SingX,Consumer,Singapore,Yes,No,Unknown,Unknown,https://singx.co,3
+TorFX,Consumer,UK,Yes,No,Unknown,Unknown,https://torfx.com,3
+Halo Financial,Consumer,UK,Yes,No,Unknown,Unknown,https://halofinancial.com,3
+GCash,Wallet,Philippines,Yes,No,Partner,No,https://gcash.com,1
+Maya,Wallet,Philippines,Yes,No,Partner,No,https://maya.ph,1
+Coins.ph,Wallet,Philippines,Yes,No,Partner,No,https://coins.ph,2
+Cebuana Lhuillier,Regional,Philippines,Yes,No,Unknown,Unknown,https://cebuanalhuillier.com,2
+Palawan Express,Regional,Philippines,Yes,No,Unknown,Unknown,https://palawanpawnshop.com,2
+MLhuillier,Regional,Philippines,Yes,No,Unknown,Unknown,https://mlhuillier.com,2
+Tranglo,Infrastructure,Malaysia,Infra,Yes,Yes,No,https://tranglo.com,2
+EMQ,Infrastructure,Hong Kong,Infra,Yes,Yes,No,https://emq.com,2

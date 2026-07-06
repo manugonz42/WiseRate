@@ -1,60 +1,36 @@
 # Architecture Overview
 
 ## Dependencies
-- **Reads:** — (entry doc; references all others)
+- **Reads:** — (entry doc)
 - **Future:** ⏳ backend topology diagram once API is live
 
 ## Used by
-- [README](../README.md) — first stop for new contributors
-- All [platforms](../platforms/) reference the layer model defined here
+- [README](../README.md) — first stop for new contributors; all [platforms](../platforms/) reference the layer model
 
-## What WiseRate is
+## What SulitSend is
 
-A rate-comparison app for international money transfers. Primary corridor: **EUR → PHP**. The user types an amount, sees the best providers ranked by total cost / receive amount / speed, sets alerts, and taps out to the provider via affiliate links.
+A rate-comparison app for international money transfers, primary corridor **EUR → PHP**. User enters an amount, sees providers ranked by receive amount / total cost / speed, sets alerts, and taps out via affiliate links (the revenue).
 
 ## Three platforms, one spec
 
-```
-                ┌─────────────────────────────┐
-                │   docs/  (this folder)      │
-                │   ── source of truth ──     │
-                └─────────────┬───────────────┘
-                              │
-        ┌─────────────────────┼─────────────────────┐
-        ▼                     ▼                     ▼
-   ┌──────────┐         ┌──────────┐          ┌──────────┐
-   │   iOS    │         │   Web    │          │ Android  │
-   │ SwiftUI  │         │ Next.js  │          │ Compose  │
-   └────┬─────┘         └────┬─────┘          └────┬─────┘
-        └─────────────┬──────┴─────────────────────┘
-                      ▼
-         ┌────────────────────────────┐
-         │  Shared services (HTTP)    │
-         │  rate · auth · push · IAP  │
-         └────────────────────────────┘
-```
+`docs/` is the source of truth feeding three native implementations — iOS (SwiftUI) · Web (Next.js) · Android (Compose) — which converge on shared HTTP services (rate · auth · push · IAP).
 
-## Layers (consistent across platforms)
+Layers, identical on every platform:
 
-1. **View** — screen / composable / component. UI only.
+1. **View** — screen/composable/component. UI only.
 2. **ViewModel** — observable state + intents. No UI, no I/O.
-3. **Service** — protocol-defined I/O (HTTP, persistence, notifications). Swappable mock ↔ real.
-4. **Model** — plain data structs/classes mirroring [`data-model.md`](data-model.md).
-
-## What's shared vs platform-specific
+3. **Service** — protocol-defined I/O, swappable mock ↔ real.
+4. **Model** — plain data types mirroring [data-model](data-model.md).
 
 | Concern | Shared | Per-platform |
 |---|---|---|
-| Data model | ✅ schema | type definitions (Swift struct / TS interface / Kotlin data class) |
-| Service contracts | ✅ method signatures, errors | client implementation |
-| Design tokens | ✅ values (hex, sp, ms) | binding (Color.swift / CSS vars / Compose theme) |
-| Copy / i18n | ✅ keys + en/es/tl strings | platform string store |
-| Navigation routes | ✅ names + params | router wiring |
-| UI components | ❌ | each platform reimplements |
+| Data model | schema | Swift struct / TS interface / Kotlin data class |
+| Service contracts | signatures, errors | client implementation |
+| Design tokens | values | Colors.swift / CSS vars / Compose theme |
+| Copy / i18n | keys + en/es/tl strings | platform string store |
+| Navigation | route names + params | router wiring |
+| UI components | — | each platform reimplements |
 
 ## Current state
 
-- iOS scaffold complete with mock data — see [platforms/ios.md](../platforms/ios.md).
-- Web is a 2,416-line single-file HTML prototype — see [platforms/web.md](../platforms/web.md).
-- Android: not started.
-- No backend yet. Real services are tracked in [services/](../services/).
+See [MODULES.md](../MODULES.md) for the live module × platform table. Broadly: web is the production lead (real quotes, five screens, analytics, KV cache); iOS scaffold is complete on mock quotes with real StoreKit 2 + SwiftData + local notifications; Android is a frozen Compose scaffold on mocks; no backend beyond the `web/` API routes.

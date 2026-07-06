@@ -1,0 +1,116 @@
+{
+  "corridorType": "international",
+  "deliveryType": "payInPayOutPairBased",
+  "options": [
+    {
+      "code": "bank-phWallet",
+      "corridor": {
+        "fromCountry": "ES",
+        "toCountry": "PH"
+      },
+      "label": "payinout_bank_phwallet",
+      "isDefault": true,
+      "availability": {
+        "isAvailable": true,
+        "reason": null,
+        "maxAmount": {
+          "value": "1000000.00",
+          "currency": "EUR"
+        }
+      },
+      "promotion": {
+        "isApplied": true,
+        "isFxDiscountApplied": true,
+        "notAppliedReason": null
+      },
+      "visibility": {
+        "tag": "cheaper",
+        "estimateLabel": "in_one_business_day",
+        "infoMessage": "manual_bank_to_ph_wallet_transfer",
+        "viewAmountMessage": "generic_msg",
+        "warningMessage": null,
+        "warningMessages": [
+          {
+            "message": "promotional_pricing_disclaimer",
+            "extra": {
+              "capAmount": {
+                "value": "500.00",
+                "currency": "EUR"
+              }
+            }
+          }
+        ],
+        "isEstimateSpeedInfoVisible": false,
+        "estimate": {
+          "label": "tg_be_estimate_in_one_business_day",
+          "isHighlighted": false
+        },
+        "fee": {
+          "label": "tg_be_included_zero_fee",
+          "isHighlighted": true
+        }
+      },
+      "fee": {
+        "value": "0.00",
+        "valueBeforeDiscount": "0.00",
+        "currency": "EUR"
+      },
+      "rate": {
+        "value": "69.5743",
+        "fromCurrency": "EUR",
+        "toCurrency": "PHP"
+      },
+      "receivingAmount": {
+        "value": "69574.30",
+        "currency": "PHP"
+      },
+      "sendingAmount": {
+        "value": "1000.00",
+        "currency": "EUR"
+      },
+      "saving": {
+        "amount": {
+          "value": "0.00",
+          "currency": "EUR"
+        }
+      },
+      "isIdvRequired": false,
+      "idvRequirementState": "notApplicable",
+      "payIn": {
+        "code": "bank",
+        "availableSourceCountries": null,
+        "visibility": {
+          "tag": null,
+          "label": "tg_be_payin_bank",
+          "estimateLabel": "tg_be_in_one_business_day",
+          "feeLabel": {
+            "key": "tg_be_zero_fee",
+            "value": "0.00",
+            "currency": "EUR"
+          }
+        }
+      },
+      "payOut": {
+        "code": "phWallet",
+        "supportedTypes": [
+          "myself",
+          "personal"
+        ],
+        "visibility": {
+          "accountType": "phWallet",
+          "title": "tg_be_ph_wallet_title",
+          "description": "tg_be_ph_wallet_description",
+          "icon": "https://app.transfergo.com/assets/payout-options/tg_be_mobile_wallet.png",
+          "tags": null
+        }
+      },
+      "bookingToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZW5kaW5nQW1vdW50IjoxMDAwLCJyZWNlaXZpbmdBbW91bnQiOjY5NTc0LjMsInRyYW5zZmVyUm91dGUiOnsiZnJvbUNvdW50cnkiOiJFUyIsImZyb21DdXJyZW5jeSI6IkVVUiIsInRvQ291bnRyeSI6IlBIIiwidG9DdXJyZW5jeSI6IlBIUCIsInNlbmRlclR5cGUiOiJwZXJzb25hbCIsInJlY2lwaWVudFR5cGUiOm51bGwsImFjY291bnRUeXBlIjoicGhXYWxsZXQifSwiZGVsaXZlcnlPcHRpb24iOiJzdGFuZGFyZCIsInJhdGUiOnsiZnJvbSI6IkVVUiIsInRvIjoiUEhQIiwicmF0ZSI6NjkuNTc0MywicHJvdmlkZXIiOm51bGwsInRpbWVzdGFtcCI6MTc4Mjk5NTI5OX0sImZlZXMiOnsiZmluYWxGZWUiOjAsImZlZXMiOnsicGF5bWVudC1vcHRpb24iOnsidGFyZ2V0IjoicGF5bWVudC1vcHRpb24iLCJ0eXBlIjoicGVyY2VudCIsImFtb3VudCI6MCwicmF3X2Ftb3VudCI6MCwicGVyY2VudCI6MH0sImRlbGl2ZXJ5LW9wdGlvbiI6eyJ0YXJnZXQiOiJkZWxpdmVyeS1vcHRpb24iLCJ0eXBlIjoiYWJzb2x1dGUiLCJhbW91bnQiOjAsInJhd19hbW91bnQiOjAsInBlcmNlbnQiOjB9LCJwYXktaW4tbWV0aG9kLWZlZSI6eyJ0YXJnZXQiOiJwYXktaW4tbWV0aG9kLWZlZSIsInR5cGUiOiJhYnNvbHV0ZSIsImFtb3VudCI6MCwicmF3X2Ftb3VudCI6MCwicGVyY2VudCI6bnVsbH0sInBheW91dC1tZXRob2QtYmFzZWQtZmVlIjp7InRhcmdldCI6InBheW91dC1tZXRob2QtYmFzZWQtZmVlIiwidHlwZSI6ImFic29sdXRlIiwiYW1vdW50IjowLCJyYXdfYW1vdW50IjowLCJwZXJjZW50IjpudWxsfSwicGF5LWluLW1ldGhvZC1mZWUtZGlzY291bnQiOnsidGFyZ2V0IjoicGF5LWluLW1ldGhvZC1mZWUtZGlzY291bnQiLCJ0eXBlIjoiYWJzb2x1dGUiLCJhbW91bnQiOjAsInJhd19hbW91bnQiOjAsInBlcmNlbnQiOm51bGx9LCJwYXlvdXQtbWV0aG9kLWJhc2VkLWZlZS1kaXNjb3VudCI6eyJ0YXJnZXQiOiJwYXlvdXQtbWV0aG9kLWJhc2VkLWZlZS1kaXNjb3VudCIsInR5cGUiOiJhYnNvbHV0ZSIsImFtb3VudCI6MCwicmF3X2Ftb3VudCI6MCwicGVyY2VudCI6bnVsbH19fSwiY291cG9uIjoiRVVSX1BIUF9GWEZFRSIsInBheW1lbnRPcHRpb24iOiJiYW5rIiwibWlkTWFya2V0UmF0ZSI6eyJmcm9tIjoiRVVSIiwidG8iOiJQSFAiLCJyYXRlIjo3MC4yMDU1OSwicHJvdmlkZXIiOm51bGwsInRpbWVzdGFtcCI6MTc4Mjk5NTI5OX0sImZ4UmF0ZSI6eyJmcm9tIjoiRVVSIiwidG8iOiJQSFAiLCJyYXRlIjowLjAyMTIsInByb3ZpZGVyIjpudWxsLCJ0aW1lc3RhbXAiOjE3ODI5OTUyOTl9LCJiYXNlTWlkTWFya2V0UmF0ZSI6eyJmcm9tIjoiRVVSIiwidG8iOiJHQlAiLCJyYXRlIjowLjg1NjY2LCJwcm92aWRlciI6bnVsbCwidGltZXN0YW1wIjoxNzgyOTk1MjUwfSwiYmFzZU1pZE1hcmtldFJhdGVFdXIiOnsiZnJvbSI6IkVVUiIsInRvIjoiRVVSIiwicmF0ZSI6MSwicHJvdmlkZXIiOm51bGwsInRpbWVzdGFtcCI6MTc4Mjk5NTI5OX0sImlzUHJvbW90aW9uQXBwbGllZCI6ZmFsc2UsImlzUHJvbW90aW9uQXV0b0FwcGxpZWQiOnRydWUsImRlbGl2ZXJ5RXN0aW1hdGUiOiIyMDI2LTA3LTAzVDE3OjMwOjAwKzAwOjAwIiwiaXNCdXNpbmVzc1VzZXIiOmZhbHNlLCJmeFJhdGVzIjpbeyJwcm92aWRlciI6IlZJU0EiLCJyYXRlIjo2OS45ODcwNjM2MzM5fSx7InByb3ZpZGVyIjoiT1BFTl9FWENIQU5HRSIsInJhdGUiOjcwLjIwNTU5fSx7InByb3ZpZGVyIjoiTUFTVEVSQ0FSRCIsInJhdGUiOjY5LjUwNDM4NTM1fV0sImlhdCI6MTc4Mjk5NTI5OSwibmJmIjoxNzgyOTk1Mjk5LCJleHAiOjE3ODI5OTg4OTl9.AeD8T62v6PYpPt1Eu5PiBvmu8l9j3Le9SzqUoYZtnfg"
+    }
+  ],
+  "accountTypes": [],
+  "suggestion": null,
+  "visibility": {
+    "payInPayOutViewAmount": "receiving",
+    "showMoreLimit": 5
+  }
+}

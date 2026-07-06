@@ -27,7 +27,7 @@ Local data the user owns: profile, alerts, favorites, recent providers, cached q
 |---|---|
 | iOS | **SwiftData** (iOS 17+). One `ModelContainer` in `WiseRateApp.swift`. `CachedQuote`/`CachedHistorical` are **not** SwiftData — they are served by the rate-layer `RateCache` (disk+memory); SwiftData only owns user data (profile, alerts, favorites, recents, settings). |
 | Android | **Room** with KSP. DAOs per entity. |
-| Web | **IndexedDB via Dexie**. One DB, one table per entity. |
+| Web | Today: typed **localStorage** wrapper (`web/lib/services/persistence.ts` — alerts + favorites under `sulitsend.*.v1` keys; consent in `lib/consent.ts`). Move to **IndexedDB via Dexie** when data outgrows it. |
 
 ## Migrations
 

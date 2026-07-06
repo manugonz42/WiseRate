@@ -4,28 +4,35 @@ Status table for every feature module across the three platforms.
 
 Legend: ☐ not started · ◐ in-progress · ✅ shipped
 
+Android column: Compose screens + ViewModels exist for every module (mock data) — ◐ means scaffolded on mocks, not wired to real services.
+
 | Module | iOS | Web | Android | Spec |
 |---|:-:|:-:|:-:|---|
-| Home | ◐ | ◐ | ☐ | [home.md](modules/home.md) |
-| Comparison | ◐ | ◐ | ☐ | [comparison.md](modules/comparison.md) |
-| Provider Details | ◐ | ◐ | ☐ | [provider-details.md](modules/provider-details.md) |
-| Analytics | ◐ | ◐ | ☐ | [analytics.md](modules/analytics.md) |
-| Alerts | ◐ | ◐ | ☐ | [alerts.md](modules/alerts.md) |
-| Profile | ◐ | ◐ | ☐ | [profile.md](modules/profile.md) |
-| Settings | ◐ | ◐ | ☐ | [settings.md](modules/settings.md) |
-| Premium | ◐ | ◐ | ☐ | [premium.md](modules/premium.md) |
-| Referral | ◐ | ◐ | ☐ | [referral.md](modules/referral.md) |
-| Onboarding | ◐ | ☐ | ☐ | [onboarding.md](modules/onboarding.md) |
+| Home | ◐ | ◐ | ◐ | [home.md](modules/home.md) |
+| Comparison | ◐ | ◐ | ◐ | [comparison.md](modules/comparison.md) |
+| Provider Details | ◐ | ◐ | ◐ | [provider-details.md](modules/provider-details.md) |
+| Analytics | ◐ | ◐ | ◐ | [analytics.md](modules/analytics.md) |
+| Alerts | ◐ | ◐ | ◐ | [alerts.md](modules/alerts.md) |
+| Profile | ◐ | ☐* | ◐ | [profile.md](modules/profile.md) |
+| Settings | ◐ | ☐* | ◐ | [settings.md](modules/settings.md) |
+| Premium | ◐ | ☐* | ◐ | [premium.md](modules/premium.md) |
+| Referral | ◐ | ☐* | ◐ | [referral.md](modules/referral.md) |
+| Onboarding | ◐ | ☐* | ◐ | [onboarding.md](modules/onboarding.md) |
+| Landing | — | ◐ | — | [landing.md](modules/landing.md) |
+| Brokers (high-amount) | ☐ | ◐ | ☐ | [brokers.md](modules/brokers.md) |
+| Corridor pages (SEO) | — | ✅ | — | [corridors.md](modules/corridors.md) |
+
+\* post-MVP (apps) — Profile, Settings, Premium, Referral, and Onboarding are app-phase modules; the web tab bar ships Home/Compare/Analytics/Alerts only (see [navigation](architecture/navigation.md)).
 
 ## Services (cross-cutting)
 
 | Service | Status | Spec |
 |---|:-:|---|
-| Exchange Rate API | ◐ (real Frankfurter; quotes still mock via pending proxy) | [exchange-rate.md](services/exchange-rate.md) |
+| Exchange Rate API | ◐ (web real: quotes aggregator + history + health; iOS Frankfurter rate only, quotes mock) | [exchange-rate.md](services/exchange-rate.md) |
 | Persistence | ◐ (iOS SwiftData) | [persistence.md](services/persistence.md) |
 | Notifications | ◐ (iOS local; push pending) | [notifications.md](services/notifications.md) |
 | Subscriptions / IAP | ◐ (iOS StoreKit 2) | [subscriptions.md](services/subscriptions.md) |
-| Analytics | ☐ (console only) | [analytics.md](services/analytics.md) |
+| Analytics — event tracking (distinct from the Analytics *charts* module above) | ◐ (web wired: PostHog EU, consent-gated; iOS/Android console only) | [analytics.md](services/analytics.md) |
 
 ## Architecture
 

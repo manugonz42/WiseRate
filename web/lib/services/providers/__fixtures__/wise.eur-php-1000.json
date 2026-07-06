@@ -1,0 +1,1117 @@
+{
+  "amount": 1000,
+  "amountType": "SEND",
+  "providerCountry": null,
+  "providerTypes": [
+    "bank",
+    "moneyTransferProvider"
+  ],
+  "providers": [
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-07-02T11:47:26.071437Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0.99,
+          "isConsideredMidMarketRate": false,
+          "markup": 1.01828472,
+          "rate": 69.5002093473,
+          "receivedAmount": 69431.4,
+          "sendAmount": null,
+          "sourceCountry": "ES",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:48:45.285840Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0.99,
+          "isConsideredMidMarketRate": false,
+          "markup": 1.21755765,
+          "rate": 69.3602894609,
+          "receivedAmount": 69291.62,
+          "sendAmount": null,
+          "sourceCountry": "NL",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:42:29.366342Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0.99,
+          "isConsideredMidMarketRate": false,
+          "markup": 1.1036874,
+          "rate": 69.4402436847,
+          "receivedAmount": 69371.5,
+          "sendAmount": null,
+          "sourceCountry": "DE",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:47:46.311071Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0.99,
+          "isConsideredMidMarketRate": false,
+          "markup": 1.16062253,
+          "rate": 69.4002665693,
+          "receivedAmount": 69331.56,
+          "sendAmount": null,
+          "sourceCountry": "FR",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:46:31.824520Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 2.99,
+          "isConsideredMidMarketRate": false,
+          "markup": 1.01828472,
+          "rate": 69.5002093473,
+          "receivedAmount": 69292.4,
+          "sendAmount": null,
+          "sourceCountry": "AT",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:48:26.346614Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0.99,
+          "isConsideredMidMarketRate": false,
+          "markup": 1.11792118,
+          "rate": 69.4302494076,
+          "receivedAmount": 69361.51,
+          "sendAmount": null,
+          "sourceCountry": "IT",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:48:05.829971Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0.99,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.96134959,
+          "rate": 69.5401864627,
+          "receivedAmount": 69471.34,
+          "sendAmount": null,
+          "sourceCountry": "IE",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:46:50.783559Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0.99,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.79054421,
+          "rate": 69.6601178019,
+          "receivedAmount": 69591.15,
+          "sendAmount": null,
+          "sourceCountry": "BE",
+          "targetCountry": "PH"
+        }
+      ],
+      "alias": "remitly",
+      "id": 104,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/remitly.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/remitly.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/remitly--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/remitly--white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/remitly-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "Remitly"
+      },
+      "name": "Remitly",
+      "partner": false,
+      "type": "moneyTransferProvider"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-07-02T11:32:42.823656Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.63923912,
+          "rate": 69.7663569734,
+          "receivedAmount": 69766.36,
+          "sendAmount": null,
+          "sourceCountry": "IE",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:45:10.093927Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.66471759,
+          "rate": 69.7484672147,
+          "receivedAmount": 69748.47,
+          "sendAmount": null,
+          "sourceCountry": "EE",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:41:25.159970Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.66471759,
+          "rate": 69.7484672147,
+          "receivedAmount": 69748.47,
+          "sendAmount": null,
+          "sourceCountry": "IS",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T12:25:23.526263Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.78321435,
+          "rate": 69.6652644777,
+          "receivedAmount": 69665.26,
+          "sendAmount": null,
+          "sourceCountry": "GR",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T12:24:30.292429Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.78321435,
+          "rate": 69.6652644777,
+          "receivedAmount": 69665.26,
+          "sendAmount": null,
+          "sourceCountry": "ES",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:43:12.659644Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.66471759,
+          "rate": 69.7484672147,
+          "receivedAmount": 69748.47,
+          "sendAmount": null,
+          "sourceCountry": "CZ",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:35:41.876127Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.63923912,
+          "rate": 69.7663569734,
+          "receivedAmount": 69766.36,
+          "sendAmount": null,
+          "sourceCountry": "NL",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T12:26:16.837887Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.75502376,
+          "rate": 69.6850585569,
+          "receivedAmount": 69685.06,
+          "sendAmount": null,
+          "sourceCountry": "DE",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:39:45.889684Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.65902408,
+          "rate": 69.7524649242,
+          "receivedAmount": 69752.46,
+          "sendAmount": null,
+          "sourceCountry": "AT",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:31:40.911132Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.63923912,
+          "rate": 69.7663569734,
+          "receivedAmount": 69766.36,
+          "sendAmount": null,
+          "sourceCountry": "LI",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:39:16.890869Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.65902408,
+          "rate": 69.7524649242,
+          "receivedAmount": 69752.46,
+          "sendAmount": null,
+          "sourceCountry": "LU",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:40:35.581295Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.65902408,
+          "rate": 69.7524649242,
+          "receivedAmount": 69752.46,
+          "sendAmount": null,
+          "sourceCountry": "DK",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:34:46.855856Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.63923912,
+          "rate": 69.7663569734,
+          "receivedAmount": 69766.36,
+          "sendAmount": null,
+          "sourceCountry": "HU",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:44:11.156941Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.66471759,
+          "rate": 69.7484672147,
+          "receivedAmount": 69748.47,
+          "sendAmount": null,
+          "sourceCountry": "FR",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:44:39.809188Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.66471759,
+          "rate": 69.7484672147,
+          "receivedAmount": 69748.47,
+          "sendAmount": null,
+          "sourceCountry": "SI",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:41:01.606176Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.65902408,
+          "rate": 69.7524649242,
+          "receivedAmount": 69752.46,
+          "sendAmount": null,
+          "sourceCountry": "SK",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T12:24:52.932584Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.78321435,
+          "rate": 69.6652644777,
+          "receivedAmount": 69665.26,
+          "sendAmount": null,
+          "sourceCountry": "SE",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:32:12.112811Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.63923912,
+          "rate": 69.7663569734,
+          "receivedAmount": 69766.36,
+          "sendAmount": null,
+          "sourceCountry": "MT",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T12:25:51.058387Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.78321435,
+          "rate": 69.6652644777,
+          "receivedAmount": 69665.26,
+          "sendAmount": null,
+          "sourceCountry": "IT",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T12:22:42.994199Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.78321435,
+          "rate": 69.6652644777,
+          "receivedAmount": 69665.26,
+          "sendAmount": null,
+          "sourceCountry": "CY",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:35:12.767361Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.63923912,
+          "rate": 69.7663569734,
+          "receivedAmount": 69766.36,
+          "sendAmount": null,
+          "sourceCountry": "NO",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:40:13.344889Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.65902408,
+          "rate": 69.7524649242,
+          "receivedAmount": 69752.46,
+          "sendAmount": null,
+          "sourceCountry": "RO",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:33:44.314427Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.63923912,
+          "rate": 69.7663569734,
+          "receivedAmount": 69766.36,
+          "sendAmount": null,
+          "sourceCountry": "PL",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:42:33.749202Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.66471759,
+          "rate": 69.7484672147,
+          "receivedAmount": 69748.47,
+          "sendAmount": null,
+          "sourceCountry": "BE",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:37:28.698215Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.65902408,
+          "rate": 69.7524649242,
+          "receivedAmount": 69752.46,
+          "sendAmount": null,
+          "sourceCountry": "LT",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T12:26:48.354145Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.75502376,
+          "rate": 69.6850585569,
+          "receivedAmount": 69685.06,
+          "sendAmount": null,
+          "sourceCountry": "FI",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:31:18.795397Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.63923912,
+          "rate": 69.7663569734,
+          "receivedAmount": 69766.36,
+          "sendAmount": null,
+          "sourceCountry": "BG",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:38:46.210822Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.65902408,
+          "rate": 69.7524649242,
+          "receivedAmount": 69752.46,
+          "sendAmount": null,
+          "sourceCountry": "PT",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T12:22:18.351868Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.78321435,
+          "rate": 69.6652644777,
+          "receivedAmount": 69665.26,
+          "sendAmount": null,
+          "sourceCountry": "HR",
+          "targetCountry": "PH"
+        },
+        {
+          "dateCollected": "2026-07-02T11:33:10.605379Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.63923912,
+          "rate": 69.7663569734,
+          "receivedAmount": 69766.36,
+          "sendAmount": null,
+          "sourceCountry": "LV",
+          "targetCountry": "PH"
+        }
+      ],
+      "alias": "instarem",
+      "id": 107,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/instarem.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/instarem.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/instarem--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/instarem--white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/instarem-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "Instarem."
+      },
+      "name": "Instarem",
+      "partner": false,
+      "type": "moneyTransferProvider"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-07-02T11:50:07.733603Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 11,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.85950253,
+          "rate": 69.6116985796,
+          "receivedAmount": 68845.97,
+          "sendAmount": null,
+          "sourceCountry": "NL",
+          "targetCountry": "PH"
+        }
+      ],
+      "alias": "abn-amro-bank",
+      "id": 110,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/abn-amro-bank.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/abn-amro-bank.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/abn-amro-bank--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/abn-amro-bank--white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/abn-amro-bank-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "ABN AMRO Bank"
+      },
+      "name": "ABN AMRO Bank",
+      "partner": false,
+      "type": "bank"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-07-02T11:52:03.226556Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 2.99,
+          "isConsideredMidMarketRate": false,
+          "markup": 2.71765587,
+          "rate": 68.3069924956,
+          "receivedAmount": 68102.75,
+          "sendAmount": null,
+          "sourceCountry": null,
+          "targetCountry": "PH"
+        }
+      ],
+      "alias": "xoom",
+      "id": 41,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/xoom.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/xoom.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/xoom--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/xoom--white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/xoom-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "Xoom (A PayPal Service)"
+      },
+      "name": "Xoom",
+      "partner": false,
+      "type": "moneyTransferProvider"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-07-02T11:32:17.835865Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 10,
+          "isConsideredMidMarketRate": false,
+          "markup": 3.88980776,
+          "rate": 67.4839637017,
+          "receivedAmount": 66809.12,
+          "sendAmount": null,
+          "sourceCountry": null,
+          "targetCountry": null
+        }
+      ],
+      "alias": "ofx",
+      "id": 59,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/ofx.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/ofx.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/ofx--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/ofx--white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/ofx-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "OFX"
+      },
+      "name": "OFX",
+      "partner": false,
+      "type": "moneyTransferProvider"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-07-02T12:10:13.223224Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 1.30445554,
+          "rate": 69.2992739337,
+          "receivedAmount": 69299.27,
+          "sendAmount": null,
+          "sourceCountry": "FR",
+          "targetCountry": null
+        }
+      ],
+      "alias": "bnp",
+      "id": 112,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/bnp-paribas.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/bnp-paribas.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/bnp-paribas--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/bnp-paribas--white.png"
+        },
+        "circle": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "altText": "BNP Paribas"
+      },
+      "name": "BNP Paribas",
+      "partner": false,
+      "type": "bank"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-07-02T12:20:50.049971Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 20,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.40107523,
+          "rate": 69.9335842251,
+          "receivedAmount": 68534.91,
+          "sendAmount": null,
+          "sourceCountry": null,
+          "targetCountry": null
+        }
+      ],
+      "alias": "monese",
+      "id": 103,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/monese.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/monese.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/monese--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/monese--white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/monese-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "Monese"
+      },
+      "name": "Monese",
+      "partner": false,
+      "type": "bank"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-07-02T12:27:31Z",
+          "deliveryEstimation": {
+            "duration": {
+              "min": "PT24H",
+              "max": "PT24H"
+            },
+            "providerGivesEstimate": true
+          },
+          "fee": 8.12,
+          "isConsideredMidMarketRate": true,
+          "markup": 0,
+          "rate": 70.2053,
+          "receivedAmount": 69635.23,
+          "sendAmount": null,
+          "sourceCountry": null,
+          "targetCountry": null
+        }
+      ],
+      "alias": "wise",
+      "id": 39,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://wise.com/public-resources/assets/logos/wise-personal/logo.svg",
+          "pngUrl": "https://wise.com/public-resources/assets/logos/wise-personal/logo.png"
+        },
+        "inverse": {
+          "svgUrl": "https://wise.com/public-resources/assets/logos/wise-personal/logo_inverse.svg",
+          "pngUrl": "https://wise.com/public-resources/assets/logos/wise-personal/logo_inverse.png"
+        },
+        "white": {
+          "svgUrl": "https://wise.com/public-resources/assets/logos/wise-personal/logo_white.svg",
+          "pngUrl": "https://wise.com/public-resources/assets/logos/wise-personal/logo_white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/wise-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "Wise"
+      },
+      "name": "Wise",
+      "partner": false,
+      "type": "moneyTransferProvider"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-06-30T21:12:15Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0,
+          "isConsideredMidMarketRate": false,
+          "markup": 1.07172006,
+          "rate": 69.4626896164,
+          "receivedAmount": 69462.69,
+          "sendAmount": null,
+          "sourceCountry": "EE",
+          "targetCountry": "PH"
+        }
+      ],
+      "alias": "world-remit",
+      "id": 30,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/world-remit.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/world-remit.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/world-remit--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/world-remit--white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/world-remit-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "WorldRemit"
+      },
+      "name": "WorldRemit",
+      "partner": false,
+      "type": "moneyTransferProvider"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-07-02T11:33:15.458072Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 3.99,
+          "isConsideredMidMarketRate": false,
+          "markup": 4.8822425,
+          "rate": 66.7871236641,
+          "receivedAmount": 66520.64,
+          "sendAmount": null,
+          "sourceCountry": "DE",
+          "targetCountry": "PH"
+        }
+      ],
+      "alias": "paypal",
+      "id": 6,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/paypal.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/paypal.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/paypal--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/paypal--white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/paypal-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "PayPal"
+      },
+      "name": "PayPal",
+      "partner": false,
+      "type": "moneyTransferProvider"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-06-30T21:12:15Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 1.99,
+          "isConsideredMidMarketRate": false,
+          "markup": 1.5424436,
+          "rate": 69.1321701414,
+          "receivedAmount": 68994.6,
+          "sendAmount": null,
+          "sourceCountry": "EE",
+          "targetCountry": "PH"
+        }
+      ],
+      "alias": "western-union",
+      "id": 22,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/western-union.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/western-union.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/western-union--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/western-union--white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/western-union-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "Western Union"
+      },
+      "name": "Western Union",
+      "partner": false,
+      "type": "moneyTransferProvider"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-07-01T12:31:03.857235Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 0.9,
+          "isConsideredMidMarketRate": false,
+          "markup": 0.74503866,
+          "rate": 69.6920696148,
+          "receivedAmount": 69629.35,
+          "sendAmount": null,
+          "sourceCountry": "DE",
+          "targetCountry": "PH"
+        }
+      ],
+      "alias": "moneygram",
+      "id": 23,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/moneygram.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/moneygram.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/moneygram--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/moneygram--white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/moneygram-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "MoneyGram"
+      },
+      "name": "Moneygram",
+      "partner": false,
+      "type": "moneyTransferProvider"
+    },
+    {
+      "quotes": [
+        {
+          "dateCollected": "2026-06-30T07:00:41Z",
+          "deliveryEstimation": {
+            "duration": null,
+            "providerGivesEstimate": true
+          },
+          "fee": 15.25,
+          "isConsideredMidMarketRate": false,
+          "markup": 3.09426004,
+          "rate": 68.0425591244,
+          "receivedAmount": 67004.91,
+          "sendAmount": null,
+          "sourceCountry": "IT",
+          "targetCountry": "PH"
+        }
+      ],
+      "alias": "unicredit",
+      "id": 527,
+      "logos": {
+        "normal": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/unicredit-bank.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/unicredit-bank.png"
+        },
+        "inverse": {
+          "svgUrl": null,
+          "pngUrl": null
+        },
+        "white": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/unicredit-bank--white.svg",
+          "pngUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/unicredit-bank--white.png"
+        },
+        "circle": {
+          "svgUrl": "https://dq8dwmysp7hk1.cloudfront.net/logos/unicredit-bank-mark.svg",
+          "pngUrl": null
+        },
+        "altText": "UniCredit"
+      },
+      "name": "UniCredit",
+      "partner": false,
+      "type": "bank"
+    }
+  ],
+  "sourceCountry": null,
+  "sourceCurrency": "EUR",
+  "targetCountry": null,
+  "targetCurrency": "PHP"
+}

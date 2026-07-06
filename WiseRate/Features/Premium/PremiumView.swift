@@ -37,7 +37,7 @@ struct PremiumView: View {
                 .foregroundColor(Color.brand.warning)
             
             VStack(spacing: SRSpacing.sm) {
-                Text("WiseRate Premium")
+                Text("SulitSend Premium")
                     .font(SRTypography.title1)
                     .foregroundColor(Color.brand.textPrimary)
                 

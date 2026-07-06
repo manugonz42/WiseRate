@@ -5,7 +5,7 @@
 ## Dependencies
 - **Reads:** [exchange-rate](../services/exchange-rate.md), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)
 - **Navigates to:** [provider-details](provider-details.md), external affiliate URL (via system browser)
-- **Future:** ⏳ [persistence](../services/persistence.md) (recent searches, last sort preference), ⏳ [subscriptions](../services/subscriptions.md) (ad-free row layout when Premium)
+- **Future:** ⏳ [persistence](../services/persistence.md) (recent searches, last sort preference), ⏳ [subscriptions](../services/subscriptions.md) (ad-free row layout when Premium), ⏳ [brokers](brokers.md) (specialist-broker card below the list when amount ≥ €5,000)
 
 ## Used by
 - [navigation](../architecture/navigation.md) — tab 2
@@ -22,18 +22,20 @@ Full list of provider quotes for the user-entered amount, sortable and filterabl
 
 ## Outputs / Actions
 - Tap provider row → `providerDetail(providerID)`
-- Tap "Send" CTA on a row → outbound affiliate URL (analytics: `compare.affiliate_outbound`)
+- Tap "Send" CTA on a row → outbound affiliate URL (analytics: `compare.affiliate_outbound`) ✅ (web: rows with an editorial profile in `web/lib/data/providers.ts`)
 - Sort change → re-orders list (`compare.sort_changed`)
 - Change amount / pair → re-fetches quotes
 
 ## Acceptance criteria
-- Sort options: best rate, lowest fee, fastest, most trusted, cheapest total — exactly 5
-- Best-deal banner pinned to top showing the winning quote's receive amount + savings vs avg
-- Filter chips for delivery method are multi-select; "All" toggles the rest off
-- Search filters provider names live (debounce 150ms)
-- Each row shows: provider icon, name, fee, delivery estimate, receive amount, markup %
-- "Promotional" badge on quotes with `isPromotion = true`
-- Empty filter result shows a "no providers match" state with a reset action
+- Sort options: best rate, lowest fee, fastest, most trusted, cheapest total — exactly 5 ✅ (web)
+- Best-deal banner pinned to top showing the winning quote's receive amount + savings vs avg ✅ (web) — amber (`--warning`), matching mobile; the winning row is also highlighted so the emphasis survives scrolling. See [web](../platforms/web.md#desktop-layout-web-is-not-a-phone-screen).
+- Desktop (`md+`) renders rows as a table (Provider · Recipient gets · Fee · Speed · Trust); below `md` falls back to stacked cards ✅ (web)
+- Filter chips for delivery method are multi-select; "All" toggles the rest off — ⏳ deferred on web: Wise Comparisons API doesn't expose delivery method (see [exchange-rate](../services/exchange-rate.md))
+- Search filters provider names live (debounce 150ms) ✅ (web)
+- Each row shows: provider icon, name, fee, delivery estimate, receive amount, markup % ✅ (web)
+- "Promo" badge on quotes with `isPromotion = true`, showing the first-transfer price next to the standard one (`PromoInfo`); when the provider publishes no standard price (`baseIsStandard = false`) the row says so ✅ (web)
+- Quotes not fetched from the provider's own endpoint carry a source tag: "via Wise" (`wise-comparisons`) or "mock" ✅ (web)
+- Empty filter result shows a "no providers match" state with a reset action ✅ (web)
 
 ## Platform notes
 - **iOS**: `WiseRate/Features/Comparison/ComparisonView.swift`
