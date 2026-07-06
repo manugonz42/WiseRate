@@ -54,4 +54,19 @@ Applying the pre-made decisions (existing `PROVIDERS` keys — wise, remitly, we
 
 **Blocked on step 2 (write profiles):** WebSearch/WebFetch were returning `529 Overloaded` for ~20 min straight (2026-07-06 ~09:00–09:25) — a genuine Anthropic-side outage, not a query problem. Could not pull Trustpilot ratings/review counts or verify fee structures for the 12 "must write" providers, so no profile was written to avoid inventing facts. Resume from here: re-run the 12 provider research (description, transfer limits, fees, delivery methods, 3–5 pros/cons, Trustpilot rating rounded + review count to nearest hundred with dated source comment, editorial trustScore consistent with existing 0.88–0.98 scale) and add entries to `web/lib/data/providers.ts`, then continue with steps 3–4.
 
+**Scope note (2026-07-06, after T22 was planned):** T22 keeps Wise Comparisons as tagged fallback but excludes banks without a confirmed referral/affiliate program. If T22 runs first, drop its excluded banks from the "must write"/"skip" lists above before writing profiles (likely removes abn-amro-bank, bnp, unicredit, wells-fargo, barclays, hsbc, nationwide, bank-of-america, bmo, anz, commonwealth-bank-of-australia, national-australia-bank, hsbc-australia — pending T22's audit).
+
 **Retried same day:** still `529 Overloaded` on a single test query (Instarem Trustpilot). Per user instruction, not retrying further this session — T19 stays blocked/open, proceeding to T21 with only the existing 4 profiles (wise, remitly, western-union, transfergo). T21 will test a generic-fallback provider id instead of a "T19-added id," and Provider Details module status will NOT flip to ✅ (still ◐, thin editorial coverage).
+
+## Completion (2026-07-06, later same day)
+
+WebSearch/WebFetch were back up (single test query succeeded, no 529). Per user instruction ("try once T19, no retry") this ran once through to completion rather than being retried piecemeal:
+
+- Wrote all 12 "must write" profiles into `web/lib/data/providers.ts` (abn-amro-bank, bnp, instarem, monese, moneygram, ofx, paypal, unicredit, world-remit, xoom, wells-fargo, hsbc-australia) — description, transfer limits, fees, delivery methods, 3–4 pros/cons each, Trustpilot rating + review count (rounded to nearest hundred, dated source comment in-file), editorial `trustScore`. `affiliateURL: null` everywhere per decisions.
+- **T22 note did not apply**: T22 (bank referral audit) had not yet run when this executed, so no bank was pre-excluded — all 12 were written as originally scoped. If T22 later drops banks without a referral program, remove their entries here.
+- **One sourcing deviation**: `hsbc-australia`'s Trustpilot page (hsbc.com.au) listed ~83 reviews but no aggregate score was surfaced by search; used ProductReview.com.au's rating (1.2/5, 887 reviews) instead, noted inline in the code comment.
+- **Skip candidates from the original list were left skipped** (barclays, hsbc, nationwide, bank-of-america, bmo, anz, commonwealth-bank-of-australia, national-australia-bank) — non-EUR-only and outside their corridor's top 5, per the pre-made skip rule. They still hit the generic fallback.
+- Step 3 verified live: `npm test` (39 passed), `npm run build`, `npm run lint` all green; dev server hit for all 12 new `/provider/{id}` routes — 200, no fallback copy. Sitemap already maps `PROVIDERS` keys so no sitemap code change was needed.
+- Step 4: [provider-details](../modules/provider-details.md) status flipped to Web ✅; this task checked off in the plan README.
+
+**Goal met**: every provider in the default EUR→PHP compare list (14 ids) now has a full profile.

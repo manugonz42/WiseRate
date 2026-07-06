@@ -6,9 +6,10 @@ Goal: web MVP 100% presentable to affiliate/partner reviewers (Wise, Remitly, WU
 
 - [x] [T17 — Trust & transparency pages](T17-trust-pages.md): /about, /how-we-make-money, /terms (DRAFT), contact email, inline affiliate disclosure
 - [x] [T18 — Production polish](T18-production-polish.md): drop disabled Profile tab, 404/error pages, no mock quotes in prod, honest provider fallback
-- [ ] [T19 — Provider editorial coverage](T19-provider-coverage.md): profile every provider visible in default compare lists
+- [x] [T19 — Provider editorial coverage](T19-provider-coverage.md): profile every provider visible in default compare lists
 - [x] [T20 — Deploy readiness](T20-deploy-readiness.md): DEPLOY.md runbook, preview noindex, env audit, merge to main
 - [x] [T21 — QA sweep + status flip](T21-qa-sweep.md): Playwright pass over every route × 2 viewports, fix all, MODULES.md → ✅ (Provider Details stayed ◐ — T19 still open)
+- [ ] [T22 — Quote fidelity](T22-quote-fidelity.md): direct per-provider quote endpoints at the exact amount (Wise Comparisons stays as tagged fallback for the rest; banks only if referral-able), promo separation (first-transfer + referral) in the comparator
 
 ## Done — SEO slice (Phase 5 pulled forward, planned 2026-07-03)
 

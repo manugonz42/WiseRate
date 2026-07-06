@@ -163,6 +163,421 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
       "Less brand recognition",
     ],
   },
+  // T19: profiles below researched via WebSearch 2026-07-06. Ratings/review
+  // counts are from each provider's public Trustpilot page unless noted;
+  // bank transferLimits.maxAmount is an editorial figure (banks don't publish
+  // a hard per-transaction cap) reflecting typical unrestricted retail wire limits.
+  "abn-amro-bank": {
+    id: "abn-amro-bank",
+    name: "ABN AMRO",
+    brandColor: "text-tertiary",
+    trustScore: 0.35,
+    userRating: 1.3,
+    websiteURL: "https://www.abnamro.nl",
+    affiliateURL: null,
+    description:
+      "ABN AMRO is a Dutch retail bank; sending abroad through your account is convenient if you already bank there, but a roughly 5% exchange-rate margin plus a flat commission makes it far costlier than dedicated transfer services.",
+    reviewCount: 2000,
+    transferLimits: { minAmount: 1, maxAmount: 50000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 20,
+        percentageFee: 5,
+        description: "International transfer commission (~€15–30) plus a roughly 5% exchange-rate margin",
+      },
+    ],
+    deliveryMethods: ["bankTransfer"],
+    pros: [
+      "Convenient if you already hold an ABN AMRO account",
+      "Funds move through a well-established banking network",
+    ],
+    cons: [
+      "~5% exchange-rate margin, far above dedicated money-transfer services",
+      "Flat commission of roughly €15–30 on top",
+      "Bank transfer only, 1–5 business days",
+      "Poor Trustpilot rating (1.3/5, ~2,000 reviews), largely customer-service complaints",
+    ],
+  },
+  bnp: {
+    id: "bnp",
+    name: "BNP Paribas",
+    brandColor: "text-tertiary",
+    trustScore: 0.3,
+    userRating: 1.3,
+    websiteURL: "https://mabanque.bnpparibas",
+    affiliateURL: null,
+    description:
+      "BNP Paribas is a French retail bank whose international transfers carry a roughly 4% exchange-rate margin baked into the rate rather than shown as a fee — convenient for existing customers, expensive next to specialists.",
+    reviewCount: 500,
+    transferLimits: { minAmount: 1, maxAmount: 50000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 4.5,
+        percentageFee: 4,
+        description: "Non-SEPA transfer fee (~€4.50) plus a roughly 4% exchange-rate margin",
+      },
+    ],
+    deliveryMethods: ["bankTransfer"],
+    pros: [
+      "Full banking relationship for existing BNP Paribas customers",
+      "Transfers move through a well-established international network",
+    ],
+    cons: [
+      "~4% exchange-rate margin not clearly disclosed at the point of transfer",
+      "1–5 (up to 7) business days to arrive",
+      "Bank transfer only",
+      "Very poor Trustpilot rating (1.3/5, ~500 reviews, dated 2026-07-02)",
+    ],
+  },
+  instarem: {
+    id: "instarem",
+    name: "Instarem",
+    brandColor: "primary",
+    trustScore: 0.9,
+    userRating: 4.4,
+    websiteURL: "https://www.instarem.com",
+    affiliateURL: null,
+    description:
+      "Instarem (part of the Nium group) is a Singapore-founded fintech offering international transfers at a small FX margin with no fixed fee for bank-funded sends, plus wide cash-pickup coverage in the Philippines.",
+    reviewCount: 7600,
+    transferLimits: { minAmount: 1, maxAmount: 4500, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 0,
+        percentageFee: 0.6,
+        description: "Bank transfer, FX margin only (0.37%–0.95%), no fixed fee",
+      },
+      {
+        method: "debitCard",
+        fixedFee: 0,
+        percentageFee: 2.5,
+        description: "Card payment (2–3% fee)",
+      },
+    ],
+    deliveryMethods: ["bankTransfer", "cashPickup"],
+    pros: [
+      "FX margin under 1% on bank transfers",
+      "No fixed fee for bank-funded sends",
+      "21,000+ cash pickup locations in the Philippines",
+      "Excellent Trustpilot rating (4.4/5)",
+    ],
+    cons: [
+      "Cost-effectiveness drops above ~€4,500 per transfer",
+      "Card payments cost 2–3%, much more than bank transfer",
+      "Support can be slow to reach if something goes wrong",
+    ],
+  },
+  monese: {
+    id: "monese",
+    name: "Monese",
+    brandColor: "warning",
+    trustScore: 0.7,
+    userRating: 4.2,
+    websiteURL: "https://monese.com",
+    affiliateURL: null,
+    description:
+      "Monese is a UK/EU mobile banking app offering international transfers across roughly 35 mostly-EEA countries, with tiered pricing that drops from 2% down to free depending on your account plan.",
+    reviewCount: 50700,
+    transferLimits: { minAmount: 1, maxAmount: 40000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 3,
+        percentageFee: 2,
+        description: "Simple plan: 2% FX fee (min €3) plus a 1% weekend surcharge; cheaper on Classic (0.5%), free on Premium",
+      },
+    ],
+    deliveryMethods: ["bankTransfer"],
+    pros: [
+      "Fee and rate shown up front in the app before you confirm",
+      "Free transfers on the Premium plan",
+      "App available in 14 languages",
+    ],
+    cons: [
+      "Covers only ~35 countries, mostly EEA",
+      "2% fee on the entry-level Simple plan, plus a weekend surcharge",
+      "Some reports of account freezes blocking access to funds",
+    ],
+  },
+  moneygram: {
+    id: "moneygram",
+    name: "MoneyGram",
+    brandColor: "warning",
+    trustScore: 0.85,
+    userRating: 4.2,
+    websiteURL: "https://www.moneygram.com",
+    affiliateURL: null,
+    description:
+      "MoneyGram is a US-based money transfer company with one of the largest cash-pickup and agent networks worldwide; the cost is concentrated in its exchange-rate margin rather than a visible fee.",
+    reviewCount: 30000,
+    transferLimits: { minAmount: 1, maxAmount: 9000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 0,
+        percentageFee: 1.5,
+        description: "Online transfer to bank account; cost is mostly the 1–2% exchange-rate margin on this corridor",
+      },
+      {
+        method: "cashPickup",
+        fixedFee: 5,
+        percentageFee: 0,
+        description: "Cash pickup at an agent location",
+      },
+    ],
+    deliveryMethods: ["bankTransfer", "cashPickup"],
+    pros: [
+      "One of the largest cash-pickup and agent networks worldwide",
+      "Cash pickup often available within minutes",
+      "Long-established, widely recognized brand",
+    ],
+    cons: [
+      "Exchange-rate margin isn't always clearly disclosed upfront",
+      "1–2% FX margin on this corridor, costlier than digital-first challengers",
+      "Complaints about refund handling and support responsiveness",
+    ],
+  },
+  ofx: {
+    id: "ofx",
+    name: "OFX",
+    brandColor: "success",
+    trustScore: 0.9,
+    userRating: 4.4,
+    websiteURL: "https://www.ofx.com",
+    affiliateURL: null,
+    description:
+      "OFX is an Australian-founded FX specialist built for larger, less frequent transfers: no transfer fee and no maximum amount, funded entirely through bank transfer.",
+    reviewCount: 11000,
+    transferLimits: { minAmount: 1000, maxAmount: 1000000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 0,
+        percentageFee: 1,
+        description: "No transfer fee; cost is the 0.5%–1.5% exchange-rate margin",
+      },
+    ],
+    deliveryMethods: ["bankTransfer"],
+    pros: [
+      "No transfer fee, on any amount",
+      "No maximum transfer limit — built for large transfers",
+      "24/7 phone support across time zones",
+      "Forward contracts and recurring transfers for FX planning",
+    ],
+    cons: [
+      "$1,000 minimum — not built for small remittances",
+      "Bank transfer only, no cash pickup or mobile wallet",
+      "Account verification can take longer than app-first competitors",
+    ],
+  },
+  paypal: {
+    id: "paypal",
+    name: "PayPal",
+    brandColor: "accent",
+    trustScore: 0.55,
+    userRating: 1.5,
+    websiteURL: "https://www.paypal.com",
+    affiliateURL: null,
+    description:
+      "PayPal supports direct international transfers to bank accounts and other PayPal users, but its currency-conversion markup and per-transaction fee make it one of the costlier ways to send money — Xoom, PayPal's own dedicated remittance service, is usually cheaper for the same corridor.",
+    reviewCount: 36900,
+    transferLimits: { minAmount: 1, maxAmount: 55000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 0.99,
+        percentageFee: 5,
+        description: "International personal transfer, 5% fee (min $0.99, max $4.99), plus a 3–4% exchange-rate markup",
+      },
+    ],
+    deliveryMethods: ["bankTransfer"],
+    pros: [
+      "Instant balance-to-balance transfers between PayPal accounts",
+      "Buyer/seller protection on marketplace payments",
+      "Most senders already have an account",
+    ],
+    cons: [
+      "3–4% exchange-rate markup stacked on top of the transfer fee",
+      "Far pricier for remittances than Wise, Remitly, or PayPal's own Xoom",
+      "No cash pickup — bank account or PayPal balance only",
+      "Trustpilot rating of 1.5/5 (36,900 reviews), driven largely by dispute-resolution complaints",
+    ],
+  },
+  unicredit: {
+    id: "unicredit",
+    name: "UniCredit",
+    brandColor: "text-tertiary",
+    trustScore: 0.32,
+    userRating: 2.2,
+    websiteURL: "https://www.unicredit.eu",
+    affiliateURL: null,
+    description:
+      "UniCredit is a pan-European bank (Italy, Austria, Central and Eastern Europe); its international transfers apply a roughly 3.6% exchange-rate margin, well above dedicated remittance providers.",
+    reviewCount: 3100,
+    transferLimits: { minAmount: 1, maxAmount: 50000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 15,
+        percentageFee: 3.6,
+        description: "Commission fee plus a roughly 3.6% exchange-rate margin",
+      },
+    ],
+    deliveryMethods: ["bankTransfer"],
+    pros: ["Full banking relationship for existing UniCredit customers across its European network"],
+    cons: [
+      "~3.6% exchange-rate margin, well above dedicated transfer services",
+      "5–7 business days unless paying a premium",
+      "Bank transfer only",
+      "Low Trustpilot rating (2.2/5, ~3,100 reviews), citing app and customer-service issues",
+    ],
+  },
+  "world-remit": {
+    id: "world-remit",
+    name: "WorldRemit",
+    brandColor: "accent",
+    trustScore: 0.87,
+    userRating: 4.1,
+    websiteURL: "https://www.worldremit.com",
+    affiliateURL: null,
+    description:
+      "WorldRemit (Zepz group) is a UK-founded digital remittance service specializing in mobile-money and cash payouts across Africa, Asia, and Latin America, with strong Philippines coverage.",
+    reviewCount: 71000,
+    transferLimits: { minAmount: 1, maxAmount: 5000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 2,
+        percentageFee: 0,
+        description: "Flat transfer fee (typically $0.99–$3.99 depending on corridor), plus a 0.5%–3% FX markup",
+      },
+      {
+        method: "mobileWallet",
+        fixedFee: 1,
+        percentageFee: 0,
+        description: "Mobile money/wallet payout, usually the cheapest and fastest option",
+      },
+    ],
+    deliveryMethods: ["bankTransfer", "cashPickup", "mobileWallet", "homeDelivery"],
+    pros: [
+      "Five payout options including mobile money and home delivery",
+      "Cash and mobile payouts often arrive within minutes",
+      "Highly rated mobile apps (4.6/5 Google Play, 4.8/5 App Store)",
+    ],
+    cons: [
+      "FX markup of 0.5%–3% stacks on top of the flat fee",
+      "Lower per-transaction limits for card-funded transfers",
+      "Bank transfers can take up to 5 business days",
+    ],
+  },
+  xoom: {
+    id: "xoom",
+    name: "Xoom",
+    brandColor: "primary",
+    trustScore: 0.86,
+    userRating: 4.2,
+    websiteURL: "https://www.xoom.com",
+    affiliateURL: null,
+    description:
+      "Xoom, a PayPal service, sends to Philippine banks, GCash, cash pickup, and home delivery, funded instantly from a PayPal balance, bank account, or card — fast, but the exchange-rate margin runs 3%–4% above mid-market.",
+    reviewCount: 188500,
+    transferLimits: { minAmount: 1, maxAmount: 46000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 0,
+        percentageFee: 0,
+        description: "Bank/GCash deposit via PayPal balance or bank account; fee often waived, cost is mainly the FX margin",
+      },
+      {
+        method: "debitCard",
+        fixedFee: 5,
+        percentageFee: 0,
+        description: "Card-funded transfer, average fee around $5",
+      },
+    ],
+    deliveryMethods: ["bankTransfer", "cashPickup", "mobileWallet", "homeDelivery"],
+    pros: [
+      "Backed by PayPal's scale and fraud protection",
+      "Often $0 transfer fee on eligible transfers",
+      "Minutes-level delivery to GCash and major Philippine banks",
+    ],
+    cons: [
+      "Exchange-rate margin of 3%–4% above mid-market",
+      "One of the pricier options for larger sends",
+      "True cost is hidden in the rate more than the fee",
+    ],
+  },
+  "wells-fargo": {
+    id: "wells-fargo",
+    name: "Wells Fargo",
+    brandColor: "text-tertiary",
+    trustScore: 0.3,
+    userRating: 1.4,
+    websiteURL: "https://www.wellsfargo.com",
+    affiliateURL: null,
+    description:
+      "Wells Fargo charges a flat $25–$40 wire fee for international transfers plus a discretionary exchange-rate markup that varies by currency pair and transaction size — no fixed FX rate is published.",
+    reviewCount: 800,
+    transferLimits: { minAmount: 1, maxAmount: 50000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 25,
+        percentageFee: 0,
+        description: "Digital wire fee of $25 ($40 at a branch), plus an exchange-rate markup set at Wells Fargo's discretion",
+      },
+    ],
+    deliveryMethods: ["bankTransfer"],
+    pros: [
+      "Full banking relationship for existing Wells Fargo customers",
+      "Fee can be waived from an eligible account",
+    ],
+    cons: [
+      "Flat $25–$40 wire fee on top of an undisclosed exchange-rate markup",
+      "Additional weekend/after-hours FX markup applies",
+      "Bank transfer only, several business days",
+      "Very poor Trustpilot rating (1.4/5, ~800 reviews)",
+    ],
+  },
+  "hsbc-australia": {
+    id: "hsbc-australia",
+    name: "HSBC Australia",
+    brandColor: "text-tertiary",
+    trustScore: 0.32,
+    // Trustpilot average for hsbc.com.au wasn't confirmable (page lists ~83
+    // reviews with no aggregate score surfaced); rating sourced from
+    // ProductReview.com.au (1.2/5, 887 reviews) instead, 2026-07-06.
+    userRating: 1.2,
+    websiteURL: "https://www.hsbc.com.au",
+    affiliateURL: null,
+    description:
+      "HSBC Australia's Global Money Transfers carry no HSBC-side fee for supported currencies, but the exchange rate includes a markup over mid-market, and correspondent-bank fees can apply depending on the destination.",
+    reviewCount: 900,
+    transferLimits: { minAmount: 1, maxAmount: 50000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 0,
+        percentageFee: 2,
+        description: "No HSBC transfer fee via Global Money Transfers, but the exchange rate carries a markup over mid-market (correspondent fees, e.g. AUD 30, may also apply)",
+      },
+    ],
+    deliveryMethods: ["bankTransfer"],
+    pros: [
+      "No HSBC-side transfer fee via Global Money Transfers",
+      "Full banking relationship for existing HSBC Australia customers",
+    ],
+    cons: [
+      "Exchange rate includes a markup over mid-market, plus an added weekend risk margin",
+      "Correspondent bank fees (e.g. AUD 30) can apply on top",
+      "Bank transfer only",
+      "Poor customer reviews (1.2/5 on ProductReview.com.au, 887 reviews)",
+    ],
+  },
 };
 
 export function genericProviderDetail(id: string, name: string): ProviderDetail {
