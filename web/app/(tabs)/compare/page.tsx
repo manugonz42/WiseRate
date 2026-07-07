@@ -189,7 +189,7 @@ export default function ComparePage() {
             onClick={() => handleSortChange(s.id)}
             className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
               sort === s.id
-                ? "bg-primary text-white"
+                ? "bg-primary text-primary-light"
                 : "bg-surface text-text-secondary hover:bg-surface-hover"
             }`}
           >
@@ -230,7 +230,7 @@ export default function ComparePage() {
           <p className="mb-4 text-sm text-text-secondary">{error}</p>
           <button
             onClick={() => setReloadKey((k) => k + 1)}
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-white transition active:scale-[0.97]"
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
           >
             <ArrowClockwise size={14} weight="bold" />
             Retry
@@ -244,7 +244,7 @@ export default function ComparePage() {
           </p>
           <button
             onClick={() => setSearch("")}
-            className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-white transition active:scale-[0.97]"
+            className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
           >
             Reset search
           </button>
@@ -335,7 +335,7 @@ function BrokerCard({ amount }: { amount: number }) {
                   amountBucket: bucket,
                 })
               }
-              className="inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-white transition active:scale-[0.97]"
+              className="inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
             >
               Get a quote
               <ArrowSquareOut size={12} weight="bold" />
@@ -371,7 +371,7 @@ function ProviderIcon({ q, size }: { q: TransferQuote; size: number }) {
       width={size}
       height={size}
       style={{ width: size, height: size }}
-      className="shrink-0 rounded-full bg-white/5 object-contain"
+      className="shrink-0 rounded-full bg-surface shadow object-contain"
     />
   );
 }
@@ -456,7 +456,7 @@ function SendButton({ q }: { q: TransferQuote }) {
         e.stopPropagation();
         track("compare.affiliate_outbound", { providerID: q.providerID });
       }}
-      className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-white transition active:scale-[0.97]"
+      className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
     >
       Send
       <ArrowSquareOut size={12} weight="bold" />
@@ -489,7 +489,7 @@ function QuoteTableRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
   }`;
   return (
     <tr
-      className={`cursor-pointer ${isBest ? "" : "hover:bg-surface/60"}`}
+      className={`cursor-pointer ${isBest ? "" : "hover:bg-surface-hover"}`}
       tabIndex={0}
       role="link"
       onClick={() => router.push(`/provider/${q.providerID}`)}

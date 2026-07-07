@@ -22,6 +22,7 @@ const config: Config = {
           light: "var(--primary-light)",
           dark: "var(--primary-dark)",
         },
+        chartreuse: "var(--chartreuse)",
         accent: "var(--accent)",
         success: "var(--success)",
         warning: "var(--warning)",
@@ -29,6 +30,8 @@ const config: Config = {
         "text-primary": "var(--text-primary)",
         "text-secondary": "var(--text-secondary)",
         "text-tertiary": "var(--text-tertiary)",
+        "podium-2": "var(--podium-2)",
+        "podium-3": "var(--podium-3)",
       },
       borderRadius: {
         xs: "var(--radius-xs)",
@@ -38,9 +41,11 @@ const config: Config = {
       boxShadow: {
         DEFAULT: "var(--shadow-default)",
         elevated: "var(--shadow-elevated)",
+        pop: "var(--shadow-pop)",
+        chip: "var(--shadow-chip)",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-outfit)", "system-ui", "sans-serif"],
       },
     },
   },

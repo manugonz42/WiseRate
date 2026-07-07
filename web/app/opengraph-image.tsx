@@ -16,14 +16,14 @@ export default function Image() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#0A0A0A",
+          backgroundColor: "#1E2A12",
         }}
       >
         <div
           style={{
             fontSize: 96,
             fontWeight: 800,
-            color: "#FFFFFF",
+            color: "#C6E84E",
             letterSpacing: -2,
           }}
         >
@@ -34,7 +34,7 @@ export default function Image() {
             marginTop: 24,
             fontSize: 36,
             fontWeight: 400,
-            color: "rgba(255,255,255,0.6)",
+            color: "rgba(242,246,228,0.75)",
           }}
         >
           Compare EUR→PHP money transfers

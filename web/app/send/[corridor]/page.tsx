@@ -202,7 +202,7 @@ export default async function CorridorPage({
           <div className="mt-6">
             <Link
               href="/compare"
-              className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition active:scale-[0.97]"
+              className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-light transition active:scale-[0.97]"
             >
               Compare live rates
               <ArrowSquareOut size={14} weight="bold" />

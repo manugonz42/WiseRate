@@ -86,7 +86,7 @@ export default function AnalyticsPage() {
         </div>
         <button
           onClick={() => router.push(alertHref)}
-          className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition active:scale-[0.97]"
+          className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-light transition active:scale-[0.97]"
         >
           <Bell size={16} weight="bold" />
           Set alert at this rate
@@ -105,7 +105,7 @@ export default function AnalyticsPage() {
               aria-disabled={locked}
               className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                 active
-                  ? "bg-primary text-white"
+                  ? "bg-primary text-primary-light"
                   : locked
                     ? "cursor-not-allowed bg-surface text-text-tertiary"
                     : "bg-surface text-text-secondary hover:bg-surface-hover active:scale-[0.97]"
@@ -169,6 +169,7 @@ export default function AnalyticsPage() {
               <YAxis
                 domain={yDomain ?? ["auto", "auto"]}
                 tick={{ fontSize: 10, fill: "var(--text-tertiary)" }}
+                tickFormatter={(v: number) => v.toFixed(2)}
                 axisLine={false}
                 tickLine={false}
                 width={48}
@@ -188,7 +189,7 @@ export default function AnalyticsPage() {
               <Line
                 type="monotone"
                 dataKey="rate"
-                stroke="var(--primary)"
+                stroke="var(--primary-dark)"
                 strokeWidth={2}
                 dot={false}
               />
