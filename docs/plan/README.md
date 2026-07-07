@@ -6,9 +6,10 @@ Goal: web MVP 100% presentable to affiliate/partner reviewers (Wise, Remitly, WU
 
 - [x] [T17 — Trust & transparency pages](T17-trust-pages.md): /about, /how-we-make-money, /terms (DRAFT), contact email, inline affiliate disclosure
 - [x] [T18 — Production polish](T18-production-polish.md): drop disabled Profile tab, 404/error pages, no mock quotes in prod, honest provider fallback
-- [ ] [T19 — Provider editorial coverage](T19-provider-coverage.md): profile every provider visible in default compare lists
+- [x] [T19 — Provider editorial coverage](T19-provider-coverage.md): profile every provider visible in default compare lists
 - [x] [T20 — Deploy readiness](T20-deploy-readiness.md): DEPLOY.md runbook, preview noindex, env audit, merge to main
-- [ ] [T21 — QA sweep + status flip](T21-qa-sweep.md): Playwright pass over every route × 2 viewports, fix all, MODULES.md → ✅
+- [x] [T21 — QA sweep + status flip](T21-qa-sweep.md): Playwright pass over every route × 2 viewports, fix all, MODULES.md → ✅ (Provider Details stayed ◐ — T19 still open)
+- [x] [T22 — Quote fidelity](T22-quote-fidelity.md): direct per-provider quote endpoints at the exact amount (only CurrencyFair cleared tier A; everyone else stays via Wise Comparisons, tagged), 5 banks dropped (no referral program), promo separation (first-transfer + referral) in the comparator
 
 ## Done — SEO slice (Phase 5 pulled forward, planned 2026-07-03)
 
@@ -47,8 +48,8 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 - [ ] Contact email: create real address (e.g. `hello@sulitsend.app` forwarding) → set `CONTACT_EMAIL` in `web/lib/site.ts` (after T17)
 - [ ] Legal review now also covers `/terms` draft (after T17)
 - [ ] Send affiliate/broker applications following `SolicitarAfiliados.md` (repo root) — after deploy, the live site is the credential
-- [ ] `git push` of the T17–T21 work + merged `main` (T20 merges locally, never pushes)
-- [ ] Affiliate signups: Wise (Partnerize), Remitly, WU, TransferGo → paste real affiliate URLs (`web/lib/data/providers.ts`)
+- [ ] `git push` of the T17–T22 work + merged `main` (T20 merges locally, never pushes)
+- [ ] Affiliate signups: Wise (Partnerize), Remitly, WU, TransferGo, CurrencyFair → paste real affiliate URLs (`web/lib/data/providers.ts`); once any deal includes a referral bonus, populate `referralPromo` too (T22)
 - [ ] Broker introducer applications: TorFX, Currencies Direct, OFX → confirm EUR→PHP coverage; replace URLs in `web/lib/brokers.ts`
 - [ ] Deploy both Vercel projects + flip to Pro when affiliate links go live — follow [`DEPLOY.md`](DEPLOY.md) §1–4
 - [ ] PostHog account (EU) → `NEXT_PUBLIC_POSTHOG_KEY`/`_HOST` env vars (`DEPLOY.md` §3)

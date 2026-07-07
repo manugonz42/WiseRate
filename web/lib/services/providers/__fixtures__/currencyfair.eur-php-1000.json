@@ -1,0 +1,30 @@
+{
+  "currencyFrom": "EUR",
+  "currencyTo": "PHP",
+  "type": "SELL",
+  "amountInfo": { "amount": 100000, "scale": 2 },
+  "savingsInfo": { "amount": 172770.365934335, "scale": 2 },
+  "currencyFair": {
+    "transferFee": 80,
+    "rateInfo": { "rate": 69.85, "scale": 2 },
+    "inverseRateInfo": { "rate": 0.014316, "scale": 6 },
+    "amountInfo": { "amount": 6984920, "scale": 2 }
+  },
+  "bank": {
+    "transferFee": 25,
+    "rateInfo": { "rate": 68.1385309734, "scale": 2 },
+    "inverseRateInfo": { "rate": 0.014676, "scale": 6 },
+    "amountInfo": { "amount": 6812149.634065665, "scale": 2 }
+  },
+  "totalSavings": {
+    "currencyCode": "EUR",
+    "currencySymbol": "€",
+    "savingsRate": 1.32,
+    "amountInfo": { "amount": 550573778, "scale": 0 }
+  },
+  "smartRates": { "isFTTSmartRate": false },
+  "paymentMethods": null,
+  "fixedRates": { "available": true, "maxRateDiff": 3, "maxAmountFromCurr": 0, "hoursLimit": 48 },
+  "statusMessage": null,
+  "_links": { "self": { "href": "https://api.currencyfair.com/comparisonQuotes" } }
+}

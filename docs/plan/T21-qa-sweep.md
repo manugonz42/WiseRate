@@ -30,3 +30,17 @@ Sweep passes clean on both viewports. `npm test && npm run build && npm run lint
 
 ## Out of scope
 Lighthouse/perf tuning, cross-browser beyond Chromium, accessibility audit beyond obvious breakage.
+
+## Completion record (2026-07-06)
+
+Playwright sweep (`web/scripts/qa-sweep.mjs`, throwaway, deleted after the run) drove all 23 named checks × 2 viewports (390×844, 1440×900) = 46 passes, clean on the final run: zero console errors/warnings, no bare TODO, no horizontal overflow, all internal nav 200s, `/this-page-does-not-exist-qa` correctly 404s.
+
+**Environment issue found and fixed (not a product bug):** two stray `next start` processes were serving `web/` on :3000/:3001 from a `.next` build left in dev-mode shape — every static chunk 400'd, breaking hydration everywhere. Killed both, ran a clean `npm run dev`; all pages loaded normally afterward. Started landing's dev server on :3002 (wasn't running).
+
+**Real bug found and fixed:** `landing/components/Nav.tsx` — the header's language switcher + CTA button overflowed the 390px mobile viewport by ~3px whenever the CTA copy was long enough (reproduced on `/es`, "Comparar ahora"). Fixed by hiding the nav switcher below `sm:` (footer already carries a switcher on mobile) and making the CTA `whitespace-nowrap` with smaller mobile padding/type, scaling up at `sm:`. Re-verified: `scrollWidth === innerWidth` (390) on `/en`, `/es`, `/tl` mobile.
+
+**Test-harness-only issues (no product code changed):** early-click-before-hydration flakiness on the landing switcher and a compare-page sort-chip check waiting on a mobile-hidden `<table>` — both fixed in the script itself (retry-click, drop the bad selector). A one-off `remitly estimate returned 429` on a corridor page was a live third-party rate limit from repeated sweep runs, not reproducible on rerun.
+
+**MODULES.md flip:** Home, Comparison, Analytics, Brokers, Landing → web ✅ (acceptance criteria re-read, all met). Provider Details stays ◐ — T19 (editorial profiles for the other ~10 EUR→PHP providers) is still blocked on a WebSearch/WebFetch outage, so most providers still hit the generic fallback.
+
+**Verify gate:** `npm test` (39 passed), `npm run build`, `npm run lint` (web) all green; `npm run build` (landing) green.

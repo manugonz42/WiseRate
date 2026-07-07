@@ -1,6 +1,6 @@
 # Module: Provider Details
 
-**Status:** iOS ◐ · Web ◐ (editorial data static — Wise, Western Union, Remitly, TransferGo only; other providers get a generic live-quote view) · Android ☐
+**Status:** iOS ◐ · Web ✅ (editorial data static for all 14 default EUR→PHP compare-list providers — Wise, Western Union, Remitly, TransferGo, ABN AMRO, BNP, Instarem, Monese, MoneyGram, OFX, PayPal, UniCredit, WorldRemit, Xoom — plus Wells Fargo and HSBC Australia (top-5 in their corridor); other, lower-ranked non-EUR providers still get a generic live-quote view, see T19) · Android ☐
 
 ## Dependencies
 - **Reads:** [exchange-rate](../services/exchange-rate.md), [persistence](../services/persistence.md) (favorites toggle), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)

@@ -22,6 +22,25 @@ const quote = (source: TransferQuote["source"]): TransferQuote => ({
   source,
 });
 
+describe("filterExcludedProviders", () => {
+  it("drops banks without a referral program (T22 audit)", async () => {
+    const { filterExcludedProviders } = await import("../quotes");
+    const quotes = [
+      quote("wise-comparisons"),
+      { ...quote("wise-comparisons"), providerID: "abn-amro-bank" },
+      { ...quote("wise-comparisons"), providerID: "bnp" },
+      { ...quote("wise-comparisons"), providerID: "unicredit" },
+      { ...quote("wise-comparisons"), providerID: "wells-fargo" },
+      { ...quote("wise-comparisons"), providerID: "hsbc-australia" },
+      { ...quote("wise-comparisons"), providerID: "instarem" },
+    ];
+    expect(filterExcludedProviders(quotes).map((q) => q.providerID)).toEqual([
+      "wise-comparisons",
+      "instarem",
+    ]);
+  });
+});
+
 describe("stripMockInProduction", () => {
   afterEach(() => {
     vi.unstubAllEnvs();

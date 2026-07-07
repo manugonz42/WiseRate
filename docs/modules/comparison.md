@@ -1,6 +1,6 @@
 # Module: Comparison
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ✅ · Android ☐
 
 ## Dependencies
 - **Reads:** [exchange-rate](../services/exchange-rate.md), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)
@@ -34,7 +34,8 @@ Full list of provider quotes for the user-entered amount, sortable and filterabl
 - Search filters provider names live (debounce 150ms) ✅ (web)
 - Each row shows: provider icon, name, fee, delivery estimate, receive amount, markup % ✅ (web)
 - "Promo" badge on quotes with `isPromotion = true`, showing the first-transfer price next to the standard one (`PromoInfo`); when the provider publishes no standard price (`baseIsStandard = false`) the row says so ✅ (web)
-- Quotes not fetched from the provider's own endpoint carry a source tag: "via Wise" (`wise-comparisons`) or "mock" ✅ (web)
+- Promo badge is labeled by kind — "FIRST TRANSFER" (provider's own new-customer pricing, `PromoInfo.kind`) vs. "VIA OUR LINK: {amount}" (our affiliate referral bonus, editorial `providers.ts` `referralPromo`) — both shown together when both exist, no per-user eligibility yet ✅ (web, T22); referral data stays empty until a real affiliate deal is signed
+- Quotes not fetched from the provider's own endpoint carry a source tag: "via Wise" (`wise-comparisons`) or "mock" ✅ (web); banks with no referral/affiliate program are dropped entirely rather than tagged (T22 bank audit, see [exchange-rate](../services/exchange-rate.md))
 - Empty filter result shows a "no providers match" state with a reset action ✅ (web)
 
 ## Platform notes

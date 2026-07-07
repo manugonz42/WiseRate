@@ -8,18 +8,18 @@ Android column: Compose screens + ViewModels exist for every module (mock data) 
 
 | Module | iOS | Web | Android | Spec |
 |---|:-:|:-:|:-:|---|
-| Home | ◐ | ◐ | ◐ | [home.md](modules/home.md) |
-| Comparison | ◐ | ◐ | ◐ | [comparison.md](modules/comparison.md) |
-| Provider Details | ◐ | ◐ | ◐ | [provider-details.md](modules/provider-details.md) |
-| Analytics | ◐ | ◐ | ◐ | [analytics.md](modules/analytics.md) |
+| Home | ◐ | ✅ | ◐ | [home.md](modules/home.md) |
+| Comparison | ◐ | ✅ | ◐ | [comparison.md](modules/comparison.md) |
+| Provider Details | ◐ | ✅ | ◐ | [provider-details.md](modules/provider-details.md) |
+| Analytics | ◐ | ✅ | ◐ | [analytics.md](modules/analytics.md) |
 | Alerts | ◐ | ◐ | ◐ | [alerts.md](modules/alerts.md) |
 | Profile | ◐ | ☐* | ◐ | [profile.md](modules/profile.md) |
 | Settings | ◐ | ☐* | ◐ | [settings.md](modules/settings.md) |
 | Premium | ◐ | ☐* | ◐ | [premium.md](modules/premium.md) |
 | Referral | ◐ | ☐* | ◐ | [referral.md](modules/referral.md) |
 | Onboarding | ◐ | ☐* | ◐ | [onboarding.md](modules/onboarding.md) |
-| Landing | — | ◐ | — | [landing.md](modules/landing.md) |
-| Brokers (high-amount) | ☐ | ◐ | ☐ | [brokers.md](modules/brokers.md) |
+| Landing | — | ✅ | — | [landing.md](modules/landing.md) |
+| Brokers (high-amount) | ☐ | ✅ | ☐ | [brokers.md](modules/brokers.md) |
 | Corridor pages (SEO) | — | ✅ | — | [corridors.md](modules/corridors.md) |
 
 \* post-MVP (apps) — Profile, Settings, Premium, Referral, and Onboarding are app-phase modules; the web tab bar ships Home/Compare/Analytics/Alerts only (see [navigation](architecture/navigation.md)).

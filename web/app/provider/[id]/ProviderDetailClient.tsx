@@ -191,7 +191,7 @@ export default function ProviderDetailClient({ id }: { id: string }) {
           <p className="mb-4 text-sm text-text-secondary">{error}</p>
           <button
             onClick={() => setReloadKey((k) => k + 1)}
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-white transition active:scale-[0.97]"
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
           >
             <ArrowClockwise size={14} weight="bold" />
             Retry
@@ -355,7 +355,7 @@ export default function ProviderDetailClient({ id }: { id: string }) {
                 title={locked ? "Premium — coming soon" : undefined}
                 className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                   active
-                    ? "bg-primary text-white"
+                    ? "bg-primary text-primary-light"
                     : locked
                       ? "cursor-not-allowed bg-surface text-text-tertiary"
                       : "bg-surface text-text-secondary hover:bg-surface-hover active:scale-[0.97]"
@@ -384,6 +384,7 @@ export default function ProviderDetailClient({ id }: { id: string }) {
               <YAxis
                 domain={["auto", "auto"]}
                 tick={{ fontSize: 10, fill: "var(--text-tertiary)" }}
+                tickFormatter={(v: number) => v.toFixed(2)}
                 axisLine={false}
                 tickLine={false}
                 width={40}
@@ -403,7 +404,7 @@ export default function ProviderDetailClient({ id }: { id: string }) {
               <Line
                 type="monotone"
                 dataKey="rate"
-                stroke="var(--primary)"
+                stroke="var(--primary-dark)"
                 strokeWidth={2}
                 dot={false}
               />
@@ -427,7 +428,7 @@ export default function ProviderDetailClient({ id }: { id: string }) {
             onClick={() =>
               track("provider.affiliate_outbound", { providerID: provider.id })
             }
-            className="flex items-center justify-center gap-2 rounded bg-primary px-4 py-3.5 text-sm font-bold text-white transition active:scale-[0.99]"
+            className="btn-pop flex items-center justify-center gap-2 rounded bg-primary px-4 py-3.5 text-sm font-bold text-primary-light"
           >
             Send with {provider.name}
             <ArrowSquareOut size={16} weight="bold" />

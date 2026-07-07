@@ -20,15 +20,34 @@ export interface DeliveryEstimate {
 // attributed to the provider by Wise's comparisons API; "mock" = local fixture.
 export type QuoteSource = "direct" | "wise-comparisons" | "mock";
 
+// What kind of offer a PromoInfo represents, so the UI can label it instead
+// of lumping every promo under one generic badge:
+//  - "first-transfer": the provider's own new-customer pricing (boosted rate
+//    and/or waived fee), detected from its API response (Remitly, TransferGo).
+//  - "referral": a bonus for using our affiliate link specifically — editorial
+//    data from providers.ts, not derived from any quote API.
+//  - "other": any offer that doesn't fit the two above.
+export type PromoKind = "first-transfer" | "referral" | "other";
+
 // First-transfer / new-customer offer. Base quote fields hold the standard
 // (no-promo) price whenever derivable; ranking always uses the base fields.
 export interface PromoInfo {
+  kind: PromoKind;
   description: string;
+  conditions?: string;
   promoFee: number;
   promoReceiveAmount: number;
   promoExchangeRate: number | null;
   // false when the provider publishes no standard price (base == promo price)
   baseIsStandard: boolean;
+}
+
+// Editorial "use our link" bonus, independent of any provider API — populated
+// per provider in providers.ts once a real affiliate/referral deal exists.
+export interface ReferralPromo {
+  amount: string;
+  conditions: string;
+  sourceURL: string;
 }
 
 export interface TransferQuote {
@@ -101,6 +120,9 @@ export interface ProviderDetail {
   userRating: number; // 0..5
   websiteURL: string;
   affiliateURL: string | null;
+  // Editorial "use our link" bonus; unset until a real affiliate/referral
+  // deal exists for this provider (same convention as affiliateURL: null).
+  referralPromo?: ReferralPromo;
   description: string;
   reviewCount: number;
   transferLimits: { minAmount: number; maxAmount: number; currency: string };

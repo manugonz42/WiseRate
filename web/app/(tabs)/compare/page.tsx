@@ -189,7 +189,7 @@ export default function ComparePage() {
             onClick={() => handleSortChange(s.id)}
             className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
               sort === s.id
-                ? "bg-primary text-white"
+                ? "bg-primary text-primary-light"
                 : "bg-surface text-text-secondary hover:bg-surface-hover"
             }`}
           >
@@ -230,7 +230,7 @@ export default function ComparePage() {
           <p className="mb-4 text-sm text-text-secondary">{error}</p>
           <button
             onClick={() => setReloadKey((k) => k + 1)}
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-white transition active:scale-[0.97]"
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
           >
             <ArrowClockwise size={14} weight="bold" />
             Retry
@@ -244,7 +244,7 @@ export default function ComparePage() {
           </p>
           <button
             onClick={() => setSearch("")}
-            className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-white transition active:scale-[0.97]"
+            className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
           >
             Reset search
           </button>
@@ -335,7 +335,7 @@ function BrokerCard({ amount }: { amount: number }) {
                   amountBucket: bucket,
                 })
               }
-              className="inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-white transition active:scale-[0.97]"
+              className="inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
             >
               Get a quote
               <ArrowSquareOut size={12} weight="bold" />
@@ -371,7 +371,7 @@ function ProviderIcon({ q, size }: { q: TransferQuote; size: number }) {
       width={size}
       height={size}
       style={{ width: size, height: size }}
-      className="shrink-0 rounded-full bg-white/5 object-contain"
+      className="shrink-0 rounded-full bg-surface shadow object-contain"
     />
   );
 }
@@ -393,14 +393,33 @@ function SourceTag({ q }: { q: TransferQuote }) {
   );
 }
 
+// "Promo" badge is per-kind: the provider's own first-transfer pricing is
+// distinct from a referral bonus for using our link — both notify the user
+// an offer exists without overloading one generic badge.
 function PromoTag({ q }: { q: TransferQuote }) {
-  if (!q.isPromotion) return null;
+  if (!q.isPromotion || !q.promo) return null;
+  const label = q.promo.kind === "referral" ? "REFERRAL" : "FIRST TRANSFER";
   return (
     <span
-      title={q.promo?.description}
+      title={q.promo.conditions ?? q.promo.description}
       className="shrink-0 rounded-full bg-success/15 px-1.5 py-0.5 text-[10px] font-bold text-success"
     >
-      PROMO
+      {label}
+    </span>
+  );
+}
+
+// Editorial "use our link" bonus (providers.ts), shown alongside — not
+// instead of — any API-detected first-transfer promo above.
+function ReferralTag({ q }: { q: TransferQuote }) {
+  const referral = PROVIDERS[q.providerID]?.referralPromo;
+  if (!referral) return null;
+  return (
+    <span
+      title={referral.conditions}
+      className="shrink-0 rounded-full bg-accent/15 px-1.5 py-0.5 text-[10px] font-bold text-accent"
+    >
+      VIA OUR LINK: {referral.amount}
     </span>
   );
 }
@@ -437,7 +456,7 @@ function SendButton({ q }: { q: TransferQuote }) {
         e.stopPropagation();
         track("compare.affiliate_outbound", { providerID: q.providerID });
       }}
-      className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-white transition active:scale-[0.97]"
+      className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
     >
       Send
       <ArrowSquareOut size={12} weight="bold" />
@@ -470,7 +489,7 @@ function QuoteTableRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
   }`;
   return (
     <tr
-      className={`cursor-pointer ${isBest ? "" : "hover:bg-surface/60"}`}
+      className={`cursor-pointer ${isBest ? "" : "hover:bg-surface-hover"}`}
       tabIndex={0}
       role="link"
       onClick={() => router.push(`/provider/${q.providerID}`)}
@@ -483,6 +502,7 @@ function QuoteTableRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
           <ProviderIcon q={q} size={24} />
           <span className="truncate font-semibold">{q.providerName}</span>
           <PromoTag q={q} />
+          <ReferralTag q={q} />
           <SourceTag q={q} />
           {isBest && <Star size={14} weight="fill" className="shrink-0 text-warning" />}
         </div>
@@ -533,6 +553,7 @@ function QuoteRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
           <div className="flex items-center gap-2">
             <span className="truncate font-semibold">{q.providerName}</span>
             <PromoTag q={q} />
+            <ReferralTag q={q} />
             <SourceTag q={q} />
             {isBest && (
               <span className="flex items-center gap-1 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-bold text-warning">

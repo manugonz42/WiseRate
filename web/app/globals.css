@@ -9,8 +9,13 @@
   body {
     background: var(--bg);
     color: var(--text-primary);
-    font-family: var(--font-inter), system-ui, sans-serif;
+    font-family: var(--font-outfit), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--primary-light);
+    color: var(--primary);
   }
 
   /* Tabular figures for rate / amount displays. */
@@ -19,7 +24,33 @@
   }
 }
 
-/* Gentle entrance for freshly-fetched results. Static under reduced motion. */
+@layer components {
+  /* Chunky pressable CTA: hard olive shadow that squashes on press. */
+  .btn-pop {
+    box-shadow: var(--shadow-pop);
+    transition:
+      transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .btn-pop:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 var(--primary-dark);
+  }
+
+  /* Same press feel, chip-sized. */
+  .chip-pop {
+    box-shadow: var(--shadow-chip);
+    transition:
+      transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .chip-pop:active {
+    transform: translateY(3px);
+    box-shadow: 0 0 0 var(--primary-dark);
+  }
+}
+
+/* Dopamine set — static under reduced motion. */
 @media (prefers-reduced-motion: no-preference) {
   .results-enter {
     animation: results-enter 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -32,6 +63,47 @@
     to {
       opacity: 1;
       transform: none;
+    }
+  }
+
+  /* Entrance for podium columns / ranked rows; stagger via animation-delay. */
+  .rise {
+    animation: rise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .crown-bounce {
+    animation: crown-bounce 2.2s ease-in-out infinite;
+  }
+  @keyframes crown-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  .pulse-dot {
+    animation: pulse-dot 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
     }
   }
 }

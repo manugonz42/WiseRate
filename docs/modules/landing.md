@@ -1,6 +1,6 @@
 # Module: Landing
 
-**Status:** in-progress (Web only)
+**Status:** ✅ shipped (Web only)
 
 ## Dependencies
 - **Reads (architecture):** [localization](../architecture/localization.md)

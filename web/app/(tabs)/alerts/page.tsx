@@ -222,7 +222,7 @@ function AlertsPageContent() {
           </label>
           <button
             type="submit"
-            className="flex items-center justify-center gap-1.5 rounded bg-primary px-4 py-3 text-sm font-bold text-white transition active:scale-[0.98]"
+            className="btn-pop flex items-center justify-center gap-1.5 rounded bg-primary px-4 py-3 text-sm font-bold text-primary-light"
           >
             <Plus size={16} weight="bold" />
             Create alert
@@ -237,7 +237,7 @@ function AlertsPageContent() {
               onClick={() => setNotifyType(t.id)}
               className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
                 notifyType === t.id
-                  ? "bg-primary text-white"
+                  ? "bg-primary text-primary-light"
                   : "bg-bg text-text-secondary hover:bg-surface-hover"
               }`}
             >

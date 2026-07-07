@@ -1,19 +1,34 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { getQuotes } from "@/lib/services/rate";
 import { getHistory } from "@/lib/services/history";
+import { track } from "@/lib/analytics";
+import { PROVIDERS } from "@/lib/data/providers";
 import type {
   HistoryResponse,
   QuotesResponse,
   TransferQuote,
 } from "@/lib/models/types";
-import { ArrowClockwise, ArrowDown, ArrowUp } from "@phosphor-icons/react/dist/ssr";
+import {
+  ArrowClockwise,
+  ArrowDown,
+  ArrowUp,
+  RocketLaunch,
+} from "@phosphor-icons/react/dist/ssr";
+import { SidebarSlot } from "@/components/SidebarSlot";
 
-const SEND_AMOUNT = 500;
+// Preset chip amounts — default €200 (docs/modules/home.md).
+const AMOUNTS = [100, 200, 500, 1000];
+const DEFAULT_AMOUNT = 200;
 
 const php = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+const eur = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "EUR",
+  maximumFractionDigits: 2,
+});
 
 // "2m ago" / "3h ago" — computed at render time, no ticking interval (T04 scope).
 function relativeTime(iso: string): string {
@@ -25,12 +40,57 @@ function relativeTime(iso: string): string {
   return `${Math.round(hours / 24)}d ago`;
 }
 
+// Tween a number to its new value (600ms ease-out cubic). Instant under
+// reduced motion — see design-system.md Animation.
+function useCountUp(target: number, duration = 600): number {
+  const [display, setDisplay] = useState(target);
+  const prev = useRef(target);
+
+  useEffect(() => {
+    const from = prev.current;
+    prev.current = target;
+    if (
+      from === target ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setDisplay(target);
+      return;
+    }
+    let raf: number;
+    const t0 = performance.now();
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - t0) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setDisplay(from + (target - from) * eased);
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration]);
+
+  return display;
+}
+
+// Outbound URL for the winner CTA — same fallback chain as Compare.
+const sendURL = (q: TransferQuote): string | null => {
+  const p = PROVIDERS[q.providerID];
+  return p ? (p.affiliateURL ?? p.websiteURL) : null;
+};
+
 export default function HomePage() {
+  const [amount, setAmount] = useState(DEFAULT_AMOUNT);
   const [quotes, setQuotes] = useState<QuotesResponse | null>(null);
   const [history, setHistory] = useState<HistoryResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
+
+  // 7D history feeds the ring meter — nice-to-have, fetched once.
+  useEffect(() => {
+    getHistory("7D")
+      .then(setHistory)
+      .catch(() => setHistory(null));
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -38,15 +98,8 @@ export default function HomePage() {
     setError(null);
     (async () => {
       try {
-        // History is a nice-to-have (24h delta) — don't fail the whole page for it.
-        const [q, h] = await Promise.all([
-          getQuotes(SEND_AMOUNT),
-          getHistory("7D").catch(() => null),
-        ]);
-        if (!cancelled) {
-          setQuotes(q);
-          setHistory(h);
-        }
+        const q = await getQuotes(amount);
+        if (!cancelled) setQuotes(q);
       } catch {
         if (!cancelled) setError("Couldn't load rates. Try again.");
       } finally {
@@ -56,14 +109,19 @@ export default function HomePage() {
     return () => {
       cancelled = true;
     };
-  }, [reloadKey]);
+  }, [amount, reloadKey]);
 
-  const topThree = useMemo(() => {
+  const ranked = useMemo(() => {
     if (!quotes) return [];
-    return [...quotes.quotes]
-      .sort((a, b) => b.receiveAmount - a.receiveAmount)
-      .slice(0, 3);
+    return [...quotes.quotes].sort((a, b) => b.receiveAmount - a.receiveAmount);
   }, [quotes]);
+
+  const best = ranked[0];
+  const avgReceive = useMemo(() => {
+    if (ranked.length === 0) return 0;
+    return ranked.reduce((s, q) => s + q.receiveAmount, 0) / ranked.length;
+  }, [ranked]);
+  const extra = best ? Math.max(0, Math.round(best.receiveAmount - avgReceive)) : 0;
 
   // Last two points of the 7D series — day-over-day, never framed as intraday.
   const delta = useMemo(() => {
@@ -76,25 +134,31 @@ export default function HomePage() {
     };
   }, [history]);
 
-  return (
-    <main className="mx-auto min-h-[100dvh] max-w-4xl px-4 pb-16 pt-8 sm:px-6">
-      <header className="mb-5">
-        <h1 className="text-[28px] font-extrabold leading-none tracking-tight">
-          Home
-        </h1>
-        <p className="mt-1.5 text-sm text-text-secondary">
-          EUR → PHP at a glance
-        </p>
-      </header>
+  // Where today's rate sits inside the 7-day range (0..1) for the ring meter.
+  const meterPct = useMemo(() => {
+    if (!history || history.rates.length < 2 || !quotes) return null;
+    const rates = history.rates.map((r) => r.rate);
+    const low = Math.min(...rates);
+    const high = Math.max(...rates);
+    if (high === low) return null;
+    return Math.min(1, Math.max(0, (quotes.rate.rate - low) / (high - low)));
+  }, [history, quotes]);
 
-      {loading && <HomeSkeleton />}
+  // Amount switches keep stale data visible (dimmed), no re-skeleton.
+  const initialLoading = loading && !quotes;
+
+  return (
+    <main className="mx-auto min-h-[100dvh] w-full max-w-md px-4 pb-16 pt-6 sm:px-6 lg:min-h-0 lg:max-w-none lg:p-0">
+      <h1 className="sr-only">EUR → PHP — today&apos;s best transfer deal</h1>
+
+      {initialLoading && <HomeSkeleton />}
 
       {error && !loading && (
-        <div className="rounded bg-surface p-8 text-center">
+        <div className="rounded bg-surface p-8 text-center shadow">
           <p className="mb-4 text-sm text-text-secondary">{error}</p>
           <button
             onClick={() => setReloadKey((k) => k + 1)}
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-white transition active:scale-[0.97]"
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
           >
             <ArrowClockwise size={14} weight="bold" />
             Retry
@@ -102,86 +166,534 @@ export default function HomePage() {
         </div>
       )}
 
-      {!loading && !error && quotes && quotes.quotes.length === 0 && (
-        <div className="rounded bg-surface p-8 text-center">
+      {!initialLoading && !error && quotes && ranked.length === 0 && (
+        <div className="rounded bg-surface p-8 text-center shadow">
           <p className="text-sm text-text-secondary">
             We don&apos;t yet support {quotes.from} → {quotes.to} transfers.
           </p>
         </div>
       )}
 
-      {!loading && !error && quotes && quotes.quotes.length > 0 && (
-        <>
-          <HeroCard quotes={quotes} delta={delta} />
+      {!initialLoading && !error && quotes && best && (
+        <div
+          className={`transition-opacity lg:hidden ${
+            loading ? "opacity-60" : "opacity-100"
+          }`}
+        >
+          <div className="flex flex-col gap-5">
+            <SavingsCard
+              extra={extra}
+              providerCount={ranked.length}
+              meterPct={meterPct}
+            />
 
-          <div className="mb-3 mt-8 flex items-baseline justify-between">
-            <h2 className="text-lg font-bold">Top providers</h2>
-            <span className="text-xs text-text-tertiary">for €{SEND_AMOUNT}</span>
+            <div className="flex gap-2" role="group" aria-label="Send amount">
+              {AMOUNTS.map((a) => {
+                const selected = a === amount;
+                return (
+                  <button
+                    key={a}
+                    onClick={() => setAmount(a)}
+                    aria-pressed={selected}
+                    className={`flex-1 rounded-sm py-2.5 text-[15px] font-extrabold transition ${
+                      selected
+                        ? "chip-pop bg-primary text-primary-light"
+                        : "bg-surface text-text-tertiary shadow hover:text-text-secondary active:scale-[0.97]"
+                    }`}
+                  >
+                    €{a}
+                  </button>
+                );
+              })}
+            </div>
+
+            <Hero quotes={quotes} best={best} delta={delta} />
           </div>
 
-          <div className="flex flex-col gap-3">
-            {topThree.map((q) => (
-              <TopProviderCard key={q.id} q={q} />
+          <div className="mt-8 flex flex-col gap-3">
+            {ranked.length >= 3 ? (
+              <Podium ranked={ranked} extra={extra} />
+            ) : (
+              ranked.map((q, i) => <RankRow key={q.id} q={q} rank={i + 1} />)
+            )}
+
+            <SendCTA q={best} />
+
+            {ranked.slice(3, 5).map((q, i) => (
+              <RankRow key={q.id} q={q} rank={i + 4} />
             ))}
+
+            {/* sponsored slot — 0–1 offers, see docs/modules/home.md */}
+
+            <Link
+              href="/compare"
+              className="py-1 text-center text-sm font-extrabold text-primary-dark transition active:scale-[0.98]"
+            >
+              See the full ranking ({ranked.length}) →
+            </Link>
+
+            <p className="text-center text-[11px] text-text-tertiary">
+              We may earn a commission — you pay the same.{" "}
+              <Link href="/how-we-make-money" className="underline">
+                How we make money
+              </Link>
+            </p>
           </div>
+        </div>
+      )}
 
-          {/* sponsored slot — 0–1 offers, see docs/modules/home.md */}
-
-          <Link
-            href="/compare"
-            className="mt-6 flex items-center justify-center rounded bg-primary px-4 py-3 text-sm font-semibold text-white transition active:scale-[0.99]"
+      {/* lg+ dashboard: sidebar slot (chips/hero/CTA/ring) + Live ranking
+          panel. Same state as the mobile tree above — CSS breakpoint only
+          (docs/modules/home.md). */}
+      {!initialLoading && !error && quotes && best && (
+        <div className="hidden lg:block">
+          <SidebarSlot>
+            <div
+              className={`flex flex-col gap-5 transition-opacity ${
+                loading ? "opacity-60" : "opacity-100"
+              }`}
+            >
+              <div
+                className="grid grid-cols-4 gap-1.5"
+                role="group"
+                aria-label="Send amount"
+              >
+                {AMOUNTS.map((a) => {
+                  const selected = a === amount;
+                  return (
+                    <button
+                      key={a}
+                      onClick={() => setAmount(a)}
+                      aria-pressed={selected}
+                      className={`rounded-full py-1.5 text-xs font-extrabold transition active:scale-[0.97] ${
+                        selected
+                          ? "bg-primary-light text-primary"
+                          : "bg-white/10 text-bg opacity-80 hover:bg-white/15 hover:opacity-100"
+                      }`}
+                    >
+                      €{a}
+                    </button>
+                  );
+                })}
+              </div>
+              <SidebarHero quotes={quotes} best={best} delta={delta} />
+              <SendCTA q={best} invert />
+              <SidebarSavings
+                extra={extra}
+                providerCount={ranked.length}
+                meterPct={meterPct}
+              />
+            </div>
+          </SidebarSlot>
+          <div
+            className={`transition-opacity ${loading ? "opacity-60" : "opacity-100"}`}
           >
-            Compare all providers
-          </Link>
-        </>
+            <LiveRanking ranked={ranked} amount={amount} extra={extra} />
+          </div>
+        </div>
       )}
     </main>
   );
 }
 
-function HeroCard({
+// Sidebar hero (lg+): same count-up as the mobile Hero, restyled for the
+// ink panel — delta stays neutral there (semantic colors fail contrast on ink).
+function SidebarHero({
   quotes,
+  best,
   delta,
 }: {
   quotes: QuotesResponse;
+  best: TransferQuote;
   delta: { value: number; pct: number } | null;
 }) {
+  const animated = useCountUp(best.receiveAmount);
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="text-xs font-semibold text-bg opacity-70">
+        your family gets up to
+      </span>
+      <span className="tabular text-[38px] font-extrabold leading-none tracking-tight text-bg">
+        ₱{php.format(animated)}
+      </span>
+      <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-bg opacity-70">
+        ₱{quotes.rate.rate.toFixed(2)}/€ · {relativeTime(quotes.rate.timestamp)}
+        {delta && (
+          <span className="flex items-center gap-0.5 font-bold">
+            {delta.value >= 0 ? (
+              <ArrowUp size={11} weight="bold" />
+            ) : (
+              <ArrowDown size={11} weight="bold" />
+            )}
+            {Math.abs(delta.pct).toFixed(2)}%
+          </span>
+        )}
+      </span>
+    </div>
+  );
+}
+
+// Sidebar savings card (lg+): ring meter + best-vs-average, compacted from
+// the mobile SavingsCard for the ink panel.
+function SidebarSavings({
+  extra,
+  providerCount,
+  meterPct,
+}: {
+  extra: number;
+  providerCount: number;
+  meterPct: number | null;
+}) {
+  return (
+    <div className="flex items-center gap-3 rounded-sm bg-white/10 p-4">
+      {meterPct !== null && (
+        <div
+          role="img"
+          aria-label={`Today's rate is at ${Math.round(meterPct * 100)}% of its 7-day range`}
+          className="grid h-12 w-12 shrink-0 place-items-center rounded-full"
+          style={{
+            background: `conic-gradient(var(--primary-light) 0 ${meterPct * 100}%, rgba(255,255,255,0.15) ${meterPct * 100}% 100%)`,
+          }}
+        >
+          <div className="grid h-9 w-9 place-items-center rounded-full bg-primary text-[10px] font-extrabold text-primary-light">
+            {Math.round(meterPct * 100)}%
+          </div>
+        </div>
+      )}
+      <div className="flex min-w-0 flex-col">
+        <span className="text-sm font-extrabold text-primary-light">
+          +₱{php.format(extra)} vs average
+        </span>
+        <span className="text-[11px] text-bg opacity-60">
+          across {providerCount} providers right now 💪
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// Shared column template for the Live ranking header + rows.
+const RANKING_GRID =
+  "grid grid-cols-[44px_minmax(0,1fr)_84px_104px_116px] items-center gap-2";
+
+// lg+ main pane: full ranking table on the light panel (docs/modules/home.md).
+function LiveRanking({
+  ranked,
+  amount,
+  extra,
+}: {
+  ranked: TransferQuote[];
+  amount: number;
+  extra: number;
+}) {
+  const top = ranked.slice(0, 5);
+  return (
+    <section
+      aria-label="Live ranking"
+      className="rounded bg-surface-hover p-6 shadow-elevated"
+    >
+      <div className="mb-5 flex items-center justify-between gap-4">
+        <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1">
+          <h2 className="text-[22px] font-extrabold leading-none tracking-tight">
+            Live ranking
+          </h2>
+          <span className="text-xs font-semibold text-text-secondary">
+            {ranked.length} providers · €{amount} → PHP
+          </span>
+        </div>
+        {extra > 0 && (
+          <span className="shrink-0 rounded-full bg-podium-2 px-3 py-1 text-[11px] font-extrabold text-primary">
+            best beats average by ₱{php.format(extra)}
+          </span>
+        )}
+      </div>
+
+      <div
+        className={`${RANKING_GRID} px-4 pb-2 text-[10px] font-bold uppercase tracking-widest text-text-tertiary`}
+        aria-hidden
+      >
+        <span>#</span>
+        <span>Provider</span>
+        <span>Fee</span>
+        <span>Speed</span>
+        <span className="text-right">You get</span>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        {top.map((q, i) => (
+          <RankingRow key={q.id} q={q} rank={i + 1} extra={extra} />
+        ))}
+      </div>
+
+      <div className="mt-4 flex items-center justify-between gap-4 text-[11px] text-text-tertiary">
+        <p>
+          We may earn a commission — you pay the same.{" "}
+          <Link href="/how-we-make-money" className="underline">
+            How we make money
+          </Link>
+        </p>
+        <Link
+          href="/compare"
+          className="shrink-0 text-xs font-extrabold text-primary-dark transition active:scale-[0.98]"
+        >
+          See all {ranked.length} →
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+function RankingRow({
+  q,
+  rank,
+  extra,
+}: {
+  q: TransferQuote;
+  rank: number;
+  extra: number;
+}) {
+  const winner = rank === 1;
+  const fast =
+    q.deliveryEstimate.maxMinutes > 0 && q.deliveryEstimate.maxMinutes <= 60;
+  return (
+    <Link
+      href={`/provider/${q.providerID}`}
+      className={`rise ${RANKING_GRID} rounded-sm px-4 py-3 transition active:scale-[0.995] ${
+        winner
+          ? "chip-pop bg-primary-light"
+          : "bg-surface shadow hover:bg-surface-hover"
+      }`}
+      style={{ animationDelay: `${rank * 60}ms` }}
+    >
+      <span className={`text-base ${winner ? "" : "font-extrabold text-text-secondary"}`}>
+        {winner ? "🎉" : `${rank}º`}
+      </span>
+      <span className="flex min-w-0 items-center gap-2.5">
+        <ProviderIcon q={q} size={30} />
+        <span className="flex min-w-0 flex-col">
+          <span className="flex min-w-0 items-center gap-2">
+            <span className="truncate text-sm font-extrabold">
+              {q.providerName}
+            </span>
+            <SourceTag q={q} />
+          </span>
+          {winner && extra > 0 && (
+            <span className="text-[10px] font-bold text-primary opacity-70">
+              +₱{php.format(extra)} vs average
+            </span>
+          )}
+        </span>
+      </span>
+      <span
+        className={`tabular text-sm ${winner ? "font-bold" : "text-text-secondary"}`}
+      >
+        {eur.format(q.fee)}
+      </span>
+      <span className={`text-sm ${winner ? "font-bold" : "text-text-secondary"}`}>
+        {q.deliveryEstimate.maxMinutes === 0
+          ? "n/a"
+          : q.deliveryEstimate.label}
+        {fast && " ⚡"}
+      </span>
+      <span
+        className={`tabular text-right font-extrabold ${winner ? "text-[19px]" : "text-[15px]"}`}
+      >
+        ₱{php.format(q.receiveAmount)}
+      </span>
+    </Link>
+  );
+}
+
+// Dark ink card: how much the best pick beats the average, plus a ring
+// showing where today's rate sits in the 7-day range.
+function SavingsCard({
+  extra,
+  providerCount,
+  meterPct,
+}: {
+  extra: number;
+  providerCount: number;
+  meterPct: number | null;
+}) {
+  return (
+    <div className="rise flex items-center gap-4 rounded bg-primary p-5 text-bg">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <span className="text-[11px] font-semibold uppercase tracking-wide opacity-70">
+          Best pick beats the average by
+        </span>
+        <span className="tabular text-[28px] font-extrabold leading-tight tracking-tight text-primary-light">
+          ₱{php.format(extra)}
+        </span>
+        <span className="text-xs opacity-70">
+          across {providerCount} providers right now 💪
+        </span>
+      </div>
+      {meterPct !== null && (
+        <div className="flex shrink-0 flex-col items-center gap-1">
+          <div
+            role="img"
+            aria-label={`Today's rate is at ${Math.round(meterPct * 100)}% of its 7-day range`}
+            className="grid h-14 w-14 place-items-center rounded-full"
+            style={{
+              background: `conic-gradient(var(--primary-light) 0 ${meterPct * 100}%, rgba(255,255,255,0.15) ${meterPct * 100}% 100%)`,
+            }}
+          >
+            <div className="grid h-11 w-11 place-items-center rounded-full bg-primary text-xs font-extrabold text-primary-light">
+              {Math.round(meterPct * 100)}%
+            </div>
+          </div>
+          <span className="text-[10px] opacity-70">of 7-day high</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Hero({
+  quotes,
+  best,
+  delta,
+}: {
+  quotes: QuotesResponse;
+  best: TransferQuote;
+  delta: { value: number; pct: number } | null;
+}) {
+  const animated = useCountUp(best.receiveAmount);
   const positive = delta ? delta.value >= 0 : null;
   return (
-    <div
-      className="rounded p-6 text-white shadow-elevated"
-      style={{
-        background:
-          "linear-gradient(135deg, var(--primary), var(--primary-light) 60%, var(--accent))",
-      }}
-    >
-      <div className="text-[11px] font-semibold uppercase tracking-wide text-white/70">
-        Mid-market rate
-      </div>
-      <div className="tabular mt-1 text-[40px] font-extrabold leading-none">
-        ₱{quotes.rate.rate.toFixed(4)}
-        <span className="ml-2 text-base font-medium text-white/70">per €1</span>
-      </div>
-      <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+    <div className="flex flex-col items-center gap-1.5 text-center">
+      <span className="text-[13px] font-semibold text-text-secondary">
+        your family gets up to
+      </span>
+      <span className="tabular text-[46px] font-extrabold leading-none tracking-tight">
+        ₱{php.format(animated)}
+      </span>
+      <span className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-xs text-text-secondary">
+        ₱{quotes.rate.rate.toFixed(2)}/€ · updated{" "}
+        {relativeTime(quotes.rate.timestamp)}
         {positive !== null && delta && (
           <span
-            className={`flex items-center gap-1 font-semibold ${
+            className={`flex items-center gap-0.5 font-bold ${
               positive ? "text-success" : "text-error"
             }`}
           >
             {positive ? (
-              <ArrowUp size={14} weight="bold" />
+              <ArrowUp size={12} weight="bold" />
             ) : (
-              <ArrowDown size={14} weight="bold" />
+              <ArrowDown size={12} weight="bold" />
             )}
             {Math.abs(delta.pct).toFixed(2)}% vs yesterday
           </span>
         )}
-        <span className="text-white/60">
-          Updated {relativeTime(quotes.rate.timestamp)}
-        </span>
-      </div>
+      </span>
     </div>
+  );
+}
+
+// Top 3 as a podium, rendered 2-1-3 so the winner towers in the middle.
+function Podium({ ranked, extra }: { ranked: TransferQuote[]; extra: number }) {
+  const [first, second, third] = ranked;
+  return (
+    <div className="flex items-end gap-2">
+      <PodiumCol q={second} place={2} />
+      <PodiumCol q={first} place={1} extra={extra} />
+      <PodiumCol q={third} place={3} />
+    </div>
+  );
+}
+
+function PodiumCol({
+  q,
+  place,
+  extra,
+}: {
+  q: TransferQuote;
+  place: 1 | 2 | 3;
+  extra?: number;
+}) {
+  const winner = place === 1;
+  const bar = winner
+    ? "rounded-t-sm bg-gradient-to-b from-primary-light to-[#B5DC3B] pb-4 pt-4 shadow-[0_-6px_24px_rgba(198,232,78,0.55)]"
+    : place === 2
+      ? "rounded-t-xs bg-podium-2 pb-2.5 pt-3"
+      : "rounded-t-xs bg-podium-3 pb-2 pt-2";
+  return (
+    <Link
+      href={`/provider/${q.providerID}`}
+      className={`rise flex flex-col items-center gap-1.5 transition active:scale-[0.98] ${
+        winner ? "flex-[1.15]" : "flex-1"
+      }`}
+      style={{ animationDelay: `${place * 60}ms` }}
+    >
+      {winner && (
+        <span className="crown-bounce text-xl" aria-hidden>
+          👑
+        </span>
+      )}
+      <ProviderIcon q={q} size={winner ? 44 : 40} />
+      <div
+        className={`flex w-full flex-col items-center gap-0.5 px-1.5 text-center ${bar}`}
+      >
+        <span
+          className={`tabular font-extrabold ${winner ? "text-lg" : "text-[15px]"}`}
+        >
+          {php.format(q.receiveAmount)}
+        </span>
+        <span
+          className={`text-[10px] font-bold ${winner ? "text-primary" : "text-text-secondary"}`}
+        >
+          {place === 1 && `${q.providerName} · ${q.fee === 0 ? "€0 fee" : eur.format(q.fee)}`}
+          {place === 2 && `🥈 ${eur.format(q.fee)} fee`}
+          {place === 3 && `🥉 ${q.providerName}`}
+        </span>
+        {q.source !== "direct" && (
+          <span className="text-[9px] font-semibold opacity-60">
+            {q.source === "mock" ? "mock" : "via Wise"}
+          </span>
+        )}
+        {winner && typeof extra === "number" && extra > 0 && (
+          <span className="mt-0.5 rounded-full bg-primary px-2 py-0.5 text-[10px] font-extrabold text-chartreuse">
+            +₱{php.format(extra)} EXTRA
+          </span>
+        )}
+      </div>
+    </Link>
+  );
+}
+
+// Winner CTA — affiliate/website link when we have one, provider detail
+// otherwise. Chunky pop shadow per design-system.md. `invert` flips to a
+// lime-on-ink treatment for the desktop sidebar.
+function SendCTA({ q, invert = false }: { q: TransferQuote; invert?: boolean }) {
+  const url = sendURL(q);
+  const className = `btn-pop flex w-full items-center justify-center gap-2 rounded px-4 py-3.5 text-base font-extrabold ${
+    invert ? "bg-primary-light text-primary" : "bg-primary text-primary-light"
+  }`;
+  const label = (
+    <>
+      Send with {q.providerName}
+      <RocketLaunch size={18} weight="fill" />
+    </>
+  );
+  if (!url) {
+    return (
+      <Link href={`/provider/${q.providerID}`} className={className}>
+        {label}
+      </Link>
+    );
+  }
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="sponsored noopener"
+      onClick={() =>
+        track("home.affiliate_outbound", { providerID: q.providerID })
+      }
+      className={className}
+    >
+      {label}
+    </a>
   );
 }
 
@@ -190,7 +702,7 @@ function ProviderIcon({ q, size }: { q: TransferQuote; size: number }) {
     return (
       <span
         style={{ width: size, height: size }}
-        className="flex shrink-0 items-center justify-center rounded-full bg-primary/20 text-xs font-bold text-primary"
+        className="flex shrink-0 items-center justify-center rounded-sm bg-surface text-sm font-extrabold text-primary shadow"
         aria-hidden
       >
         {q.providerName.charAt(0)}
@@ -205,7 +717,7 @@ function ProviderIcon({ q, size }: { q: TransferQuote; size: number }) {
       width={size}
       height={size}
       style={{ width: size, height: size }}
-      className="shrink-0 rounded-full bg-white/5 object-contain"
+      className="shrink-0 rounded-sm bg-surface object-contain shadow"
     />
   );
 }
@@ -227,28 +739,28 @@ function SourceTag({ q }: { q: TransferQuote }) {
   );
 }
 
-function TopProviderCard({ q }: { q: TransferQuote }) {
+// Compact row for ranks outside the podium (and the <3-quotes fallback).
+function RankRow({ q, rank }: { q: TransferQuote; rank: number }) {
   return (
     <Link
       href={`/provider/${q.providerID}`}
-      className="flex items-center gap-3 rounded bg-surface p-4 shadow transition hover:bg-surface-hover"
+      className="rise flex items-center gap-3 rounded-sm bg-surface px-4 py-3 shadow transition hover:bg-surface-hover active:scale-[0.99]"
+      style={{ animationDelay: `${rank * 60}ms` }}
     >
-      <ProviderIcon q={q} size={36} />
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          <span className="truncate font-semibold">{q.providerName}</span>
-          <SourceTag q={q} />
-        </div>
-        <div className="mt-0.5 text-xs text-text-tertiary">
-          ₱{q.exchangeRate.toFixed(4)} per €1
-        </div>
+      <span className="w-6 shrink-0 text-sm font-extrabold text-text-secondary">
+        {rank}º
+      </span>
+      <ProviderIcon q={q} size={28} />
+      <div className="flex min-w-0 flex-1 items-center gap-2">
+        <span className="truncate text-sm font-bold">{q.providerName}</span>
+        <span className="hidden text-xs text-text-tertiary sm:inline">
+          · {q.deliveryEstimate.maxMinutes === 0 ? "n/a" : q.deliveryEstimate.label}
+        </span>
+        <SourceTag q={q} />
       </div>
-      <div className="text-right">
-        <div className="tabular text-[15px] font-bold text-success">
-          ₱{php.format(q.receiveAmount)}
-        </div>
-        <div className="text-xs text-text-tertiary">recipient gets</div>
-      </div>
+      <span className="tabular text-[15px] font-extrabold">
+        ₱{php.format(q.receiveAmount)}
+      </span>
     </Link>
   );
 }
@@ -256,16 +768,52 @@ function TopProviderCard({ q }: { q: TransferQuote }) {
 function HomeSkeleton() {
   return (
     <>
-      <div className="h-[132px] animate-pulse rounded bg-surface" />
-      <div className="mb-3 mt-8 h-6 w-32 animate-pulse rounded-xs bg-surface" />
-      <div className="flex flex-col gap-3">
-        {Array.from({ length: 3 }).map((_, i) => (
-          <div
-            key={i}
-            className="h-[68px] animate-pulse rounded bg-surface"
-            style={{ animationDelay: `${i * 60}ms` }}
-          />
-        ))}
+      <div className="lg:hidden">
+        <div className="flex flex-col gap-5">
+          <div className="h-[104px] animate-pulse rounded bg-surface" />
+          <div className="flex gap-2">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-11 flex-1 animate-pulse rounded-sm bg-surface"
+                style={{ animationDelay: `${i * 60}ms` }}
+              />
+            ))}
+          </div>
+          <div className="mx-auto h-20 w-56 animate-pulse rounded bg-surface" />
+        </div>
+        <div className="mt-8 flex flex-col gap-3">
+          <div className="h-40 animate-pulse rounded bg-surface" />
+          <div className="h-[52px] animate-pulse rounded bg-surface" />
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div
+              key={i}
+              className="h-[52px] animate-pulse rounded-sm bg-surface"
+              style={{ animationDelay: `${i * 60}ms` }}
+            />
+          ))}
+        </div>
+      </div>
+      {/* lg+: sidebar-slot + ranking-panel shaped placeholders */}
+      <div className="hidden lg:block">
+        <SidebarSlot>
+          <div className="flex flex-col gap-5">
+            <div className="h-7 animate-pulse rounded-full bg-white/10" />
+            <div className="h-20 animate-pulse rounded-sm bg-white/10" />
+            <div className="h-[52px] animate-pulse rounded bg-white/10" />
+            <div className="h-20 animate-pulse rounded-sm bg-white/10" />
+          </div>
+        </SidebarSlot>
+        <div className="rounded bg-surface-hover p-6 shadow-elevated">
+          <div className="mb-5 h-7 w-64 animate-pulse rounded-xs bg-surface" />
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div
+              key={i}
+              className="mt-2 h-[58px] animate-pulse rounded-sm bg-surface"
+              style={{ animationDelay: `${i * 60}ms` }}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
