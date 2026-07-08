@@ -1,15 +1,16 @@
-import type { QuotesResponse } from "@/lib/models/types";
+import type { DeliveryMethod, QuotesResponse } from "@/lib/models/types";
 
-// Client-side wrapper over the /api/quotes proxy.
+// Client-side wrapper over the /api/quotes proxy. `method` filters by delivery
+// method; omit it (or pass undefined) for the best quote per provider.
 export async function getQuotes(
   amount: number,
+  method?: DeliveryMethod,
   from = "EUR",
   to = "PHP",
 ): Promise<QuotesResponse> {
-  const res = await fetch(
-    `/api/quotes?from=${from}&to=${to}&amount=${amount}`,
-    { cache: "no-store" },
-  );
+  const params = new URLSearchParams({ from, to, amount: String(amount) });
+  if (method) params.set("method", method);
+  const res = await fetch(`/api/quotes?${params}`, { cache: "no-store" });
   if (!res.ok) {
     throw new Error(`quotes request failed (${res.status})`);
   }

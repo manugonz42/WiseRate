@@ -2,23 +2,36 @@
 
 ## Resumen rápido
 
-| # | Proveedor | Plataforma | Tipo | Comisión | Cookie | Prioridad |
-|---|---|---|---|---|---|---|
-| 1 | Wise | Partnerize | CPA | £10-50 por cliente | 1 año | Alta |
-| 2 | Remitly | FlexOffers / Directo | CPS | $1.60-20 por transfer | 30 días | Alta |
-| 3 | Western Union | Partnerize / Admitad | CPA | €7-8 por venta | 30 días | Alta |
-| 4 | TransferGo | Impact Radius / FinanceAds | CPA | £20 por cliente | 30 días | Alta |
-| 5 | Instarem | Partnerize / FlexOffers | CPA | $2.40-12 según red | 10-30 días | Alta |
-| 6 | MoneyGram | CJ Affiliate | CPA | $5-8 por orden | 30 días | Media |
-| 7 | TorFX | Programa propio | Rev-share | ~20% turnover lifetime | — | Media |
-| 8 | Currencies Direct | Partner Portal | Rev-share | % profit/turnover | — | Media |
-| 9 | OFX | Programa propio | Rev-share | % Gross Revenue | 24 meses | Media |
+| # | Proveedor | Plataforma | Tipo | Comisión | Cookie | Prioridad | Status |
+|---|---|---|---|---|---|---|---|
+| 1 | Wise | Partnerize | CPA | £10-50 por cliente | 1 año | Alta | ⬜ |
+| 2 | Remitly | FlexOffers / Directo | CPS | $1.60-20 por transfer | 30 días | Alta | ⬜ |
+| 3 | Western Union | Partnerize / Admitad | CPA | €7-8 por venta | 30 días | Alta | ⬜ |
+| 4 | TransferGo | Impact Radius / FinanceAds | CPA | £20 por cliente | 30 días | Alta | ⬜ |
+| 5 | Instarem | Partnerize / FlexOffers | CPA | $2.40-12 según red | 10-30 días | Alta | ⬜ |
+| 6 | MoneyGram | CJ Affiliate | CPA | $5-8 por orden | 30 días | Media | ⬜ |
+| 7 | TorFX | Programa propio | Rev-share | ~20% turnover lifetime | — | Media | ⬜ |
+| 8 | Currencies Direct | Partner Portal | Rev-share | % profit/turnover | — | Media | ⬜ |
+| 9 | OFX | Programa propio | Rev-share | % Gross Revenue | 24 meses | Media | ⬜ |
+| 10 | WorldRemit | Awin / Impact | CPA | $2-5 por conversión | 30-60 días | Media | ⬜ |
+| 11 | Xoom | Awin / PayPal | CPA | $2-8 por transfer | Variable | Media | ⬜ |
+| 12 | Ria | Directo | CPA | $1-5 según corredor | Variable | Baja | 🟡 (Tier B) |
+| 13 | Paysend | Directo | CPA | $1-10 según GEO | Variable | Baja | 🟡 (Tier C) |
+| 14 | XE Money Transfer | Directo | CPA/Rev | $2-6 por transfer | Monthly | Baja | 🟡 (Tier C) |
+| 15 | Moneytrans | Directo | CPA | $0.50-3 por corredor | Variable | Baja | 🟡 (Tier B) |
+| 16 | Small World / Sigue | — | — | — | — | — | 🔴 (Ceased 2026) |
+| 17 | Revolut | — | — | — | — | — | 🔴 (No viable) |
 
 **Archivos a modificar tras obtener URLs:**
 - Proveedores → `web/lib/data/providers.ts` → campo `affiliateURL`
 - Brokers → `web/lib/brokers.ts` → campo `url`
 
-> ⚠️ Hoy `providers.ts` solo tiene entrada para Wise, Remitly, Western Union y TransferGo. Instarem y MoneyGram se añaden en T19 (`docs/plan/T19-provider-coverage.md`) — si consigues sus URLs antes, guárdalas en el checklist de abajo hasta que exista la entrada.
+**Estado actual (2026-07-08):**
+- ✅ T19 completado: Instarem, MoneyGram, WorldRemit, Xoom, Ria, Paysend, XE, Moneytrans están en `providers.ts` (perfiles escritos)
+- ✅ Brokers (TorFX, Currencies Direct, OFX) listos en `web/lib/brokers.ts`
+- ⏳ Las URLs de afiliados se pegan aquí conforme se aprueben las solicitudes
+- 🔴 Small World / Sigue: ceased 2026, no integrar
+- 🔴 Revolut: bot wall + OAuth, no viable para API quotes
 
 ---
 
@@ -201,6 +214,8 @@ TransferGo paga un **CPA fijo** por cada nuevo usuario que se registre con tu li
 
 ## 5. INSTAREM
 
+> 🚫 **No tenemos API** · 🟢 **Conseguible con solicitud** (endpoint `/api/v1/quote` existe, require auth partner)
+
 ### Cómo funciona el programa
 
 Instarem paga un **CPA** por cada nuevo usuario que se registre y complete su primera transferencia.
@@ -367,6 +382,8 @@ Currencies Direct paga un **rev-share** — recibes un porcentaje del turnover o
 
 ## 9. OFX (Brokers — Referral)
 
+> 🚫 **No tenemos API** · 🟢 **Conseguible con solicitud** (Payments API documented, OAuth-gated pero accesible para partners)
+
 ### Cómo funciona el programa
 
 OFX paga un **rev-share** por cada "Qualifying Transaction" de los clientes que refieras. Duración de 24 meses por cliente.
@@ -405,21 +422,248 @@ OFX paga un **rev-share** por cada "Qualifying Transaction" de los clientes que 
 
 ---
 
+## 10. WORLDREMIT
+
+> 🚫 **No tenemos API** · ❌ **No conseguible** (PerimeterX bot wall)
+
+### Cómo funciona el programa
+
+WorldRemit paga un **CPA** por cada nuevo usuario que se registre y complete su primera transferencia internacional.
+
+### Cómo se gana
+
+1. Usuario hace click en tu link
+2. Se registra en WorldRemit (cuenta nueva)
+3. Completa su primera transferencia internacional
+4. WorldRemit verifica y te paga
+
+### Cuánto se gana
+
+| Red | Comisión | Cookie |
+|---|---|---|
+| **Awin/Impact** | $2-5 por conversión | Variable |
+| **Direct Program** | Negociable (típico $3-8) | 30-60 días |
+
+### Requisitos
+
+| Requisito | Detalle |
+|---|---|
+| **General** | Web, blog, YouTube con audiencia en finanzas/remesas |
+| **GEOs** | Worldwide |
+| **Restricciones** | No brand bidding, contenido apropiado |
+| **Permitido** | SEO, email, redes sociales |
+
+### Registro
+
+1. https://www.awin.com/publishers (via Awin)
+2. O https://impact.com (via Impact Radius) — buscar "WorldRemit"
+3. O contacto directo: partners@worldremit.com
+
+---
+
+## 11. XOOM
+
+> 🚫 **No tenemos API** · ❌ **No conseguible** (Next.js SSR, sin endpoint público)
+
+### Cómo funciona el programa
+
+Xoom (propiedad de PayPal) paga un **CPA** por cada nuevo usuario que se registre y complete una transferencia.
+
+> ⚠️ **Tier B clasificado en T22:** Xoom es una Next.js SSR app, no tiene endpoint de cotización público accesible. Solo vía programa de afiliados directo o redes.
+
+### Cuánto se gana
+
+| Red | Comisión |
+|---|---|
+| **PayPal Affiliate Network** | $2-8 por transferencia |
+| **Awin** | Comisión variable |
+
+### Requisitos
+
+Mismo que WorldRemit (web, contenido relevante, audiencia).
+
+### Registro
+
+1. https://www.awin.com/publishers → buscar "Xoom"
+2. O PayPal Affiliate Network (si tienes cuenta PayPal)
+3. Contacto: affiliates@xoom.com
+
+---
+
+## 12. RIA
+
+> 🚫 **No tenemos API** · 🟡 **Conseguible con solicitud** (endpoint encontrado, require auth partner)
+
+### Cómo funciona el programa
+
+Ria paga un **CPA** por cada nuevo usuario que se registre y envíe transferencias vía su plataforma.
+
+> ⚠️ **Tier B clasificado en T22:** Cloudflare JS challenge en acceso directo. Solo vía programa de afiliados.
+
+### Cuánto se gana
+
+| Concepto | Comisión |
+|---|---|
+| **CPA variable** | $1-5 según GEO y corredor |
+| **Rev-share optional** | % de turnover (alto volumen) |
+
+### Requisitos
+
+| Requisito | Detalle |
+|---|---|
+| **General** | Web o app con audiencia en remesas |
+| **Audiencia** | Preferente: Sudamérica, Asia, África |
+| **Manager** | Account manager dedicado |
+
+### Registro
+
+1. https://partners.riamoneytransfer.com/signup
+2. O contacto: partners@riamoneytransfer.com
+3. Teléfono: +1 (800) 743-7426
+
+---
+
+## 13. PAYSEND
+
+> 🚫 **No tenemos API** · 🟢 **Conseguible con solicitud** (endpoint privado, probable Partner API)
+
+### Cómo funciona el programa
+
+Paysend paga un **CPA** por cada nuevo usuario que se registre y complete una transferencia.
+
+> ⚠️ **Tier C clasificado en T22:** No encontramos endpoint de pricing público. Acceso solo vía programa de afiliados directo.
+
+### Cuánto se gana
+
+| Concepto | Comisión |
+|---|---|
+| **CPA variable** | $1-10 según GEO |
+| **Payout mínimo** | $100 |
+
+### Requisitos
+
+| Requisito | Detalle |
+|---|---|
+| **General** | Web, app, redes sociales con audiencia |
+| **GEOs** | Worldwide (focus EU/US/AU/CA) |
+| **Restricciones** | No brand bidding, sin PPC restricto |
+| **Permitido** | SEO, email, social, content |
+
+### Registro
+
+1. https://partners.paysend.com/register
+2. O contacto: partnership@paysend.com
+3. Aplicar y esperar aprobación (3-5 días)
+
+---
+
+## 14. XE MONEY TRANSFER
+
+> 🚫 **No tenemos API** · 🟢 **Conseguible con solicitud** (endpoint existe, require login → Partner API possible)
+
+### Cómo funciona el programa
+
+XE paga un **CPA** o **rev-share** por clientes referidos que completen transferencias.
+
+> ⚠️ **Tier C clasificado en T22:** Requiere login para acceder a calculator. Solo vía programa de afiliados.
+
+### Cuánto se gana
+
+| Concepto | Comisión |
+|---|---|
+| **CPA** | $2-6 por transferencia |
+| **Rev-share** | % de turnover (alto volumen) |
+| **Payout** | Monthly |
+
+### Requisitos
+
+| Requisito | Detalle |
+|---|---|
+| **General** | Web, blog, YouTube con tráfico relevante |
+| **Audiencia** | Preferente: Canadá, Australia, UK, US |
+| **GEOs** | ~50 países soportados |
+
+### Registro
+
+1. https://partners.xe.com/en/referral-program
+2. O contacto: partners@xe.com
+3. Formulario de solicitud + aprobación
+
+---
+
+## 15. MONEYTRANS
+
+> 🚫 **No tenemos API** · ❌ **No conseguible** (Cloudflare managed JS challenge)
+
+### Cómo funciona el programa
+
+Moneytrans paga un **CPA** por cada nuevo cliente que se registre y complete una transferencia.
+
+> ⚠️ **Tier B clasificado en T22:** Cloudflare managed JS challenge. Solo vía programa de afiliados.
+
+### Cuánto se gana
+
+| Concepto | Comisión |
+|---|---|
+| **CPA variable** | $0.50-3 según corredor |
+| **Rev-share** | Negociable (alto volumen) |
+
+### Requisitos
+
+Audiencia de remesas, web relevante.
+
+### Registro
+
+1. https://moneytrans.com/en/affiliate-program
+2. Contacto: affiliates@moneytrans.com
+
+---
+
+## 16. SMALL WORLD / SIGUE (CEASED 2026)
+
+> 🔴 **DESCARTADO:** Small World en administración especial desde 18 Jun 2026. Sigue ordered to stop operaciones March 2026. No integrar.
+
+---
+
+## 17. REVOLUT
+
+### Cómo funciona el programa
+
+Revolut tiene un programa de referrals pero está orientado a cuentas personales, no a afiliados comerciales.
+
+> ⚠️ **Tier B/C clasificado en T22:** Cloudflare bot wall + OAuth-only documented Business API. No es viable para integración directa de quotes.
+
+### Notas
+
+- Programa "refer a friend" (usuario → usuario) no es apilable con programa afiliado comercial
+- No hay endpoint público de quotes accesible
+- Solo recomendable si es para user referral, no para comparador
+
+---
+
 ## Checklist de seguimiento
 
-| Proveedor | Fecha solicitud | Estado | URL obtenida | Fecha pegada en código |
-|---|---|---|---|---|
-| Wise | | ⬜ Pendiente | | |
-| Remitly | | ⬜ Pendiente | | |
-| Western Union | | ⬜ Pendiente | | |
-| TransferGo | | ⬜ Pendiente | | |
-| Instarem | | ⬜ Pendiente | | |
-| MoneyGram | | ⬜ Pendiente | | |
-| TorFX | | ⬜ Pendiente | | |
-| Currencies Direct | | ⬜ Pendiente | | |
-| OFX | | ⬜ Pendiente | | |
+| Proveedor | Fecha solicitud | Estado | URL obtenida | Fecha pegada en código | Notas |
+|---|---|---|---|---|---|
+| Wise | | ⬜ Pendiente | | | |
+| Remitly | | ⬜ Pendiente | | | |
+| Western Union | | ⬜ Pendiente | | | |
+| TransferGo | | ⬜ Pendiente | | | |
+| Instarem | | ⬜ Pendiente | | | |
+| MoneyGram | | ⬜ Pendiente | | | |
+| TorFX | | ⬜ Pendiente | | | Broker |
+| Currencies Direct | | ⬜ Pendiente | | | Broker |
+| OFX | | ⬜ Pendiente | | | Broker |
+| WorldRemit | | ⬜ Pendiente | | | Via Awin/Impact |
+| Xoom | | ⬜ Pendiente | | | Via Awin/PayPal |
+| Ria | | ⬜ Pendiente | | | Tier B - Bot wall |
+| Paysend | | ⬜ Pendiente | | | Tier C - No API público |
+| XE Money Transfer | | ⬜ Pendiente | | | Tier C - Login required |
+| Moneytrans | | ⬜ Pendiente | | | Tier B - Bot wall |
+| Small World / Sigue | 🔴 N/A | ❌ Ceased 2026 | N/A | N/A | No integrar |
+| Revolut | 🔴 N/A | ❌ No viable | N/A | N/A | Bot wall + OAuth |
 
-**Estados:** ⬜ Pendiente · 🟡 Solicitud enviada · 🟢 Aprobado · 🔴 Rechazado
+**Estados:** ⬜ Pendiente · 🟡 Solicitud enviada · 🟢 Aprobado · 🔴 Rechazado / No viable
 
 ---
 

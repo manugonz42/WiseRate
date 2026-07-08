@@ -79,6 +79,7 @@ export function parseTransferGo(
   from: string,
   to: string,
   amount: number,
+  method?: DeliveryMethod,
 ): TransferQuote | null {
   const data = json as TgResponse;
 
@@ -86,7 +87,11 @@ export function parseTransferGo(
     (o) =>
       o.availability?.isAvailable !== false &&
       o.payIn?.code === "bank" &&
-      parseFloat(o.receivingAmount?.value ?? "") > 0,
+      parseFloat(o.receivingAmount?.value ?? "") > 0 &&
+      // With a method filter, keep only payouts of that method; without one,
+      // keep every payout and let the best receive amount win (legacy path).
+      (method === undefined ||
+        (PAYOUT_METHOD[o.payOut?.code ?? ""] ?? "bankTransfer") === method),
   );
   if (candidates.length === 0) return null;
 
@@ -143,6 +148,7 @@ export async function fetchTransferGo(
   from: string,
   to: string,
   amount: number,
+  method?: DeliveryMethod,
 ): Promise<TransferQuote | null> {
   if (from !== "EUR" || to !== "PHP") return null;
 
@@ -150,5 +156,5 @@ export async function fetchTransferGo(
   const res = await fetch(url, init);
   if (!res.ok) throw new Error(`transfergo quotes returned ${res.status}`);
   const data = await res.json();
-  return parseTransferGo(data, from, to, amount);
+  return parseTransferGo(data, from, to, amount, method);
 }

@@ -9,24 +9,39 @@
 
 ## 100% fiables
 
-Todos regulados en UE/España con corredor EUR→PHP activo:
+Todos regulados en UE/España con corredor EUR→PHP activo.
 
-- **Wise** — mid-market transparente, alto volumen
-- **Western Union** — mayor red mundial, cobertura total PH incl. GCash
-- **MoneyGram** — como WU, gran red de agentes en PH
-- **Remitly** — especialista en remesas, fuerte en PH
-- **WorldRemit** — GCash, GrabPay, Maya, ShopeePay directos
-- **Ria** — una de las mayores redes de efectivo, wallets PH
-- **Xoom (PayPal)** — banco y efectivo en PH
-- **Moneytrans** — regulada BE+ES, muy usada por la comunidad filipina en España; Cebuana Lhuillier, MLhuillier, BDO, GCash
-- **TransferGo** — FCA/EU, Trustpilot 4★ +38k reseñas
-- **Instarem (Nium)** — multi-jurisdicción, +2M clientes
-- ~~**Small World (Sigue)** — histórica en el corredor ES-PH~~ — **cesó operaciones en 2026** (Sigue con orden de cese en marzo 2026; Small World Financial Services en administración especial desde el 18 de junio de 2026, confirmado T22 2026-07-06); ambos dominios ya no operan el producto — retirar de "100% fiables"
-- **XE Money Transfer** — corredor activo, wallets PH
-- **CurrencyFair** — broker FX regulado, EUR→PHP confirmado, solo banco-a-banco; fuente directa integrada T22 (2026-07-06, `api.currencyfair.com/comparisonQuotes`)
-- **OFX** — fiable pero el margen cambiario más alto (cara, no dudosa)
-- **Revolut** — envío ES→PH confirmado, pero vía SWIFT genérico sin red de efectivo ni GCash (ver "dudosos")
-- **Correos Giro Internacional (Eurogiro)** — entrega en agencia, entidad pública
+**Métodos de cobro en PH** (lo que *ofrece* el proveedor, no lo que hoy cotiza nuestra
+integración — esa cobertura por método está en [exchange-rate → Delivery-method
+support](services/exchange-rate.md#delivery-method-support-per-source)). Leyenda:
+🏦 banco · 💵 efectivo (agente) · 📱 wallet (GCash/Maya/GrabPay/ShopeePay) · 🏠 domicilio.
+
+| Proveedor | 🏦 | 💵 | 📱 | 🏠 | Notas de método |
+|---|:-:|:-:|:-:|:-:|---|
+| **Wise** | ✅ | — | ✅ | — | mid-market transparente; wallet GCash/Maya, sin efectivo |
+| **Western Union** | ✅ | ✅ | ✅ | — | mayor red mundial, cobertura total PH incl. GCash |
+| **MoneyGram** | ✅ | ✅ | — | — | como WU, gran red de agentes en PH |
+| **Remitly** | ✅ | ✅ | ✅ | — | especialista en remesas, fuerte en PH |
+| **WorldRemit** | ✅ | ✅ | ✅ | ✅ | GCash, GrabPay, Maya, ShopeePay directos; 5 payouts incl. domicilio |
+| **Ria** | ✅ | ✅ | ✅ | — | una de las mayores redes de efectivo, wallets PH |
+| **Xoom (PayPal)** | ✅ | ✅ | ✅ | ✅ | banco/GCash, efectivo y entrega a domicilio en PH |
+| **Moneytrans** | ✅ | ✅ | ✅ | — | BDO (banco), Cebuana Lhuillier/MLhuillier (efectivo), GCash (wallet) |
+| **TransferGo** | ✅ | ✅ | ✅ | — | banco + GCash/Maya; API lista también efectivo y tarjeta según disponibilidad live |
+| **Instarem (Nium)** | ✅ | ✅ | — | — | banco + 21k+ puntos de efectivo en PH |
+| **XE Money Transfer** | ✅ | — | ✅ | — | corredor activo, wallets PH |
+| **CurrencyFair** | ✅ | — | — | — | broker FX, **solo banco-a-banco** |
+| **OFX** | ✅ | — | — | — | solo banco; margen cambiario más alto (cara, no dudosa) |
+| **Revolut** | ✅ | — | — | — | solo SWIFT genérico, sin red de efectivo ni GCash (ver "dudosos") |
+| **Correos Giro Int'l (Eurogiro)** | — | ✅ | — | — | recogida/entrega en agencia postal, entidad pública |
+
+Detalle adicional por proveedor:
+
+- **Wise** — alto volumen; fuente directa integrada (`api.wise.com/v3/quotes`).
+- **CurrencyFair** — EUR→PHP confirmado; fuente directa integrada T22 (2026-07-06, `api.currencyfair.com/comparisonQuotes`).
+- **TransferGo** — FCA/EU, Trustpilot 4★ +38k reseñas; fuente directa integrada.
+- **Instarem (Nium)** — multi-jurisdicción, +2M clientes.
+- **Moneytrans** — regulada BE+ES, muy usada por la comunidad filipina en España.
+- ~~**Small World (Sigue)** — histórica en el corredor ES-PH~~ — **cesó operaciones en 2026** (Sigue con orden de cese en marzo 2026; Small World Financial Services en administración especial desde el 18 de junio de 2026, confirmado T22 2026-07-06); ambos dominios ya no operan el producto — retirar de "100% fiables".
 
 ## Dudosos (verificar antes de integrar)
 

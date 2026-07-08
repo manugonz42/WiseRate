@@ -1,16 +1,26 @@
 // Western Union price catalog (public, no key). One POST returns every
 // service (000 Money In Minutes / 500 Direct to Bank / 800 Mobile Money)
 // crossed with every pay-in (EB bank, CC card, AP/GP wallets...).
-// Canonical scenario: service 500 (Direct to Bank) x fund-in EB (bank).
+// Default scenario: service 500 (Direct to Bank) x fund-in EB (bank); the
+// delivery-method filter picks a different service group (see SERVICE_BY_METHOD).
 //
 // WU charges the fee on top (gross_amount = send + fee), so the quote is
 // normalized: receiveAmount = (amount - fee) * rate — "sender pays exactly
 // `amount` in total", per docs/services/exchange-rate.md.
 
-import type { TransferQuote } from "@/lib/models/types";
+import type { DeliveryMethod, TransferQuote } from "@/lib/models/types";
 import { trustFor } from "../trust";
 
 const CATALOG_URL = "https://www.westernunion.com/wuconnect/prices/catalog";
+
+// WU exposes one price per delivery method as a distinct service group.
+// Methods absent here (homeDelivery, debitCard) have no WU service group for
+// this corridor → no quote (the aggregator falls back to the comparisons row).
+const SERVICE_BY_METHOD: Partial<Record<DeliveryMethod, string>> = {
+  bankTransfer: "500", // Direct to Bank
+  cashPickup: "000", // Money In Minutes
+  mobileWallet: "800", // Mobile Money Transfer
+};
 
 interface WuPayGroup {
   fund_in: string;
@@ -64,11 +74,15 @@ export function parseWesternUnion(
   from: string,
   to: string,
   amount: number,
+  method: DeliveryMethod = "bankTransfer",
 ): TransferQuote | null {
   const data = json as WuCatalogResponse;
   if (!data) return null;
 
-  const bank = data.services_groups?.find((s) => s.service === "500");
+  const service = SERVICE_BY_METHOD[method];
+  if (!service) return null; // WU doesn't offer this method for the corridor
+
+  const bank = data.services_groups?.find((s) => s.service === service);
   const pay = bank?.pay_groups?.find((p) => p.fund_in === "EB");
   if (!bank || !pay) return null;
 
@@ -98,7 +112,7 @@ export function parseWesternUnion(
     feeCurrency: from,
     receiveAmount,
     deliveryEstimate,
-    deliveryMethod: "bankTransfer",
+    deliveryMethod: method,
     markup: 0, // filled by the aggregator
     isPromotion: false,
     trustScore: trustFor("western-union"),
@@ -111,6 +125,7 @@ export async function fetchWesternUnion(
   from: string,
   to: string,
   amount: number,
+  method: DeliveryMethod = "bankTransfer",
 ): Promise<TransferQuote | null> {
   // Corridor-specific request body; only ES(EUR) -> PH(PHP) wired for now.
   if (from !== "EUR" || to !== "PHP") return null;
@@ -119,5 +134,5 @@ export async function fetchWesternUnion(
   const res = await fetch(url, init);
   if (!res.ok) throw new Error(`wu prices/catalog returned ${res.status}`);
   const data = await res.json();
-  return parseWesternUnion(data, from, to, amount);
+  return parseWesternUnion(data, from, to, amount, method);
 }

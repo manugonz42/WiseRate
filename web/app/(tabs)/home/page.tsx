@@ -242,19 +242,50 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* lg+ dashboard: sidebar slot (chips/hero/CTA/ring) + Live ranking
-          panel. Same state as the mobile tree above — CSS breakpoint only
-          (docs/modules/home.md). */}
+      {/* lg+ split hero: marketing hero teleported into the ink panel (left),
+          winner card + ranking on the light panel (right). Same state as the
+          mobile tree above — CSS breakpoint only (docs/modules/home.md). Nav is
+          rendered by the (tabs) layout at the top of the light panel. */}
       {!initialLoading && !error && quotes && best && (
         <div className="hidden lg:block">
           <SidebarSlot>
             <div
-              className={`flex flex-col gap-5 transition-opacity ${
+              className={`flex flex-1 flex-col text-bg transition-opacity ${
                 loading ? "opacity-60" : "opacity-100"
               }`}
             >
+              <h2 className="text-[40px] font-extrabold leading-[1.06] tracking-tight">
+                Send €{amount} home.
+                <br />
+                Get{" "}
+                <span style={{ color: "var(--lime)" }}>
+                  ₱{php.format(extra)} more
+                </span>
+                <br />
+                than average.
+              </h2>
+              <p className="mt-5 text-sm leading-relaxed text-bg/70">
+                We rank {ranked.length} providers live, every minute.
+                <br />
+                Today&apos;s rate: ₱{quotes.rate.rate.toFixed(2)}/€{" "}
+                {delta && (
+                  <span
+                    className={`font-bold ${
+                      delta.value >= 0 ? "text-[#b6e560]" : "text-[#f0908a]"
+                    }`}
+                  >
+                    {delta.value >= 0 ? (
+                      <ArrowUp size={11} weight="bold" className="inline" />
+                    ) : (
+                      <ArrowDown size={11} weight="bold" className="inline" />
+                    )}{" "}
+                    {Math.abs(delta.pct).toFixed(2)}%
+                  </span>
+                )}
+              </p>
+
               <div
-                className="grid grid-cols-4 gap-1.5"
+                className="mt-7 flex gap-2"
                 role="group"
                 aria-label="Send amount"
               >
@@ -265,30 +296,81 @@ export default function HomePage() {
                       key={a}
                       onClick={() => setAmount(a)}
                       aria-pressed={selected}
-                      className={`rounded-full py-1.5 text-xs font-extrabold transition active:scale-[0.97] ${
+                      className={`rounded-full px-5 py-2.5 text-sm font-extrabold transition active:scale-[0.97] ${
                         selected
-                          ? "bg-primary-light text-primary"
-                          : "bg-white/10 text-bg opacity-80 hover:bg-white/15 hover:opacity-100"
+                          ? "text-primary"
+                          : "bg-white/10 text-bg opacity-80 hover:opacity-100"
                       }`}
+                      style={selected ? { background: "var(--lime)" } : undefined}
                     >
                       €{a}
                     </button>
                   );
                 })}
               </div>
-              <SidebarHero quotes={quotes} best={best} delta={delta} />
-              <SendCTA q={best} invert />
-              <SidebarSavings
-                extra={extra}
-                providerCount={ranked.length}
-                meterPct={meterPct}
-              />
+
+              <div className="mt-auto pt-8">
+                <div className="flex items-center gap-4 border-t border-white/[0.12] pt-6">
+                  {meterPct !== null && (
+                    <div
+                      role="img"
+                      aria-label={`Today's rate is at ${Math.round(meterPct * 100)}% of its 7-day range`}
+                      className="grid h-14 w-14 shrink-0 place-items-center rounded-full"
+                      style={{
+                        background: `conic-gradient(var(--lime) 0 ${meterPct * 100}%, rgba(255,255,255,0.14) ${meterPct * 100}% 100%)`,
+                      }}
+                    >
+                      <div
+                        className="grid h-11 w-11 place-items-center rounded-full bg-primary text-xs font-extrabold"
+                        style={{ color: "var(--lime)" }}
+                      >
+                        {Math.round(meterPct * 100)}%
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex min-w-0 flex-col">
+                    <span
+                      className="text-lg font-extrabold"
+                      style={{ color: "var(--lime)" }}
+                    >
+                      +₱{php.format(extra)} vs average
+                    </span>
+                    <span className="text-xs text-bg/60">
+                      always picking the best deal 💪 · across {ranked.length}{" "}
+                      providers
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </SidebarSlot>
+
           <div
             className={`transition-opacity ${loading ? "opacity-60" : "opacity-100"}`}
           >
-            <LiveRanking ranked={ranked} amount={amount} extra={extra} />
+            <p className="text-sm font-semibold text-text-secondary">
+              your family gets up to
+            </p>
+            <DesktopWinner q={best} extra={extra} />
+            <div className="mt-3 flex flex-col gap-2.5">
+              {ranked.slice(1, 5).map((q, i) => (
+                <DesktopRankRow key={q.id} q={q} rank={i + 2} />
+              ))}
+            </div>
+            <div className="mt-6 flex items-center justify-between gap-4 text-[11px] text-text-tertiary">
+              <p>
+                We may earn a commission — you pay the same.{" "}
+                <Link href="/how-we-make-money" className="underline">
+                  How we make money
+                </Link>
+              </p>
+              <Link
+                href="/compare"
+                className="shrink-0 text-xs font-extrabold text-primary-dark transition active:scale-[0.98]"
+              >
+                See all {ranked.length} →
+              </Link>
+            </div>
           </div>
         </div>
       )}
@@ -296,208 +378,103 @@ export default function HomePage() {
   );
 }
 
-// Sidebar hero (lg+): same count-up as the mobile Hero, restyled for the
-// ink panel — delta stays neutral there (semantic colors fail contrast on ink).
-function SidebarHero({
-  quotes,
-  best,
-  delta,
-}: {
-  quotes: QuotesResponse;
-  best: TransferQuote;
-  delta: { value: number; pct: number } | null;
-}) {
-  const animated = useCountUp(best.receiveAmount);
-  return (
-    <div className="flex flex-col gap-1">
-      <span className="text-xs font-semibold text-bg opacity-70">
-        your family gets up to
-      </span>
-      <span className="tabular text-[38px] font-extrabold leading-none tracking-tight text-bg">
-        ₱{php.format(animated)}
-      </span>
-      <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-bg opacity-70">
-        ₱{quotes.rate.rate.toFixed(2)}/€ · {relativeTime(quotes.rate.timestamp)}
-        {delta && (
-          <span className="flex items-center gap-0.5 font-bold">
-            {delta.value >= 0 ? (
-              <ArrowUp size={11} weight="bold" />
-            ) : (
-              <ArrowDown size={11} weight="bold" />
-            )}
-            {Math.abs(delta.pct).toFixed(2)}%
-          </span>
-        )}
-      </span>
-    </div>
-  );
-}
-
-// Sidebar savings card (lg+): ring meter + best-vs-average, compacted from
-// the mobile SavingsCard for the ink panel.
-function SidebarSavings({
-  extra,
-  providerCount,
-  meterPct,
-}: {
-  extra: number;
-  providerCount: number;
-  meterPct: number | null;
-}) {
-  return (
-    <div className="flex items-center gap-3 rounded-sm bg-white/10 p-4">
-      {meterPct !== null && (
-        <div
-          role="img"
-          aria-label={`Today's rate is at ${Math.round(meterPct * 100)}% of its 7-day range`}
-          className="grid h-12 w-12 shrink-0 place-items-center rounded-full"
-          style={{
-            background: `conic-gradient(var(--primary-light) 0 ${meterPct * 100}%, rgba(255,255,255,0.15) ${meterPct * 100}% 100%)`,
-          }}
-        >
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-primary text-[10px] font-extrabold text-primary-light">
-            {Math.round(meterPct * 100)}%
-          </div>
-        </div>
-      )}
-      <div className="flex min-w-0 flex-col">
-        <span className="text-sm font-extrabold text-primary-light">
-          +₱{php.format(extra)} vs average
-        </span>
-        <span className="text-[11px] text-bg opacity-60">
-          across {providerCount} providers right now 💪
-        </span>
-      </div>
-    </div>
-  );
-}
-
-// Shared column template for the Live ranking header + rows.
-const RANKING_GRID =
-  "grid grid-cols-[44px_minmax(0,1fr)_84px_104px_116px] items-center gap-2";
-
-// lg+ main pane: full ranking table on the light panel (docs/modules/home.md).
-function LiveRanking({
-  ranked,
-  amount,
-  extra,
-}: {
-  ranked: TransferQuote[];
-  amount: number;
-  extra: number;
-}) {
-  const top = ranked.slice(0, 5);
-  return (
-    <section
-      aria-label="Live ranking"
-      className="rounded bg-surface-hover p-6 shadow-elevated"
-    >
-      <div className="mb-5 flex items-center justify-between gap-4">
-        <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h2 className="text-[22px] font-extrabold leading-none tracking-tight">
-            Live ranking
-          </h2>
-          <span className="text-xs font-semibold text-text-secondary">
-            {ranked.length} providers · €{amount} → PHP
-          </span>
-        </div>
-        {extra > 0 && (
-          <span className="shrink-0 rounded-full bg-podium-2 px-3 py-1 text-[11px] font-extrabold text-primary">
-            best beats average by ₱{php.format(extra)}
-          </span>
-        )}
-      </div>
-
-      <div
-        className={`${RANKING_GRID} px-4 pb-2 text-[10px] font-bold uppercase tracking-widest text-text-tertiary`}
-        aria-hidden
-      >
-        <span>#</span>
-        <span>Provider</span>
-        <span>Fee</span>
-        <span>Speed</span>
-        <span className="text-right">You get</span>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        {top.map((q, i) => (
-          <RankingRow key={q.id} q={q} rank={i + 1} extra={extra} />
-        ))}
-      </div>
-
-      <div className="mt-4 flex items-center justify-between gap-4 text-[11px] text-text-tertiary">
-        <p>
-          We may earn a commission — you pay the same.{" "}
-          <Link href="/how-we-make-money" className="underline">
-            How we make money
-          </Link>
-        </p>
-        <Link
-          href="/compare"
-          className="shrink-0 text-xs font-extrabold text-primary-dark transition active:scale-[0.98]"
-        >
-          See all {ranked.length} →
-        </Link>
-      </div>
-    </section>
-  );
-}
-
-function RankingRow({
-  q,
-  rank,
-  extra,
-}: {
-  q: TransferQuote;
-  rank: number;
-  extra: number;
-}) {
-  const winner = rank === 1;
+// lg+ winner card: lime hero with the top provider, its fee/speed, receive
+// amount, a peeking crown, and an embedded dark affiliate CTA (mockup).
+function DesktopWinner({ q, extra }: { q: TransferQuote; extra: number }) {
+  const url = sendURL(q);
   const fast =
     q.deliveryEstimate.maxMinutes > 0 && q.deliveryEstimate.maxMinutes <= 60;
+  const btnClass =
+    "btn-pop mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary px-4 py-3.5 text-base font-extrabold";
+  const label = (
+    <>
+      Send with {q.providerName}
+      <RocketLaunch size={18} weight="fill" />
+    </>
+  );
+  return (
+    <div
+      className="relative mt-2 rounded-[22px] p-6 text-primary shadow-elevated"
+      style={{ background: "var(--lime)" }}
+    >
+      {extra > 0 && (
+        <span className="crown-bounce absolute -top-3.5 left-6 text-2xl" aria-hidden>
+          👑
+        </span>
+      )}
+      <div className="flex items-center gap-4">
+        <ProviderIcon q={q} size={52} />
+        <div className="min-w-0 flex-1">
+          <div className="truncate text-xl font-extrabold">{q.providerName}</div>
+          <div className="mt-0.5 text-[13px] font-semibold text-primary/70">
+            {q.fee === 0 ? "€0 fee" : `${eur.format(q.fee)} fee`} ·{" "}
+            {q.deliveryEstimate.maxMinutes === 0
+              ? "n/a"
+              : q.deliveryEstimate.label}
+            {fast && " ⚡"}
+          </div>
+        </div>
+        <div className="tabular text-[32px] font-extrabold leading-none">
+          ₱{php.format(q.receiveAmount)}
+        </div>
+      </div>
+      {url ? (
+        <a
+          href={url}
+          target="_blank"
+          rel="sponsored noopener"
+          onClick={() =>
+            track("home.affiliate_outbound", { providerID: q.providerID })
+          }
+          className={btnClass}
+          style={{ color: "var(--lime)" }}
+        >
+          {label}
+        </a>
+      ) : (
+        <Link
+          href={`/provider/${q.providerID}`}
+          className={btnClass}
+          style={{ color: "var(--lime)" }}
+        >
+          {label}
+        </Link>
+      )}
+    </div>
+  );
+}
+
+// lg+ runner-up row: clean white card, rank medal, provider + meta, amount.
+function DesktopRankRow({ q, rank }: { q: TransferQuote; rank: number }) {
+  const fast =
+    q.deliveryEstimate.maxMinutes > 0 && q.deliveryEstimate.maxMinutes <= 60;
+  const meta =
+    q.fee === 0
+      ? "€0 fee"
+      : q.deliveryEstimate.maxMinutes === 0
+        ? null
+        : q.deliveryEstimate.label;
   return (
     <Link
       href={`/provider/${q.providerID}`}
-      className={`rise ${RANKING_GRID} rounded-sm px-4 py-3 transition active:scale-[0.995] ${
-        winner
-          ? "chip-pop bg-primary-light"
-          : "bg-surface shadow hover:bg-surface-hover"
-      }`}
-      style={{ animationDelay: `${rank * 60}ms` }}
+      className="rise flex items-center gap-3.5 rounded-[16px] bg-surface px-5 py-3.5 shadow transition hover:bg-surface-hover active:scale-[0.995]"
+      style={{ animationDelay: `${rank * 50}ms` }}
     >
-      <span className={`text-base ${winner ? "" : "font-extrabold text-text-secondary"}`}>
-        {winner ? "🎉" : `${rank}º`}
+      <span className="w-6 shrink-0 text-sm font-extrabold text-text-tertiary">
+        {rank}º
       </span>
-      <span className="flex min-w-0 items-center gap-2.5">
-        <ProviderIcon q={q} size={30} />
-        <span className="flex min-w-0 flex-col">
-          <span className="flex min-w-0 items-center gap-2">
-            <span className="truncate text-sm font-extrabold">
-              {q.providerName}
-            </span>
-            <SourceTag q={q} />
+      <ProviderIcon q={q} size={36} />
+      <div className="flex min-w-0 flex-1 items-center gap-2">
+        <span className="truncate font-bold">{q.providerName}</span>
+        {meta && (
+          <span className="hidden text-xs text-text-tertiary xl:inline">
+            · {meta}
+            {fast && " ⚡"}
           </span>
-          {winner && extra > 0 && (
-            <span className="text-[10px] font-bold text-primary opacity-70">
-              +₱{php.format(extra)} vs average
-            </span>
-          )}
-        </span>
-      </span>
-      <span
-        className={`tabular text-sm ${winner ? "font-bold" : "text-text-secondary"}`}
-      >
-        {eur.format(q.fee)}
-      </span>
-      <span className={`text-sm ${winner ? "font-bold" : "text-text-secondary"}`}>
-        {q.deliveryEstimate.maxMinutes === 0
-          ? "n/a"
-          : q.deliveryEstimate.label}
-        {fast && " ⚡"}
-      </span>
-      <span
-        className={`tabular text-right font-extrabold ${winner ? "text-[19px]" : "text-[15px]"}`}
-      >
+        )}
+        <SourceTag q={q} />
+      </div>
+      <span className="tabular text-[15px] font-extrabold">
         ₱{php.format(q.receiveAmount)}
       </span>
     </Link>
@@ -794,25 +771,28 @@ function HomeSkeleton() {
           ))}
         </div>
       </div>
-      {/* lg+: sidebar-slot + ranking-panel shaped placeholders */}
+      {/* lg+: split-hero shaped placeholders. The light panel bg comes from the
+          (tabs) layout, so the right column stays unwrapped here. */}
       <div className="hidden lg:block">
         <SidebarSlot>
-          <div className="flex flex-col gap-5">
-            <div className="h-7 animate-pulse rounded-full bg-white/10" />
-            <div className="h-20 animate-pulse rounded-sm bg-white/10" />
-            <div className="h-[52px] animate-pulse rounded bg-white/10" />
-            <div className="h-20 animate-pulse rounded-sm bg-white/10" />
+          <div className="flex flex-1 flex-col gap-5">
+            <div className="h-28 animate-pulse rounded-sm bg-white/10" />
+            <div className="h-9 w-56 animate-pulse rounded-full bg-white/10" />
+            <div className="mt-auto h-16 animate-pulse rounded-sm bg-white/10" />
           </div>
         </SidebarSlot>
-        <div className="rounded bg-surface-hover p-6 shadow-elevated">
-          <div className="mb-5 h-7 w-64 animate-pulse rounded-xs bg-surface" />
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div
-              key={i}
-              className="mt-2 h-[58px] animate-pulse rounded-sm bg-surface"
-              style={{ animationDelay: `${i * 60}ms` }}
-            />
-          ))}
+        <div>
+          <div className="mb-2 h-4 w-40 animate-pulse rounded-xs bg-surface" />
+          <div className="h-[132px] animate-pulse rounded-[22px] bg-surface" />
+          <div className="mt-3 flex flex-col gap-2.5">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-[62px] animate-pulse rounded-[16px] bg-surface"
+                style={{ animationDelay: `${i * 60}ms` }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </>

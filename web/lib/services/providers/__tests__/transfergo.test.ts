@@ -42,4 +42,16 @@ describe("parseTransferGo", () => {
   it("returns null when no bank pay-in option is available", () => {
     expect(parseTransferGo({}, "EUR", "PHP", 1000)).toBeNull();
   });
+
+  it("filters by delivery method — mobile wallet matches the fixture's payout", () => {
+    const wallet = parseTransferGo(fixture, "EUR", "PHP", 1000, "mobileWallet");
+    expect(wallet).not.toBeNull();
+    expect(wallet!.deliveryMethod).toBe("mobileWallet");
+  });
+
+  it("returns null when the requested method has no matching payout", () => {
+    // The fixture only carries a bank -> PH-wallet option, so a bank-transfer
+    // payout filter finds nothing (aggregator falls back to comparisons).
+    expect(parseTransferGo(fixture, "EUR", "PHP", 1000, "bankTransfer")).toBeNull();
+  });
 });

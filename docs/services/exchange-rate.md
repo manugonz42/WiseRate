@@ -12,9 +12,11 @@ Replaces the mocked `ExchangeRateService` + `TransferProviderService` in `WiseRa
 
 ```
 getRate(from, to) -> Rate { rate, timestamp, delta24h, delta7d }
-getQuotes(from, to, amount, methods?) -> Quote[]        // Quote ≈ TransferQuote
+getQuotes(from, to, amount, method?) -> Quote[]         // Quote ≈ TransferQuote
 getHistorical(from, to, range: 24H|7D|30D|3M|6M|1Y) -> HistoricalRate[]
 ```
+
+`method` (a single `DeliveryMethod`) filters by delivery method; omit it for the best quote per provider. Web: `/api/quotes?...&method=bankTransfer|cashPickup|mobileWallet`; only these three are accepted (unknown → no filter). See **Delivery-method support** below.
 
 Async; errors classified `network | rateLimit | unsupportedPair | serverError`. Server-side proxy (`/api/quotes`) does the fetching; clients only see the unified `Quote[]`. Mid-market rate comes from the Wise Comparisons response (`isConsideredMidMarketRate` quote) — no separate FX call (`exchangerate.host` went key-only; Open Exchange Rates is the reserved fallback).
 
@@ -40,6 +42,21 @@ Aggregation rules (`quotes.ts`):
 - **Exclusion:** `EXCLUDED_PROVIDER_IDS` (`quotes.ts`) drops comparisons rows for banks with no referral/affiliate program (T22 audit, 2026-07-06) before they ever reach `byProvider` — never shown, not even tagged "via Wise".
 - **Mid-market ref:** comparisons response; fallback Wise direct `rate` (Wise quotes at mid-market).
 
+### Delivery-method support (per source)
+
+The `method` filter is threaded from `/api/quotes` → `getAggregatedQuotes(from, to, amount, method?)` → each source. **Only Western Union and TransferGo re-price per method today.** Every other source has no per-method public endpoint yet, so it ignores the filter and returns its default bank-transfer quote — *same amount for now*, until we obtain each provider's per-method API. When a specific method is selected, a row whose `deliveryMethod` differs is tagged "via {method}" in the UI so the unchanged number is explained.
+
+| Source | Methods it can return | How the filter is applied | If method unsupported |
+|---|---|---|---|
+| **Western Union** | `bankTransfer` (service 500 Direct to Bank), `cashPickup` (000 Money In Minutes), `mobileWallet` (800 Mobile Money) | `SERVICE_BY_METHOD` picks the matching service group from the one catalog POST (EB fund-in) | returns `null` → falls back to comparisons row |
+| **TransferGo** | whatever payouts the booking API lists for a bank pay-in — `bankTransfer` / `mobileWallet` (PH wallet) / `cashPickup` / `debitCard` (varies live; the captured fixture only had PH wallet) | keep payouts whose `PAYOUT_METHOD` matches, then best receive amount; no filter ⇒ best across all payouts (legacy) | returns `null` → falls back to comparisons row |
+| **Wise (direct)** | `bankTransfer` only (BANK_TRANSFER→BANK_TRANSFER) | filter ignored | returns its bank quote unchanged |
+| **Remitly** | endpoint returns one estimate, no method param | filter ignored | returns its bank quote unchanged |
+| **CurrencyFair** | `bankTransfer` only (bank-to-bank) | filter ignored | returns its bank quote unchanged |
+| **Wise Comparisons** | method not exposed; all rows default `bankTransfer` | filter ignored | rows returned unchanged |
+
+Cache key includes the method (`quotes:v1:${from}:${to}:${amount}:${method ?? "all"}`). `/api/health` still probes the corridor without a method (default bank-transfer path). Follow-up: wire real per-method endpoints for Remitly/others as their partner APIs land (see [SolicitarAfiliados.md](../../SolicitarAfiliados.md)).
+
 ### T22 classification record (2026-07-06)
 
 Full tier-A/B/C research for `docs/plan/T22-quote-fidelity.md` step 1 — every candidate beyond the existing 4 direct sources:
@@ -61,7 +78,7 @@ Full tier-A/B/C research for `docs/plan/T22-quote-fidelity.md` step 1 — every 
 
 **Bank referral/affiliate audit (2026-07-06)** — none of ABN AMRO, BNP Paribas, UniCredit, Wells Fargo, or HSBC Australia have a joinable referral/affiliate program relevant to international transfers (checked each bank's own site plus Awin/Pepperjam/Conversant/Rakuten network listings; where a "refer a friend"/affiliate program exists at all, e.g. UniCredit, HSBC Expat, it targets new account-opening, not FX/remittance traffic). All 5 are in `EXCLUDED_PROVIDER_IDS`.
 
-Comparisons-endpoint mapping notes: its competitor numbers can diverge from operator prices (live check 2026-07-02: WU ~630 PHP worse on €1,000 — hence direct precedence). `isConsideredMidMarketRate` flags a **real sendable quote** — feeds the `rate` reference *and* stays listed. `markup` is a percentage → stored `/100` (data-model `0..1`). `deliveryEstimation.duration` (seconds) usually `null` → `"Not specified"`. Delivery method not exposed → defaults `bankTransfer`, **delivery-method filter chips deferred**. `trustScore` is editorial, keyed off [proveedores](../proveedores.md) "100% fiables" (`TRUST` map in `trust.ts`).
+Comparisons-endpoint mapping notes: its competitor numbers can diverge from operator prices (live check 2026-07-02: WU ~630 PHP worse on €1,000 — hence direct precedence). `isConsideredMidMarketRate` flags a **real sendable quote** — feeds the `rate` reference *and* stays listed. `markup` is a percentage → stored `/100` (data-model `0..1`). `deliveryEstimation.duration` (seconds) usually `null` → `"Not specified"`. Delivery method not exposed → defaults `bankTransfer` (the delivery-method filter is now live but only WU + TransferGo re-price — see **Delivery-method support** above). `trustScore` is editorial, keyed off [proveedores](../proveedores.md) "100% fiables" (`TRUST` map in `trust.ts`).
 
 ## Known source limitations
 

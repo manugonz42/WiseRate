@@ -8,7 +8,7 @@
 // its comparisons row. Ranking data (receiveAmount) is always the standard,
 // no-promo price when the provider publishes one.
 
-import type { Rate, TransferQuote } from "@/lib/models/types";
+import type { DeliveryMethod, Rate, TransferQuote } from "@/lib/models/types";
 import { fetchWiseQuotes } from "./wise";
 import { fetchWiseDirect } from "./providers/wiseDirect";
 import { fetchWesternUnion } from "./providers/westernUnion";
@@ -83,17 +83,22 @@ export async function getAggregatedQuotes(
   from: string,
   to: string,
   amount: number,
+  // Delivery-method filter. Only Western Union and TransferGo re-price per
+  // method; every other source has no per-method endpoint yet, so it returns
+  // its default (bank-transfer) quote unchanged — same amount for now, per
+  // docs/services/exchange-rate.md. `undefined` = no filter (best per source).
+  method?: DeliveryMethod,
 ): Promise<AggregatedQuotes> {
-  const key = `quotes:v1:${from}:${to}:${amount}`;
+  const key = `quotes:v1:${from}:${to}:${amount}:${method ?? "all"}`;
   const hit = await getCached<AggregatedQuotes>(key);
   if (hit) return hit;
 
   const [cmp, wise, wu, remitly, transfergo, currencyfair] = await Promise.allSettled([
     fetchWiseQuotes(from, to, amount),
     fetchWiseDirect(from, to, amount),
-    fetchWesternUnion(from, to, amount),
+    fetchWesternUnion(from, to, amount, method ?? "bankTransfer"),
     fetchRemitly(from, to, amount),
-    fetchTransferGo(from, to, amount),
+    fetchTransferGo(from, to, amount, method),
     fetchCurrencyFair(from, to, amount),
   ]);
 

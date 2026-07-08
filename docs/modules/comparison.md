@@ -30,13 +30,13 @@ Full list of provider quotes for the user-entered amount, sortable and filterabl
 - Sort options: best rate, lowest fee, fastest, most trusted, cheapest total — exactly 5 ✅ (web)
 - Best-deal banner pinned to top showing the winning quote's receive amount + savings vs avg ✅ (web) — amber (`--warning`), matching mobile; the winning row is also highlighted so the emphasis survives scrolling. See [web](../platforms/web.md#desktop-layout-web-is-not-a-phone-screen).
 - Desktop (`md+`) renders rows as a table (Provider · Recipient gets · Fee · Speed · Trust); below `md` falls back to stacked cards ✅ (web)
-- Filter chips for delivery method are multi-select; "All" toggles the rest off — ⏳ deferred on web: Wise Comparisons API doesn't expose delivery method (see [exchange-rate](../services/exchange-rate.md))
+- Delivery-method selector (single-select: All / Bank transfer / Cash pickup / Mobile wallet); changing it re-fetches with `method=` ✅ (web). When a specific method is selected the list shows **only providers that offer it** — Western Union + TransferGo re-price per method, so a non-bank method narrows the list to sources that actually support it; the rest carry only a bank-transfer quote and drop out. Best-deal banner and average are computed over the method-matching set. See [exchange-rate](../services/exchange-rate.md#delivery-method-support-per-source). Multi-select "All toggles the rest off" simplified to single-select on web.
 - Search filters provider names live (debounce 150ms) ✅ (web)
 - Each row shows: provider icon, name, fee, delivery estimate, receive amount, markup % ✅ (web)
 - "Promo" badge on quotes with `isPromotion = true`, showing the first-transfer price next to the standard one (`PromoInfo`); when the provider publishes no standard price (`baseIsStandard = false`) the row says so ✅ (web)
 - Promo badge is labeled by kind — "FIRST TRANSFER" (provider's own new-customer pricing, `PromoInfo.kind`) vs. "VIA OUR LINK: {amount}" (our affiliate referral bonus, editorial `providers.ts` `referralPromo`) — both shown together when both exist, no per-user eligibility yet ✅ (web, T22); referral data stays empty until a real affiliate deal is signed
 - Quotes not fetched from the provider's own endpoint carry a source tag: "via Wise" (`wise-comparisons`) or "mock" ✅ (web); banks with no referral/affiliate program are dropped entirely rather than tagged (T22 bank audit, see [exchange-rate](../services/exchange-rate.md))
-- Empty filter result shows a "no providers match" state with a reset action ✅ (web)
+- Empty filter result shows a reset state ✅ (web): "no providers match" + reset-search when a search yields nothing, or "no providers offer this method yet" + show-all-methods when the method filter empties the list
 
 ## Platform notes
 - **iOS**: `WiseRate/Features/Comparison/ComparisonView.swift`

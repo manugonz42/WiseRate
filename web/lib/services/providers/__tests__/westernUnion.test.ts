@@ -41,4 +41,22 @@ describe("parseWesternUnion", () => {
   it("returns null on an empty response instead of a NaN quote", () => {
     expect(parseWesternUnion({}, "EUR", "PHP", 1000)).toBeNull();
   });
+
+  it("re-prices per delivery method — each maps to a distinct WU service", () => {
+    const bank = parseWesternUnion(fixture, "EUR", "PHP", 1000, "bankTransfer");
+    const cash = parseWesternUnion(fixture, "EUR", "PHP", 1000, "cashPickup");
+    const wallet = parseWesternUnion(fixture, "EUR", "PHP", 1000, "mobileWallet");
+
+    expect(bank!.deliveryMethod).toBe("bankTransfer");
+    expect(cash!.deliveryMethod).toBe("cashPickup");
+    expect(wallet!.deliveryMethod).toBe("mobileWallet");
+
+    // Money In Minutes (000) carries a worse rate than Direct to Bank (500),
+    // so selecting cash pickup genuinely changes the amount the recipient gets.
+    expect(cash!.receiveAmount).not.toBeCloseTo(bank!.receiveAmount, 0);
+  });
+
+  it("returns null for a method WU has no service group for", () => {
+    expect(parseWesternUnion(fixture, "EUR", "PHP", 1000, "homeDelivery")).toBeNull();
+  });
 });

@@ -40,6 +40,17 @@ export default function TabsLayout({
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
+  // Home gets the wide split-hero desktop shell (docs/modules/home.md redesign):
+  // an oversized ink hero panel + a light panel whose nav sits top-right. Other
+  // tabs keep the narrow sticky sidebar (nav inside it). Mobile is identical for
+  // all tabs. Palette 3 lime (#c8f135 / icon #f4ff1f) is scoped here via vars so
+  // it never touches the token-driven mobile view.
+  const isHome = pathname === "/home";
+  const limeVars = {
+    "--lime": "#c8f135",
+    "--lime-icon": "#f4ff1f",
+  } as React.CSSProperties;
+
   return (
     <SidebarSlotProvider>
       <header className="sticky top-0 z-10 border-b border-border bg-bg/90 backdrop-blur lg:hidden">
@@ -84,55 +95,117 @@ export default function TabsLayout({
         </div>
       </header>
       {/* Bottom padding clears the fixed mobile tab bar. lg+: sidebar + content. */}
-      <div className="pb-24 sm:pb-0 lg:mx-auto lg:flex lg:min-h-[100dvh] lg:max-w-6xl lg:items-start lg:gap-6 lg:px-6 lg:pb-8 lg:pt-6">
-        <aside
-          aria-label="Sidebar"
-          className="sticky top-6 hidden max-h-[calc(100dvh-3rem)] w-[280px] shrink-0 flex-col gap-5 overflow-y-auto rounded bg-primary p-5 shadow-elevated lg:flex"
-        >
-          <div className="flex items-center justify-between gap-2">
-            <Link href="/home" className="flex min-w-0 items-center gap-2">
-              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xs bg-gradient-to-br from-primary-light to-chartreuse text-base font-extrabold text-primary">
+      <div
+        style={isHome ? limeVars : undefined}
+        className={
+          isHome
+            ? "pb-24 sm:pb-0 lg:mx-auto lg:flex lg:min-h-[100dvh] lg:max-w-[1180px] lg:items-stretch lg:gap-4 lg:px-4 lg:py-4"
+            : "pb-24 sm:pb-0 lg:mx-auto lg:flex lg:min-h-[100dvh] lg:max-w-6xl lg:items-start lg:gap-6 lg:px-6 lg:pb-8 lg:pt-6"
+        }
+      >
+        {isHome ? (
+          <aside
+            aria-label="Sidebar"
+            className="relative hidden shrink-0 flex-col overflow-hidden rounded-[24px] bg-primary p-9 shadow-elevated lg:flex lg:w-[46%]"
+          >
+            <Link href="/home" className="flex items-center gap-2.5">
+              <span
+                className="grid h-9 w-9 shrink-0 place-items-center rounded-[10px] text-lg font-extrabold text-primary"
+                style={{ background: "var(--lime-icon)" }}
+              >
                 ₱
               </span>
-              <span className="truncate text-lg font-extrabold tracking-tight text-bg">
+              <span className="text-xl font-extrabold tracking-tight text-bg">
                 sulitsend
               </span>
             </Link>
-            <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-extrabold text-bg">
-              🇪🇺→🇵🇭
-              <span
-                className="pulse-dot h-1.5 w-1.5 rounded-full bg-primary-light"
-                aria-hidden
-              />
-              live
-            </span>
-          </div>
-          <nav aria-label="Main" className="flex flex-col gap-1.5">
-            {TABS.map((tab) => {
-              const TabIcon = tab.icon;
-              const active = isActive(tab.href);
-              return (
-                <Link
-                  key={tab.label}
-                  href={tab.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`flex items-center gap-2.5 rounded-sm px-4 py-2.5 text-sm font-extrabold transition active:scale-[0.98] ${
-                    active
-                      ? "chip-pop bg-primary-light text-primary"
-                      : "text-bg opacity-75 hover:bg-white/10 hover:opacity-100"
-                  }`}
-                >
-                  <TabIcon size={18} weight="fill" />
-                  {tab.label}
-                </Link>
-              );
-            })}
-          </nav>
-          {/* Page-owned controls (Home: chips / hero / CTA / ring). Hidden when empty. */}
-          <SidebarSlotTarget className="flex flex-col gap-5 border-t border-white/15 pt-5 empty:hidden" />
-        </aside>
-        <div className="lg:min-w-0 lg:flex-1">
-          {children}
+            {/* Home teleports its hero (headline / chips / savings ring) here. */}
+            <SidebarSlotTarget className="mt-9 flex flex-1 flex-col empty:hidden" />
+          </aside>
+        ) : (
+          <aside
+            aria-label="Sidebar"
+            className="sticky top-6 hidden max-h-[calc(100dvh-3rem)] w-[280px] shrink-0 flex-col gap-5 overflow-y-auto rounded bg-primary p-5 shadow-elevated lg:flex"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <Link href="/home" className="flex min-w-0 items-center gap-2">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xs bg-gradient-to-br from-primary-light to-chartreuse text-base font-extrabold text-primary">
+                  ₱
+                </span>
+                <span className="truncate text-lg font-extrabold tracking-tight text-bg">
+                  sulitsend
+                </span>
+              </Link>
+              <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-extrabold text-bg">
+                🇪🇺→🇵🇭
+                <span
+                  className="pulse-dot h-1.5 w-1.5 rounded-full bg-primary-light"
+                  aria-hidden
+                />
+                live
+              </span>
+            </div>
+            <nav aria-label="Main" className="flex flex-col gap-1.5">
+              {TABS.map((tab) => {
+                const TabIcon = tab.icon;
+                const active = isActive(tab.href);
+                return (
+                  <Link
+                    key={tab.label}
+                    href={tab.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`flex items-center gap-2.5 rounded-sm px-4 py-2.5 text-sm font-extrabold transition active:scale-[0.98] ${
+                      active
+                        ? "chip-pop bg-primary-light text-primary"
+                        : "text-bg opacity-75 hover:bg-white/10 hover:opacity-100"
+                    }`}
+                  >
+                    <TabIcon size={18} weight="fill" />
+                    {tab.label}
+                  </Link>
+                );
+              })}
+            </nav>
+            {/* Page-owned controls. Hidden when empty. */}
+            <SidebarSlotTarget className="flex flex-col gap-5 border-t border-white/15 pt-5 empty:hidden" />
+          </aside>
+        )}
+        <div
+          className={
+            isHome
+              ? "lg:flex lg:min-w-0 lg:flex-1 lg:flex-col"
+              : "lg:min-w-0 lg:flex-1"
+          }
+        >
+          {isHome ? (
+            <div className="lg:flex lg:flex-1 lg:flex-col lg:rounded-[24px] lg:bg-surface-elevated lg:p-8">
+              <nav
+                aria-label="Main"
+                className="mb-7 hidden items-center justify-end gap-1 lg:flex"
+              >
+                {TABS.map((tab) => {
+                  const active = isActive(tab.href);
+                  return (
+                    <Link
+                      key={tab.label}
+                      href={tab.href}
+                      aria-current={active ? "page" : undefined}
+                      className={`rounded-full px-4 py-2 text-sm font-bold transition active:scale-[0.97] ${
+                        active
+                          ? "bg-primary text-[color:var(--lime)]"
+                          : "text-text-secondary hover:bg-surface"
+                      }`}
+                    >
+                      {tab.label}
+                    </Link>
+                  );
+                })}
+              </nav>
+              {children}
+            </div>
+          ) : (
+            children
+          )}
           <footer className="border-t border-border px-4 py-4 text-center text-xs text-text-tertiary sm:px-6 lg:mt-6 lg:border-0 lg:py-0">
           © 2026 SulitSend · Independent comparison site, not a payment
           institution ·{" "}

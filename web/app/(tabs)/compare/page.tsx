@@ -8,6 +8,7 @@ import { track } from "@/lib/analytics";
 import {
   markupPercentage,
   totalCost,
+  type DeliveryMethod,
   type QuotesResponse,
   type TransferQuote,
 } from "@/lib/models/types";
@@ -32,6 +33,19 @@ const SORTS: { id: SortOption; label: string }[] = [
   { id: "fastest", label: "Fastest" },
   { id: "mostTrusted", label: "Most trusted" },
   { id: "cheapestTotal", label: "Cheapest total" },
+];
+
+// Delivery-method filter. `null` = no filter (best quote per provider).
+// Only Western Union and TransferGo re-price per method today; the rest keep
+// their default bank-transfer quote (docs/services/exchange-rate.md), so a
+// row whose deliveryMethod differs from the selected one is tagged below.
+type MethodFilter = DeliveryMethod | null;
+
+const METHODS: { id: MethodFilter; label: string }[] = [
+  { id: null, label: "All methods" },
+  { id: "bankTransfer", label: "Bank transfer" },
+  { id: "cashPickup", label: "Cash pickup" },
+  { id: "mobileWallet", label: "Mobile wallet" },
 ];
 
 // Unknown delivery times (maxMinutes === 0) sort last.
@@ -72,6 +86,7 @@ export default function ComparePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sort, setSort] = useState<SortOption>("bestRate");
+  const [method, setMethod] = useState<MethodFilter>(null);
   const [search, setSearch] = useState("");
   const [debounced, setDebounced] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
@@ -80,6 +95,12 @@ export default function ComparePage() {
     if (next === sort) return;
     setSort(next);
     track("compare.sort_changed", { sortBy: next });
+  };
+
+  const handleMethodChange = (next: MethodFilter) => {
+    if (next === method) return;
+    setMethod(next);
+    track("compare.method_changed", { method: next ?? "all" });
   };
 
   // debounce search 150ms (acceptance criteria)
@@ -97,7 +118,7 @@ export default function ComparePage() {
     setError(null);
     const t = setTimeout(async () => {
       try {
-        const res = await getQuotes(amountRef.current);
+        const res = await getQuotes(amountRef.current, method ?? undefined);
         if (!cancelled) setData(res);
       } catch {
         if (!cancelled) setError("Couldn't load quotes. Try again.");
@@ -109,31 +130,45 @@ export default function ComparePage() {
       cancelled = true;
       clearTimeout(t);
     };
-  }, [amount, reloadKey]);
+  }, [amount, method, reloadKey]);
 
   const filtered = useMemo(() => {
     if (!data) return [];
     const q = debounced.trim().toLowerCase();
-    const rows = q
-      ? data.quotes.filter((x) => x.providerName.toLowerCase().includes(q))
-      : [...data.quotes];
+    const rows = data.quotes.filter(
+      (x) =>
+        // Only show providers that actually offer the selected delivery method.
+        // WU + TransferGo re-price per method; others only carry bankTransfer,
+        // so they drop out when a method they don't support is picked.
+        (!method || x.deliveryMethod === method) &&
+        (!q || x.providerName.toLowerCase().includes(q)),
+    );
     return rows.sort(comparators[sort]);
-  }, [data, sort, debounced]);
+  }, [data, sort, debounced, method]);
 
-  // Best deal = highest receive amount across ALL quotes (not just filtered).
+  // Quotes offering the selected method (ignores the search box). Best deal and
+  // average are computed over this set so they never reference a provider the
+  // method filter just removed from the list.
+  const methodMatched = useMemo(() => {
+    if (!data) return [];
+    return data.quotes.filter((q) => !method || q.deliveryMethod === method);
+  }, [data, method]);
+
+  // Best deal = highest receive amount among providers offering the method.
   const best = useMemo(() => {
-    if (!data || data.quotes.length === 0) return null;
-    return data.quotes.reduce((a, b) =>
+    if (methodMatched.length === 0) return null;
+    return methodMatched.reduce((a, b) =>
       b.receiveAmount > a.receiveAmount ? b : a,
     );
-  }, [data]);
+  }, [methodMatched]);
 
   const avgReceive = useMemo(() => {
-    if (!data || data.quotes.length === 0) return 0;
+    if (methodMatched.length === 0) return 0;
     return (
-      data.quotes.reduce((s, q) => s + q.receiveAmount, 0) / data.quotes.length
+      methodMatched.reduce((s, q) => s + q.receiveAmount, 0) /
+      methodMatched.length
     );
-  }, [data]);
+  }, [methodMatched]);
 
   return (
     <main className="mx-auto min-h-[100dvh] max-w-4xl px-4 pb-16 pt-8 sm:px-6">
@@ -179,6 +214,29 @@ export default function ComparePage() {
           onChange={(e) => setSearch(e.target.value)}
           className="w-full rounded bg-surface px-4 py-3 text-sm outline-none placeholder:text-text-tertiary focus:ring-1 focus:ring-primary"
         />
+      </div>
+
+      {/* Delivery-method selector — changing it re-fetches (WU + TransferGo
+          re-price; other providers keep their bank-transfer quote for now). */}
+      <div className="mb-3">
+        <div className="mb-1.5 text-[11px] font-medium uppercase tracking-wide text-text-tertiary">
+          Delivery method
+        </div>
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {METHODS.map((m) => (
+            <button
+              key={m.id ?? "all"}
+              onClick={() => handleMethodChange(m.id)}
+              className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
+                method === m.id
+                  ? "bg-accent text-primary-light"
+                  : "bg-surface text-text-secondary hover:bg-surface-hover"
+              }`}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Sort chips */}
@@ -239,15 +297,31 @@ export default function ComparePage() {
       )}
       {!loading && !error && filtered.length === 0 && (
         <div className="rounded bg-surface p-8 text-center">
-          <p className="mb-4 text-sm text-text-secondary">
-            No providers match “{debounced}”.
-          </p>
-          <button
-            onClick={() => setSearch("")}
-            className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
-          >
-            Reset search
-          </button>
+          {debounced.trim() ? (
+            <>
+              <p className="mb-4 text-sm text-text-secondary">
+                No providers match “{debounced}”.
+              </p>
+              <button
+                onClick={() => setSearch("")}
+                className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
+              >
+                Reset search
+              </button>
+            </>
+          ) : (
+            <>
+              <p className="mb-4 text-sm text-text-secondary">
+                No providers offer this delivery method yet.
+              </p>
+              <button
+                onClick={() => handleMethodChange(null)}
+                className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
+              >
+                Show all methods
+              </button>
+            </>
+          )}
         </div>
       )}
 
