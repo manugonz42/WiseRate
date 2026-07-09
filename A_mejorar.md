@@ -1,0 +1,15 @@
+-seccion de configuración
+-selección de idioma sutil pero a la vista
+-cuentas-login-registro
+-onboarding
+-al escribir una cantidad en compare no deja borrar todo, siempre deja un nº minimo, permitir borrar todos los digitos-en caso de que lo deje vacio que quede automaticamente 100
+-en compare best deal simplemente es informativo y redundante ya que siempre va a estar debajo, simplemente el mejor resultado Beast deal esté marcado como en home, fondo distinto y la etiqueda de best deal.
+-revisar envios cashpickup y envios a app ya que por ejemplo remetly si permite esto y no sale en los resultado, actualmente solo tiene dos resultado por lo que es un poco inutil filtrar por metodo de envio.
+-coordinar un poco los datos del podio, en uno pone el nombre de la empresa y el fee al lado, el otro el nombre con la medalla al lado  y abajo via wise y el otro El fee con la medalla al lado,
+-seccion de promos disponibles del usuario, guardar info de que cuentas tiene ya creadas a que promos podria tener acceso.
+-Funcion de busqueda de promos.
+-Analitys solo tiene 7 y 30D, porque el resto está bloqueado?
+-tener una memoria dinámica con los datos solicitados, que se vaya actualizando cad 5 min (este tiempo habría que decidirlo por eficiencia y metodo de obtencion), si alguien solicita una consulta de una cantidad de dinero que no se ha solicitado antes se hace y se guarda en la memoria din
+ámica con un timestamp, del tiempo decidido de validez, esta info se usará para el resto de consultas que se hagan en ese rango de tiempo para no tener que llamar a la api en cada solicitud. (para afinar mas habria que cada uno de los proveedores como varia la tasa de conversion final, si va por rangos podria implementarse, pero lo dejamos para cuando ya esté todo funcionando.)
+-terminar paginas de terminos condiciones y cookies etc
+-
