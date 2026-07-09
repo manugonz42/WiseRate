@@ -13,6 +13,7 @@ Android column: Compose screens + ViewModels exist for every module (mock data) 
 | Provider Details | ◐ | ✅ | ◐ | [provider-details.md](modules/provider-details.md) |
 | Analytics | ◐ | ✅ | ◐ | [analytics.md](modules/analytics.md) |
 | Alerts | ◐ | ◐ | ◐ | [alerts.md](modules/alerts.md) |
+| Promos | ☐ | ✅ | ☐ | [promos.md](modules/promos.md) |
 | Profile | ◐ | ☐* | ◐ | [profile.md](modules/profile.md) |
 | Settings | ◐ | ☐* | ◐ | [settings.md](modules/settings.md) |
 | Premium | ◐ | ☐* | ◐ | [premium.md](modules/premium.md) |

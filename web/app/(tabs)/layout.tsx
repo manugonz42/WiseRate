@@ -7,6 +7,7 @@ import {
   Bell,
   ChartLineUp,
   House,
+  Tag,
 } from "@phosphor-icons/react/dist/ssr";
 import type { Icon } from "@phosphor-icons/react/lib";
 import {
@@ -29,6 +30,7 @@ const TABS: Tab[] = [
   { label: "Compare", icon: ArrowsLeftRight, href: "/compare" },
   { label: "Analytics", icon: ChartLineUp, href: "/analytics" },
   { label: "Alerts", icon: Bell, href: "/alerts" },
+  { label: "Promos", icon: Tag, href: "/promos" },
 ];
 
 export default function TabsLayout({
@@ -238,7 +240,7 @@ export default function TabsLayout({
         aria-label="Main"
         className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-surface pb-[max(env(safe-area-inset-bottom),10px)] pt-2 sm:hidden"
       >
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-5">
           {TABS.map((tab) => {
             const TabIcon = tab.icon;
             const active = isActive(tab.href);

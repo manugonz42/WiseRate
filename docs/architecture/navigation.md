@@ -18,9 +18,9 @@ Cross-platform route map. iOS is authoritative; other platforms mirror.
 | 2 | Compare | arrow.left.arrow.right | [comparison](../modules/comparison.md) |
 | 3 | Analytics | chart.line.uptrend.xyaxis | [analytics](../modules/analytics.md) |
 | 4 | Alerts | bell | [alerts](../modules/alerts.md) |
-| 5 | Profile | person.circle | [profile](../modules/profile.md) |
+| 5 | Promos | tag | [promos](../modules/promos.md) |
 
-**Web note:** the web tab bar ships tabs 1–4 only (Home, Compare, Analytics, Alerts). Profile — and its Settings/Premium/Referral children — are app-phase modules, not part of the web MVP. On mobile widths the tabs render as a fixed bottom tab bar (app-like); on `sm`–`lg` they collapse into pills in the top header; on `lg+` (desktop) they move into a sticky dark ink sidebar on the left. The sidebar exposes a portal slot (`web/components/SidebarSlot.tsx`) that a page can fill with its own controls — Home uses it for amount chips / hero / CTA / savings ring (see [home](../modules/home.md)). Breakpoint-driven (CSS only), no server-side UA sniffing.
+**Web note:** the web tab bar ships all 5 tabs (Home, Compare, Analytics, Alerts, Promos). Profile — and its Settings/Premium/Referral children — are app-phase modules, not part of the web MVP. On mobile widths the tabs render as a fixed bottom tab bar (app-like); on `sm`–`lg` they collapse into pills in the top header; on `lg+` (desktop) they move into a sticky dark ink sidebar on the left. The sidebar exposes a portal slot (`web/components/SidebarSlot.tsx`) that a page can fill with its own controls — Home uses it for amount chips / hero / CTA / savings ring (see [home](../modules/home.md)). Breakpoint-driven (CSS only), no server-side UA sniffing.
 
 ## Routes (push)
 

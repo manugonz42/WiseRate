@@ -7,6 +7,7 @@ import type { FavoriteProvider, RateAlert } from "@/lib/models/types";
 
 const ALERTS_KEY = "sulitsend.alerts.v1";
 const FAVORITES_KEY = "sulitsend.favorites.v1";
+const PROVIDER_ACCOUNTS_KEY = "sulitsend.providerAccounts.v1";
 
 function readList<T>(key: string): T[] {
   if (typeof window === "undefined") return [];
@@ -55,4 +56,17 @@ export function toggleFavorite(providerID: string): FavoriteProvider[] {
   else favorites.push({ providerID, addedAt: new Date().toISOString() });
   writeList(FAVORITES_KEY, favorites);
   return favorites;
+}
+
+export function listProviderAccounts(): string[] {
+  return readList<string>(PROVIDER_ACCOUNTS_KEY);
+}
+
+export function toggleProviderAccount(providerID: string): string[] {
+  const accounts = listProviderAccounts();
+  const idx = accounts.indexOf(providerID);
+  if (idx >= 0) accounts.splice(idx, 1);
+  else accounts.push(providerID);
+  writeList(PROVIDER_ACCOUNTS_KEY, accounts);
+  return accounts;
 }
