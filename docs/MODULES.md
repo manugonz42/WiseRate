@@ -15,7 +15,7 @@ Android column: Compose screens + ViewModels exist for every module (mock data) 
 | Alerts | ◐ | ◐ | ◐ | [alerts.md](modules/alerts.md) |
 | Promos | ☐ | ✅ | ☐ | [promos.md](modules/promos.md) |
 | Profile | ◐ | ☐* | ◐ | [profile.md](modules/profile.md) |
-| Settings | ◐ | ☐* | ◐ | [settings.md](modules/settings.md) |
+| Settings | ◐ | ◐ | ◐ | [settings.md](modules/settings.md) |
 | Premium | ◐ | ☐* | ◐ | [premium.md](modules/premium.md) |
 | Referral | ◐ | ☐* | ◐ | [referral.md](modules/referral.md) |
 | Onboarding | ◐ | ☐* | ◐ | [onboarding.md](modules/onboarding.md) |
@@ -23,7 +23,7 @@ Android column: Compose screens + ViewModels exist for every module (mock data) 
 | Brokers (high-amount) | ☐ | ✅ | ☐ | [brokers.md](modules/brokers.md) |
 | Corridor pages (SEO) | — | ✅ | — | [corridors.md](modules/corridors.md) |
 
-\* post-MVP (apps) — Profile, Settings, Premium, Referral, and Onboarding are app-phase modules; the web tab bar ships Home/Compare/Analytics/Alerts only (see [navigation](architecture/navigation.md)).
+\* post-MVP (apps) — Profile, Premium, Referral, and Onboarding are app-phase modules; the web tab bar ships Home/Compare/Analytics/Alerts/Promos (see [navigation](architecture/navigation.md)). Settings is routable for web (light, local-only version).
 
 ## Services (cross-cutting)
 

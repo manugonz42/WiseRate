@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { getQuotes } from "@/lib/services/rate";
+import { getDefaultAmount } from "@/lib/services/persistence";
 import { track } from "@/lib/analytics";
 import {
   markupPercentage,
@@ -94,6 +95,14 @@ export default function ComparePage() {
   const [debounced, setDebounced] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
 
+  // Read default amount from localStorage on mount.
+  useEffect(() => {
+    const stored = getDefaultAmount();
+    const initial = stored ?? 1000;
+    setAmount(initial);
+    setAmountInput(String(initial));
+  }, []);
+
   const handleSortChange = (next: SortOption) => {
     if (next === sort) return;
     setSort(next);
@@ -108,8 +117,8 @@ export default function ComparePage() {
 
   // debounce search 150ms (acceptance criteria)
   useEffect(() => {
-    const t = setTimeout(() => setDebounced(search), 150);
-    return () => clearTimeout(t);
+    const timeoutId = setTimeout(() => setDebounced(search), 150);
+    return () => clearTimeout(timeoutId);
   }, [search]);
 
   // fetch on amount change (debounced so typing doesn't hammer the proxy)
@@ -119,7 +128,7 @@ export default function ComparePage() {
     let cancelled = false;
     setLoading(true);
     setError(null);
-    const t = setTimeout(async () => {
+    const timeoutId = setTimeout(async () => {
       try {
         const res = await getQuotes(amountRef.current, method ?? undefined);
         if (!cancelled) setData(res);
@@ -131,9 +140,9 @@ export default function ComparePage() {
     }, 250);
     return () => {
       cancelled = true;
-      clearTimeout(t);
+      clearTimeout(timeoutId);
     };
-  }, [amount, method, reloadKey]);
+  }, [amount, method, reloadKey, t]);
 
   const filtered = useMemo(() => {
     if (!data) return [];

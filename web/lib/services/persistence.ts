@@ -8,6 +8,7 @@ import type { FavoriteProvider, RateAlert } from "@/lib/models/types";
 const ALERTS_KEY = "sulitsend.alerts.v1";
 const FAVORITES_KEY = "sulitsend.favorites.v1";
 const PROVIDER_ACCOUNTS_KEY = "sulitsend.providerAccounts.v1";
+const DEFAULT_AMOUNT_KEY = "sulitsend.defaultAmount.v1";
 
 function readList<T>(key: string): T[] {
   if (typeof window === "undefined") return [];
@@ -69,4 +70,23 @@ export function toggleProviderAccount(providerID: string): string[] {
   else accounts.push(providerID);
   writeList(PROVIDER_ACCOUNTS_KEY, accounts);
   return accounts;
+}
+
+export function getDefaultAmount(): number | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(DEFAULT_AMOUNT_KEY);
+    return raw ? parseInt(raw, 10) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function setDefaultAmount(n: number | null): void {
+  if (typeof window === "undefined") return;
+  if (n === null) {
+    window.localStorage.removeItem(DEFAULT_AMOUNT_KEY);
+  } else {
+    window.localStorage.setItem(DEFAULT_AMOUNT_KEY, String(n));
+  }
 }

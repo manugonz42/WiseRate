@@ -1,6 +1,6 @@
 # Module: Settings
 
-**Status:** iOS ◐ · Web ◐ · Android ☐
+**Status:** iOS ◐ · Web ◐ (light, local-only) · Android ☐
 
 ## Dependencies
 - **Reads:** [persistence](../services/persistence.md), [notifications](../services/notifications.md), [subscriptions](../services/subscriptions.md) (manage subscription action), [localization](../architecture/localization.md), [design-system](../architecture/design-system.md)
@@ -36,7 +36,7 @@ App preferences: notifications, theme, language, default amount, data privacy, a
 
 ## Platform notes
 - **iOS**: `WiseRate/Features/Settings/SettingsView.swift`
-- **Web**: `web/app/(tabs)/profile/settings/page.tsx` (modal route)
+- **Web (light)**: `web/app/(tabs)/settings/page.tsx` — routable page, gear-icon entry, localStorage-backed local preferences only (language, default amount, provider accounts, data-privacy actions). Not a modal, not part of profile. See [navigation](../architecture/navigation.md) web note.
 - **Android**: `android/.../features/settings/SettingsScreen.kt`
 
 ## Open questions

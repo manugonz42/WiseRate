@@ -16,6 +16,7 @@ import {
   SidebarSlotTarget,
 } from "@/components/SidebarSlot";
 import { LanguageSelect } from "@/components/LanguageSelect";
+import { SettingsButton } from "@/components/SettingsButton";
 import { I18nProvider } from "@/components/I18nProvider";
 
 type Tab = {
@@ -100,6 +101,7 @@ function TabsLayoutContent({
               {t("nav.live")}
             </span>
             <LanguageSelect />
+            <SettingsButton />
           </div>
         </div>
       </header>
@@ -177,8 +179,9 @@ function TabsLayoutContent({
             </nav>
             {/* Page-owned controls. Hidden when empty. */}
             <SidebarSlotTarget className="flex flex-col gap-5 border-t border-white/15 pt-5 empty:hidden" />
-            <div className="border-t border-white/15 pt-5">
+            <div className="border-t border-white/15 pt-5 flex items-center justify-between gap-3">
               <LanguageSelect />
+              <SettingsButton />
             </div>
           </aside>
         )}
@@ -214,7 +217,10 @@ function TabsLayoutContent({
                     );
                   })}
                 </div>
-                <LanguageSelect />
+                <div className="flex items-center gap-2">
+                  <SettingsButton />
+                  <LanguageSelect />
+                </div>
               </nav>
               {children}
             </div>

@@ -50,5 +50,16 @@
   "compare.retryButton": "Retry",
   "analytics.title": "Analytics",
   "alerts.title": "Alerts",
-  "promos.title": "Promos"
+  "promos.title": "Promos",
+  "settings.title": "Settings",
+  "settings.language": "Language",
+  "settings.defaultAmount": "Default send amount",
+  "settings.defaultAmountDesc": "Used as the starting value when you visit Compare or get recommended amount on Home.",
+  "settings.providerAccounts": "Your provider accounts",
+  "settings.providerAccountsDesc": "Tell us which providers you already use to personalize promo eligibility. See all promos at",
+  "settings.promos": "Promos",
+  "settings.whichProviders": "Which providers do you already use?",
+  "settings.dataPrivacy": "Data & privacy",
+  "settings.clearLocalData": "Clear local data",
+  "settings.clearDataConfirm": "Are you sure you want to clear all local data? This cannot be undone."
 }

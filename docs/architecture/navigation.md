@@ -20,7 +20,7 @@ Cross-platform route map. iOS is authoritative; other platforms mirror.
 | 4 | Alerts | bell | [alerts](../modules/alerts.md) |
 | 5 | Promos | tag | [promos](../modules/promos.md) |
 
-**Web note:** the web tab bar ships all 5 tabs (Home, Compare, Analytics, Alerts, Promos). Profile — and its Settings/Premium/Referral children — are app-phase modules, not part of the web MVP. On mobile widths the tabs render as a fixed bottom tab bar (app-like); on `sm`–`lg` they collapse into pills in the top header; on `lg+` (desktop) they move into a sticky dark ink sidebar on the left. The sidebar exposes a portal slot (`web/components/SidebarSlot.tsx`) that a page can fill with its own controls — Home uses it for amount chips / hero / CTA / savings ring (see [home](../modules/home.md)). Breakpoint-driven (CSS only), no server-side UA sniffing.
+**Web note:** the web tab bar ships all 5 tabs (Home, Compare, Analytics, Alerts, Promos). Settings is routable (not modal) at `/settings` with a gear icon entry next to the language selector in three spots: mobile header, desktop sidebar bottom, and home desktop top-right nav — accessible but not a tab. Profile/Premium/Referral are app-phase modules, not part of the web MVP. On mobile widths the tabs render as a fixed bottom tab bar (app-like); on `sm`–`lg` they collapse into pills in the top header; on `lg+` (desktop) they move into a sticky dark ink sidebar on the left. The sidebar exposes a portal slot (`web/components/SidebarSlot.tsx`) that a page can fill with its own controls — Home uses it for amount chips / hero / CTA / savings ring (see [home](../modules/home.md)). Breakpoint-driven (CSS only), no server-side UA sniffing.
 
 ## Routes (push)
 
@@ -34,8 +34,7 @@ Cross-platform route map. iOS is authoritative; other platforms mirror.
 
 | Sheet | Trigger | Module |
 |---|---|---|
-| Premium | upgrade CTA (Home, Profile, Settings) | [premium](../modules/premium.md) |
-| Settings | Profile → cog | [settings](../modules/settings.md) |
+| Premium | upgrade CTA (Home, Profile) | [premium](../modules/premium.md) |
 | Referral | Profile → "Invite friends" | [referral](../modules/referral.md) |
 | Share | provider card → share button | system share |
 

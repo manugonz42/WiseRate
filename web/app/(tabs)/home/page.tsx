@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { getQuotes } from "@/lib/services/rate";
 import { getHistory } from "@/lib/services/history";
+import { getDefaultAmount } from "@/lib/services/persistence";
 import { track } from "@/lib/analytics";
 import { PROVIDERS } from "@/lib/data/providers";
 import type {
@@ -79,6 +80,21 @@ const sendURL = (q: TransferQuote): string | null => {
   return p ? (p.affiliateURL ?? p.websiteURL) : null;
 };
 
+// Find the chip closest to a value; ties → lower value.
+const getInitialChip = (stored: number | null): number => {
+  if (stored === null) return DEFAULT_AMOUNT;
+  let closest = AMOUNTS[0];
+  let minDist = Math.abs(stored - AMOUNTS[0]);
+  for (const amount of AMOUNTS) {
+    const dist = Math.abs(stored - amount);
+    if (dist < minDist || (dist === minDist && amount < closest)) {
+      closest = amount;
+      minDist = dist;
+    }
+  }
+  return closest;
+};
+
 export default function HomePage() {
   const { t } = useTranslation();
   const [amount, setAmount] = useState(DEFAULT_AMOUNT);
@@ -87,6 +103,12 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
+
+  // Read default amount from localStorage on mount.
+  useEffect(() => {
+    const stored = getDefaultAmount();
+    setAmount(getInitialChip(stored));
+  }, []);
 
   // 7D history feeds the ring meter — nice-to-have, fetched once.
   useEffect(() => {
@@ -358,7 +380,7 @@ export default function HomePage() {
             <DesktopWinner q={best} extra={extra} t={t} />
             <div className="mt-3 flex flex-col gap-2.5">
               {ranked.slice(1, 5).map((q, i) => (
-                <DesktopRankRow key={q.id} q={q} rank={i + 2} t={t} />
+                <DesktopRankRow key={q.id} q={q} rank={i + 2} />
               ))}
             </div>
             <div className="mt-6 flex items-center justify-between gap-4 text-[11px] text-text-tertiary">

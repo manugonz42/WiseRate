@@ -49,5 +49,16 @@
   "compare.retryButton": "Reintentar",
   "analytics.title": "Análisis",
   "alerts.title": "Alertas",
-  "promos.title": "Promociones"
+  "promos.title": "Promociones",
+  "settings.title": "Configuración",
+  "settings.language": "Idioma",
+  "settings.defaultAmount": "Cantidad de envío predeterminada",
+  "settings.defaultAmountDesc": "Se utiliza como valor inicial cuando visitas Comparar o obtienes cantidad recomendada en Inicio.",
+  "settings.providerAccounts": "Tus cuentas de proveedores",
+  "settings.providerAccountsDesc": "Cuéntanos qué proveedores ya usas para personalizar la elegibilidad de promociones. Ver todas las promociones en",
+  "settings.promos": "Promociones",
+  "settings.whichProviders": "¿Qué proveedores ya usas?",
+  "settings.dataPrivacy": "Datos y privacidad",
+  "settings.clearLocalData": "Borrar datos locales",
+  "settings.clearDataConfirm": "¿Estás seguro de que deseas borrar todos los datos locales? Esto no se puede deshacer."
 }
