@@ -1,6 +1,33 @@
 # Execution plan
 
-## Active — MVP launch readiness (planned 2026-07-06)
+## Active — A_mejorar.md backlog (planned 2026-07-09)
+
+Source: `A_mejorar.md` (repo root). Protocol: **"proceed TXX"**, strictly in order (later tasks depend on earlier ones). Each task file carries binding pre-made decisions — **follow them literally; if a step fails, an endpoint misbehaves, or reality contradicts the file, STOP and report instead of improvising.**
+
+Global rules for every task below (in addition to CLAUDE.md):
+- Touch only `web/` and `docs/` files the task names. Never `WiseRate/`, `android/`, `landing/`, `WiseRate-Web/`.
+- No new npm dependencies except where a task names them (only T29: `i18next`, `react-i18next`).
+- Never invent facts, promo amounts, fees, or provider capabilities — render only data from APIs or `providers.ts`.
+- Spec first, then code (CLAUDE.md rule); UI copy says SulitSend; dark theme tokens only.
+- Gate per task: `npm test && npm run build && npm run lint` + the task's Playwright check (recipe below). One commit per task, message = task title. Never push.
+
+- [x] [T23 — Compare amount input clearable](T23-amount-input.md) (item 5)
+- [ ] [T24 — Best deal inline, drop banner](T24-best-deal-inline.md) (item 6)
+- [ ] [T25 — Podium data coherence](T25-podium-coherence.md) (item 8)
+- [ ] [T26 — Analytics: unlock 3M/6M/1Y](T26-analytics-unlock.md) (item 11)
+- [ ] [T27 — Delivery-method fidelity](T27-delivery-methods.md) (item 7)
+- [ ] [T28 — Promos hub + search + my provider accounts](T28-promos-hub.md) (items 9, 10)
+- [ ] [T29 — Web i18n + language selector](T29-web-i18n.md) (item 2)
+- [ ] [T30 — Web settings page](T30-settings-page.md) (item 1)
+- [ ] [T31 — Web onboarding modal](T31-web-onboarding.md) (item 4)
+- [ ] [T32 — Legal drafts: local-storage disclosure](T32-legal-localstorage-pass.md) (item 13, codeable part)
+
+Resolved without a task (decisions 2026-07-09):
+- **Item 12 (dynamic quote cache):** already shipped — T11 + `quotes.ts` key `quotes:v1:{from}:{to}:{amount}:{method}`, shared TTL cache (Upstash, Map fallback). TTL stays **120 s** (spec'd in exchange-rate.md): the cache is shared across all visitors so per-request API cost is already amortized, and Home advertises minute-fresh ranking; the per-provider fee-curve refinement the item mentions is already annotated as deferred in T22.
+- **Item 3 (accounts/login/registration):** local-only profile via localStorage now (T28/T30/T31 cover prefs, provider accounts, onboarding); real auth stays gated to ROADMAP Phase 5 (Supabase candidate) — building it pre-revenue contradicts the roadmap and adds GDPR surface for no current benefit.
+- **Item 13 (finish terms/cookies):** drafts are complete; what blocks "finished" is the human legal review (checklist below). T32 covers the only codeable gap (new localStorage disclosure).
+
+## Done — MVP launch readiness (planned 2026-07-06)
 
 Goal: web MVP 100% presentable to affiliate/partner reviewers (Wise, Remitly, WU, TransferGo, brokers — application guide: `SolicitarAfiliados.md`, repo root). Same protocol as below: **"proceed TXX"**, in order, verify gate per task.
 
