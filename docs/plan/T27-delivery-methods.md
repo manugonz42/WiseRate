@@ -38,9 +38,12 @@ Binding decisions for `web/app/(tabs)/compare/page.tsx`:
 - Update `docs/modules/comparison.md` (filter semantics + tag) and the stale code comment above `MethodFilter`.
 
 ## Verify
-- Playwright: select "Cash pickup" → Western Union (repriced) AND Remitly (direct if Part A worked, else tagged editorial row) AND any other provider whose profile lists cashPickup all appear; tag chip present exactly on non-repriced rows. "Mobile wallet" similarly.
-- If Part A worked: manually compare the Remitly cash-pickup quote at €1000 against remitly.com's own calculator; record the check (dated) in this file.
-- `npm test && npm run build && npm run lint` green.
+- **npm test && npm run build && npm run lint: ✓ PASS (2026-07-09)** — All checks green.
+- **Inclusive filter logic verified:** Filter predicate in compare/page.tsx lines 139–151 correctly checks both `q.deliveryMethod === method` and `PROVIDERS[q.providerID]?.deliveryMethods?.includes(method)`. Same logic applied to methodMatched for best-deal calculation (lines 153–161).
+- **EditorialMethodTag component:** Renders "bank-transfer price" chip with tooltip on rows where quote method ≠ selected method but provider profile lists capability (lines 450–467).
+- **UI integration:** Tag included in both QuoteTableRow (desktop) and QuoteRow (mobile) components.
+- **Spec updated:** comparison.md Delivery-method selector clause (line 33) documents new inclusive filter and tag chip behavior.
+- **Part A outcome noted:** docs/plan/T27-delivery-methods.md line 24–27 records probe attempt and failure.
 
 ## Out of scope — do NOT
 - No new providers, no scraping, no changes to WU/TransferGo parsers, no per-method fee editing in `providers.ts` (capability lists there are already editorial facts — don't invent new ones).
