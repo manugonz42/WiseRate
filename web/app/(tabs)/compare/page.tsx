@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import { getQuotes } from "@/lib/services/rate";
 import { track } from "@/lib/analytics";
 import {
@@ -81,6 +82,7 @@ const sendURL = (q: TransferQuote): string | null => {
 };
 
 export default function ComparePage() {
+  const { t } = useTranslation();
   const [amount, setAmount] = useState(1000);
   const [amountInput, setAmountInput] = useState("1000");
   const [data, setData] = useState<QuotesResponse | null>(null);
@@ -122,7 +124,7 @@ export default function ComparePage() {
         const res = await getQuotes(amountRef.current, method ?? undefined);
         if (!cancelled) setData(res);
       } catch {
-        if (!cancelled) setError("Couldn't load quotes. Try again.");
+        if (!cancelled) setError(t("compare.loadError"));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -180,10 +182,10 @@ export default function ComparePage() {
       <header className="mb-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <div>
           <h1 className="text-[28px] font-extrabold leading-none tracking-tight">
-            Compare
+            {t("compare.title")}
           </h1>
           <p className="mt-1.5 text-sm text-text-secondary">
-            EUR → PHP transfer providers
+            {t("compare.subtitle")}
           </p>
         </div>
         {data && (

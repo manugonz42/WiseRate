@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import {
   ArrowsLeftRight,
   Bell,
@@ -14,9 +15,11 @@ import {
   SidebarSlotProvider,
   SidebarSlotTarget,
 } from "@/components/SidebarSlot";
+import { LanguageSelect } from "@/components/LanguageSelect";
+import { I18nProvider } from "@/components/I18nProvider";
 
 type Tab = {
-  label: string;
+  labelKey: string;
   icon: Icon;
   href: string;
 };
@@ -25,20 +28,21 @@ type Tab = {
 // modules, not part of the web MVP (see docs/architecture/navigation.md).
 // Mobile: fixed bottom tab bar. sm–lg: pills in the top header.
 // lg+: sticky ink sidebar with a per-page portal slot (SidebarSlot).
-const TABS: Tab[] = [
-  { label: "Home", icon: House, href: "/home" },
-  { label: "Compare", icon: ArrowsLeftRight, href: "/compare" },
-  { label: "Analytics", icon: ChartLineUp, href: "/analytics" },
-  { label: "Alerts", icon: Bell, href: "/alerts" },
-  { label: "Promos", icon: Tag, href: "/promos" },
+const TAB_DEFS: Tab[] = [
+  { labelKey: "nav.home", icon: House, href: "/home" },
+  { labelKey: "nav.compare", icon: ArrowsLeftRight, href: "/compare" },
+  { labelKey: "nav.analytics", icon: ChartLineUp, href: "/analytics" },
+  { labelKey: "nav.alerts", icon: Bell, href: "/alerts" },
+  { labelKey: "nav.promos", icon: Tag, href: "/promos" },
 ];
 
-export default function TabsLayout({
+function TabsLayoutContent({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const { t } = useTranslation();
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
@@ -66,12 +70,12 @@ export default function TabsLayout({
             </span>
           </Link>
           <nav className="hidden items-center gap-1 sm:flex">
-            {TABS.map((tab) => {
+            {TAB_DEFS.map((tab) => {
               const TabIcon = tab.icon;
               const active = isActive(tab.href);
               return (
                 <Link
-                  key={tab.label}
+                  key={tab.labelKey}
                   href={tab.href}
                   aria-current={active ? "page" : undefined}
                   className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-bold transition active:scale-[0.97] ${
@@ -81,19 +85,22 @@ export default function TabsLayout({
                   }`}
                 >
                   <TabIcon size={16} weight="fill" />
-                  {tab.label}
+                  {t(tab.labelKey)}
                 </Link>
               );
             })}
           </nav>
-          <span className="flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-extrabold shadow sm:hidden">
-            🇪🇺→🇵🇭
-            <span
-              className="pulse-dot h-1.5 w-1.5 rounded-full bg-primary-dark"
-              aria-hidden
-            />
-            live
-          </span>
+          <div className="flex items-center gap-2 sm:hidden">
+            <span className="flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-extrabold shadow">
+              🇪🇺→🇵🇭
+              <span
+                className="pulse-dot h-1.5 w-1.5 rounded-full bg-primary-dark"
+                aria-hidden
+              />
+              {t("nav.live")}
+            </span>
+            <LanguageSelect />
+          </div>
         </div>
       </header>
       {/* Bottom padding clears the fixed mobile tab bar. lg+: sidebar + content. */}
@@ -144,16 +151,16 @@ export default function TabsLayout({
                   className="pulse-dot h-1.5 w-1.5 rounded-full bg-primary-light"
                   aria-hidden
                 />
-                live
+                {t("nav.live")}
               </span>
             </div>
             <nav aria-label="Main" className="flex flex-col gap-1.5">
-              {TABS.map((tab) => {
+              {TAB_DEFS.map((tab) => {
                 const TabIcon = tab.icon;
                 const active = isActive(tab.href);
                 return (
                   <Link
-                    key={tab.label}
+                    key={tab.labelKey}
                     href={tab.href}
                     aria-current={active ? "page" : undefined}
                     className={`flex items-center gap-2.5 rounded-sm px-4 py-2.5 text-sm font-extrabold transition active:scale-[0.98] ${
@@ -163,13 +170,16 @@ export default function TabsLayout({
                     }`}
                   >
                     <TabIcon size={18} weight="fill" />
-                    {tab.label}
+                    {t(tab.labelKey)}
                   </Link>
                 );
               })}
             </nav>
             {/* Page-owned controls. Hidden when empty. */}
             <SidebarSlotTarget className="flex flex-col gap-5 border-t border-white/15 pt-5 empty:hidden" />
+            <div className="border-t border-white/15 pt-5">
+              <LanguageSelect />
+            </div>
           </aside>
         )}
         <div
@@ -183,25 +193,28 @@ export default function TabsLayout({
             <div className="lg:flex lg:flex-1 lg:flex-col lg:rounded-[24px] lg:bg-surface-elevated lg:p-8">
               <nav
                 aria-label="Main"
-                className="mb-7 hidden items-center justify-end gap-1 lg:flex"
+                className="mb-7 hidden items-center justify-between lg:flex"
               >
-                {TABS.map((tab) => {
-                  const active = isActive(tab.href);
-                  return (
-                    <Link
-                      key={tab.label}
-                      href={tab.href}
-                      aria-current={active ? "page" : undefined}
-                      className={`rounded-full px-4 py-2 text-sm font-bold transition active:scale-[0.97] ${
-                        active
-                          ? "bg-primary text-[color:var(--lime)]"
-                          : "text-text-secondary hover:bg-surface"
-                      }`}
-                    >
-                      {tab.label}
-                    </Link>
-                  );
-                })}
+                <div className="flex items-center gap-1">
+                  {TAB_DEFS.map((tab) => {
+                    const active = isActive(tab.href);
+                    return (
+                      <Link
+                        key={tab.labelKey}
+                        href={tab.href}
+                        aria-current={active ? "page" : undefined}
+                        className={`rounded-full px-4 py-2 text-sm font-bold transition active:scale-[0.97] ${
+                          active
+                            ? "bg-primary text-[color:var(--lime)]"
+                            : "text-text-secondary hover:bg-surface"
+                        }`}
+                      >
+                        {t(tab.labelKey)}
+                      </Link>
+                    );
+                  })}
+                </div>
+                <LanguageSelect />
               </nav>
               {children}
             </div>
@@ -209,29 +222,28 @@ export default function TabsLayout({
             children
           )}
           <footer className="border-t border-border px-4 py-4 text-center text-xs text-text-tertiary sm:px-6 lg:mt-6 lg:border-0 lg:py-0">
-          © 2026 SulitSend · Independent comparison site, not a payment
-          institution ·{" "}
+          {t("footer.copyright")} ·{" "}
           <Link href="/about" className="underline hover:text-text-secondary">
-            About
+            {t("footer.about")}
           </Link>{" "}
           ·{" "}
           <Link
             href="/how-we-make-money"
             className="underline hover:text-text-secondary"
           >
-            How we make money
+            {t("footer.howWeMakeMoney")}
           </Link>{" "}
           ·{" "}
           <Link href="/terms" className="underline hover:text-text-secondary">
-            Terms
+            {t("footer.terms")}
           </Link>{" "}
           ·{" "}
           <Link href="/privacy" className="underline hover:text-text-secondary">
-            Privacy
+            {t("footer.privacy")}
           </Link>{" "}
           ·{" "}
           <Link href="/cookies" className="underline hover:text-text-secondary">
-            Cookies
+            {t("footer.cookies")}
           </Link>
           </footer>
         </div>
@@ -241,12 +253,12 @@ export default function TabsLayout({
         className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-surface pb-[max(env(safe-area-inset-bottom),10px)] pt-2 sm:hidden"
       >
         <div className="grid grid-cols-5">
-          {TABS.map((tab) => {
+          {TAB_DEFS.map((tab) => {
             const TabIcon = tab.icon;
             const active = isActive(tab.href);
             return (
               <Link
-                key={tab.label}
+                key={tab.labelKey}
                 href={tab.href}
                 aria-current={active ? "page" : undefined}
                 className={`flex flex-col items-center gap-0.5 py-1 text-[10px] font-extrabold transition active:scale-95 ${
@@ -254,7 +266,7 @@ export default function TabsLayout({
                 }`}
               >
                 <TabIcon size={22} weight={active ? "fill" : "regular"} />
-                {tab.label}
+                {t(tab.labelKey)}
                 <span
                   className={`h-1 w-1 rounded-full ${
                     active ? "bg-primary-dark" : "bg-transparent"
@@ -267,5 +279,17 @@ export default function TabsLayout({
         </div>
       </nav>
     </SidebarSlotProvider>
+  );
+}
+
+export default function TabsLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <I18nProvider>
+      <TabsLayoutContent>{children}</TabsLayoutContent>
+    </I18nProvider>
   );
 }

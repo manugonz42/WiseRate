@@ -12,10 +12,12 @@
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
     "@upstash/redis": "^1.38.0",
+    "i18next": "^23.7.6",
     "next": "^15.1.6",
     "posthog-js": "^1.396.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-i18next": "^14.0.5",
     "recharts": "^3.9.1"
   },
   "devDependencies": {

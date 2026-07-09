@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import { getQuotes } from "@/lib/services/rate";
 import { getHistory } from "@/lib/services/history";
 import { track } from "@/lib/analytics";
@@ -78,6 +80,7 @@ const sendURL = (q: TransferQuote): string | null => {
 };
 
 export default function HomePage() {
+  const { t } = useTranslation();
   const [amount, setAmount] = useState(DEFAULT_AMOUNT);
   const [quotes, setQuotes] = useState<QuotesResponse | null>(null);
   const [history, setHistory] = useState<HistoryResponse | null>(null);
@@ -101,7 +104,7 @@ export default function HomePage() {
         const q = await getQuotes(amount);
         if (!cancelled) setQuotes(q);
       } catch {
-        if (!cancelled) setError("Couldn't load rates. Try again.");
+        if (!cancelled) setError(t("home.loadError"));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -109,7 +112,7 @@ export default function HomePage() {
     return () => {
       cancelled = true;
     };
-  }, [amount, reloadKey]);
+  }, [amount, reloadKey, t]);
 
   const ranked = useMemo(() => {
     if (!quotes) return [];
@@ -161,7 +164,7 @@ export default function HomePage() {
             className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
           >
             <ArrowClockwise size={14} weight="bold" />
-            Retry
+            {t("home.retryButton")}
           </button>
         </div>
       )}
@@ -169,7 +172,7 @@ export default function HomePage() {
       {!initialLoading && !error && quotes && ranked.length === 0 && (
         <div className="rounded bg-surface p-8 text-center shadow">
           <p className="text-sm text-text-secondary">
-            We don&apos;t yet support {quotes.from} → {quotes.to} transfers.
+            {t("home.noSupport", {from: quotes.from, to: quotes.to})}
           </p>
         </div>
       )}
@@ -185,6 +188,7 @@ export default function HomePage() {
               extra={extra}
               providerCount={ranked.length}
               meterPct={meterPct}
+              t={t as TFunction}
             />
 
             <div className="flex gap-2" role="group" aria-label="Send amount">
@@ -207,7 +211,7 @@ export default function HomePage() {
               })}
             </div>
 
-            <Hero quotes={quotes} best={best} delta={delta} />
+            <Hero quotes={quotes} best={best} delta={delta} t={t} />
           </div>
 
           <div className="mt-8 flex flex-col gap-3">
@@ -229,13 +233,13 @@ export default function HomePage() {
               href="/compare"
               className="py-1 text-center text-sm font-extrabold text-primary-dark transition active:scale-[0.98]"
             >
-              See the full ranking ({ranked.length}) →
+              {t("home.seeFullRanking", {count: ranked.length})}
             </Link>
 
             <p className="text-center text-[11px] text-text-tertiary">
-              We may earn a commission — you pay the same.{" "}
+              {t("home.commissionDisclaimer")}{" "}
               <Link href="/how-we-make-money" className="underline">
-                How we make money
+                {t("footer.howWeMakeMoney")}
               </Link>
             </p>
           </div>
@@ -265,9 +269,9 @@ export default function HomePage() {
                 than average.
               </h2>
               <p className="mt-5 text-sm leading-relaxed text-bg/70">
-                We rank {ranked.length} providers live, every minute.
+                {t("home.rankProviders", {count: ranked.length})}
                 <br />
-                Today&apos;s rate: ₱{quotes.rate.rate.toFixed(2)}/€{" "}
+                {t("home.rateInfo", {rate: quotes.rate.rate.toFixed(2)})}{" "}
                 {delta && (
                   <span
                     className={`font-bold ${
@@ -349,26 +353,26 @@ export default function HomePage() {
             className={`transition-opacity ${loading ? "opacity-60" : "opacity-100"}`}
           >
             <p className="text-sm font-semibold text-text-secondary">
-              your family gets up to
+              {t("home.familyGetsUpTo")}
             </p>
-            <DesktopWinner q={best} extra={extra} />
+            <DesktopWinner q={best} extra={extra} t={t} />
             <div className="mt-3 flex flex-col gap-2.5">
               {ranked.slice(1, 5).map((q, i) => (
-                <DesktopRankRow key={q.id} q={q} rank={i + 2} />
+                <DesktopRankRow key={q.id} q={q} rank={i + 2} t={t} />
               ))}
             </div>
             <div className="mt-6 flex items-center justify-between gap-4 text-[11px] text-text-tertiary">
               <p>
-                We may earn a commission — you pay the same.{" "}
+                {t("home.commissionDisclaimer")}{" "}
                 <Link href="/how-we-make-money" className="underline">
-                  How we make money
+                  {t("footer.howWeMakeMoney")}
                 </Link>
               </p>
               <Link
                 href="/compare"
                 className="shrink-0 text-xs font-extrabold text-primary-dark transition active:scale-[0.98]"
               >
-                See all {ranked.length} →
+                {t("home.seeFullRanking", {count: ranked.length})}
               </Link>
             </div>
           </div>
@@ -380,7 +384,7 @@ export default function HomePage() {
 
 // lg+ winner card: lime hero with the top provider, its fee/speed, receive
 // amount, a peeking crown, and an embedded dark affiliate CTA (mockup).
-function DesktopWinner({ q, extra }: { q: TransferQuote; extra: number }) {
+function DesktopWinner({ q, extra, t }: { q: TransferQuote; extra: number; t: TFunction }) {
   const url = sendURL(q);
   const fast =
     q.deliveryEstimate.maxMinutes > 0 && q.deliveryEstimate.maxMinutes <= 60;
@@ -388,7 +392,7 @@ function DesktopWinner({ q, extra }: { q: TransferQuote; extra: number }) {
     "btn-pop mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary px-4 py-3.5 text-base font-extrabold";
   const label = (
     <>
-      Send with {q.providerName}
+      {t("home.sendWith", {provider: q.providerName})}
       <RocketLaunch size={18} weight="fill" />
     </>
   );
@@ -487,22 +491,24 @@ function SavingsCard({
   extra,
   providerCount,
   meterPct,
+  t,
 }: {
   extra: number;
   providerCount: number;
   meterPct: number | null;
+  t: TFunction;
 }) {
   return (
     <div className="rise flex items-center gap-4 rounded bg-primary p-5 text-bg">
       <div className="flex min-w-0 flex-1 flex-col">
         <span className="text-[11px] font-semibold uppercase tracking-wide opacity-70">
-          Best pick beats the average by
+          {t("home.beatAverage")}
         </span>
         <span className="tabular text-[28px] font-extrabold leading-tight tracking-tight text-primary-light">
           ₱{php.format(extra)}
         </span>
         <span className="text-xs opacity-70">
-          across {providerCount} providers right now 💪
+          {t("home.acrossProviders", {count: providerCount})}
         </span>
       </div>
       {meterPct !== null && (
@@ -519,7 +525,7 @@ function SavingsCard({
               {Math.round(meterPct * 100)}%
             </div>
           </div>
-          <span className="text-[10px] opacity-70">of 7-day high</span>
+          <span className="text-[10px] opacity-70">{t("home.of7DayHigh")}</span>
         </div>
       )}
     </div>
@@ -530,23 +536,25 @@ function Hero({
   quotes,
   best,
   delta,
+  t,
 }: {
   quotes: QuotesResponse;
   best: TransferQuote;
   delta: { value: number; pct: number } | null;
+  t: TFunction;
 }) {
   const animated = useCountUp(best.receiveAmount);
   const positive = delta ? delta.value >= 0 : null;
   return (
     <div className="flex flex-col items-center gap-1.5 text-center">
       <span className="text-[13px] font-semibold text-text-secondary">
-        your family gets up to
+        {t("home.familyGetsUpTo")}
       </span>
       <span className="tabular text-[46px] font-extrabold leading-none tracking-tight">
         ₱{php.format(animated)}
       </span>
       <span className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-xs text-text-secondary">
-        ₱{quotes.rate.rate.toFixed(2)}/€ · updated{" "}
+        {t("home.rateInfo", {rate: quotes.rate.rate.toFixed(2)})} · updated{" "}
         {relativeTime(quotes.rate.timestamp)}
         {positive !== null && delta && (
           <span
@@ -559,7 +567,7 @@ function Hero({
             ) : (
               <ArrowDown size={12} weight="bold" />
             )}
-            {Math.abs(delta.pct).toFixed(2)}% vs yesterday
+            {Math.abs(delta.pct).toFixed(2)}% {t("home.vsYesterday")}
           </span>
         )}
       </span>
