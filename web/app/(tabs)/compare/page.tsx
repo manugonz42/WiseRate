@@ -137,22 +137,34 @@ export default function ComparePage() {
     if (!data) return [];
     const q = debounced.trim().toLowerCase();
     const rows = data.quotes.filter(
-      (x) =>
-        // Only show providers that actually offer the selected delivery method.
-        // WU + TransferGo re-price per method; others only carry bankTransfer,
-        // so they drop out when a method they don't support is picked.
-        (!method || x.deliveryMethod === method) &&
-        (!q || x.providerName.toLowerCase().includes(q)),
+      (x) => {
+        // Method filter is inclusive: a row passes iff the quote's deliveryMethod
+        // matches the selection OR the provider's editorial profile lists it as
+        // a capability (even if the live price shown is for a different method).
+        let methodMatch = !method;
+        if (method && !methodMatch) {
+          methodMatch =
+            x.deliveryMethod === method ||
+            PROVIDERS[x.providerID]?.deliveryMethods?.includes(method);
+        }
+        return methodMatch && (!q || x.providerName.toLowerCase().includes(q));
+      },
     );
     return rows.sort(comparators[sort]);
   }, [data, sort, debounced, method]);
 
   // Quotes offering the selected method (ignores the search box). Best deal and
   // average are computed over this set so they never reference a provider the
-  // method filter just removed from the list.
+  // method filter just removed from the list. Same inclusive logic as filtered.
   const methodMatched = useMemo(() => {
     if (!data) return [];
-    return data.quotes.filter((q) => !method || q.deliveryMethod === method);
+    return data.quotes.filter((q) => {
+      if (!method) return true;
+      return (
+        q.deliveryMethod === method ||
+        PROVIDERS[q.providerID]?.deliveryMethods?.includes(method)
+      );
+    });
   }, [data, method]);
 
   // Best deal = highest receive amount among providers offering the method.
@@ -326,14 +338,24 @@ export default function ComparePage() {
             </thead>
             <tbody>
               {filtered.map((q) => (
-                <QuoteTableRow key={q.id} q={q} isBest={best?.id === q.id} />
+                <QuoteTableRow
+                  key={q.id}
+                  q={q}
+                  isBest={best?.id === q.id}
+                  selectedMethod={method}
+                />
               ))}
             </tbody>
           </table>
 
           <ul className="flex flex-col gap-3 md:hidden">
             {filtered.map((q) => (
-              <QuoteRow key={q.id} q={q} isBest={best?.id === q.id} />
+              <QuoteRow
+                key={q.id}
+                q={q}
+                isBest={best?.id === q.id}
+                selectedMethod={method}
+              />
             ))}
           </ul>
 
@@ -449,6 +471,32 @@ function SourceTag({ q }: { q: TransferQuote }) {
   );
 }
 
+// Tag shown on rows that are editorially capable of a method but the live price
+// shown is for bank transfer (not repriced per method).
+function EditorialMethodTag({
+  q,
+  selectedMethod,
+}: {
+  q: TransferQuote;
+  selectedMethod: MethodFilter;
+}) {
+  if (
+    !selectedMethod ||
+    q.deliveryMethod === selectedMethod ||
+    !PROVIDERS[q.providerID]?.deliveryMethods?.includes(selectedMethod)
+  ) {
+    return null;
+  }
+  return (
+    <span
+      title="This provider offers this method, but the live price shown is for a bank transfer"
+      className="shrink-0 rounded-full border border-border px-1.5 py-0.5 text-[10px] font-medium text-text-tertiary"
+    >
+      bank-transfer price
+    </span>
+  );
+}
+
 // "Promo" badge is per-kind: the provider's own first-transfer pricing is
 // distinct from a referral bonus for using our link — both notify the user
 // an offer exists without overloading one generic badge.
@@ -536,7 +584,15 @@ function TrustDots({ value }: { value: number }) {
   );
 }
 
-function QuoteTableRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
+function QuoteTableRow({
+  q,
+  isBest,
+  selectedMethod,
+}: {
+  q: TransferQuote;
+  isBest: boolean;
+  selectedMethod: MethodFilter;
+}) {
   const router = useRouter();
   const cell = `py-3 transition-colors ${
     isBest
@@ -560,6 +616,7 @@ function QuoteTableRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
           <PromoTag q={q} />
           <ReferralTag q={q} />
           <SourceTag q={q} />
+          <EditorialMethodTag q={q} selectedMethod={selectedMethod} />
           {isBest && (
             <span className="flex shrink-0 items-center gap-1 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-bold text-warning">
               <Star size={10} weight="fill" /> BEST DEAL
@@ -593,7 +650,15 @@ function QuoteTableRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
   );
 }
 
-function QuoteRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
+function QuoteRow({
+  q,
+  isBest,
+  selectedMethod,
+}: {
+  q: TransferQuote;
+  isBest: boolean;
+  selectedMethod: MethodFilter;
+}) {
   const router = useRouter();
   return (
     <li
@@ -615,6 +680,7 @@ function QuoteRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
             <PromoTag q={q} />
             <ReferralTag q={q} />
             <SourceTag q={q} />
+            <EditorialMethodTag q={q} selectedMethod={selectedMethod} />
             {isBest && (
               <span className="flex items-center gap-1 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-bold text-warning">
                 <Star size={10} weight="fill" /> BEST DEAL

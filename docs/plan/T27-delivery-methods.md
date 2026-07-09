@@ -22,10 +22,13 @@ Only Western Union and TransferGo re-price per method; every other quote is hard
 3. A candidate **works** iff the response is 200 AND `fee.total_fee_amount` or `exchange_rate.base_rate` differs from baseline.
 4. **STOP RULE:** if none works, write a dated "Part A failed — params tried, results" note in this file, skip to Part B, and do **not**: try other parameter names, inspect Remitly's website/JS, add headless-browser fetching, or guess numbers.
 
-If a candidate works:
-- Extend `remitly.ts` (`buildRequest`/`fetchRemitly`) with an optional `method?: DeliveryMethod` mapped to the working param (`cashPickup`→`CASH_PICKUP`, `mobileWallet`→`MOBILE_WALLET`; `bankTransfer`/undefined = today's request). Set the returned quote's `deliveryMethod` accordingly.
-- Pass `method` through in `quotes.ts` (`fetchRemitly(from, to, amount)` call site), like WU/TransferGo already do.
-- Commit one fixture per working method under `__fixtures__/` (naming pattern: `remitly.eur-php-1000.<method>.json`) + parser tests in `__tests__/remitly.test.ts` following the existing style.
+**Part A outcome (2026-07-09):** Failed. Remitly API does not change quote for any of the four parameters tried:
+- `delivery_method=CASH_PICKUP` — 2.99 fee, 69.67 rate, 71590 receive (no diff)
+- `delivery_method=MOBILE_WALLET` — 2.99 fee, 69.67 rate, 71590 receive (no diff)
+- `payout_method=CASH_PICKUP` — 2.99 fee, 69.67 rate, 71590 receive (no diff)
+- `payout_method=MOBILE_WALLET` — 2.99 fee, 69.67 rate, 71590 receive (no diff)
+
+All return identical results to baseline. No further parameter exploration; skipping to Part B.
 
 ## Part B — inclusive filter (always do this)
 Binding decisions for `web/app/(tabs)/compare/page.tsx`:
