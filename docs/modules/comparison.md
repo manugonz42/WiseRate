@@ -37,6 +37,7 @@ Full list of provider quotes for the user-entered amount, sortable and filterabl
 - Promo badge is labeled by kind — "FIRST TRANSFER" (provider's own new-customer pricing, `PromoInfo.kind`) vs. "VIA OUR LINK: {amount}" (our affiliate referral bonus, editorial `providers.ts` `referralPromo`) — both shown together when both exist, no per-user eligibility yet ✅ (web, T22); referral data stays empty until a real affiliate deal is signed
 - Quotes not fetched from the provider's own endpoint carry a source tag: "via Wise" (`wise-comparisons`) or "mock" ✅ (web); banks with no referral/affiliate program are dropped entirely rather than tagged (T22 bank audit, see [exchange-rate](../services/exchange-rate.md))
 - Empty filter result shows a reset state ✅ (web): "no providers match" + reset-search when a search yields nothing, or "no providers offer this method yet" + show-all-methods when the method filter empties the list
+- Amount field can be fully cleared; blur on empty resets to €100 ✅ (web)
 
 ## Platform notes
 - **iOS**: `WiseRate/Features/Comparison/ComparisonView.swift`

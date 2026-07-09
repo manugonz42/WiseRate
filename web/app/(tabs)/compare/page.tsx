@@ -82,6 +82,7 @@ const sendURL = (q: TransferQuote): string | null => {
 
 export default function ComparePage() {
   const [amount, setAmount] = useState(1000);
+  const [amountInput, setAmountInput] = useState("1000");
   const [data, setData] = useState<QuotesResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -201,8 +202,21 @@ export default function ComparePage() {
           <input
             type="number"
             min={1}
-            value={amount}
-            onChange={(e) => setAmount(Math.max(1, Number(e.target.value) || 0))}
+            value={amountInput}
+            onChange={(e) => {
+              setAmountInput(e.target.value);
+              const parsed = Number(e.target.value);
+              if (!isNaN(parsed) && parsed >= 1) {
+                setAmount(parsed);
+              }
+            }}
+            onBlur={() => {
+              const parsed = Number(amountInput);
+              if (isNaN(parsed) || parsed < 1) {
+                setAmountInput("100");
+                setAmount(100);
+              }
+            }}
             className="tabular w-full bg-transparent text-xl font-bold outline-none"
             aria-label="Send amount in EUR"
           />
