@@ -13,7 +13,7 @@ Global rules for every task below (in addition to CLAUDE.md):
 
 - [x] [T23 — Compare amount input clearable](T23-amount-input.md) (item 5)
 - [ ] [T24 — Best deal inline, drop banner](T24-best-deal-inline.md) (item 6)
-- [ ] [T25 — Podium data coherence](T25-podium-coherence.md) (item 8)
+- [x] [T25 — Podium data coherence](T25-podium-coherence.md) (item 8)
 - [ ] [T26 — Analytics: unlock 3M/6M/1Y](T26-analytics-unlock.md) (item 11)
 - [ ] [T27 — Delivery-method fidelity](T27-delivery-methods.md) (item 7)
 - [ ] [T28 — Promos hub + search + my provider accounts](T28-promos-hub.md) (items 9, 10)
