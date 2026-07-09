@@ -21,6 +21,11 @@ export default function SettingsPage() {
     setMounted(true);
   }, []);
 
+  const handleReplayIntro = () => {
+    window.localStorage.removeItem("sulitsend.onboarded.v1");
+    window.location.reload();
+  };
+
   const handleDefaultAmountChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -124,13 +129,17 @@ export default function SettingsPage() {
           </h2>
           <div className="space-y-2">
             <button
+              onClick={handleReplayIntro}
+              className="w-full rounded px-4 py-2 bg-surface hover:bg-surface-hover text-text-primary font-medium text-sm transition"
+            >
+              {t("settings.replayIntro")}
+            </button>
+            <button
               onClick={handleClearData}
               className="w-full rounded px-4 py-2 bg-surface hover:bg-surface-hover text-text-primary font-medium text-sm transition"
             >
               {t("settings.clearLocalData")}
             </button>
-            {/* Placeholder for "Replay intro" (T31) */}
-            {/* <button className="w-full rounded px-4 py-2 ...">Replay intro</button> */}
           </div>
         </div>
         <div className="flex flex-wrap gap-2 text-xs pt-3 border-t border-border">

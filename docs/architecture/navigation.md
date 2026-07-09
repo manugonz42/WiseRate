@@ -58,6 +58,6 @@ Scheme: `wiserate://`
 - **Web**: file-based routes under `app/` (Next.js App Router).
 - **Android**: `NavHost` + sealed `Screen` class mirroring `Route` enum.
 
-## Web gap
+## Web onboarding (resolved)
 
-Web prototype lacks onboarding — it drops straight into Home with hardcoded EUR→PHP. Onboarding has to be added when migrating off `index.html`.
+Web shows a dismissable 3-step modal on first visit to any `(tabs)` route (not blocking): value prop + preferences + promos. Deep links never wall visitors off. Set via `localStorage["sulitsend.onboarded.v1"]`; reset button in Settings. See [onboarding](../modules/onboarding.md) Web section.

@@ -18,6 +18,7 @@ import {
 import { LanguageSelect } from "@/components/LanguageSelect";
 import { SettingsButton } from "@/components/SettingsButton";
 import { I18nProvider } from "@/components/I18nProvider";
+import { Onboarding } from "@/components/Onboarding";
 
 type Tab = {
   labelKey: string;
@@ -284,6 +285,7 @@ function TabsLayoutContent({
           })}
         </div>
       </nav>
+      <Onboarding />
     </SidebarSlotProvider>
   );
 }

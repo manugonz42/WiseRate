@@ -11,7 +11,8 @@
 - App boot — gates entry to the tab bar while `UserProfile.hasCompletedOnboarding = false`
 
 ## Purpose
-4-step intro that personalizes the app: welcome → features → currency pair → notification permission.
+**iOS/Android:** 4-step intro that personalizes the app: welcome → features → currency pair → notification permission.
+**Web:** lightweight 3-step dismissable modal (not a blocking gate): value prop → preferences (language + default amount) → promos explanation (with provider selection). Deep-linked visitors never see a wall.
 
 ## Inputs (data dependencies)
 - `OnboardingViewModel.currentPage`, `.selectedSendCurrency`, `.selectedReceiveCurrency`, `.notificationsRequested`
@@ -36,8 +37,8 @@
 - No analytics fired before consent (analytics consent is part of page 4)
 
 ## Platform notes
-- **iOS**: `WiseRate/Features/Onboarding/OnboardingView.swift` — currently auto-completes in `WiseRateApp.swift`; that line must be removed when this module ships.
-- **Web**: not yet implemented — `web/app/onboarding/page.tsx` (route guarded by the same flag in `localStorage`/IDB)
+- **iOS**: `WiseRate/Features/Onboarding/OnboardingView.swift` — currently auto-completes in `WiseRateApp.swift`; that line must be removed when this module ships. 4-step flow, blocking gate.
+- **Web**: `web/components/Onboarding.tsx` (modal, client-effect only, dismissed via `localStorage["sulitsend.onboarded.v1"]`). Mounted from `(tabs)/layout.tsx`. 3 steps: value prop (with monetization link) → preferences (language + default amount, reused from Settings) → promos (ProviderAccounts for first-transfer opt-in). Reset via Settings "Replay intro" button. See [navigation](../architecture/navigation.md) "Web gap" (resolved).
 - **Android**: `android/.../features/onboarding/OnboardingScreen.kt`
 
 ## Open questions

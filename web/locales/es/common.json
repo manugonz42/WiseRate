@@ -60,5 +60,18 @@
   "settings.whichProviders": "¿Qué proveedores ya usas?",
   "settings.dataPrivacy": "Datos y privacidad",
   "settings.clearLocalData": "Borrar datos locales",
-  "settings.clearDataConfirm": "¿Estás seguro de que deseas borrar todos los datos locales? Esto no se puede deshacer."
+  "settings.clearDataConfirm": "¿Estás seguro de que deseas borrar todos los datos locales? Esto no se puede deshacer.",
+  "settings.replayIntro": "Repetir intro",
+  "onboarding.valueProp": "Compara tasas en vivo",
+  "onboarding.valueDesc": "SulitSend compara precios de transferencia EUR→PHP en vivo entre proveedores ahora mismo.",
+  "onboarding.monetizationLine": "Podemos ganar una comisión — tú pagas lo mismo.",
+  "onboarding.monetizationLink": "Cómo ganamos dinero",
+  "onboarding.preferences": "Tus preferencias",
+  "onboarding.preferencesDesc": "Elige tu idioma y establece una cantidad de envío predeterminada.",
+  "onboarding.promos": "Elegibilidad de promociones",
+  "onboarding.promosDesc": "Cuéntanos qué proveedores ya usas para poder mostrar qué promociones de primer envío aún aplican.",
+  "onboarding.skip": "Omitir",
+  "onboarding.back": "Atrás",
+  "onboarding.next": "Siguiente",
+  "onboarding.done": "Listo"
 }

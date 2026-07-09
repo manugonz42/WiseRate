@@ -61,5 +61,18 @@
   "settings.whichProviders": "Which providers do you already use?",
   "settings.dataPrivacy": "Data & privacy",
   "settings.clearLocalData": "Clear local data",
-  "settings.clearDataConfirm": "Are you sure you want to clear all local data? This cannot be undone."
+  "settings.clearDataConfirm": "Are you sure you want to clear all local data? This cannot be undone.",
+  "settings.replayIntro": "Replay intro",
+  "onboarding.valueProp": "Compare live rates",
+  "onboarding.valueDesc": "SulitSend compares live EUR→PHP transfer prices across providers right now.",
+  "onboarding.monetizationLine": "We may earn a commission — you pay the same.",
+  "onboarding.monetizationLink": "How we make money",
+  "onboarding.preferences": "Your preferences",
+  "onboarding.preferencesDesc": "Choose your language and set a default send amount.",
+  "onboarding.promos": "Promo eligibility",
+  "onboarding.promosDesc": "Tell us which providers you already use so we can show which first-transfer promos still apply.",
+  "onboarding.skip": "Skip",
+  "onboarding.back": "Back",
+  "onboarding.next": "Next",
+  "onboarding.done": "Done"
 }
