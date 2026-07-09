@@ -34,7 +34,7 @@ Web `lg+` (desktop) swaps the podium layout for a dashboard: the layout's dark s
 - Hero shows receive amount for the best provider at the selected chip amount, with count-up on change
 - Rate line: mid-market rate + last-updated timestamp (relative, "2m ago") + day-over-day delta arrow (success/error color from [design-system](../architecture/design-system.md))
 - Ink savings card: best-vs-average extra ₱ + ring meter of today's rate within the 7D range (hidden if history unavailable)
-- Podium: top 3 by `receiveAmount` desc (order 2-1-3, winner center with crown + "+₱X EXTRA" badge); ranks 4–5 as compact rows; non-`direct` quotes keep their source attribution
+- Podium: top 3 by `receiveAmount` desc (order 2-1-3, winner center with crown + "+₱X EXTRA" badge). Each column shows: receive amount, medal + provider name (🥇/🥈/🥉), fee line (`€0 fee` or formatted fee). Ranks 4–5 as compact rows; non-`direct` quotes keep their source attribution
 - Fewer than 3 quotes → plain ranked rows, no podium
 - Sponsored slot renders 0–1 offer; never inline-ad spam
 - Loading state shows skeleton placeholders, not spinners; amount switches keep stale data visible (dimmed) instead of re-skeletoning

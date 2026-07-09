@@ -617,11 +617,14 @@ function PodiumCol({
           {php.format(q.receiveAmount)}
         </span>
         <span
+          className={`text-[10px] font-bold truncate max-w-full ${winner ? "text-primary" : "text-text-secondary"}`}
+        >
+          {place === 1 ? "🥇" : place === 2 ? "🥈" : "🥉"} {q.providerName}
+        </span>
+        <span
           className={`text-[10px] font-bold ${winner ? "text-primary" : "text-text-secondary"}`}
         >
-          {place === 1 && `${q.providerName} · ${q.fee === 0 ? "€0 fee" : eur.format(q.fee)}`}
-          {place === 2 && `🥈 ${eur.format(q.fee)} fee`}
-          {place === 3 && `🥉 ${q.providerName}`}
+          {q.fee === 0 ? "€0 fee" : `${eur.format(q.fee)} fee`}
         </span>
         {q.source !== "direct" && (
           <span className="text-[9px] font-semibold opacity-60">
