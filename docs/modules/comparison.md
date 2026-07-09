@@ -28,7 +28,7 @@ Full list of provider quotes for the user-entered amount, sortable and filterabl
 
 ## Acceptance criteria
 - Sort options: best rate, lowest fee, fastest, most trusted, cheapest total — exactly 5 ✅ (web)
-- Best-deal banner pinned to top showing the winning quote's receive amount + savings vs avg ✅ (web) — amber (`--warning`), matching mobile; the winning row is also highlighted so the emphasis survives scrolling. See [web](../platforms/web.md#desktop-layout-web-is-not-a-phone-screen).
+- Best deal is indicated inline on its row (background + BEST DEAL badge), no separate banner ✅ (web)
 - Desktop (`md+`) renders rows as a table (Provider · Recipient gets · Fee · Speed · Trust); below `md` falls back to stacked cards ✅ (web)
 - Delivery-method selector (single-select: All / Bank transfer / Cash pickup / Mobile wallet); changing it re-fetches with `method=` ✅ (web). When a specific method is selected the list shows **only providers that offer it** — Western Union + TransferGo re-price per method, so a non-bank method narrows the list to sources that actually support it; the rest carry only a bank-transfer quote and drop out. Best-deal banner and average are computed over the method-matching set. See [exchange-rate](../services/exchange-rate.md#delivery-method-support-per-source). Multi-select "All toggles the rest off" simplified to single-select on web.
 - Search filters provider names live (debounce 150ms) ✅ (web)

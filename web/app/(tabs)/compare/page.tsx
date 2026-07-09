@@ -163,14 +163,6 @@ export default function ComparePage() {
     );
   }, [methodMatched]);
 
-  const avgReceive = useMemo(() => {
-    if (methodMatched.length === 0) return 0;
-    return (
-      methodMatched.reduce((s, q) => s + q.receiveAmount, 0) /
-      methodMatched.length
-    );
-  }, [methodMatched]);
-
   return (
     <main className="mx-auto min-h-[100dvh] max-w-4xl px-4 pb-16 pt-8 sm:px-6">
       <header className="mb-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
@@ -270,30 +262,6 @@ export default function ComparePage() {
         ))}
       </div>
 
-      {/* Best-deal banner — amber, matches the mobile app's semantic treatment */}
-      {best && !loading && !error && (
-        <div className="mb-4 flex items-center gap-3 rounded border border-warning/20 bg-warning/[0.08] px-4 py-3">
-          <Star size={22} weight="fill" className="shrink-0 text-warning" />
-          <div className="min-w-0 flex-1">
-            <div className="text-[11px] font-semibold uppercase tracking-wide text-warning">
-              Best deal
-            </div>
-            <div className="truncate text-sm font-semibold">
-              {best.providerName}
-              <span className="font-normal text-text-secondary">
-                {" "}
-                saves you ~₱{php.format(Math.max(0, best.receiveAmount - avgReceive))} vs. the average
-              </span>
-            </div>
-          </div>
-          <div className="text-right">
-            <div className="tabular text-lg font-extrabold text-success">
-              ₱{php.format(best.receiveAmount)}
-            </div>
-            <div className="text-xs text-text-tertiary">recipient gets</div>
-          </div>
-        </div>
-      )}
 
       {/* States */}
       {loading && <SkeletonList />}
@@ -592,7 +560,11 @@ function QuoteTableRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
           <PromoTag q={q} />
           <ReferralTag q={q} />
           <SourceTag q={q} />
-          {isBest && <Star size={14} weight="fill" className="shrink-0 text-warning" />}
+          {isBest && (
+            <span className="flex shrink-0 items-center gap-1 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-bold text-warning">
+              <Star size={10} weight="fill" /> BEST DEAL
+            </span>
+          )}
         </div>
       </td>
       <td className={`${cell} tabular px-3 text-right text-[15px] font-bold`}>
@@ -645,7 +617,7 @@ function QuoteRow({ q, isBest }: { q: TransferQuote; isBest: boolean }) {
             <SourceTag q={q} />
             {isBest && (
               <span className="flex items-center gap-1 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-bold text-warning">
-                <Star size={10} weight="fill" /> BEST
+                <Star size={10} weight="fill" /> BEST DEAL
               </span>
             )}
           </div>
