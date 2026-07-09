@@ -1,10 +1,10 @@
 # Module: Analytics
 
-**Status:** iOS ◐ · Web ✅ (7D/30D live; ≥3M gated) · Android ☐
+**Status:** iOS ◐ · Web ✅ (all ranges) · Android ☐
 
 ## Dependencies
-- **Reads:** [exchange-rate](../services/exchange-rate.md), [subscriptions](../services/subscriptions.md) (gate ≥3M ranges), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)
-- **Navigates to:** [alerts](alerts.md) ("Set alert at this rate" prefills), [premium](premium.md) (when hitting range gate)
+- **Reads:** [exchange-rate](../services/exchange-rate.md), [data-model](../architecture/data-model.md), [design-system](../architecture/design-system.md)
+- **Navigates to:** [alerts](alerts.md) ("Set alert at this rate" prefills)
 - **Future:** —
 
 ## Used by
@@ -22,11 +22,14 @@ Historical rate trends for the user's preferred pair — high/low/avg, % change,
 - Tap "Set alert at this rate" → open Alerts pre-filled
 
 ## Acceptance criteria
-- Timeframe chips: 7D, 30D, 3M, 6M, 1Y (≥3M gated behind Premium — see [subscriptions](../services/subscriptions.md)); 24H only once an intraday source exists ([exchange-rate](../services/exchange-rate.md) known limitations)
+- Timeframe chips: 7D, 30D, 3M, 6M, 1Y (all unlocked); 24H only once an intraday source exists ([exchange-rate](../services/exchange-rate.md) known limitations)
 - Stats card shows: high, low, average, % change over the selected range
 - Line chart spans the full width with axis labels; tap-to-scrub shows value tooltip
 - Empty state when historical data unavailable for the pair
 - Loading shimmer matches chart shape
+
+## Decision record
+**2026-07-09:** Web unlocks all timeframe ranges (3M/6M/1Y). The 3M/6M/1Y lock was a Phase 2 iOS Premium feature backport. Web has no Premium gate (Phase 5+), the data source (Frankfurter/ECB) is free at any range, and `HistoryRange`/`rangeToDateWindow` already support all five ranges. iOS retains its own gating — that's a per-platform decision, revisit in Phase 2.
 
 ## Platform notes
 - **iOS**: `WiseRate/Features/Analytics/AnalyticsView.swift` (chart component referenced but not yet implemented — needs Swift Charts)

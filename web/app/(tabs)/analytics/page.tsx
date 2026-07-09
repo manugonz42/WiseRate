@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Bell, Lock, TrendDown, TrendUp } from "@phosphor-icons/react/dist/ssr";
+import { Bell, TrendDown, TrendUp } from "@phosphor-icons/react/dist/ssr";
 import {
   Line,
   LineChart,
@@ -19,7 +19,6 @@ import type { HistoryRange, HistoryResponse } from "@/lib/models/types";
 
 const SEND_AMOUNT = 500;
 const RANGES: HistoryRange[] = ["7D", "30D", "3M", "6M", "1Y"];
-const LOCKED_RANGES = new Set<HistoryRange>(["3M", "6M", "1Y"]);
 
 export default function AnalyticsPage() {
   const router = useRouter();
@@ -63,8 +62,7 @@ export default function AnalyticsPage() {
   }, [stats]);
 
   const handleRangeChange = (r: HistoryRange) => {
-    if (LOCKED_RANGES.has(r) || r === range) return;
-    // Props per docs/services/analytics.md: { from, to } transition, not { range }.
+    if (r === range) return;
     track("analytics.timeframe_changed", { from: range, to: r });
     setRange(r);
   };
@@ -95,23 +93,17 @@ export default function AnalyticsPage() {
 
       <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
         {RANGES.map((r) => {
-          const locked = LOCKED_RANGES.has(r);
           const active = range === r;
           return (
             <button
               key={r}
               onClick={() => handleRangeChange(r)}
-              title={locked ? "Premium — coming soon" : undefined}
-              aria-disabled={locked}
-              className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+              className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                 active
                   ? "bg-primary text-primary-light"
-                  : locked
-                    ? "cursor-not-allowed bg-surface text-text-tertiary"
-                    : "bg-surface text-text-secondary hover:bg-surface-hover active:scale-[0.97]"
+                  : "bg-surface text-text-secondary hover:bg-surface-hover active:scale-[0.97]"
               }`}
             >
-              {locked && <Lock size={10} weight="bold" />}
               {r}
             </button>
           );
