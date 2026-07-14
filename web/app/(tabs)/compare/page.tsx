@@ -15,7 +15,10 @@ import {
   type TransferQuote,
 } from "@/lib/models/types";
 import { BROKER_THRESHOLD_EUR, BROKERS, amountBucket } from "@/lib/brokers";
-import { PROVIDERS } from "@/lib/data/providers";
+import { PROVIDERS, providerSendURL } from "@/lib/data/providers";
+import { php, eur } from "@/lib/format";
+import { ProviderIcon as SharedProviderIcon } from "@/components/ProviderIcon";
+import { PromoBadge } from "@/components/PromoBadge";
 import { ArrowClockwise, ArrowSquareOut, Circle, Star } from "@phosphor-icons/react/dist/ssr";
 
 // Shape rule for this page: surfaces and inputs use the 16px token
@@ -29,12 +32,12 @@ type SortOption =
   | "mostTrusted"
   | "cheapestTotal";
 
-const SORTS: { id: SortOption; label: string }[] = [
-  { id: "bestRate", label: "Best rate" },
-  { id: "lowestFee", label: "Lowest fee" },
-  { id: "fastest", label: "Fastest" },
-  { id: "mostTrusted", label: "Most trusted" },
-  { id: "cheapestTotal", label: "Cheapest total" },
+const SORTS: { id: SortOption; labelKey: string }[] = [
+  { id: "bestRate", labelKey: "compare.sortBestRate" },
+  { id: "lowestFee", labelKey: "compare.sortLowestFee" },
+  { id: "fastest", labelKey: "compare.sortFastest" },
+  { id: "mostTrusted", labelKey: "compare.sortMostTrusted" },
+  { id: "cheapestTotal", labelKey: "compare.sortCheapestTotal" },
 ];
 
 // Delivery-method filter. `null` = no filter (best quote per provider).
@@ -43,11 +46,11 @@ const SORTS: { id: SortOption; label: string }[] = [
 // row whose deliveryMethod differs from the selected one is tagged below.
 type MethodFilter = DeliveryMethod | null;
 
-const METHODS: { id: MethodFilter; label: string }[] = [
-  { id: null, label: "All methods" },
-  { id: "bankTransfer", label: "Bank transfer" },
-  { id: "cashPickup", label: "Cash pickup" },
-  { id: "mobileWallet", label: "Mobile wallet" },
+const METHODS: { id: MethodFilter; labelKey: string }[] = [
+  { id: null, labelKey: "compare.methodAll" },
+  { id: "bankTransfer", labelKey: "compare.methodBank" },
+  { id: "cashPickup", labelKey: "compare.methodCash" },
+  { id: "mobileWallet", labelKey: "compare.methodWallet" },
 ];
 
 // Unknown delivery times (maxMinutes === 0) sort last.
@@ -64,23 +67,12 @@ const comparators: Record<SortOption, (a: TransferQuote, b: TransferQuote) => nu
   cheapestTotal: (a, b) => totalCost(a) - totalCost(b),
 };
 
-const php = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
-const eur = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "EUR",
-  maximumFractionDigits: 2,
-});
-
 const speedLabel = (q: TransferQuote) =>
   q.deliveryEstimate.maxMinutes === 0 ? "n/a" : q.deliveryEstimate.label;
 
 // Outbound URL for the row's "Send" CTA (docs/modules/comparison.md Outputs).
-// Only providers with an editorial profile carry one; affiliateURL stays null
-// until agreements are signed, falling back to the provider's site.
-const sendURL = (q: TransferQuote): string | null => {
-  const p = PROVIDERS[q.providerID];
-  return p ? (p.affiliateURL ?? p.websiteURL) : null;
-};
+const sendURL = (q: TransferQuote): string | null =>
+  providerSendURL(q.providerID);
 
 export default function ComparePage() {
   const { t } = useTranslation();
@@ -88,7 +80,7 @@ export default function ComparePage() {
   const [amountInput, setAmountInput] = useState("1000");
   const [data, setData] = useState<QuotesResponse | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(false);
   const [sort, setSort] = useState<SortOption>("bestRate");
   const [method, setMethod] = useState<MethodFilter>(null);
   const [search, setSearch] = useState("");
@@ -127,13 +119,13 @@ export default function ComparePage() {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    setError(null);
+    setError(false);
     const timeoutId = setTimeout(async () => {
       try {
         const res = await getQuotes(amountRef.current, method ?? undefined);
         if (!cancelled) setData(res);
       } catch {
-        if (!cancelled) setError(t("compare.loadError"));
+        if (!cancelled) setError(true);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -142,7 +134,7 @@ export default function ComparePage() {
       cancelled = true;
       clearTimeout(timeoutId);
     };
-  }, [amount, method, reloadKey, t]);
+  }, [amount, method, reloadKey]);
 
   const filtered = useMemo(() => {
     if (!data) return [];
@@ -187,7 +179,7 @@ export default function ComparePage() {
   }, [methodMatched]);
 
   return (
-    <main className="mx-auto min-h-[100dvh] max-w-4xl px-4 pb-16 pt-8 sm:px-6">
+    <main className="mx-auto min-h-[100dvh] w-full max-w-4xl px-4 pb-16 pt-8 sm:px-6 lg:min-h-0 lg:p-0">
       <header className="mb-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <div>
           <h1 className="text-[28px] font-extrabold leading-none tracking-tight">
@@ -200,11 +192,14 @@ export default function ComparePage() {
         {data && (
           <div className="text-right">
             <div className="text-[11px] font-medium uppercase tracking-wide text-text-tertiary">
-              Mid-market
+              {t("compare.midMarket")}
             </div>
             <div className="tabular text-sm font-semibold">
               ₱{data.rate.rate.toFixed(2)}
-              <span className="font-normal text-text-secondary"> per €1</span>
+              <span className="font-normal text-text-secondary">
+                {" "}
+                {t("compare.perEur")}
+              </span>
             </div>
           </div>
         )}
@@ -238,7 +233,7 @@ export default function ComparePage() {
         </label>
         <input
           type="text"
-          placeholder="Search providers…"
+          placeholder={t("compare.searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full rounded bg-surface px-4 py-3 text-sm outline-none placeholder:text-text-tertiary focus:ring-1 focus:ring-primary"
@@ -249,7 +244,7 @@ export default function ComparePage() {
           re-price; other providers keep their bank-transfer quote for now). */}
       <div className="mb-3">
         <div className="mb-1.5 text-[11px] font-medium uppercase tracking-wide text-text-tertiary">
-          Delivery method
+          {t("compare.deliveryMethod")}
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1">
           {METHODS.map((m) => (
@@ -258,11 +253,11 @@ export default function ComparePage() {
               onClick={() => handleMethodChange(m.id)}
               className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
                 method === m.id
-                  ? "bg-accent text-primary-light"
+                  ? "bg-accent text-primary-light lg:bg-primary lg:text-[color:var(--lime)]"
                   : "bg-surface text-text-secondary hover:bg-surface-hover"
               }`}
             >
-              {m.label}
+              {t(m.labelKey)}
             </button>
           ))}
         </div>
@@ -276,11 +271,11 @@ export default function ComparePage() {
             onClick={() => handleSortChange(s.id)}
             className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
               sort === s.id
-                ? "bg-primary text-primary-light"
+                ? "bg-primary text-primary-light lg:text-[color:var(--lime)]"
                 : "bg-surface text-text-secondary hover:bg-surface-hover"
             }`}
           >
-            {s.label}
+            {t(s.labelKey)}
           </button>
         ))}
       </div>
@@ -290,13 +285,15 @@ export default function ComparePage() {
       {loading && <SkeletonList />}
       {error && !loading && (
         <div className="rounded bg-surface p-8 text-center">
-          <p className="mb-4 text-sm text-text-secondary">{error}</p>
+          <p className="mb-4 text-sm text-text-secondary">
+            {t("compare.loadError")}
+          </p>
           <button
             onClick={() => setReloadKey((k) => k + 1)}
             className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
           >
             <ArrowClockwise size={14} weight="bold" />
-            Retry
+            {t("compare.retryButton")}
           </button>
         </div>
       )}
@@ -393,7 +390,7 @@ function BrokerCard({ amount }: { amount: number }) {
   return (
     <section
       aria-label="Specialist brokers"
-      className="mt-8 rounded border border-accent/30 bg-surface-elevated p-5"
+      className="mt-8 rounded border border-accent/30 bg-surface-elevated p-5 lg:border-border lg:bg-bg"
     >
       <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-accent">
         Specialist broker — quote via registration/phone
@@ -439,28 +436,14 @@ function BrokerCard({ amount }: { amount: number }) {
   );
 }
 
+// Thin adapter over the shared component: Compare renders circular chips.
 function ProviderIcon({ q, size }: { q: TransferQuote; size: number }) {
-  if (!q.providerIcon) {
-    // Direct sources don't ship a logo URL (only the Wise CDN does).
-    return (
-      <span
-        style={{ width: size, height: size }}
-        className="flex shrink-0 items-center justify-center rounded-full bg-primary/20 text-xs font-bold text-primary"
-        aria-hidden
-      >
-        {q.providerName.charAt(0)}
-      </span>
-    );
-  }
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={q.providerIcon}
-      alt=""
-      width={size}
-      height={size}
-      style={{ width: size, height: size }}
-      className="shrink-0 rounded-full bg-surface shadow object-contain"
+    <SharedProviderIcon
+      icon={q.providerIcon}
+      name={q.providerName}
+      size={size}
+      shape="circle"
     />
   );
 }
@@ -513,14 +496,11 @@ function EditorialMethodTag({
 // an offer exists without overloading one generic badge.
 function PromoTag({ q }: { q: TransferQuote }) {
   if (!q.isPromotion || !q.promo) return null;
-  const label = q.promo.kind === "referral" ? "REFERRAL" : "FIRST TRANSFER";
   return (
-    <span
+    <PromoBadge
+      kind={q.promo.kind}
       title={q.promo.conditions ?? q.promo.description}
-      className="shrink-0 rounded-full bg-success/15 px-1.5 py-0.5 text-[10px] font-bold text-success"
-    >
-      {label}
-    </span>
+    />
   );
 }
 
@@ -605,9 +585,11 @@ function QuoteTableRow({
   selectedMethod: MethodFilter;
 }) {
   const router = useRouter();
+  // lg+: the panel shell follows Home's ink/lime palette, so the best-deal
+  // highlight swaps its amber tint for olive/lime there (mobile keeps amber).
   const cell = `py-3 transition-colors ${
     isBest
-      ? "border-y border-warning/30 bg-warning/[0.06] first:border-l-2 first:border-l-warning first:pl-2.5 last:border-r last:border-r-warning/30"
+      ? "border-y border-warning/30 bg-warning/[0.06] first:border-l-2 first:border-l-warning first:pl-2.5 last:border-r last:border-r-warning/30 lg:border-[rgba(123,164,40,0.4)] lg:bg-[rgba(200,241,53,0.18)] lg:first:border-l-primary-dark lg:last:border-r-[rgba(123,164,40,0.4)]"
       : "border-b border-border-subtle"
   }`;
   return (
@@ -629,7 +611,7 @@ function QuoteTableRow({
           <SourceTag q={q} />
           <EditorialMethodTag q={q} selectedMethod={selectedMethod} />
           {isBest && (
-            <span className="flex shrink-0 items-center gap-1 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-bold text-warning">
+            <span className="flex shrink-0 items-center gap-1 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-bold text-warning lg:bg-primary lg:text-[color:var(--lime)]">
               <Star size={10} weight="fill" /> BEST DEAL
             </span>
           )}

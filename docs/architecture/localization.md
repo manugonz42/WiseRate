@@ -40,13 +40,13 @@ Avoid leaking implementation details (`home.tableRow1`) — keys describe meanin
 |---|---|
 | iOS | String Catalog (`Localizable.xcstrings`) |
 | Android | `res/values{-es,-tl}/strings.xml` |
-| Web | `i18next` with JSON files under `locales/<code>/<namespace>.json` — client-side, scoped to `(tabs)/` screens only |
+| Web | `i18next` with JSON files under `locales/<code>/<namespace>.json` — client-side; provider at the root layout, translated copy on `(tabs)/` screens + `ConsentBanner` |
 
 ### Web mechanism (i18next)
 
-**Init:** `web/lib/i18n.ts` initializes i18next with three JSON resources (en/es/tl), with locale resolution: `localStorage["sulitsend.locale.v1"]` → `navigator.language` prefix (`es*`→es, `tl`/`fil*`→tl) → `en`.
+**Init:** `web/lib/i18n.ts` initializes i18next (server and client) with three JSON resources (en/es/tl) and `lng: "en"`, so SSR output is deterministic English. After hydration, `I18nProvider` switches to the resolved locale: `localStorage["sulitsend.locale.v1"]` (via the persistence service) → `navigator.language` prefix (`es*`→es, `tl`/`fil*`→tl) → `en`. This keeps server and first-client render identical (no hydration mismatch) at the cost of a brief English first paint for es/tl users.
 
-**Provider:** `web/components/I18nProvider.tsx` wraps `(tabs)/layout.tsx`. Pages outside `(tabs)/` remain English.
+**Provider:** `web/components/I18nProvider.tsx` wraps the root `app/layout.tsx`, so `ConsentBanner` is localized on every route. Translated page copy still lives only on `(tabs)/` screens; pages outside `(tabs)/` remain English.
 
 **Localized surfaces (exhaustive):**
 - `(tabs)/layout.tsx` — tab labels (Home, Compare, Analytics, Alerts, Promos), footer links, live pill label
@@ -74,7 +74,9 @@ Changes persist in `localStorage["sulitsend.locale.v1"]` and re-render via react
 
 ## Pluralization & interpolation
 
-Use ICU MessageFormat where the platform supports it. iOS String Catalog and i18next both do. Android falls back to `getQuantityString`.
+Use ICU MessageFormat where the platform supports it. iOS String Catalog supports it natively; i18next needs the `i18next-icu` plugin (not installed). Android falls back to `getQuantityString`.
+
+**Web today:** default i18next interpolation — placeholders are **double-brace** `{{var}}` (single braces render as literal text). Plurals are not yet used in web keys.
 
 Example key + values:
 ```

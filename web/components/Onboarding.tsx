@@ -6,34 +6,23 @@ import { useTranslation } from "react-i18next";
 import { CaretLeft, CaretRight, X } from "@phosphor-icons/react/dist/ssr";
 import { LanguageSelect } from "@/components/LanguageSelect";
 import ProviderAccounts from "@/components/ProviderAccounts";
-import {
-  getDefaultAmount,
-  setDefaultAmount,
-} from "@/lib/services/persistence";
+import { DefaultAmountField } from "@/components/DefaultAmountField";
+import { getOnboarded, setOnboarded } from "@/lib/services/persistence";
 
-const ONBOARDING_FLAG = "sulitsend.onboarded.v1";
 const STEPS = 3;
 
 export function Onboarding() {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState(1);
-  const [defaultAmount, setDefaultAmountState] = useState<string>("");
   const [mounted, setMounted] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (!mounted && typeof window !== "undefined") {
-      const hasOnboarded = window.localStorage.getItem(ONBOARDING_FLAG);
-      if (!hasOnboarded) {
-        setIsOpen(true);
-        const stored = getDefaultAmount();
-        setDefaultAmountState(stored ? String(stored) : "");
-      }
-      setMounted(true);
-    }
-  }, [mounted]);
+    setIsOpen(!getOnboarded());
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -72,27 +61,12 @@ export function Onboarding() {
 
   const close = () => {
     setIsOpen(false);
-    window.localStorage.setItem(ONBOARDING_FLAG, "1");
+    setOnboarded();
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       close();
-    }
-  };
-
-  const handleDefaultAmountChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = e.target.value;
-    setDefaultAmountState(value);
-    if (value === "" || value === "0") {
-      setDefaultAmount(null);
-    } else {
-      const num = parseInt(value, 10);
-      if (!Number.isNaN(num) && num >= 1) {
-        setDefaultAmount(num);
-      }
     }
   };
 
@@ -187,15 +161,7 @@ export function Onboarding() {
                   >
                     {t("settings.defaultAmount")}
                   </label>
-                  <input
-                    id="onboarding-amount"
-                    type="number"
-                    value={defaultAmount}
-                    onChange={handleDefaultAmountChange}
-                    placeholder="1000"
-                    className="w-full rounded border border-border bg-surface px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                    min="1"
-                  />
+                  <DefaultAmountField id="onboarding-amount" />
                 </div>
               </div>
             </div>
@@ -213,9 +179,7 @@ export function Onboarding() {
                 {t("onboarding.promosDesc")}
               </p>
 
-              <ProviderAccounts
-                label={t("settings.whichProviders") || "Which providers do you already use?"}
-              />
+              <ProviderAccounts />
             </div>
           </div>
         )}

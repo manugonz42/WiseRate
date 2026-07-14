@@ -49,7 +49,7 @@ Three platforms, one shared spec, four layers each: **View** (SwiftUI / Compose 
 
 ## Design tokens & locales
 
-Dark theme only. Canonical tokens: [`docs/architecture/design-system.md`](docs/architecture/design-system.md). Changing a token = update the spec **and** every platform copy. Locales: `en` (default), `es`, `tl` — see [`docs/architecture/localization.md`](docs/architecture/localization.md); never commit machine-translated `tl` (the landing page carries a documented, deliberate exception).
+Pistacho light theme (web is the canonical implementation; iOS/Android still carry the legacy dark theme until their re-skin). Canonical tokens: [`docs/architecture/design-system.md`](docs/architecture/design-system.md). Changing a token = update the spec **and** every platform copy. Locales: `en` (default), `es`, `tl` — see [`docs/architecture/localization.md`](docs/architecture/localization.md); never commit machine-translated `tl` (the landing page carries a documented, deliberate exception).
 
 ## Sequencing for new work
 

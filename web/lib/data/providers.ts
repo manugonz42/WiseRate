@@ -456,6 +456,13 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
   },
 };
 
+// Outbound URL for send/claim CTAs — affiliateURL stays null until agreements
+// are signed, falling back to the provider's site; null when we know neither.
+export function providerSendURL(providerID: string): string | null {
+  const p = PROVIDERS[providerID];
+  return p ? (p.affiliateURL ?? (p.websiteURL || null)) : null;
+}
+
 export function genericProviderDetail(id: string, name: string): ProviderDetail {
   return {
     id,

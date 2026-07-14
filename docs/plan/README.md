@@ -8,7 +8,7 @@ Global rules for every task below (in addition to CLAUDE.md):
 - Touch only `web/` and `docs/` files the task names. Never `WiseRate/`, `android/`, `landing/`, `WiseRate-Web/`.
 - No new npm dependencies except where a task names them (only T29: `i18next`, `react-i18next`).
 - Never invent facts, promo amounts, fees, or provider capabilities — render only data from APIs or `providers.ts`.
-- Spec first, then code (CLAUDE.md rule); UI copy says SulitSend; dark theme tokens only.
+- Spec first, then code (CLAUDE.md rule); UI copy says SulitSend; design-system (Pistacho) tokens only.
 - Gate per task: `npm test && npm run build && npm run lint` + the task's Playwright check (recipe below). One commit per task, message = task title. Never push.
 
 - [x] [T23 — Compare amount input clearable](T23-amount-input.md) (item 5)

@@ -17,7 +17,6 @@ import {
 } from "@/components/SidebarSlot";
 import { LanguageSelect } from "@/components/LanguageSelect";
 import { SettingsButton } from "@/components/SettingsButton";
-import { I18nProvider } from "@/components/I18nProvider";
 import { Onboarding } from "@/components/Onboarding";
 
 type Tab = {
@@ -38,7 +37,7 @@ const TAB_DEFS: Tab[] = [
   { labelKey: "nav.promos", icon: Tag, href: "/promos" },
 ];
 
-function TabsLayoutContent({
+export default function TabsLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -49,11 +48,15 @@ function TabsLayoutContent({
     pathname === href || pathname.startsWith(`${href}/`);
 
   // Home gets the wide split-hero desktop shell (docs/modules/home.md redesign):
-  // an oversized ink hero panel + a light panel whose nav sits top-right. Other
-  // tabs keep the narrow sticky sidebar (nav inside it). Mobile is identical for
-  // all tabs. Palette 3 lime (#c8f135 / icon #f4ff1f) is scoped here via vars so
-  // it never touches the token-driven mobile view.
+  // an oversized ink hero panel + a light panel whose nav sits top-right.
+  // Compare/Analytics/Alerts reuse the light panel + top nav (no ink hero, no
+  // sidebar); Promos/Settings keep the narrow sticky sidebar. Mobile is
+  // identical for all tabs. Palette 3 lime (#c8f135 / icon #f4ff1f) is scoped
+  // here via vars so it never touches the token-driven mobile view.
   const isHome = pathname === "/home";
+  const hasTopNav =
+    isHome ||
+    ["/compare", "/analytics", "/alerts"].some((href) => isActive(href));
   const limeVars = {
     "--lime": "#c8f135",
     "--lime-icon": "#f4ff1f",
@@ -108,9 +111,9 @@ function TabsLayoutContent({
       </header>
       {/* Bottom padding clears the fixed mobile tab bar. lg+: sidebar + content. */}
       <div
-        style={isHome ? limeVars : undefined}
+        style={hasTopNav ? limeVars : undefined}
         className={
-          isHome
+          hasTopNav
             ? "pb-24 sm:pb-0 lg:mx-auto lg:flex lg:min-h-[100dvh] lg:max-w-[1180px] lg:items-stretch lg:gap-4 lg:px-4 lg:py-4"
             : "pb-24 sm:pb-0 lg:mx-auto lg:flex lg:min-h-[100dvh] lg:max-w-6xl lg:items-start lg:gap-6 lg:px-6 lg:pb-8 lg:pt-6"
         }
@@ -134,7 +137,7 @@ function TabsLayoutContent({
             {/* Home teleports its hero (headline / chips / savings ring) here. */}
             <SidebarSlotTarget className="mt-9 flex flex-1 flex-col empty:hidden" />
           </aside>
-        ) : (
+        ) : hasTopNav ? null : (
           <aside
             aria-label="Sidebar"
             className="sticky top-6 hidden max-h-[calc(100dvh-3rem)] w-[280px] shrink-0 flex-col gap-5 overflow-y-auto rounded bg-primary p-5 shadow-elevated lg:flex"
@@ -188,12 +191,12 @@ function TabsLayoutContent({
         )}
         <div
           className={
-            isHome
+            hasTopNav
               ? "lg:flex lg:min-w-0 lg:flex-1 lg:flex-col"
               : "lg:min-w-0 lg:flex-1"
           }
         >
-          {isHome ? (
+          {hasTopNav ? (
             <div className="lg:flex lg:flex-1 lg:flex-col lg:rounded-[24px] lg:bg-surface-elevated lg:p-8">
               <nav
                 aria-label="Main"
@@ -287,17 +290,5 @@ function TabsLayoutContent({
       </nav>
       <Onboarding />
     </SidebarSlotProvider>
-  );
-}
-
-export default function TabsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <I18nProvider>
-      <TabsLayoutContent>{children}</TabsLayoutContent>
-    </I18nProvider>
   );
 }

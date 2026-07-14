@@ -1,8 +1,11 @@
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
+import { getStoredLocale, setStoredLocale } from "@/lib/services/persistence";
 import en from "@/locales/en/common.json";
 import es from "@/locales/es/common.json";
 import tl from "@/locales/tl/common.json";
+
+export type Locale = "en" | "es" | "tl";
 
 const resources = {
   en: { common: en },
@@ -10,11 +13,12 @@ const resources = {
   tl: { common: tl },
 };
 
-const getInitialLanguage = () => {
+// Stored locale → browser language → en. Client-only; SSR always resolves en.
+export const resolveLocale = (): Locale => {
   if (typeof window === "undefined") return "en";
 
-  const stored = localStorage.getItem("sulitsend.locale.v1");
-  if (stored && ["en", "es", "tl"].includes(stored)) return stored;
+  const stored = getStoredLocale();
+  if (stored === "en" || stored === "es" || stored === "tl") return stored;
 
   const navLang = navigator.language;
   if (navLang.startsWith("es")) return "es";
@@ -23,20 +27,24 @@ const getInitialLanguage = () => {
   return "en";
 };
 
-if (typeof window !== "undefined" && !i18next.isInitialized) {
+// Initialized on server and client with `en` so SSR output and the first
+// client render always match; I18nProvider switches to the resolved locale
+// after hydration (docs/architecture/localization.md).
+if (!i18next.isInitialized) {
   i18next.use(initReactI18next).init({
     resources,
-    lng: getInitialLanguage(),
+    lng: "en",
     fallbackLng: "en",
     ns: ["common"],
     defaultNS: "common",
     interpolation: { escapeValue: false },
+    initImmediate: false,
   });
 }
 
-export function setLocale(code: "en" | "es" | "tl") {
+export function setLocale(code: Locale) {
   if (typeof window === "undefined") return;
-  localStorage.setItem("sulitsend.locale.v1", code);
+  setStoredLocale(code);
   i18next.changeLanguage(code);
 }
 

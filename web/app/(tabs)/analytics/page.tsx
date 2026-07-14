@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { Bell, TrendDown, TrendUp } from "@phosphor-icons/react/dist/ssr";
 import {
   Line,
@@ -22,6 +23,7 @@ const RANGES: HistoryRange[] = ["7D", "30D", "3M", "6M", "1Y"];
 
 export default function AnalyticsPage() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [range, setRange] = useState<HistoryRange>("7D");
   const [history, setHistory] = useState<HistoryResponse | null>(null);
@@ -72,11 +74,11 @@ export default function AnalyticsPage() {
   const hasData = !loading && !error && history && history.rates.length > 0;
 
   return (
-    <main className="mx-auto min-h-[100dvh] max-w-4xl px-4 pb-16 pt-8 sm:px-6">
+    <main className="mx-auto min-h-[100dvh] w-full max-w-4xl px-4 pb-16 pt-8 sm:px-6 lg:min-h-0 lg:p-0">
       <header className="mb-5 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-[28px] font-extrabold leading-none tracking-tight">
-            Analytics
+            {t("analytics.title")}
           </h1>
           <p className="mt-1.5 text-sm text-text-secondary">
             EUR → PHP rate trends.

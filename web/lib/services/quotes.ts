@@ -17,6 +17,17 @@ import { fetchTransferGo } from "./providers/transfergo";
 import { fetchCurrencyFair } from "./providers/currencyfair";
 import { getCached, setCached } from "./cache";
 
+// During static prerender, provider fetches (no-store) throw Next's
+// DYNAMIC_SERVER_USAGE. That's an expected control-flow signal, not a real
+// source failure — the page falls back gracefully — so keep it out of logs.
+function isPrerenderSignal(reason: unknown): boolean {
+  return (
+    typeof reason === "object" &&
+    reason !== null &&
+    (reason as { digest?: string }).digest === "DYNAMIC_SERVER_USAGE"
+  );
+}
+
 export interface AggregatedQuotes {
   rate: Rate;
   quotes: TransferQuote[];
@@ -120,7 +131,7 @@ export async function getAggregatedQuotes(
   if (cmp.status === "fulfilled") {
     midRate = cmp.value.rate.rate;
     for (const q of filterExcludedProviders(cmp.value.quotes)) byProvider.set(q.providerID, q);
-  } else {
+  } else if (!isPrerenderSignal(cmp.reason)) {
     console.error("[quotes] wise comparisons failed:", cmp.reason);
   }
 
@@ -137,7 +148,8 @@ export async function getAggregatedQuotes(
     currencyfair.status === "fulfilled" ? currencyfair.value : null,
   ];
   for (const r of [wise, wu, remitly, transfergo, currencyfair]) {
-    if (r.status === "rejected") console.error("[quotes] direct source failed:", r.reason);
+    if (r.status === "rejected" && !isPrerenderSignal(r.reason))
+      console.error("[quotes] direct source failed:", r.reason);
   }
 
   for (const dq of directs) {

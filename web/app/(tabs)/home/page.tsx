@@ -8,7 +8,9 @@ import { getQuotes } from "@/lib/services/rate";
 import { getHistory } from "@/lib/services/history";
 import { getDefaultAmount } from "@/lib/services/persistence";
 import { track } from "@/lib/analytics";
-import { PROVIDERS } from "@/lib/data/providers";
+import { providerSendURL } from "@/lib/data/providers";
+import { php, eur } from "@/lib/format";
+import { ProviderIcon as SharedProviderIcon } from "@/components/ProviderIcon";
 import type {
   HistoryResponse,
   QuotesResponse,
@@ -25,13 +27,6 @@ import { SidebarSlot } from "@/components/SidebarSlot";
 // Preset chip amounts — default €200 (docs/modules/home.md).
 const AMOUNTS = [100, 200, 500, 1000];
 const DEFAULT_AMOUNT = 200;
-
-const php = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
-const eur = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "EUR",
-  maximumFractionDigits: 2,
-});
 
 // "2m ago" / "3h ago" — computed at render time, no ticking interval (T04 scope).
 function relativeTime(iso: string): string {
@@ -75,10 +70,8 @@ function useCountUp(target: number, duration = 600): number {
 }
 
 // Outbound URL for the winner CTA — same fallback chain as Compare.
-const sendURL = (q: TransferQuote): string | null => {
-  const p = PROVIDERS[q.providerID];
-  return p ? (p.affiliateURL ?? p.websiteURL) : null;
-};
+const sendURL = (q: TransferQuote): string | null =>
+  providerSendURL(q.providerID);
 
 // Find the chip closest to a value; ties → lower value.
 const getInitialChip = (stored: number | null): number => {
@@ -101,7 +94,7 @@ export default function HomePage() {
   const [quotes, setQuotes] = useState<QuotesResponse | null>(null);
   const [history, setHistory] = useState<HistoryResponse | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
 
   // Read default amount from localStorage on mount.
@@ -117,16 +110,17 @@ export default function HomePage() {
       .catch(() => setHistory(null));
   }, []);
 
+  // Error copy resolves at render time so a language switch never re-fetches.
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    setError(null);
+    setError(false);
     (async () => {
       try {
         const q = await getQuotes(amount);
         if (!cancelled) setQuotes(q);
       } catch {
-        if (!cancelled) setError(t("home.loadError"));
+        if (!cancelled) setError(true);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -134,7 +128,7 @@ export default function HomePage() {
     return () => {
       cancelled = true;
     };
-  }, [amount, reloadKey, t]);
+  }, [amount, reloadKey]);
 
   const ranked = useMemo(() => {
     if (!quotes) return [];
@@ -180,7 +174,9 @@ export default function HomePage() {
 
       {error && !loading && (
         <div className="rounded bg-surface p-8 text-center shadow">
-          <p className="mb-4 text-sm text-text-secondary">{error}</p>
+          <p className="mb-4 text-sm text-text-secondary">
+            {t("home.loadError")}
+          </p>
           <button
             onClick={() => setReloadKey((k) => k + 1)}
             className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
@@ -280,15 +276,24 @@ export default function HomePage() {
                 loading ? "opacity-60" : "opacity-100"
               }`}
             >
+              {/* home.sendHomeHeadline is a 3-line key; the middle line gets
+                  the lime highlight in every locale. */}
               <h2 className="text-[40px] font-extrabold leading-[1.06] tracking-tight">
-                Send €{amount} home.
-                <br />
-                Get{" "}
-                <span style={{ color: "var(--lime)" }}>
-                  ₱{php.format(extra)} more
-                </span>
-                <br />
-                than average.
+                {(() => {
+                  const [line1, line2, line3] = t("home.sendHomeHeadline", {
+                    amount,
+                    extra: php.format(extra),
+                  }).split("\n");
+                  return (
+                    <>
+                      {line1}
+                      <br />
+                      <span style={{ color: "var(--lime)" }}>{line2}</span>
+                      <br />
+                      {line3}
+                    </>
+                  );
+                })()}
               </h2>
               <p className="mt-5 text-sm leading-relaxed text-bg/70">
                 {t("home.rankProviders", {count: ranked.length})}
@@ -675,13 +680,14 @@ function PodiumCol({
 // otherwise. Chunky pop shadow per design-system.md. `invert` flips to a
 // lime-on-ink treatment for the desktop sidebar.
 function SendCTA({ q, invert = false }: { q: TransferQuote; invert?: boolean }) {
+  const { t } = useTranslation();
   const url = sendURL(q);
   const className = `btn-pop flex w-full items-center justify-center gap-2 rounded px-4 py-3.5 text-base font-extrabold ${
     invert ? "bg-primary-light text-primary" : "bg-primary text-primary-light"
   }`;
   const label = (
     <>
-      Send with {q.providerName}
+      {t("home.sendWith", { provider: q.providerName })}
       <RocketLaunch size={18} weight="fill" />
     </>
   );
@@ -707,28 +713,10 @@ function SendCTA({ q, invert = false }: { q: TransferQuote; invert?: boolean }) 
   );
 }
 
+// Thin adapter over the shared component: Home renders square tiles.
 function ProviderIcon({ q, size }: { q: TransferQuote; size: number }) {
-  if (!q.providerIcon) {
-    return (
-      <span
-        style={{ width: size, height: size }}
-        className="flex shrink-0 items-center justify-center rounded-sm bg-surface text-sm font-extrabold text-primary shadow"
-        aria-hidden
-      >
-        {q.providerName.charAt(0)}
-      </span>
-    );
-  }
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={q.providerIcon}
-      alt=""
-      width={size}
-      height={size}
-      style={{ width: size, height: size }}
-      className="shrink-0 rounded-sm bg-surface object-contain shadow"
-    />
+    <SharedProviderIcon icon={q.providerIcon} name={q.providerName} size={size} />
   );
 }
 

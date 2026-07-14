@@ -1,67 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import ProviderAccounts from "@/components/ProviderAccounts";
 import { LanguageSelect } from "@/components/LanguageSelect";
-import {
-  getDefaultAmount,
-  setDefaultAmount,
-} from "@/lib/services/persistence";
+import { DefaultAmountField } from "@/components/DefaultAmountField";
+import { clearAll, clearOnboarded } from "@/lib/services/persistence";
 
 export default function SettingsPage() {
   const { t } = useTranslation();
-  const [defaultAmount, setDefaultAmountState] = useState<string>("");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const stored = getDefaultAmount();
-    setDefaultAmountState(stored ? String(stored) : "");
-    setMounted(true);
-  }, []);
 
   const handleReplayIntro = () => {
-    window.localStorage.removeItem("sulitsend.onboarded.v1");
+    clearOnboarded();
     window.location.reload();
-  };
-
-  const handleDefaultAmountChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = e.target.value;
-    setDefaultAmountState(value);
-    if (value === "" || value === "0") {
-      setDefaultAmount(null);
-    } else {
-      const num = parseInt(value, 10);
-      if (!Number.isNaN(num) && num >= 1) {
-        setDefaultAmount(num);
-      }
-    }
   };
 
   const handleClearData = () => {
-    if (
-      !window.confirm(
-        t("settings.clearDataConfirm") ||
-          "Are you sure you want to clear all local data?"
-      )
-    ) {
+    if (!window.confirm(t("settings.clearDataConfirm"))) {
       return;
     }
-    const keys: string[] = [];
-    for (let i = 0; i < window.localStorage.length; i++) {
-      const key = window.localStorage.key(i);
-      if (key && key.startsWith("sulitsend.")) {
-        keys.push(key);
-      }
-    }
-    keys.forEach((key) => window.localStorage.removeItem(key));
+    clearAll();
     window.location.reload();
   };
-
-  if (!mounted) return null;
 
   return (
     <div className="mx-auto max-w-2xl space-y-6 px-4 py-6 sm:px-6 lg:px-0">
@@ -92,15 +52,7 @@ export default function SettingsPage() {
             {t("settings.defaultAmountDesc")}
           </p>
         </div>
-        <input
-          id="defaultAmount"
-          type="number"
-          value={defaultAmount}
-          onChange={handleDefaultAmountChange}
-          placeholder="1000"
-          className="w-full rounded border border-border bg-surface px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          min="1"
-        />
+        <DefaultAmountField id="defaultAmount" />
       </div>
 
       {/* Your provider accounts */}
@@ -116,9 +68,7 @@ export default function SettingsPage() {
             </Link>
           </p>
         </div>
-        <ProviderAccounts
-          label={t("settings.whichProviders") || "Which providers do you already use?"}
-        />
+        <ProviderAccounts />
       </div>
 
       {/* Data & privacy */}

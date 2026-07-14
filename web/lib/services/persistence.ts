@@ -5,10 +5,13 @@
 
 import type { FavoriteProvider, RateAlert } from "@/lib/models/types";
 
+const KEY_PREFIX = "sulitsend.";
 const ALERTS_KEY = "sulitsend.alerts.v1";
 const FAVORITES_KEY = "sulitsend.favorites.v1";
 const PROVIDER_ACCOUNTS_KEY = "sulitsend.providerAccounts.v1";
 const DEFAULT_AMOUNT_KEY = "sulitsend.defaultAmount.v1";
+const ONBOARDED_KEY = "sulitsend.onboarded.v1";
+const LOCALE_KEY = "sulitsend.locale.v1";
 
 function readList<T>(key: string): T[] {
   if (typeof window === "undefined") return [];
@@ -76,7 +79,9 @@ export function getDefaultAmount(): number | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.localStorage.getItem(DEFAULT_AMOUNT_KEY);
-    return raw ? parseInt(raw, 10) : null;
+    if (!raw) return null;
+    const n = parseInt(raw, 10);
+    return Number.isFinite(n) ? n : null;
   } catch {
     return null;
   }
@@ -89,4 +94,49 @@ export function setDefaultAmount(n: number | null): void {
   } else {
     window.localStorage.setItem(DEFAULT_AMOUNT_KEY, String(n));
   }
+}
+
+export function getOnboarded(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(ONBOARDED_KEY) !== null;
+  } catch {
+    return false;
+  }
+}
+
+export function setOnboarded(): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(ONBOARDED_KEY, "1");
+}
+
+export function clearOnboarded(): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(ONBOARDED_KEY);
+}
+
+export function getStoredLocale(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return window.localStorage.getItem(LOCALE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function setStoredLocale(code: string): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(LOCALE_KEY, code);
+}
+
+// Wipes every sulitsend.* key — prefix scan on purpose, so feature-owned keys
+// (e.g. the alerts banner dismissal) are cleared too.
+export function clearAll(): void {
+  if (typeof window === "undefined") return;
+  const keys: string[] = [];
+  for (let i = 0; i < window.localStorage.length; i++) {
+    const key = window.localStorage.key(i);
+    if (key && key.startsWith(KEY_PREFIX)) keys.push(key);
+  }
+  keys.forEach((key) => window.localStorage.removeItem(key));
 }

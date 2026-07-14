@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import {
   Bell,
   Info,
@@ -65,6 +66,7 @@ export default function AlertsPage() {
 
 function AlertsPageContent() {
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
 
   const [alerts, setAlerts] = useState<RateAlert[]>([]);
   const [quotes, setQuotes] = useState<QuotesResponse | null>(null);
@@ -173,10 +175,10 @@ function AlertsPageContent() {
   };
 
   return (
-    <main className="mx-auto min-h-[100dvh] max-w-4xl px-4 pb-16 pt-8 sm:px-6">
+    <main className="mx-auto min-h-[100dvh] w-full max-w-4xl px-4 pb-16 pt-8 sm:px-6 lg:min-h-0 lg:p-0">
       <header className="mb-5">
         <h1 className="text-[28px] font-extrabold leading-none tracking-tight">
-          Alerts
+          {t("alerts.title")}
         </h1>
         <p className="mt-1.5 text-sm text-text-secondary">
           Get notified when EUR → PHP crosses your target.

@@ -33,7 +33,7 @@ Searchable hub of all known promos (API-detected first-transfer + editorial refe
 - First-transfer value: `+₱{promoReceiveAmount − receiveAmount} on €1,000` (only when `baseIsStandard = true`; else show `promoReceiveAmount` with no-standard-price caveat)
 - Referral value: the `amount` string verbatim
 - All tabs (including Promos) render on mobile, tablet, and desktop without horizontal scroll or overflow
-- Dark theme tokens only; UI copy says SulitSend
+- Design-system (Pistacho) tokens only; UI copy says SulitSend; all user-visible copy via `promos.*` i18n keys (localization.md lists this page as a localized surface)
 
 ## Platform notes
 - **Web**: `web/app/(tabs)/promos/page.tsx`
