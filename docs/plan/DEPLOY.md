@@ -2,6 +2,13 @@
 
 Two separate Vercel projects, one repo. Root domain is the landing marketing site; the app lives on a subdomain.
 
+## Status (2026-07-14)
+
+Executed: Cloudflare DNS (3 records, DNS-only), both Vercel projects created (team `grow-glow`), domains verified, prod env vars set, www→apex 308 redirect, `rootDirectory` set, first production deploys live. Pending:
+
+- [ ] **Git integration**: connect GitHub in Vercel ([login connections](https://vercel.com/account/login-connections)), then `vercel git connect https://github.com/manugonz42/WiseRate.git --yes` from `web/` and `landing/`. Until then pushes don't auto-deploy — and CLI deploys from subdirs now fail (rootDirectory is set); use git integration or `vercel link --repo`.
+- [ ] Post-deploy checks below. Note: this dev machine's network (FortiGuard DNS filter) blocks `sulitsend.com` as a newly-registered domain (resolves to 208.91.112.55) — global DNS verified correct via DoH; run the curls from another network or request recategorization at fortiguard.com/webfilter.
+
 ## 1. Vercel projects
 
 | Project | Root directory | Domain | Framework preset |
