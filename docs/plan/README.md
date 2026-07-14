@@ -74,7 +74,7 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 - [ ] Verify SulitSend: EUIPO + both-store search (domain **bought 2026-07-14**, Cloudflare; `.app` deferred until first revenue)
 - [ ] Contact email: create real address (e.g. `hello@sulitsend.com` forwarding) → set `CONTACT_EMAIL` in `web/lib/site.ts` (after T17)
 - [ ] Legal review now also covers `/terms` draft (after T17)
-- [ ] Send affiliate/broker applications following `SolicitarAfiliados.md` (repo root) — after deploy, the live site is the credential
+- [ ] Send affiliate/broker applications — step-by-step execution plan: [afiliados-ejecucion.md](afiliados-ejecucion.md) (research reference: `SolicitarAfiliados.md`, repo root); after deploy, the live site is the credential
 - [x] `git push` of the T17–T22 work + merged `main` — pushed 2026-07-14 (`021c967`)
 - [ ] Affiliate signups: Wise (Partnerize), Remitly, WU, TransferGo, CurrencyFair → paste real affiliate URLs (`web/lib/data/providers.ts`); once any deal includes a referral bonus, populate `referralPromo` too (T22)
 - [ ] Broker introducer applications: TorFX, Currencies Direct, OFX → confirm EUR→PHP coverage; replace URLs in `web/lib/brokers.ts`

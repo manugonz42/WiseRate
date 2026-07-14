@@ -21,15 +21,17 @@
 | 15 | Moneytrans | Directo | CPA | $0.50-3 por corredor | Variable | Baja | 🟡 (Tier B) |
 | 16 | Small World / Sigue | — | — | — | — | — | 🔴 (Ceased 2026) |
 | 17 | Revolut | — | — | — | — | — | 🔴 (No viable) |
+| 18 | CurrencyFair | Partnerize | CPA/Rev | A negociar (no publicado) | 180 días | Alta | ⬜ |
 
 **Archivos a modificar tras obtener URLs:**
 - Proveedores → `web/lib/data/providers.ts` → campo `affiliateURL`
 - Brokers → `web/lib/brokers.ts` → campo `url`
 
-**Estado actual (2026-07-08):**
+**Estado actual (2026-07-14):**
+- ➡️ **Plan operativo de solicitudes (paso a paso, plantillas, orden por red): [`docs/plan/afiliados-ejecucion.md`](docs/plan/afiliados-ejecucion.md)** — este doc queda como referencia de investigación
 - ✅ T19 completado: Instarem, MoneyGram, WorldRemit, Xoom, Ria, Paysend, XE, Moneytrans están en `providers.ts` (perfiles escritos)
 - ✅ Brokers (TorFX, Currencies Direct, OFX) listos en `web/lib/brokers.ts`
-- ⏳ Las URLs de afiliados se pegan aquí conforme se aprueben las solicitudes
+- ⏳ Las URLs de afiliados se pegan conforme se aprueben las solicitudes
 - 🔴 Small World / Sigue: ceased 2026, no integrar
 - 🔴 Revolut: bot wall + OAuth, no viable para API quotes
 
@@ -641,29 +643,43 @@ Revolut tiene un programa de referrals pero está orientado a cuentas personales
 
 ---
 
+## 18. CURRENCYFAIR
+
+> 🟢 **Tier A en T22** (único proveedor con quote directo al monto exacto en el comparador) · Investigado 2026-07-14
+
+### Cómo funciona el programa
+
+CurrencyFair paga un **CPA** (o rev-share opcional) por cada cliente referido. La comisión concreta no está publicada — se negocia con el **account manager dedicado** que asignan tras la aprobación.
+
+### Cuánto se gana
+
+| Concepto | Detalle |
+|---|---|
+| **CPA** | "Competitivo", a negociar con el account manager |
+| **Rev-share** | Opcional (margen por cliente pequeño, avisan ellos) |
+| **Umbral** | El cliente referido debe transferir ≥ **€1.000** (Minimum Transfer Threshold, personal) |
+| **Atribución** | 180 días desde el click |
+| **Payout** | Mes vencido, el día 25 · Bank wire, o PayPal si tu cuenta es USD/AUD/GBP/EUR |
+
+### Requisitos
+
+| Requisito | Detalle |
+|---|---|
+| **General** | URL viva recomendada; evalúan caso por caso (~3 días hábiles) |
+| **Permitido** | Banners, text links, vídeo embebido, contenido en redes; API para afiliados aprobados |
+| **Ojo** | No confundir con el refer-a-friend de consumidores (€50 — bonus de usuario, no CPA de afiliado) |
+
+### Registro
+
+1. https://www.currencyfair.com/affiliate-program → signup vía **Partnerize** (misma cuenta que Wise/WU/Instarem; campaign ID `1011l6561`)
+2. Esperar aprobación (~3 días hábiles)
+3. Negociar CPA con el account manager asignado
+
+---
+
 ## Checklist de seguimiento
 
-| Proveedor | Fecha solicitud | Estado | URL obtenida | Fecha pegada en código | Notas |
-|---|---|---|---|---|---|
-| Wise | | ⬜ Pendiente | | | |
-| Remitly | | ⬜ Pendiente | | | |
-| Western Union | | ⬜ Pendiente | | | |
-| TransferGo | | ⬜ Pendiente | | | |
-| Instarem | | ⬜ Pendiente | | | |
-| MoneyGram | | ⬜ Pendiente | | | |
-| TorFX | | ⬜ Pendiente | | | Broker |
-| Currencies Direct | | ⬜ Pendiente | | | Broker |
-| OFX | | ⬜ Pendiente | | | Broker |
-| WorldRemit | | ⬜ Pendiente | | | Via Awin/Impact |
-| Xoom | | ⬜ Pendiente | | | Via Awin/PayPal |
-| Ria | | ⬜ Pendiente | | | Tier B - Bot wall |
-| Paysend | | ⬜ Pendiente | | | Tier C - No API público |
-| XE Money Transfer | | ⬜ Pendiente | | | Tier C - Login required |
-| Moneytrans | | ⬜ Pendiente | | | Tier B - Bot wall |
-| Small World / Sigue | 🔴 N/A | ❌ Ceased 2026 | N/A | N/A | No integrar |
-| Revolut | 🔴 N/A | ❌ No viable | N/A | N/A | Bot wall + OAuth |
-
-**Estados:** ⬜ Pendiente · 🟡 Solicitud enviada · 🟢 Aprobado · 🔴 Rechazado / No viable
+➡️ **Movido a [`docs/plan/afiliados-ejecucion.md` §4](docs/plan/afiliados-ejecucion.md#4--checklist-de-seguimiento)** — única fuente de estado de las solicitudes (este doc es solo referencia de investigación).
 
 ---
 
@@ -682,7 +698,7 @@ Revolut tiene un programa de referrals pero está orientado a cuentas personales
 
 1. **EUR→PHP es un corredor específico** — confirma que cada proveedor lo cubre antes de aplicar
 2. **Brokers necesitan volumen** — los programas de TorFX, CD y OFX son más flexibles con tráfico bajo al inicio
-3. **Wise, WU e Instarem usan Partnerize** — una sola cuenta de Partnerize sirve para los tres; igualmente Remitly e Instarem comparten FlexOffers
+3. **Wise, WU, Instarem y CurrencyFair usan Partnerize** — una sola cuenta de Partnerize sirve para los cuatro; igualmente Remitly e Instarem comparten FlexOffers
 4. **Las comisiones de brokers son recurrentes** — a diferencia de los CPA, los brokers pagan por cada trade del cliente referido (lifetime)
 5. **Prueba antes de pegar URLs** — verificar en local que cada link trackea (llega a la landing del proveedor con tu ID) antes de deployar
 6. **MoneyGram no sirve para EUR→PHP directamente** — su programa fuerte es US; incluirlo como opción alternativa
