@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Outfit", sans-serif;
+          overflow: hidden;
+        }
+        #m5-bg {
+          position: absolute;
+          inset: 0;
+          background: #1e2a12;
+        }
+        #m5-ring-deco {
+          position: absolute;
+          right: -240px;
+          bottom: -320px;
+          width: 1000px;
+          height: 1000px;
+          border-radius: 50%;
+          border: 2px solid rgba(198, 232, 78, 0.16);
+        }
+        #m5-stage {
+          position: absolute;
+          left: 1140px;
+          top: 105px;
+          width: 500px;
+          height: 870px;
+          perspective: 1600px;
+        }
+        #m5-sway {
+          position: absolute;
+          left: 48px;
+          top: 0;
+          width: 404px;
+          height: 870px;
+        }
+        #m5-phone {
+          position: absolute;
+          inset: 0;
+          border-radius: 64px;
+          background: #0c0f07;
+          border: 2px solid #3a4527;
+          box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55);
+        }
+        #m5-screen {
+          position: absolute;
+          inset: 12px;
+          border-radius: 52px;
+          overflow: hidden;
+          background: #f2f6e4;
+        }
+        #m5-img {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          display: block;
+        }
+        #m5-highlight {
+          position: absolute;
+          left: 4%;
+          top: 28.5%;
+          width: 88%;
+          height: 13%;
+          border-radius: 8px;
+          background: rgba(200, 241, 53, 0.45);
+          transform-origin: left center;
+          opacity: 0;
+        }
+        #m5-copy {
+          position: absolute;
+          left: 110px;
+          top: 0;
+          height: 100%;
+          width: 950px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 30px;
+        }
+        #m5-caption-mask {
+          overflow: hidden;
+          border-radius: 14px;
+          align-self: flex-start;
+        }
+        #m5-caption {
+          background: #f2f6e4;
+          color: #1e2a12;
+          font-size: 48px;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+          padding: 24px 40px;
+          border-radius: 14px;
+          box-shadow: 0 6px 0 #7ba428;
+          max-width: 860px;
+        }
+        #m5-url-chip {
+          align-self: flex-start;
+          background: #ffffff;
+          color: #1e2a12;
+          font-size: 32px;
+          font-weight: 600;
+          padding: 16px 28px;
+          border-radius: 14px;
+          box-shadow: 0 4px 0 #7ba428;
+          opacity: 0;
+        }
+      </style>
+
+      <div id="root" data-composition-id="m5-transparency" data-width="1920" data-height="1080" data-duration="10">
+        <div id="m5-bg"></div>
+        <div id="m5-ring-deco"></div>
+        <div id="m5-copy">
+          <div id="m5-caption-mask">
+            <div id="m5-caption">Fully transparent — commissions never affect rate or ranking</div>
+          </div>
+          <div id="m5-url-chip">app.sulitsend.com/how-we-make-money</div>
+        </div>
+        <div id="m5-stage">
+          <div id="m5-sway">
+            <div id="m5-phone">
+              <div id="m5-screen">
+                <img id="m5-img" src="capture/screenshots/mobile/how-we-make-money-full.png" alt="" />
+                <div id="m5-highlight"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+
+          tl.fromTo("#m5-ring-deco", { x: 0, y: 0 }, { x: -50, y: -40, duration: 10, ease: "none" }, 0);
+
+          // Phone already in place; sway phase continues from beat 4's exit (-5 / +0.7).
+          tl.fromTo(
+            "#m5-sway",
+            { rotationY: -5 },
+            { rotationY: 5, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: 3 },
+            0,
+          );
+          tl.fromTo(
+            "#m5-phone",
+            { rotationZ: 0.7 },
+            { rotationZ: -0.7, duration: 3.33, ease: "sine.inOut", yoyo: true, repeat: 2 },
+            0,
+          );
+
+          // Marker highlight sweeps across the key commission sentence.
+          tl.fromTo(
+            "#m5-highlight",
+            { opacity: 1, scaleX: 0 },
+            { scaleX: 1, duration: 0.7, ease: "power2.out" },
+            3.0,
+          );
+
+          tl.fromTo("#m5-caption", { x: "-105%" }, { x: "0%", duration: 0.65, ease: "power3.out" }, 1.0);
+          tl.fromTo(
+            "#m5-url-chip",
+            { opacity: 0, scale: 0.7 },
+            { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.6)" },
+            2.2,
+          );
+
+          window.__timelines["m5-transparency"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

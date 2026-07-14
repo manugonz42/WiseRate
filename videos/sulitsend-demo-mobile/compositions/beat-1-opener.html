@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Outfit", sans-serif;
+          overflow: hidden;
+        }
+        #m1-bg {
+          position: absolute;
+          inset: 0;
+          background: #1e2a12;
+        }
+        .m1-blob {
+          position: absolute;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(93, 106, 69, 0.35) 0%, rgba(93, 106, 69, 0) 70%);
+        }
+        #m1-blob-a {
+          width: 1000px;
+          height: 1000px;
+          left: -320px;
+          top: -380px;
+        }
+        #m1-blob-b {
+          width: 1200px;
+          height: 1200px;
+          right: -420px;
+          bottom: -520px;
+        }
+        #m1-group {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 48px;
+        }
+        #m1-lockup {
+          display: flex;
+          align-items: center;
+          gap: 28px;
+        }
+        #m1-tile {
+          width: 140px;
+          height: 140px;
+          display: grid;
+          place-items: center;
+          border-radius: 24px;
+          background: linear-gradient(135deg, #c6e84e, #c8f135);
+          box-shadow: 0 8px 0 #0d1308;
+          color: #1e2a12;
+          font-size: 84px;
+          font-weight: 800;
+        }
+        #m1-wordmark-mask {
+          overflow: hidden;
+        }
+        #m1-wordmark {
+          font-size: 110px;
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          color: #f2f6e4;
+          line-height: 1;
+        }
+        #m1-eyebrow {
+          font-size: 30px;
+          font-weight: 600;
+          letter-spacing: 0.12em;
+          color: #c6e84e;
+          text-transform: uppercase;
+        }
+        #m1-headline {
+          text-align: center;
+          font-size: 68px;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          color: #f2f6e4;
+          line-height: 1.15;
+        }
+        .m1-line {
+          display: block;
+        }
+      </style>
+
+      <div id="root" data-composition-id="m1-opener" data-width="1920" data-height="1080" data-duration="5">
+        <div id="m1-bg"></div>
+        <div class="m1-blob" id="m1-blob-a"></div>
+        <div class="m1-blob" id="m1-blob-b"></div>
+        <div id="m1-group">
+          <div id="m1-lockup">
+            <div id="m1-tile">₱</div>
+            <div id="m1-wordmark-mask"><div id="m1-wordmark">sulitsend</div></div>
+          </div>
+          <div id="m1-eyebrow">EUR → PHP · Live comparison</div>
+          <div id="m1-headline">
+            <span class="m1-line" id="m1-line1">Send money to the Philippines.</span>
+            <span class="m1-line" id="m1-line2">Compare before you send.</span>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+
+          tl.fromTo("#m1-group", { scale: 1.0 }, { scale: 1.06, duration: 5, ease: "power1.inOut" }, 0);
+          tl.fromTo("#m1-blob-a", { x: 0, y: 0 }, { x: 70, y: 40, duration: 5, ease: "none" }, 0);
+          tl.fromTo("#m1-blob-b", { x: 0, y: 0 }, { x: -80, y: -50, duration: 5, ease: "none" }, 0);
+
+          tl.fromTo(
+            "#m1-tile",
+            { y: -80, scale: 0.3, opacity: 0, boxShadow: "0 0px 0 #0d1308" },
+            { y: 0, scale: 1, opacity: 1, duration: 0.65, ease: "back.out(1.7)" },
+            0.1,
+          );
+          tl.to("#m1-tile", { boxShadow: "0 8px 0 #0d1308", duration: 0.3, ease: "power2.out" }, 0.6);
+
+          tl.fromTo("#m1-wordmark", { x: "-105%" }, { x: "0%", duration: 0.7, ease: "power3.out" }, 0.55);
+
+          tl.fromTo(
+            "#m1-eyebrow",
+            { opacity: 0, filter: "blur(8px)" },
+            { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power2.out" },
+            1.3,
+          );
+
+          tl.fromTo("#m1-line1", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 1.7);
+          tl.fromTo("#m1-line2", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 1.9);
+
+          tl.fromTo("#m1-group", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "power2.in" }, 4.55);
+
+          window.__timelines["m1-opener"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

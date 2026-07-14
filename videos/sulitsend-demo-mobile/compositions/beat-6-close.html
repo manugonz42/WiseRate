@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Outfit", sans-serif;
+          overflow: hidden;
+        }
+        #m6-bg {
+          position: absolute;
+          inset: 0;
+          background: #1e2a12;
+        }
+        .m6-blob {
+          position: absolute;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(93, 106, 69, 0.35) 0%, rgba(93, 106, 69, 0) 70%);
+        }
+        #m6-blob-a {
+          width: 1000px;
+          height: 1000px;
+          left: -320px;
+          top: -380px;
+        }
+        #m6-blob-b {
+          width: 1200px;
+          height: 1200px;
+          right: -420px;
+          bottom: -520px;
+        }
+        #m6-group {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 44px;
+        }
+        #m6-lockup {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+        }
+        #m6-tile {
+          width: 120px;
+          height: 120px;
+          display: grid;
+          place-items: center;
+          border-radius: 22px;
+          background: linear-gradient(135deg, #c6e84e, #c8f135);
+          box-shadow: 0 7px 0 #0d1308;
+          color: #1e2a12;
+          font-size: 72px;
+          font-weight: 800;
+        }
+        #m6-wordmark-mask {
+          overflow: hidden;
+        }
+        #m6-wordmark {
+          font-size: 96px;
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          color: #f2f6e4;
+          line-height: 1;
+        }
+        #m6-url {
+          font-size: 60px;
+          font-weight: 700;
+          color: #c8f135;
+          letter-spacing: 0.01em;
+          display: flex;
+          align-items: center;
+        }
+        .m6-ch {
+          opacity: 0;
+        }
+        #m6-caret {
+          display: inline-block;
+          width: 6px;
+          height: 60px;
+          margin-left: 8px;
+          background: #c8f135;
+          opacity: 0;
+        }
+        #m6-tagline {
+          font-size: 30px;
+          font-weight: 500;
+          color: #c6e84e;
+          letter-spacing: 0.02em;
+          opacity: 0;
+        }
+      </style>
+
+      <div id="root" data-composition-id="m6-close" data-width="1920" data-height="1080" data-duration="6">
+        <div id="m6-bg"></div>
+        <div class="m6-blob" id="m6-blob-a"></div>
+        <div class="m6-blob" id="m6-blob-b"></div>
+        <div id="m6-group">
+          <div id="m6-lockup">
+            <div id="m6-tile">₱</div>
+            <div id="m6-wordmark-mask"><div id="m6-wordmark">sulitsend</div></div>
+          </div>
+          <div id="m6-url">
+            <span><!-- app.sulitsend.com, one span per char for the typewriter -->
+              <span class="m6-ch">a</span><span class="m6-ch">p</span><span class="m6-ch">p</span><span class="m6-ch">.</span><span class="m6-ch">s</span><span class="m6-ch">u</span><span class="m6-ch">l</span><span class="m6-ch">i</span><span class="m6-ch">t</span><span class="m6-ch">s</span><span class="m6-ch">e</span><span class="m6-ch">n</span><span class="m6-ch">d</span><span class="m6-ch">.</span><span class="m6-ch">c</span><span class="m6-ch">o</span><span class="m6-ch">m</span>
+            </span>
+            <span id="m6-caret"></span>
+          </div>
+          <div id="m6-tagline">The EUR→PHP comparison site</div>
+        </div>
+      </div>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+
+          // Dolly-out as the lockup lands.
+          tl.fromTo("#m6-group", { scale: 1.08 }, { scale: 1.0, duration: 1.6, ease: "power2.out" }, 0);
+
+          // Ambient blobs drift.
+          tl.fromTo("#m6-blob-a", { x: 0, y: 0 }, { x: 60, y: 40, duration: 6, ease: "none" }, 0);
+          tl.fromTo("#m6-blob-b", { x: 0, y: 0 }, { x: -70, y: -40, duration: 6, ease: "none" }, 0);
+
+          // Tile scales in with overshoot; wordmark mask-slides.
+          tl.fromTo(
+            "#m6-tile",
+            { scale: 0.3, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" },
+            0.1,
+          );
+          tl.fromTo("#m6-wordmark", { x: "-105%" }, { x: "0%", duration: 0.65, ease: "power3.out" }, 0.45);
+
+          // URL types on, char by char.
+          tl.fromTo("#m6-caret", { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, 1.1);
+          tl.fromTo(
+            ".m6-ch",
+            { opacity: 0 },
+            { opacity: 1, duration: 0.01, ease: "none", stagger: 0.055 },
+            1.2,
+          );
+          // Caret blinks twice after typing, then hides.
+          tl.to("#m6-caret", { opacity: 0, duration: 0.01 }, 2.5);
+          tl.to("#m6-caret", { opacity: 1, duration: 0.01 }, 2.85);
+          tl.to("#m6-caret", { opacity: 0, duration: 0.01 }, 3.2);
+
+          // Tagline.
+          tl.fromTo(
+            "#m6-tagline",
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+            2.9,
+          );
+
+          // Gentle float on the whole group until the end.
+          tl.to("#m6-group", { y: -4, duration: 1.0, ease: "sine.inOut" }, 3.6);
+          tl.to("#m6-group", { y: 0, duration: 1.0, ease: "sine.inOut" }, 4.6);
+
+          // Final fade to ink.
+          tl.fromTo("#m6-group", { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power2.in" }, 5.5);
+
+          window.__timelines["m6-close"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

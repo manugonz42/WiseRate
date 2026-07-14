@@ -385,3 +385,5 @@ Descartados (solo constan en la guía de referencia): Small World/Sigue (ceased 
 | Vídeo genérico 60s (HyperFrames, spec §2) | 🟡 Producido 2026-07-14 (`videos/sulitsend-demo/renders/`, 52s, 1080p, silente) — **pendiente humano: subir a YouTube unlisted** y poner la URL aquí | `[VIDEO_URL]` |
 
 Producción (2026-07-14): proyecto HyperFrames en `videos/sulitsend-demo/` (capture de localhost + STORYBOARD/DESIGN/SCRIPT + 6 sub-composiciones). Las 5 tomas del guion §2 están cubiertas (home €500 → podio/best deal → detalle Wise con gráfica → /how-we-make-money con highlight → cierre logo+URL). Sin audio (spec: sin voz; añadir BGM en YouTube si se quiere). Regenerar: `cd videos/sulitsend-demo && npx hyperframes render` (screenshots: `web/scripts/demo-shots.mjs` con el dev server arrancado).
+
+**Variante móvil** (2026-07-14, mismo guion): `videos/sulitsend-demo-mobile/` — la web móvil dentro de un mockup de teléfono con balanceo 3D suave, fondo tinta oscura en todos los beats (sin fondos claros). Screenshots móviles: `web/scripts/demo-shots-mobile.mjs`. Elegir una de las dos variantes (o ambas) al subir a YouTube.
