@@ -41,9 +41,21 @@ Tres niveles independientes — se activan por disparadores, no por adelantado:
 
 ### Método de promoción declarado (EN)
 
-> Organic SEO and editorial content: corridor comparison pages, provider reviews and rate-trend analytics. No paid search, no brand bidding, no coupon/incentive traffic, no pop-ups.
+> Organic SEO and editorial content: corridor comparison pages, provider reviews and rate-trend analytics. Community distribution: the founder is an active member of the Filipino community in Spain, with a large personal network and an established client base from adjacent businesses — the site is promoted through direct recommendations, community groups and word of mouth. No paid search, no brand bidding, no coupon/incentive traffic, no pop-ups.
 
-Coincide con lo permitido por todos los programas. **Nunca** declarar PPC, coupons o incentivized traffic — varios programas lo prohíben y es causa de rechazo o expulsión.
+Coincide con lo permitido por todos los programas — el ángulo comunidad es un **plus** en las solicitudes (audiencia real del corredor EUR→PHP, no tráfico comprado). **Nunca** declarar PPC, coupons o incentivized traffic — varios programas lo prohíben y es causa de rechazo o expulsión.
+
+### Sistema propio de recompensas (idea 2026-07-14 — ⚠️ NO lanzar ni declarar todavía)
+
+**La idea:** usar parte de la ganancia CPA para recompensar a quien traiga usuarios (ej.: cobro €30 de un referido → pago €5–10 a la persona de la comunidad que lo trajo), más un sistema propio de afiliados con ventajas dentro de la app, para expansión rápida vía la red de contactos filipina.
+
+**Por qué está gateado:** eso es *incentivized traffic* / modelo cashback-reward. Remitly lo **prohíbe explícitamente** ("no incentivizado"), Wise prohíbe coupons, y las redes (Partnerize, FlexOffers, Awin, CJ) exigen estar dado de alta como *reward/cashback publisher* con aprobación del anunciante. Hacerlo sin permiso = expulsión del programa + **clawback de todas las comisiones**. Y declararlo en la solicitud inicial, sin tenerlo aún montado, solo resta (es la primera causa de rechazo).
+
+**Camino para activarlo (en orden):**
+1. Conseguir las aprobaciones con la declaración actual (SEO + comunidad + word of mouth — todo cierto hoy).
+2. Con la cuenta aprobada y las primeras comisiones cobradas, preguntar **por escrito** al affiliate manager de cada programa si aceptan reward/referral model (y sub-affiliates). Activarlo **solo** donde haya OK escrito, y actualizar la declaración de métodos en esa red.
+3. Diseñar la recompensa sobre **traer usuarios a SulitSend** (instalar/usar la app), nunca condicionada de cara al usuario a "regístrate en el proveedor X" — la mecánica in-app es el módulo ya especificado en [`docs/modules/referral.md`](../modules/referral.md) (Fase 5; esto la adelantaría).
+4. Los pagos a recomendadores salen de la ganancia ya cobrada (autofinanciado) — mantener margen: recompensa ≤ ~1/3 del CPA medio.
 
 ### Tráfico (guion de honestidad — pegar cuando pidan "monthly visitors")
 
@@ -370,4 +382,6 @@ Descartados (solo constan en la guía de referencia): Small World/Sigue (ceased 
 
 | Asset | Estado | URL |
 |---|---|---|
-| Vídeo genérico 60s (HyperFrames, spec §2) | ⬜ Pendiente | `[VIDEO_URL]` |
+| Vídeo genérico 60s (HyperFrames, spec §2) | 🟡 Producido 2026-07-14 (`videos/sulitsend-demo/renders/`, 52s, 1080p, silente) — **pendiente humano: subir a YouTube unlisted** y poner la URL aquí | `[VIDEO_URL]` |
+
+Producción (2026-07-14): proyecto HyperFrames en `videos/sulitsend-demo/` (capture de localhost + STORYBOARD/DESIGN/SCRIPT + 6 sub-composiciones). Las 5 tomas del guion §2 están cubiertas (home €500 → podio/best deal → detalle Wise con gráfica → /how-we-make-money con highlight → cierre logo+URL). Sin audio (spec: sin voz; añadir BGM en YouTube si se quiere). Regenerar: `cd videos/sulitsend-demo && npx hyperframes render` (screenshots: `web/scripts/demo-shots.mjs` con el dev server arrancado).

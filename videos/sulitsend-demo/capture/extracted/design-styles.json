@@ -1,0 +1,195 @@
+{
+  "typography": [
+    {
+      "role": "heading",
+      "fontFamily": "Outfit",
+      "fontSize": "40px",
+      "fontWeight": "800",
+      "lineHeight": "42.4px",
+      "letterSpacing": "-1px",
+      "color": "#F2F6E4",
+      "sampleText": "Envía €200 a casa.Recibe ₱323 másque el promedio."
+    },
+    {
+      "role": "heading-2",
+      "fontFamily": "Outfit",
+      "fontSize": "24px",
+      "fontWeight": "700",
+      "lineHeight": "32px",
+      "letterSpacing": "normal",
+      "color": "#1E2A12",
+      "sampleText": "Compara tasas en vivo"
+    },
+    {
+      "role": "display",
+      "fontFamily": "Outfit",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "24px",
+      "letterSpacing": "normal",
+      "color": "#1E2A12",
+      "sampleText": "EUR → PHP — today's best transfer deal"
+    },
+    {
+      "role": "body",
+      "fontFamily": "Outfit",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "lineHeight": "22.75px",
+      "letterSpacing": "normal",
+      "color": "#F2F6E4",
+      "sampleText": "Clasificamos 13 proveedores en vivo, cada minuto.Tasa de hoy"
+    }
+  ],
+  "spacing": {
+    "observed": [
+      4,
+      6,
+      8,
+      10,
+      12,
+      16,
+      20,
+      24,
+      32,
+      36
+    ],
+    "baseUnit": 4
+  },
+  "radius": [
+    "14px",
+    "9999px"
+  ],
+  "shadows": [
+    {
+      "value": "rgb(123, 164, 40) 0px 4px 0px 0px",
+      "count": 1
+    }
+  ],
+  "buttons": [
+    {
+      "label": "€100",
+      "background": "#FFFFFF",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#F2F6E4",
+      "padding": "10px 20px",
+      "borderRadius": "9999px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "800",
+      "height": "40px"
+    },
+    {
+      "label": "€200",
+      "background": "#C8F135",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1E2A12",
+      "padding": "10px 20px",
+      "borderRadius": "9999px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "800",
+      "height": "40px"
+    },
+    {
+      "label": "Enviar con Instarem",
+      "background": "#1E2A12",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#C8F135",
+      "padding": "14px 16px",
+      "borderRadius": "9999px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "boxShadow": "rgb(123, 164, 40) 0px 4px 0px 0px",
+      "fontSize": "16px",
+      "fontWeight": "800",
+      "height": "52px"
+    },
+    {
+      "label": "button",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#5D6A45",
+      "padding": "8px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "36px"
+    },
+    {
+      "label": "Siguiente",
+      "background": "#1E2A12",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#C6E84E",
+      "padding": "8px 16px",
+      "borderRadius": "8px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "700",
+      "height": "36px"
+    }
+  ],
+  "cards": [],
+  "nav": null,
+  "chips": [
+    {
+      "label": "73%",
+      "background": "#1E2A12",
+      "color": "#C8F135",
+      "padding": "0px",
+      "borderRadius": "9999px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "boxShadow": "none",
+      "fontSize": "12px",
+      "fontWeight": "800",
+      "height": "44px"
+    },
+    {
+      "label": "via Wise",
+      "background": "transparent",
+      "color": "#8A936F",
+      "padding": "2px 6px",
+      "borderRadius": "9999px",
+      "border": "1px solid rgba(30, 42, 18, 0.1)",
+      "boxShadow": "none",
+      "fontSize": "10px",
+      "fontWeight": "500",
+      "height": "21px"
+    }
+  ],
+  "statCells": [],
+  "tabs": [
+    {
+      "label": "₱13,996",
+      "background": "transparent",
+      "color": "#1E2A12",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "boxShadow": "none",
+      "fontSize": "32px",
+      "fontWeight": "800",
+      "height": "32px"
+    }
+  ],
+  "backgrounds": [],
+  "glass": [
+    {
+      "backdropFilter": "blur(4px)",
+      "background": "rgba(0, 0, 0, 0.4)",
+      "border": "0px solid rgb(229, 231, 235)",
+      "borderRadius": "0px",
+      "boxShadow": "",
+      "area": 2073600
+    }
+  ]
+}

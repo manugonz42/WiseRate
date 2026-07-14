@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Outfit", sans-serif;
+          overflow: hidden;
+        }
+        #b3-bg {
+          position: absolute;
+          inset: 0;
+          background: #f2f6e4;
+        }
+        #b3-blob {
+          position: absolute;
+          width: 1200px;
+          height: 1200px;
+          right: -420px;
+          top: -520px;
+          border-radius: 50%;
+          background: radial-gradient(circle, #e7edd3 0%, rgba(231, 237, 211, 0) 70%);
+        }
+        #b3-frame {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 1574px;
+          height: 900px;
+          margin-left: -787px;
+          margin-top: -450px;
+          border-radius: 18px;
+          overflow: hidden;
+          background: #ffffff;
+          box-shadow: 0 2px 0 rgba(30, 42, 18, 0.1), 0 24px 64px rgba(30, 42, 18, 0.18);
+        }
+        #b3-cam {
+          position: absolute;
+          left: -10%;
+          top: 0;
+          width: 120%;
+        }
+        #b3-shot {
+          display: block;
+          width: 100%;
+        }
+        #b3-glow {
+          position: absolute;
+          left: 25%;
+          top: 31%;
+          width: 42%;
+          height: 5.5%;
+          border-radius: 12px;
+          background: rgba(200, 241, 53, 0.35);
+          box-shadow: 0 0 60px rgba(200, 241, 53, 0.5);
+          opacity: 0;
+        }
+        #b3-caption-mask {
+          position: absolute;
+          left: 72px;
+          bottom: 150px;
+          overflow: hidden;
+          border-radius: 14px;
+        }
+        #b3-caption {
+          background: #1e2a12;
+          color: #f2f6e4;
+          font-size: 44px;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+          padding: 22px 36px;
+          border-radius: 14px;
+          box-shadow: 0 5px 0 #7ba428;
+        }
+        #b3-chip {
+          position: absolute;
+          left: 72px;
+          bottom: 72px;
+          background: #1e2a12;
+          color: #c6e84e;
+          font-size: 30px;
+          font-weight: 600;
+          padding: 14px 26px;
+          border-radius: 14px;
+          box-shadow: 0 4px 0 #7ba428;
+          opacity: 0;
+        }
+      </style>
+
+      <div id="root" data-composition-id="b3-ranking" data-width="1920" data-height="1080" data-duration="10">
+        <div id="b3-bg"></div>
+        <div id="b3-blob"></div>
+        <div id="b3-frame">
+          <div id="b3-cam">
+            <img id="b3-shot" src="capture/screenshots/pages/compare-full.png" alt="" />
+            <div id="b3-glow"></div>
+          </div>
+        </div>
+        <div id="b3-caption-mask"><div id="b3-caption">Ranked by what the recipient actually gets</div></div>
+        <div id="b3-chip">Fees, markup, speed &amp; trust — all visible</div>
+      </div>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+
+          // Ambient blob drift.
+          tl.fromTo("#b3-blob", { x: 0, y: 0 }, { x: -60, y: 50, duration: 10, ease: "none" }, 0);
+
+          // Frame enters.
+          tl.fromTo(
+            "#b3-frame",
+            { opacity: 0, y: 48 },
+            { opacity: 1, y: 0, duration: 0.85, ease: "power3.out" },
+            0,
+          );
+
+          // Camera pans down the ranking table for the whole beat.
+          // compare-full.png at 120% width renders ~1209px tall in a 900px window → 300px of travel.
+          tl.fromTo(
+            "#b3-cam",
+            { y: 0 },
+            { y: -300, duration: 8.4, ease: "power1.inOut" },
+            1.2,
+          );
+
+          // BEST DEAL row glow: one sweep while the row is still in view.
+          tl.fromTo("#b3-glow", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 2.0);
+          tl.to("#b3-glow", { opacity: 0, duration: 0.9, ease: "power2.in" }, 3.2);
+
+          // Caption + chip.
+          tl.fromTo(
+            "#b3-caption",
+            { x: "-105%" },
+            { x: "0%", duration: 0.65, ease: "power3.out" },
+            1.0,
+          );
+          tl.fromTo(
+            "#b3-chip",
+            { opacity: 0, y: 22 },
+            { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+            4.0,
+          );
+
+          window.__timelines["b3-ranking"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
