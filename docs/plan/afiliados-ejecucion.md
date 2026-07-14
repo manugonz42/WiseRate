@@ -19,11 +19,11 @@
 | Campo | Valor |
 |---|---|
 | Nombre / figura fiscal | **Particular (individual)** — decisión 2026-07-14: sin alta de autónomo ni sociedad hasta que haya ingresos suficientes. En los formularios, tipo "Individual / sole trader" y nombre propio en "Company name" (todas las redes lo aceptan) |
-| Email de contacto | `TODO(human)` — ideal `hello@sulitsend.com`; fallback provisional: hevia.web@gmail.com (usar el mismo en TODAS las redes para no fragmentar cuentas) |
+| Email de contacto | **growglow.app@gmail.com** (2026-07-14 — el mismo del backend de la app, Vercel y Cloudflare; usarlo en TODAS las redes para no fragmentar cuentas). Para el email público del sitio (`CONTACT_EMAIL`), ideal `hello@sulitsend.com` vía Cloudflare Email Routing → forward a growglow.app@gmail.com |
 | País | España |
 | Web principal | `https://app.sulitsend.com` |
 | Web secundaria | `https://sulitsend.com` (landing/marketing) |
-| Método de cobro | `TODO(human)` — cuenta Wise multi-divisa sirve para cobrar de casi todos (y para las invoices de Wise) |
+| Método de cobro | **Cuenta Wise personal multi-divisa** (gratis) — da datos bancarios locales en GBP (Partnerize/Wise paga en £), USD (FlexOffers) y EUR (IBAN), evitando la conversión del banco español. En cada red, dar los datos de la divisa en que pague esa red. Los formularios de alta normalmente **no piden datos de cobro** — se añaden después en el panel, al acercarse al primer payout. Fallback: PayPal (peores fees, solo si una red no admite transferencia) |
 
 ### Escalado fiscal (decisión 2026-07-14: empezar como particular)
 
@@ -95,7 +95,8 @@ Descartados (solo constan en la guía de referencia): Small World/Sigue (ceased 
 
 ### Paso 0 — Prerequisitos
 
-- [ ] Decidir email de contacto (real u hevia.web@gmail.com provisional) y rellenar los `TODO(human)` del §0.
+- [x] Email de contacto decidido: growglow.app@gmail.com (§0).
+- [ ] Crear `hello@sulitsend.com` (Cloudflare Email Routing → growglow.app@gmail.com) y ponerlo en `CONTACT_EMAIL` (`web/lib/site.ts`) — hoy las páginas públicas /about, /terms y /privacy muestran "TODO(human)", mala imagen ante reviewers.
 - [ ] Verificar desde **otra red** (móvil/DoH — FortiGuard local bloquea sulitsend.com) que app.sulitsend.com y sulitsend.com cargan sin errores, y que `/how-we-make-money` se ve bien: es la página que mirará todo reviewer.
 - [ ] Lanzar la producción del vídeo demo (§2) en paralelo — bloquea solo el grupo D.
 
