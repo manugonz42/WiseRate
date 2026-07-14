@@ -71,8 +71,8 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 
 ## Human-only checklist (still open)
 
-- [ ] Verify SulitSend: EUIPO + domain + both-store search → buy `sulitsend.app`
-- [ ] Contact email: create real address (e.g. `hello@sulitsend.app` forwarding) → set `CONTACT_EMAIL` in `web/lib/site.ts` (after T17)
+- [ ] Verify SulitSend: EUIPO + domain + both-store search → buy `sulitsend.com` (`.app` deferred until first revenue)
+- [ ] Contact email: create real address (e.g. `hello@sulitsend.com` forwarding) → set `CONTACT_EMAIL` in `web/lib/site.ts` (after T17)
 - [ ] Legal review now also covers `/terms` draft (after T17)
 - [ ] Send affiliate/broker applications following `SolicitarAfiliados.md` (repo root) — after deploy, the live site is the credential
 - [ ] `git push` of the T17–T22 work + merged `main` (T20 merges locally, never pushes)

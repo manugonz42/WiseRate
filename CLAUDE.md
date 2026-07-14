@@ -30,7 +30,7 @@ Product name: **SulitSend** (working name since 2026-07). Directories and intern
 ```
 WiseRate/       iOS SwiftUI app — Frankfurter rate, SwiftData, StoreKit 2, local notifications; quotes mock
 web/            Next.js 15 production app — 5 screens live on real quotes (/api/quotes|history|health)
-landing/        Marketing site (standalone Next.js, own design system; root domain — app is app.sulitsend.app)
+landing/        Marketing site (standalone Next.js, own design system; root domain — app is app.sulitsend.com)
 android/        Jetpack Compose scaffold — all screens, mock data, FROZEN until Phase 4
 WiseRate-Web/   Frozen single-file prototype (visual reference only — never add features here)
 docs/           Cross-platform spec (the brain)

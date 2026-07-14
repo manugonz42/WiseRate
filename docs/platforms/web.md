@@ -10,7 +10,7 @@
 
 ## Stack
 
-**Next.js 15 (App Router) + TypeScript + Tailwind** (tokens bound in `tailwind.config.ts` / `styles/tokens.css`). Charts: **Recharts** (decided T05, all web charts). State: React state (+ Zustand if cross-screen state appears; no Redux). Persistence: localStorage via `lib/services/persistence.ts` today; IndexedDB/Dexie when data outgrows it ([persistence](../services/persistence.md)). i18n: i18next, not wired yet. `npm run dev` (repo uses npm); deploy target Vercel. SEO: `NEXT_PUBLIC_SITE_URL` (`lib/site.ts`) backs metadataBase/sitemap/robots/canonical — unset defaults to `https://app.sulitsend.app`.
+**Next.js 15 (App Router) + TypeScript + Tailwind** (tokens bound in `tailwind.config.ts` / `styles/tokens.css`). Charts: **Recharts** (decided T05, all web charts). State: React state (+ Zustand if cross-screen state appears; no Redux). Persistence: localStorage via `lib/services/persistence.ts` today; IndexedDB/Dexie when data outgrows it ([persistence](../services/persistence.md)). i18n: i18next, not wired yet. `npm run dev` (repo uses npm); deploy target Vercel. SEO: `NEXT_PUBLIC_SITE_URL` (`lib/site.ts`) backs metadataBase/sitemap/robots/canonical — unset defaults to `https://app.sulitsend.com`.
 
 ## Desktop layout (web is not a phone screen)
 
@@ -19,7 +19,7 @@
 - **Content width**: data screens use `max-w-4xl` centered — real-table wide, still readable; never phone-width `max-w-lg`.
 - **Compare table** at `md`+: Provider · Recipient gets · Fee · Markup · Speed · Trust (· Send); cards below `md`.
 - **Best-deal emphasis**: `--warning` amber (matches mobile), shown twice on purpose — banner + highlighted row — so it survives scrolling. Trust = 5 dots (`trustScore * 5`, rounded).
-- **No landing-page patterns** (heroes, marquees, `py-24`+ whitespace): this is a utility surface. The marketing page is the separate `landing/` project ([landing](../modules/landing.md)) at the root domain; this app serves `app.sulitsend.app`.
+- **No landing-page patterns** (heroes, marquees, `py-24`+ whitespace): this is a utility surface. The marketing page is the separate `landing/` project ([landing](../modules/landing.md)) at the root domain; this app serves `app.sulitsend.com`.
 
 ## Layout
 

@@ -14,10 +14,10 @@ Prices ≈ July 2026, EUR, VAT excluded.
 
 ## Phase 1 — Web MVP live 🔴 now
 
-**Goal:** `sulitsend.app` public — Landing + Compare with real quotes and working affiliate links (first revenue). Code side executed as tasks T01–T11 — see [plan/](plan/README.md) for the record + remaining human-only checklist.
+**Goal:** `sulitsend.com` public — Landing + Compare with real quotes and working affiliate links (first revenue). Code side executed as tasks T01–T11 — see [plan/](plan/README.md) for the record + remaining human-only checklist.
 
 - [x] ⚠️ **Name chosen (2026-07-02): SulitSend** — working name; "WiseRate" contained the Wise trademark (affiliate programs and App Store rule 2.3.7 reject look-alikes). User-facing strings renamed everywhere.
-  - [ ] Before opening dev accounts: EUIPO + domain + both-store checks → buy `sulitsend.app`
+  - [ ] Before opening dev accounts: EUIPO + domain + both-store checks → buy `sulitsend.com` (decided 2026-07-14; defensive `sulitsend.app` deferred until first revenue)
   - [ ] Internal identifiers keep legacy naming until the definitive rebrand — rename each **before it becomes permanent**: `WiseRate/` + `WiseRate-Web/` dirs and Swift types, `com.wiserate` package, `wiserate://` scheme, `wiserate_premium_*` SKUs (immutable once in App Store Connect / Play), `project.yml` bundle ids
 - [x] Parser fixture tests + `/api/health` broken-parser alerting (T01–T02)
 - [x] Web screens ported: Home, Provider Detail, Alerts (UI only — real alerts Phase 3), Analytics (T04–T07)
@@ -25,11 +25,11 @@ Prices ≈ July 2026, EUR, VAT excluded.
 - [x] Product analytics: PostHog EU free tier, consent-gated (T10)
 - [ ] Affiliate signups: Wise, Remitly, WU, TransferGo — also unblocks the legal question in [exchange-rate](services/exchange-rate.md). These pay **one-time CPA per new customer** (Wise £10 personal / £50 business; Remitly ~$2–20 by corridor) — no rev-share exists for remittance affiliates; sustainability = new-user volume (SEO)
 - [ ] Broker introducer signups (TorFX, Currencies Direct, OFX) — brokers pay **lifetime rev-share per referred client's trades**, the only recurring per-transaction income without a payment license ([brokers](modules/brokers.md)); card UI shipped (T08)
-- [ ] Deploy: landing at root, app at `app.sulitsend.app`
+- [ ] Deploy: landing at root, app at `app.sulitsend.com`
 
 | Item | Cost |
 |---|---|
-| Domain `sulitsend.app` (HTTPS via Vercel) | ~15 €/yr |
+| Domain `sulitsend.com` (HTTPS via Vercel) | ~15 €/yr |
 | Vercel Hobby → **Pro required once affiliate links go live** (Hobby forbids commercial use) | 0 € → ~19 €/mo |
 | — or VPS (Hetzner CX) | ~5 €/mo |
 | — or self-host at home behind Cloudflare Tunnel (see Hosting note) | ~0 € + ~25 €/yr electricity |
