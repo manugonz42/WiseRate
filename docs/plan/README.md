@@ -71,16 +71,17 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 
 ## Human-only checklist (still open)
 
-- [ ] Verify SulitSend: EUIPO + domain + both-store search → buy `sulitsend.com` (`.app` deferred until first revenue)
+- [ ] Verify SulitSend: EUIPO + both-store search (domain **bought 2026-07-14**, Cloudflare; `.app` deferred until first revenue)
 - [ ] Contact email: create real address (e.g. `hello@sulitsend.com` forwarding) → set `CONTACT_EMAIL` in `web/lib/site.ts` (after T17)
 - [ ] Legal review now also covers `/terms` draft (after T17)
 - [ ] Send affiliate/broker applications following `SolicitarAfiliados.md` (repo root) — after deploy, the live site is the credential
-- [ ] `git push` of the T17–T22 work + merged `main` (T20 merges locally, never pushes)
+- [x] `git push` of the T17–T22 work + merged `main` — pushed 2026-07-14 (`021c967`)
 - [ ] Affiliate signups: Wise (Partnerize), Remitly, WU, TransferGo, CurrencyFair → paste real affiliate URLs (`web/lib/data/providers.ts`); once any deal includes a referral bonus, populate `referralPromo` too (T22)
 - [ ] Broker introducer applications: TorFX, Currencies Direct, OFX → confirm EUR→PHP coverage; replace URLs in `web/lib/brokers.ts`
-- [ ] Deploy both Vercel projects + flip to Pro when affiliate links go live — follow [`DEPLOY.md`](DEPLOY.md) §1–4
+- [x] Deploy both Vercel projects — **live 2026-07-14** (DNS, domains, env vars, prod deploys: [`DEPLOY.md`](DEPLOY.md) status; git auto-deploy still pending there)
+- [ ] Flip both Vercel projects to Pro when affiliate links go live — `DEPLOY.md` §4
 - [ ] PostHog account (EU) → `NEXT_PUBLIC_POSTHOG_KEY`/`_HOST` env vars (`DEPLOY.md` §3)
 - [ ] Upstash Redis database → env vars (`DEPLOY.md` §3)
 - [ ] Legal review of the draft policies + contact email (`TODO(human)` in `/privacy`)
-- [ ] Post-deploy checks: `DEPLOY.md` §6 (health/sitemap curls, OG spot-check, UptimeRobot, Search Console + Bing Webmaster, preview-noindex confirmation)
+- [ ] Post-deploy checks: `DEPLOY.md` §6 (health/sitemap curls, OG spot-check, UptimeRobot, Search Console + Bing Webmaster, preview-noindex confirmation) — blocked from the dev machine by its FortiGuard DNS filter (see `DEPLOY.md` status); run from another network
 - [ ] Resend account (Phase 3 alert emails — decided 2026-07-03) → API key env var, verify sending domain
