@@ -3,8 +3,8 @@
 ## Dependencies
 - [`SolicitarAfiliados.md`](../../SolicitarAfiliados.md) (raíz) — investigación por proveedor: comisiones, redes, contactos. Este doc no la repite; la ejecuta.
 - Web en producción: https://app.sulitsend.com (live 2026-07-14) — "the live site is the credential".
-- ⏳ Vídeo demo HyperFrames (§2 — producción es tarea aparte; no bloquea los grupos A–C).
-- ⏳ Email de contacto real `hello@sulitsend.com` (checklist humano del [README](README.md)).
+- ⏳ Vídeo demo HyperFrames (§2 — producido 2026-07-14; falta subirlo a YouTube y pegar `[VIDEO_URL]`; no bloquea los grupos A–C).
+- Email de contacto real `hello@sulitsend.com` — activo (Cloudflare Email Routing) y en `CONTACT_EMAIL` desde 2026-07-15; falta redeploy de prod para que se vea en las páginas públicas.
 
 ## Used by
 - Checklist humano de [`docs/plan/README.md`](README.md) (líneas de affiliate/broker signups).
@@ -108,9 +108,9 @@ Descartados (solo constan en la guía de referencia): Small World/Sigue (ceased 
 ### Paso 0 — Prerequisitos
 
 - [x] Email de contacto decidido: growglow.app@gmail.com (§0).
-- [ ] Crear `hello@sulitsend.com` (Cloudflare Email Routing → growglow.app@gmail.com) y ponerlo en `CONTACT_EMAIL` (`web/lib/site.ts`) — hoy las páginas públicas /about, /terms y /privacy muestran "TODO(human)", mala imagen ante reviewers.
-- [ ] Verificar desde **otra red** (móvil/DoH — FortiGuard local bloquea sulitsend.com) que app.sulitsend.com y sulitsend.com cargan sin errores, y que `/how-we-make-money` se ve bien: es la página que mirará todo reviewer.
-- [ ] Lanzar la producción del vídeo demo (§2) en paralelo — bloquea solo el grupo D.
+- [x] Crear `hello@sulitsend.com` (Cloudflare Email Routing → growglow.app@gmail.com, activo) y ponerlo en `CONTACT_EMAIL` (`web/lib/site.ts`) — hecho 2026-07-15 (commit a7f6cd6). ⚠️ **Pendiente deploy a prod**: las páginas públicas siguen mostrando "TODO(human)" hasta redeploy de `sulitsend-web` (`vercel --prod` desde la raíz del repo — requiere aprobación explícita del usuario).
+- [x] Verificado 2026-07-15 (DoH + curl con `--resolve` a IPs de Vercel, saltando el bloqueo FortiGuard local): DNS global correcto, `app.sulitsend.com/home` 200, `/how-we-make-money` 200 con el contenido de disclosure, `sulitsend.com` → `/en` 200. (Chequeo visual desde móvil/otra red sigue siendo recomendable antes de enviar solicitudes.)
+- [x] Producción del vídeo demo (§2) — hecho 2026-07-14, dos variantes (ver §4); pendiente humano: subir a YouTube.
 
 ---
 

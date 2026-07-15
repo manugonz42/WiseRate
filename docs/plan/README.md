@@ -72,7 +72,7 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 ## Human-only checklist (still open)
 
 - [ ] Verify SulitSend: EUIPO + both-store search (domain **bought 2026-07-14**, Cloudflare; `.app` deferred until first revenue)
-- [ ] Contact email: create real address (e.g. `hello@sulitsend.com` forwarding) → set `CONTACT_EMAIL` in `web/lib/site.ts` (after T17)
+- [x] Contact email: `hello@sulitsend.com` live (Cloudflare Email Routing → growglow.app@gmail.com) → `CONTACT_EMAIL` set 2026-07-15 (a7f6cd6); pending prod redeploy of `sulitsend-web` to go public
 - [ ] Legal review now also covers `/terms` draft (after T17)
 - [ ] Send affiliate/broker applications — step-by-step execution plan: [afiliados-ejecucion.md](afiliados-ejecucion.md) (research reference: `SolicitarAfiliados.md`, repo root); after deploy, the live site is the credential
 - [x] `git push` of the T17–T22 work + merged `main` — pushed 2026-07-14 (`021c967`)
