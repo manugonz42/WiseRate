@@ -37,7 +37,17 @@ Rule of thumb: lime/chartreuse are **fills with ink text or accents on ink**, ne
 
 ## Gradients
 
-- **Lime**: `linear-gradient(180deg, primary-light, #B5DC3B)` — podium winner, logo tile (135deg lime → chartreuse).
+- **Lime**: `linear-gradient(180deg, primary-light, #B5DC3B)` — podium winner.
+
+## Brand mark
+
+The "Stripe S" tile replaces currency symbols as the app's primary mark. Three variants, used by background context:
+
+| Variant | Asset | Where |
+|---|---|---|
+| **Terracotta** (orange tile, dark S) | `landing/public/logomark.png` | Landing (cream/editorial palette) — nav, footer, OG image, favicons |
+| **Light** (lime tile, dark S) | `web/public/logomark.png` | Web app (matches current lime-icon tiles) — header/sidebar marks, favicon, OG image |
+| **Dark** (dark tile, lime S) | `Iconos_nuevos/dark_stripe_s.png` | Reserved: iOS/Android app icon when their re-skin lands |
 
 ## Spacing
 

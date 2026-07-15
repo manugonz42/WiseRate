@@ -18,6 +18,7 @@ import {
 import { LanguageSelect } from "@/components/LanguageSelect";
 import { SettingsButton } from "@/components/SettingsButton";
 import { Onboarding } from "@/components/Onboarding";
+import { Logomark } from "@/components/Logomark";
 
 type Tab = {
   labelKey: string;
@@ -67,9 +68,7 @@ export default function TabsLayout({
       <header className="sticky top-0 z-10 border-b border-border bg-bg/90 backdrop-blur lg:hidden">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3 sm:px-6">
           <Link href="/home" className="flex items-center gap-2">
-            <span className="grid h-8 w-8 place-items-center rounded-xs bg-gradient-to-br from-primary-light to-chartreuse text-base font-extrabold text-primary shadow-[0_3px_0_var(--primary)]">
-              ₱
-            </span>
+            <Logomark className="h-8 w-8 rounded-xs" />
             <span className="text-lg font-extrabold tracking-tight">
               sulitsend
             </span>
@@ -124,12 +123,7 @@ export default function TabsLayout({
             className="relative hidden shrink-0 flex-col overflow-hidden rounded-[24px] bg-primary p-9 shadow-elevated lg:flex lg:w-[46%]"
           >
             <Link href="/home" className="flex items-center gap-2.5">
-              <span
-                className="grid h-9 w-9 shrink-0 place-items-center rounded-[10px] text-lg font-extrabold text-primary"
-                style={{ background: "var(--lime-icon)" }}
-              >
-                ₱
-              </span>
+              <Logomark className="h-9 w-9 rounded-[10px]" />
               <span className="text-xl font-extrabold tracking-tight text-bg">
                 sulitsend
               </span>
@@ -144,9 +138,7 @@ export default function TabsLayout({
           >
             <div className="flex items-center justify-between gap-2">
               <Link href="/home" className="flex min-w-0 items-center gap-2">
-                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xs bg-gradient-to-br from-primary-light to-chartreuse text-base font-extrabold text-primary">
-                  ₱
-                </span>
+                <Logomark className="h-8 w-8 rounded-xs" />
                 <span className="truncate text-lg font-extrabold tracking-tight text-bg">
                   sulitsend
                 </span>

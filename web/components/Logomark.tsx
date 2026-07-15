@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-// Brand mark: the terracotta "Stripe S" tile (public/logomark.png).
+// Brand mark: the light "Stripe S" tile (public/logomark.png).
 // className carries the display size from consumers (e.g. h-8 w-8).
 export function Logomark({ className }: { className?: string }) {
   return (

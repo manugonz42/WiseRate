@@ -1,9 +1,15 @@
 import { ImageResponse } from "next/og";
+import { readFileSync } from "fs";
+import { join } from "path";
 
-export const runtime = "edge";
 export const alt = "SulitSend — Compare, then send more home";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+// Inlined at build time (Node runtime) so the mark ships inside the OG PNG.
+const logo = readFileSync(
+  join(process.cwd(), "public", "logomark.png")
+).toString("base64");
 
 export default function Image() {
   return new ImageResponse(
@@ -19,6 +25,14 @@ export default function Image() {
           backgroundColor: "#101216",
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          width={128}
+          height={128}
+          src={`data:image/png;base64,${logo}`}
+          style={{ marginBottom: 40 }}
+          alt=""
+        />
         <div
           style={{
             display: "flex",
