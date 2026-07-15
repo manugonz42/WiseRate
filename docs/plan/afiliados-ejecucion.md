@@ -35,15 +35,29 @@ Tres niveles independientes — se activan por disparadores, no por adelantado:
 | **Alta censal (036/037)** | Primer pago que exija emitir factura (Wise la pide; las redes con *self-billing* no) | Gratis, sin cuota; se hace el día que haga falta |
 | **RETA (autónomo)** | Ingresos acercándose a nivel SMI anual / actividad habitual | Zona gris jurisprudencial por debajo del SMI — **confirmar con gestor** llegado el momento; tarifa plana al alta |
 
-### Email saliente `hello@sulitsend.com` (añadido 2026-07-15)
+### Email saliente desde el dominio (Gmail "Send mail as" + Brevo SMTP)
 
-Hoy `hello@` solo **recibe** (Cloudflare Email Routing → forward a growglow.app@gmail.com). Para **enviar** desde `hello@sulitsend.com` sin pagar Google Workspace, la vía elegida es **Gmail "Send mail as" + SMTP gratuito de Brevo** (300 emails/día — de sobra para outreach) manteniendo la bandeja única en Gmail:
+**Direcciones activas (recepción — Cloudflare Email Routing):**
 
-1. **(Humano)** Crear cuenta gratis en brevo.com con growglow.app@gmail.com → Settings → SMTP & API → generar clave SMTP (`smtp-relay.brevo.com`, puerto 587).
-2. **(Claude)** Autenticar `sulitsend.com` en Brevo: añadir en la zona Cloudflare los registros DKIM/DMARC que indique Brevo y **fusionar** su include en el TXT SPF existente de Email Routing (nunca crear un segundo registro SPF).
-3. **(Humano)** En Gmail: ⚙️ → Cuentas e importación → "Enviar como" → añadir `hello@sulitsend.com`, marcar "Tratar como alias", con el SMTP del paso 1. El código de verificación llega al propio Gmail vía el forward de Email Routing.
-4. Probar antes de usarlo en solicitudes: enviar a mail-tester.com (o revisar cabeceras `Authentication-Results`) y confirmar SPF, DKIM y DMARC en **pass** — un email de outreach que cae a spam es una solicitud perdida.
-5. Desde entonces, todos los emails del plan (grupo D, follow-ups, emails de refuerzo E–F) salen **desde hello@sulitsend.com**, no desde el Gmail personal.
+| Dirección | Uso | Reenvía a |
+|---|---|---|
+| `hello@sulitsend.com` | Contacto público del sitio (`CONTACT_EMAIL`) | inbox compartido |
+| `manuel.gonzalez@sulitsend.com` | Outreach 1:1 (remitente con nombre → mejor tasa de respuesta) | Gmail personal (Manuel) |
+| `madelyn.eglesia@sulitsend.com` | Outreach 1:1 (segunda persona del equipo) | Gmail personal (Madelyn) |
+| `partnerships@sulitsend.com` | Formularios/programas que piden dirección de "área" | inbox compartido |
+
+Las cuatro **reciben** ya (2026-07-15). Las direcciones destino concretas de reenvío no se documentan aquí (repo público). Para **enviar** desde ellas sin pagar Google Workspace: **Gmail "Send mail as" + SMTP gratuito de Brevo** (300 emails/día) manteniendo bandeja única en Gmail. La autenticación DNS (SPF/DKIM/DMARC) es **a nivel de dominio**, se hace **una sola vez** y sirve para las cuatro direcciones.
+
+**DNS ya puesto (Claude, 2026-07-15, vía Cloudflare API):**
+- ✅ `_dmarc.sulitsend.com` TXT = `v=DMARC1; p=none; rua=mailto:growglow.app@gmail.com; adkim=r; aspf=r; fo=1` (monitor, no rechaza; alineación relajada para el setup Gmail+Brevo).
+- SPF actual: `v=spf1 include:_spf.mx.cloudflare.net ~all` — **falta fusionar el include de Brevo** (paso 2, requiere valores del panel).
+
+**Pasos restantes:**
+1. **(Humano)** Cuenta gratis en brevo.com con growglow.app@gmail.com → Settings → SMTP & API → generar clave SMTP (`smtp-relay.brevo.com`, puerto 587). Además **añadir y autenticar el dominio `sulitsend.com`** en Brevo (Senders, Domains & Dedicated IPs → Domains) para obtener los registros DKIM/verificación.
+2. **(Claude)** Con los valores que muestre Brevo: crear los DKIM/verificación en la zona Cloudflare y **fusionar** el include de Brevo en el TXT SPF existente (editar el registro, **nunca** crear un segundo SPF) → `v=spf1 include:_spf.mx.cloudflare.net include:spf.brevo.com ~all`.
+3. **(Humano)** En Gmail: ⚙️ → Cuentas e importación → "Enviar como" → añadir **cada** dirección (`manuel.gonzalez@`, `madelyn.eglesia@`, `partnerships@`, y opcionalmente `hello@`), marcar "Tratar como alias", con el SMTP del paso 1. El código de verificación llega al propio Gmail vía el forward de Email Routing.
+4. Probar antes de usarlo: mail-tester.com (o cabeceras `Authentication-Results`) → SPF, DKIM y DMARC en **pass**. Un email de outreach en spam es una solicitud perdida. Calentar: pocos envíos/día al principio (dominio nuevo, sin reputación).
+5. Desde entonces los emails del plan salen **desde el dominio** — outreach 1:1 desde `manuel.gonzalez@`/`madelyn.eglesia@`, formularios de área desde `partnerships@`, nunca desde el Gmail personal.
 
 Alternativa si Brevo diera problemas: Zoho Mail Forever Free (buzón completo con dominio propio, SPF/DKIM correctos), a costa de perder la bandeja única en Gmail.
 
@@ -123,7 +137,8 @@ Descartados (solo constan en la guía de referencia): Small World/Sigue (ceased 
 - [x] Crear `hello@sulitsend.com` (Cloudflare Email Routing → growglow.app@gmail.com, activo) y ponerlo en `CONTACT_EMAIL` (`web/lib/site.ts`) — hecho 2026-07-15 (commit a7f6cd6). ⚠️ **Pendiente deploy a prod**: las páginas públicas siguen mostrando "TODO(human)" hasta redeploy de `sulitsend-web` (`vercel --prod` desde la raíz del repo — requiere aprobación explícita del usuario).
 - [x] Verificado 2026-07-15 (DoH + curl con `--resolve` a IPs de Vercel, saltando el bloqueo FortiGuard local): DNS global correcto, `app.sulitsend.com/home` 200, `/how-we-make-money` 200 con el contenido de disclosure, `sulitsend.com` → `/en` 200. (Chequeo visual desde móvil/otra red sigue siendo recomendable antes de enviar solicitudes.)
 - [x] Producción del vídeo demo (§2) — hecho 2026-07-14, dos variantes (ver §4); pendiente humano: subir a YouTube.
-- [ ] Email **saliente** desde `hello@sulitsend.com` (hoy solo recibe) — pasos en [§0 · Email saliente](#email-saliente-hellosulitsendcom-añadido-2026-07-15). No bloquea los formularios A–C; hacerlo **antes** de los emails del grupo D y de cualquier follow-up.
+- [x] Direcciones de dominio para outreach creadas 2026-07-15 (recepción vía Email Routing → growglow.app@gmail.com): `manuel.gonzalez@`, `madelyn.eglesia@`, `partnerships@sulitsend.com`. DMARC (`p=none`, monitor) añadido a la zona.
+- [ ] Email **saliente** desde el dominio (hoy las direcciones solo reciben) — pasos en [§0 · Email saliente](#email-saliente-desde-el-dominio-gmail-send-mail-as--brevo-smtp). Falta: (humano) crear cuenta Brevo + autenticar dominio → (Claude) fusionar SPF + DKIM en Cloudflare → (humano) "Enviar como" en Gmail por dirección. No bloquea los formularios A–C; hacerlo **antes** de los emails del grupo D y de cualquier follow-up.
 
 ---
 
