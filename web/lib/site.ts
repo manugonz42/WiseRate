@@ -1,5 +1,5 @@
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://app.sulitsend.com";
 
-// TODO(human): replace with the real contact address before launch (docs/plan/README.md human checklist)
-export const CONTACT_EMAIL = "TODO(human)";
+// Cloudflare Email Routing forward → growglow.app@gmail.com (set up 2026-07-15)
+export const CONTACT_EMAIL = "hello@sulitsend.com";
