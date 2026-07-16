@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=480, height=480" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 480px;
+        height: 480px;
+        overflow: hidden;
+        background: #ffffff;
+      }
+      #tile {
+        position: absolute;
+        inset: 0;
+        width: 480px;
+        height: 480px;
+      }
+      /* Gloss layer clipped to the tile's alpha so the sweep never paints
+         outside the rounded corners. */
+      #gloss-mask {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        -webkit-mask-image: url("assets/logomark.png");
+        mask-image: url("assets/logomark.png");
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+      }
+      #gloss {
+        position: absolute;
+        top: -50%;
+        left: -340px;
+        width: 220px;
+        height: 200%;
+        transform: rotate(22deg);
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.5) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        mix-blend-mode: screen;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="2.8"
+      data-width="480"
+      data-height="480"
+    >
+      <img
+        id="tile"
+        class="clip"
+        src="assets/logomark.png"
+        alt=""
+        data-start="0"
+        data-duration="2.8"
+        data-track-index="1"
+      />
+      <div
+        id="gloss-mask"
+        class="clip"
+        data-start="0"
+        data-duration="2.8"
+        data-track-index="2"
+      >
+        <div id="gloss" data-layout-allow-overflow></div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      // Resting hold 0–0.5s (frame 1 must be the static logo), one gloss
+      // sweep 0.5–1.4s, then still hold to 2.8s for a breathing loop.
+      tl.to("#gloss", { x: 1100, duration: 0.9, ease: "power2.inOut" }, 0.5);
+      tl.to({}, { duration: 1.4 }, 1.4); // hold
+      tl.seek(0);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

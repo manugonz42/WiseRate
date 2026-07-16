@@ -1,0 +1,11 @@
+<svg width="520" height="120" viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700&amp;display=swap');
+      .wm { font-family: 'Outfit', Arial, sans-serif; font-weight: 700; letter-spacing: -2px; }
+    </style>
+  </defs>
+  <text class="wm" x="0" y="88" font-size="96">
+    <tspan fill="#1E2A12">Sulit</tspan><tspan fill="#7BA428">Send</tspan>
+  </text>
+</svg>

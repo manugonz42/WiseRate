@@ -1,3 +1,4 @@
 # Regenerable HyperFrames outputs (renders are large; snapshots are QA frames)
 */renders/
 */snapshots/
+*/node_modules/

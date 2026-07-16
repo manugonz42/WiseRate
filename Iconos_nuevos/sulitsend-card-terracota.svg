@@ -1,0 +1,14 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&amp;display=swap');
+      .wm { font-family: 'Outfit', Arial, sans-serif; font-weight: 700; letter-spacing: -2px; }
+      .tag { font-family: 'Outfit', Arial, sans-serif; font-weight: 400; }
+    </style>
+  </defs>
+  <rect width="1200" height="630" fill="#101216"/>
+  <text class="wm" x="600" y="330" font-size="120" text-anchor="middle">
+    <tspan fill="#F2F3F5">Sulit</tspan><tspan fill="#E8834E">Send</tspan>
+  </text>
+  <text class="tag" x="600" y="400" font-size="40" fill="rgba(242,243,245,0.66)" text-anchor="middle">Compare first. Send more home.</text>
+</svg>

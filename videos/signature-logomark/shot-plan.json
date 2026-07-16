@@ -1,0 +1,10 @@
+{
+  "category": "logo-reveal",
+  "envelope": { "width": 480, "height": 480, "duration": 2.8, "fps": 30 },
+  "asset_needs": [],
+  "brief": "Seamless logo-sting loop of the SulitSend 'Stripe S' lime tile (web/public/logomark.png) for an email-signature GIF. Frame 1 is the resting logo (Outlook classic shows only the first frame). Motion: a single diagonal gloss sweep (soft white band, screen-blended, masked to the tile alpha so it never paints outside the rounded corners) crossing top-left to bottom-right between t=0.5s and t=1.4s, then a still hold to t=2.8s so the loop breathes and the GIF stays tiny. White background in the render; post-process keys it out (colorkey) for a transparent GIF. Delivery: 240x240 GIF, 15fps, <100KB, hosted at sulitsend.com/signature/logomark.gif.",
+  "content": {
+    "block": null,
+    "customize": "hand-authored: static <img> tile + masked gloss band, GSAP paused timeline"
+  }
+}
