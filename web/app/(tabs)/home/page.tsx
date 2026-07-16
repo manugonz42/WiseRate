@@ -661,10 +661,8 @@ function PodiumCol({
         >
           {q.fee === 0 ? "€0 fee" : `${eur.format(q.fee)} fee`}
         </span>
-        {q.source !== "direct" && (
-          <span className="text-[9px] font-semibold opacity-60">
-            {q.source === "mock" ? "mock" : "via Wise"}
-          </span>
+        {q.source === "mock" && (
+          <span className="text-[9px] font-semibold opacity-60">mock</span>
         )}
         {winner && typeof extra === "number" && extra > 0 && (
           <span className="mt-0.5 rounded-full bg-primary px-2 py-0.5 text-[10px] font-extrabold text-chartreuse">
@@ -722,17 +720,13 @@ function ProviderIcon({ q, size }: { q: TransferQuote; size: number }) {
 
 // Same tag/copy as Compare's SourceTag (docs/modules/comparison.md).
 function SourceTag({ q }: { q: TransferQuote }) {
-  if (q.source === "direct") return null;
+  if (q.source !== "mock") return null;
   return (
     <span
-      title={
-        q.source === "mock"
-          ? "Local mock data"
-          : "Price attributed to this provider by Wise's comparison API, not fetched from the provider itself"
-      }
+      title="Local mock data"
       className="shrink-0 rounded-full border border-border px-1.5 py-0.5 text-[10px] font-medium text-text-tertiary"
     >
-      {q.source === "mock" ? "mock" : "via Wise"}
+      mock
     </span>
   );
 }

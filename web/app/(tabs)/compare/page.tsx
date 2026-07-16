@@ -70,6 +70,12 @@ const comparators: Record<SortOption, (a: TransferQuote, b: TransferQuote) => nu
 const speedLabel = (q: TransferQuote) =>
   q.deliveryEstimate.maxMinutes === 0 ? "n/a" : q.deliveryEstimate.label;
 
+// True when the only price we have is the promo (first-transfer) one — the
+// provider publishes no standard price, so the headline amount IS the promo.
+// In that case the headline is tinted with the promo color instead of showing
+// a separate standard/promo split.
+const isPromoOnly = (q: TransferQuote) => !!q.promo && !q.promo.baseIsStandard;
+
 // Outbound URL for the row's "Send" CTA (docs/modules/comparison.md Outputs).
 const sendURL = (q: TransferQuote): string | null =>
   providerSendURL(q.providerID);
@@ -448,19 +454,16 @@ function ProviderIcon({ q, size }: { q: TransferQuote; size: number }) {
   );
 }
 
-// "via Wise" / "mock" tag on quotes not fetched from the provider itself.
+// "mock" tag on local-fixture quotes. Wise-attributed prices carry no visible
+// tag (docs/modules/comparison.md).
 function SourceTag({ q }: { q: TransferQuote }) {
-  if (q.source === "direct") return null;
+  if (q.source !== "mock") return null;
   return (
     <span
-      title={
-        q.source === "mock"
-          ? "Local mock data"
-          : "Price attributed to this provider by Wise's comparison API, not fetched from the provider itself"
-      }
+      title="Local mock data"
       className="shrink-0 rounded-full border border-border px-1.5 py-0.5 text-[10px] font-medium text-text-tertiary"
     >
-      {q.source === "mock" ? "mock" : "via Wise"}
+      mock
     </span>
   );
 }
@@ -526,7 +529,7 @@ function PromoReceiveLine({ q }: { q: TransferQuote }) {
   if (!q.promo.baseIsStandard) {
     return (
       <div className="text-[11px] font-normal text-text-tertiary">
-        promo price, no-promo n/a
+        promo price
       </div>
     );
   }
@@ -615,7 +618,11 @@ function QuoteTableRow({
           )}
         </div>
       </td>
-      <td className={`${cell} tabular px-3 text-right text-[15px] font-bold`}>
+      <td
+        className={`${cell} tabular px-3 text-right text-[15px] font-bold ${
+          isPromoOnly(q) ? "text-success" : ""
+        }`}
+      >
         ₱{php.format(q.receiveAmount)}
         <PromoReceiveLine q={q} />
       </td>
@@ -684,7 +691,11 @@ function QuoteRow({
           </div>
         </div>
         <div className="text-right">
-          <div className="tabular text-[15px] font-bold">
+          <div
+            className={`tabular text-[15px] font-bold ${
+              isPromoOnly(q) ? "text-success" : ""
+            }`}
+          >
             ₱{php.format(q.receiveAmount)}
           </div>
           <PromoReceiveLine q={q} />

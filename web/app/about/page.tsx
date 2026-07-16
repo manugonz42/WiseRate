@@ -38,12 +38,8 @@ export default function AboutPage() {
           <p>
             Quotes are fetched live from each provider&apos;s own pricing
             endpoint where we have one. Where we don&apos;t, we show pricing
-            attributed to that provider by Wise&apos;s public comparison API —
-            those rows are marked{" "}
-            <span className="rounded-full border border-border px-1.5 py-0.5 text-[10px] font-medium text-text-tertiary">
-              via Wise
-            </span>{" "}
-            and aren&apos;t fetched from the provider directly. Quotes are
+            attributed to that provider by Wise&apos;s public comparison API
+            rather than fetched from the provider directly. Quotes are
             cached briefly (a couple of minutes) so the page loads fast
             without hammering provider APIs — refresh to force a new check.
           </p>
