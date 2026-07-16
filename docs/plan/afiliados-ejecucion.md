@@ -202,6 +202,37 @@ Descartados (solo constan en la guía de referencia): Small World/Sigue (ceased 
 - **Follow-up:** +7 días hábiles vía el panel Partnerize (no hay email público).
 - **Restricciones:** umbral €1.000 por cliente para cobrar; permiten banners, text links, vídeo embebido y API para afiliados aprobados.
 
+#### Email pitch CurrencyFair (redactado 2026-07-16 — enfoque comunidad)
+
+Para el formulario de contacto de currencyfair.com/affiliate-program (pedir que lo deriven a partnerships), como acompañamiento de la solicitud Partnerize, o como follow-up. Enviar desde `manuel.gonzalez@sulitsend.com` (requiere el setup de email saliente del §0). El punto 2 del crecimiento está redactado deliberadamente como *app referral* (ventajas premium por invitar gente a la app), nunca como recompensa por registrarse en el proveedor — fuera del gate de incentivized traffic del §0.
+
+> **Subject:** Partnership — SulitSend, built for the Filipino community in Europe (CurrencyFair ranks #1 in our comparisons)
+>
+> Hi CurrencyFair team,
+>
+> I'm Manuel González, founder of SulitSend (app.sulitsend.com). I'm part of the Filipino community in Spain, and SulitSend was born from something I kept seeing around me: most people send money home the way they always have, without ever checking if there's a better option — when they could be saving real money on every single transfer just by comparing. SulitSend does that comparison for them, for the Europe→Philippines corridor, ranking providers purely by how much the recipient actually gets.
+>
+> Why I'm writing to you specifically: based on live pricing through your API and official published information, CurrencyFair is consistently the best-rate provider we've found for our corridor. That means you're likely to become the most recommended — and most used — provider on our app, and we'd like to reach a partnership or affiliate agreement that reflects that.
+>
+> This is a young project, but it's growing on an already professional foundation — the web app is live in production — and our plan is to reinvest the earnings into expanding to native Android and iPhone apps.
+>
+> How we're growing, in this order:
+>
+> 1. **Direct recommendation within the Filipino community in Spain** — I have a large network of personal contacts and an established client base here; word of mouth inside the community is our main channel.
+> 2. **A referral scheme inside the app** — users unlock premium features for free (rate alerts, promo finder, personalised recommendations, direct support) by sharing the app with friends and family.
+> 3. **Reinvestment into organic marketing and SEO** as revenue comes in.
+>
+> Feel free to try the app at app.sulitsend.com — we recommend opening it from a phone, as the design is mobile-first — and we'd genuinely welcome any feedback or recommendations to improve it.
+>
+> Product walkthrough (60s): [VIDEO_URL]
+>
+> I'd love to talk about how we could work together. Happy to share anything else you need.
+>
+> Best regards,
+> Manuel González
+> Founder, SulitSend
+> app.sulitsend.com · manuel.gonzalez@sulitsend.com
+
 ---
 
 ## §3 · Fichas — Grupo B · FlexOffers
