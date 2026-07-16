@@ -2,12 +2,43 @@
 
 Two separate Vercel projects, one repo. Root domain is the landing marketing site; the app lives on a subdomain.
 
-## Status (2026-07-14)
+## Haz deploy (CLI — método vigente)
 
-Executed: Cloudflare DNS (3 records, DNS-only), both Vercel projects created (team `grow-glow`), domains verified, prod env vars set, www→apex 308 redirect, `rootDirectory` set, first production deploys live. Pending:
+No hay git integration, así que los pushes **no** auto-despliegan. Se despliega a producción por CLI. Ambos proyectos tienen `rootDirectory` configurado en Vercel (`web` / `landing`), por lo que **hay que desplegar desde la raíz del repo** — desde `web/` o `landing/` falla con `…\web\web does not exist`.
 
-- [ ] **Git integration**: GitHub login connection added (2026-07-14), but `vercel git connect` still fails with "make sure you have access to the repository" — the **Vercel GitHub App** isn't installed on the repo. Install at [github.com/apps/vercel](https://github.com/apps/vercel) → Configure → grant `manugonz42/WiseRate`, then rerun `vercel git connect https://github.com/manugonz42/WiseRate.git --yes` from `web/` and `landing/`. Until then pushes don't auto-deploy — and CLI deploys from subdirs now fail (rootDirectory is set); use git integration or `vercel link --repo`.
-- [ ] Post-deploy checks below. Note: this dev machine's network (FortiGuard DNS filter) blocks `sulitsend.com` as a newly-registered domain (resolves to 208.91.112.55) — global DNS verified correct via DoH; run the curls from another network or request recategorization at fortiguard.com/webfilter.
+Desde la raíz del repo (`WiseRate/`), primero comprueba que el árbol está limpio y en sync con `origin/main` (lo desplegado = working tree), luego por cada proyecto:
+
+```bash
+# En Git Bash (Windows) antepón MSYS_NO_PATHCONV=1 a los comandos vercel.
+
+# 1) web  → app.sulitsend.com
+vercel link --yes --project sulitsend-web
+vercel deploy --prod --yes
+rm -rf .vercel .env.local            # limpia el link temporal del root
+
+# 2) landing → sulitsend.com (+ www)
+vercel link --yes --project sulitsend-landing
+vercel deploy --prod --yes
+rm -rf .vercel .env.local
+```
+
+`vercel link` crea un `.vercel` temporal en la raíz; se borra al final (los links permanentes viven en `web/.vercel` y `landing/.vercel`). El deploy sube todo el repo y Vercel aplica `rootDirectory` para construir solo el subdir.
+
+Verificar producción tras cada deploy:
+
+```bash
+vercel inspect <deploy-url>          # confirma readyState READY + Aliases (app.sulitsend.com / sulitsend.com)
+curl -I https://app.sulitsend.com/api/health   # → 200
+curl -I https://sulitsend.com/                 # → 200
+```
+
+Team: `grow-glow` (login `growglowapp-1267`). Si `vercel whoami` no devuelve el team, `vercel login` primero.
+
+## Status (2026-07-16)
+
+Todo ejecutado y en producción: Cloudflare DNS (3 records, DNS-only), ambos proyectos Vercel (team `grow-glow`), dominios verificados, env vars prod, www→apex 308, `rootDirectory`, deploys de producción en vivo con la última versión (T33 logomark). El bloqueo local de FortiGuard sobre `sulitsend.com` ya no aplica — los curls de verificación funcionan desde esta máquina.
+
+Pendiente (opcional, no priorizado): **Git integration** para auto-deploy en push — instalar la **Vercel GitHub App** en el repo ([github.com/apps/vercel](https://github.com/apps/vercel) → Configure → `manugonz42/WiseRate`), luego `vercel git connect https://github.com/manugonz42/WiseRate.git --yes` en `web/` y `landing/`.
 
 ## 1. Vercel projects
 
