@@ -74,7 +74,7 @@ export default function AnalyticsPage() {
   const hasData = !loading && !error && history && history.rates.length > 0;
 
   return (
-    <main className="mx-auto min-h-[100dvh] w-full max-w-4xl px-4 pb-16 pt-8 sm:px-6 lg:min-h-0 lg:p-0">
+    <main className="mx-auto min-h-[100dvh] w-full max-w-4xl px-4 pb-16 pt-8 sm:px-6">
       <header className="mb-5 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-[28px] font-extrabold leading-none tracking-tight">

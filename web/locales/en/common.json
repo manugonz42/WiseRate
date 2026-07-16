@@ -1,4 +1,5 @@
 {
+  "_note.nav.live": "Brand element: 'nav.live' stays the English word 'live' in every locale — never translate (docs/architecture/localization.md)",
   "nav.home": "Home",
   "nav.compare": "Compare",
   "nav.analytics": "Analytics",

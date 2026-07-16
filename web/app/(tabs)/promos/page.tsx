@@ -113,7 +113,7 @@ export default function PromosPage() {
   }, [promos, search]);
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-4xl space-y-6 px-4 py-6 sm:px-6">
       <div>
         <h1 className="text-2xl font-extrabold">{t("promos.title")}</h1>
         <p className="mt-1 text-sm text-text-secondary">

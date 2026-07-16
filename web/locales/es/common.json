@@ -1,10 +1,11 @@
 {
+  "_note.nav.live": "Brand element: 'nav.live' stays the English word 'live' in every locale — never translate (docs/architecture/localization.md)",
   "nav.home": "Inicio",
   "nav.compare": "Comparar",
   "nav.analytics": "Análisis",
   "nav.alerts": "Alertas",
   "nav.promos": "Promociones",
-  "nav.live": "en vivo",
+  "nav.live": "live",
   "footer.copyright": "© 2026 SulitSend · Sitio de comparación independiente, no es una institución de pago",
   "footer.about": "Acerca de",
   "footer.howWeMakeMoney": "Cómo ganamos dinero",

@@ -179,7 +179,7 @@ export default function ComparePage() {
   }, [methodMatched]);
 
   return (
-    <main className="mx-auto min-h-[100dvh] w-full max-w-4xl px-4 pb-16 pt-8 sm:px-6 lg:min-h-0 lg:p-0">
+    <main className="mx-auto min-h-[100dvh] w-full max-w-4xl px-4 pb-16 pt-8 sm:px-6">
       <header className="mb-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <div>
           <h1 className="text-[28px] font-extrabold leading-none tracking-tight">
@@ -253,7 +253,7 @@ export default function ComparePage() {
               onClick={() => handleMethodChange(m.id)}
               className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
                 method === m.id
-                  ? "bg-accent text-primary-light lg:bg-primary lg:text-[color:var(--lime)]"
+                  ? "bg-accent text-primary-light"
                   : "bg-surface text-text-secondary hover:bg-surface-hover"
               }`}
             >
@@ -271,7 +271,7 @@ export default function ComparePage() {
             onClick={() => handleSortChange(s.id)}
             className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
               sort === s.id
-                ? "bg-primary text-primary-light lg:text-[color:var(--lime)]"
+                ? "bg-primary text-primary-light"
                 : "bg-surface text-text-secondary hover:bg-surface-hover"
             }`}
           >
@@ -390,7 +390,7 @@ function BrokerCard({ amount }: { amount: number }) {
   return (
     <section
       aria-label="Specialist brokers"
-      className="mt-8 rounded border border-accent/30 bg-surface-elevated p-5 lg:border-border lg:bg-bg"
+      className="mt-8 rounded border border-accent/30 bg-surface-elevated p-5"
     >
       <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-accent">
         Specialist broker — quote via registration/phone
@@ -585,11 +585,9 @@ function QuoteTableRow({
   selectedMethod: MethodFilter;
 }) {
   const router = useRouter();
-  // lg+: the panel shell follows Home's ink/lime palette, so the best-deal
-  // highlight swaps its amber tint for olive/lime there (mobile keeps amber).
   const cell = `py-3 transition-colors ${
     isBest
-      ? "border-y border-warning/30 bg-warning/[0.06] first:border-l-2 first:border-l-warning first:pl-2.5 last:border-r last:border-r-warning/30 lg:border-[rgba(123,164,40,0.4)] lg:bg-[rgba(200,241,53,0.18)] lg:first:border-l-primary-dark lg:last:border-r-[rgba(123,164,40,0.4)]"
+      ? "border-y border-warning/30 bg-warning/[0.06] first:border-l-2 first:border-l-warning first:pl-2.5 last:border-r last:border-r-warning/30"
       : "border-b border-border-subtle"
   }`;
   return (
@@ -611,7 +609,7 @@ function QuoteTableRow({
           <SourceTag q={q} />
           <EditorialMethodTag q={q} selectedMethod={selectedMethod} />
           {isBest && (
-            <span className="flex shrink-0 items-center gap-1 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-bold text-warning lg:bg-primary lg:text-[color:var(--lime)]">
+            <span className="flex shrink-0 items-center gap-1 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-bold text-warning">
               <Star size={10} weight="fill" /> BEST DEAL
             </span>
           )}

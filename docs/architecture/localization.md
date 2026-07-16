@@ -49,7 +49,7 @@ Avoid leaking implementation details (`home.tableRow1`) — keys describe meanin
 **Provider:** `web/components/I18nProvider.tsx` wraps the root `app/layout.tsx`, so `ConsentBanner` is localized on every route. Translated page copy still lives only on `(tabs)/` screens; pages outside `(tabs)/` remain English.
 
 **Localized surfaces (exhaustive):**
-- `(tabs)/layout.tsx` — tab labels (Home, Compare, Analytics, Alerts, Promos), footer links, live pill label
+- `(tabs)/layout.tsx` — tab labels (Home, Compare, Analytics, Alerts, Promos), footer links
 - `(tabs)/home/page.tsx`
 - `(tabs)/compare/page.tsx`
 - `(tabs)/analytics/page.tsx`
@@ -58,6 +58,7 @@ Avoid leaking implementation details (`home.tableRow1`) — keys describe meanin
 - `ConsentBanner.tsx`
 
 **Not localized (stays English):**
+- `nav.live` — the "🇪🇺→🇵🇭 live" header pill is a brand element: the value is the English word "live" in **every** locale file (en/es/tl and any future locale). Exclude it from all translation passes; never localize it.
 - Legal pages (`/about`, `/how-we-make-money`, `/terms`, `/privacy`, `/cookies`)
 - Corridor SEO pages (`/corridors/*`)
 - Provider editorial profiles (`providers.ts` copy)
@@ -65,10 +66,9 @@ Avoid leaking implementation details (`home.tableRow1`) — keys describe meanin
 - Landing site (separate i18n system)
 - `/send/*` and `/provider/*` routes
 
-**Language selector:** `web/components/LanguageSelect.tsx` — Globe icon + native `<select>` (options: EN / ES / TL), styled as small pills. Three placements:
-1. Mobile/sm header: right side next to live pill
-2. Desktop sidebar (narrow): bottom under nav
-3. Home desktop: top-right nav row
+**Language selector:** `web/components/LanguageSelect.tsx` — Globe icon + native `<select>` (options: EN / ES / TL), styled as small pills. Two placements:
+1. Top header: right side next to live pill (mobile always; `lg+` on every tab except Home)
+2. Home desktop: top-right nav row
 
 Changes persist in `localStorage["sulitsend.locale.v1"]` and re-render via react-i18next.
 
