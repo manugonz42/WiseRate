@@ -7,7 +7,7 @@ Identity + accounts. Web only (T34, 2026-07-17) — Supabase Auth + Postgres, EU
 - **Future:** ⏳ iOS/Android accounts (Phase 5-proper, not scheduled)
 
 ## Used by
-- [referral](../modules/referral.md) — referral code + attribution (T36/T37)
+- [referral](../modules/referral.md) / [referral service](referral.md) — referral code + attribution (T36), click tracking + conversion ledger (T37)
 - [profile](../modules/profile.md) — `/account` (T35)
 
 ## Stack
@@ -20,8 +20,8 @@ Identity + accounts. Web only (T34, 2026-07-17) — Supabase Auth + Postgres, EU
 | Table | Notes |
 |---|---|
 | `profiles` | 1:1 with `auth.users` (`id` FK, cascade delete). Holds the accounts-backed `UserProfile` fields (see data-model.md) + `referral_code` (unique, server-generated), `referred_by` (self-FK), `terms_accepted_at`/`terms_version`, optional signup extras `providers_used`/`heard_from`. |
-| `affiliate_clicks` | `id`, `user_id?`, `provider_id`, `created_at`. Exists from day 1; populated by T37 (sub-ID click tracking). |
-| `referral_rewards` | `id`, `referrer_id`, `referred_id?`, `click_id?`, `kind` (`signup`\|`conversion`), `provider_id?`, `event_type?` (`lead`\|`sale`), `amount?`, `currency?`, `status` (`pending`\|`confirmed`\|`rejected`\|`redeemed`), `external_ref?`, `created_at`. Per-referred detail lives here; the referrer's UI only ever shows aggregates (privacy — see T37). |
+| `affiliate_clicks` | `id`, `user_id?`, `provider_id`, `created_at`, plus (T37) `event_type?` (`lead`\|`sale`), `amount?`, `currency?`, `conversion_status?` (`pending`\|`confirmed`\|`rejected`), `external_ref?` (unique when set), `converted_at?` — the conversion detail is recorded here for every converting click, referred or not. Full contract: [services/referral.md](referral.md). |
+| `referral_rewards` | `id`, `referrer_id`, `referred_id?`, `click_id?`, `kind` (`signup`\|`conversion`), `provider_id?`, `event_type?` (`lead`\|`sale`), `amount?`, `currency?`, `status` (`pending`\|`confirmed`\|`rejected`\|`redeemed`), `external_ref?` (unique when set), `created_at`. Per-referred detail lives here; the referrer's UI only ever shows aggregates (privacy — see [services/referral.md](referral.md)). |
 
 ## RLS
 

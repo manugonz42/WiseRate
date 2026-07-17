@@ -8,10 +8,20 @@ import { getProfile } from "@/lib/services/auth";
 import { track } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site";
 
+interface ReferralStats {
+  invitedCount?: number;
+  convertedCount?: number;
+  pendingMonths?: number;
+  confirmedMonths?: number;
+}
+
 export default function ReferralPage() {
   const { t } = useTranslation();
   const [code, setCode] = useState<string | null>(null);
   const [invitedCount, setInvitedCount] = useState(0);
+  const [convertedCount, setConvertedCount] = useState(0);
+  const [pendingMonths, setPendingMonths] = useState(0);
+  const [confirmedMonths, setConfirmedMonths] = useState(0);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [termsOpen, setTermsOpen] = useState(false);
@@ -20,11 +30,14 @@ export default function ReferralPage() {
     Promise.all([
       getProfile(),
       fetch("/api/referral/stats")
-        .then((r) => (r.ok ? r.json() : { invitedCount: 0 }))
-        .catch(() => ({ invitedCount: 0 })),
+        .then((r) => (r.ok ? (r.json() as Promise<ReferralStats>) : ({} as ReferralStats)))
+        .catch(() => ({}) as ReferralStats),
     ]).then(([profile, stats]) => {
       setCode(profile?.referralCode ?? null);
       setInvitedCount(stats.invitedCount ?? 0);
+      setConvertedCount(stats.convertedCount ?? 0);
+      setPendingMonths(stats.pendingMonths ?? 0);
+      setConfirmedMonths(stats.confirmedMonths ?? 0);
       setLoading(false);
     });
   }, []);
@@ -119,8 +132,16 @@ export default function ReferralPage() {
           <p className="text-xs text-text-tertiary">{t("referral.invitedLabel")}</p>
         </div>
         <div className="rounded bg-surface p-4 shadow">
-          <p className="text-2xl font-extrabold">0</p>
+          <p className="text-2xl font-extrabold">{convertedCount}</p>
+          <p className="text-xs text-text-tertiary">{t("referral.convertedLabel")}</p>
+        </div>
+        <div className="rounded bg-surface p-4 shadow">
+          <p className="text-2xl font-extrabold">{confirmedMonths}</p>
           <p className="text-xs text-text-tertiary">{t("referral.rewardsLabel")}</p>
+        </div>
+        <div className="rounded bg-surface p-4 shadow">
+          <p className="text-2xl font-extrabold">{pendingMonths}</p>
+          <p className="text-xs text-text-tertiary">{t("referral.monthsPendingLabel")}</p>
         </div>
       </div>
 
@@ -142,7 +163,7 @@ export default function ReferralPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-lg font-extrabold">{t("referral.howItWorksCta")}</h2>
-            {/* DRAFT — pending legal review before launch (docs/plan/T36-referral-attribution.md) */}
+            {/* DRAFT — pending legal review before launch (docs/plan/T36-referral-attribution.md, docs/plan/T37-referral-rewards.md) */}
             <p className="mt-3 text-sm leading-relaxed text-text-secondary">
               {t("referral.termsBody")}
             </p>

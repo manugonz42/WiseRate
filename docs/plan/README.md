@@ -7,7 +7,7 @@ Decision 2026-07-17: the ROADMAP Phase 5 accounts/referral slice is **pulled for
 - [x] [T34 — Accounts foundation](T34-accounts-foundation.md): Supabase auth + schema (profiles, clicks, rewards) + RLS + auth service
 - [x] [T35 — Signup / Login / Account UI](T35-signup-ui.md): form (nombre/apellidos, DOB typeable+calendar, país searchable, email opt-in, terms), /account, delete account
 - [x] [T36 — Referral attribution](T36-referral-attribution.md): per-user code, `?ref=` capture (30d, last-touch), attribution at signup, /account/referral
-- [ ] [T37 — Referral rewards](T37-referral-rewards.md): sub-ID click tracking, conversion ingestion, rewards ledger, anti-fraud v1
+- [x] [T37 — Referral rewards](T37-referral-rewards.md): sub-ID click tracking, conversion ingestion, rewards ledger, anti-fraud v1 (built ahead of any live affiliate deal — `subIdParam` pre-filled from the known per-network standard, `docs/services/referral.md` is the contract)
 
 **Decisions (resolved 2026-07-17):**
 1. **Optional signup fields** (T35): exactly two — providers already used + how-did-you-hear. Nothing else.
@@ -105,6 +105,7 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 - [ ] Resend account (Phase 3 alert emails — decided 2026-07-03) → API key env var, verify sending domain
 - [x] Supabase project (Free, **EU región**, project `jibrbnoynwedyasefpqe`) created 2026-07-17; `NEXT_PUBLIC_SUPABASE_URL`/`_ANON_KEY` + `SUPABASE_SERVICE_ROLE_KEY` set in `web/.env.local`
 - [ ] Same 3 Supabase env vars in Vercel (both environments) — local-only so far
-- [ ] Run `web/supabase/migrations/20260717120000_accounts_foundation.sql` in the Supabase SQL Editor (no CLI/DB-password access from this machine to apply it directly); then confirm in the dashboard: RLS enabled on `profiles`/`affiliate_clicks`/`referral_rewards`, and that updating `referral_code` on your own row is rejected
-- [ ] Sub-ID per network at each approval (blocks T37; procedimiento: afiliados-ejecucion.md §0 paso 4). **Self-serve, solo verificar param:** Partnerize (`clickref`), Impact (`subId1`), CJ (`sid`), Awin (`clickref`), FlexOffers (`fobs`), Admitad (`subid`), FinanceAds (`s_id`). **Hay que pedirlo al manager post-aprobación:** TorFX, Currencies Direct, OFX, Ria, Paysend, XE, Moneytrans (programas directos/introducer) — pregunta redactada en el §0 paso 4, nunca en la solicitud inicial
+- [ ] Run `web/supabase/migrations/20260717120000_accounts_foundation.sql` **and** `web/supabase/migrations/20260717130000_referral_conversions.sql` (T37) in the Supabase SQL Editor (no CLI/DB-password access from this machine to apply them directly); then confirm in the dashboard: RLS enabled on `profiles`/`affiliate_clicks`/`referral_rewards`, and that updating `referral_code` on your own row is rejected
+- [ ] `ADMIN_INGEST_TOKEN` env var (T37, `/api/admin/conversions`) — generate a random token, set locally + in Vercel; unset = route always 401s
+- [ ] Sub-ID per network at each approval (T37's `subIdParam` in `providers.ts`/`brokers.ts` is pre-filled with each network's standard param name — **verify it's exactly right** at approval; procedimiento: afiliados-ejecucion.md §0 paso 4). **Self-serve, solo verificar param:** Partnerize (`clickref`), Impact (`subId1`), CJ (`sid`), Awin (`clickref`), FlexOffers (`fobs`), Admitad (`subid`), FinanceAds (`s_id`). **Hay que pedirlo al manager post-aprobación:** TorFX, Currencies Direct, OFX, Ria, Paysend, XE, Moneytrans (programas directos/introducer) — pregunta redactada en el §0 paso 4, nunca en la solicitud inicial
 - [ ] Legal review extension: signup data (nombre, DOB, país), referral program terms, `/privacy` new section (T35/T36 drafts)

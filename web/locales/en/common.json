@@ -163,7 +163,9 @@
   "referral.shareCta": "Share",
   "referral.shareMessage": "Send money to the Philippines for less with SulitSend. Use my code {{code}} or tap: {{link}}",
   "referral.invitedLabel": "Friends invited",
-  "referral.rewardsLabel": "Rewards earned",
+  "referral.convertedLabel": "Converted",
+  "referral.rewardsLabel": "Months earned",
+  "referral.monthsPendingLabel": "Months pending",
   "referral.howItWorksCta": "How it works",
   "referral.termsBody": "Share your code with friends. When someone signs up with it and completes their first transfer through one of our partners, you'll earn a free month of SulitSend Premium once Premium launches. Final terms are still pending legal review and this program may change before it goes live."
 }

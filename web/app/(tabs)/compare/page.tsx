@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { getQuotes } from "@/lib/services/rate";
 import { getDefaultAmount } from "@/lib/services/persistence";
 import { track } from "@/lib/analytics";
+import { openAffiliateLink } from "@/lib/services/affiliate-click";
 import {
   markupPercentage,
   totalCost,
@@ -421,12 +422,14 @@ function BrokerCard({ amount }: { amount: number }) {
               href={b.url}
               target="_blank"
               rel="sponsored noopener"
-              onClick={() =>
+              onClick={(e) => {
+                e.preventDefault();
                 track("compare.broker_outbound", {
                   brokerID: b.id,
                   amountBucket: bucket,
-                })
-              }
+                });
+                void openAffiliateLink(b.id, b.url);
+              }}
               className="inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
             >
               Get a quote
@@ -552,7 +555,9 @@ function SendButton({ q }: { q: TransferQuote }) {
       rel="sponsored noopener"
       onClick={(e) => {
         e.stopPropagation();
+        e.preventDefault();
         track("compare.affiliate_outbound", { providerID: q.providerID });
+        void openAffiliateLink(q.providerID, url);
       }}
       className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-light transition active:scale-[0.97]"
     >

@@ -12,6 +12,7 @@ import ProviderAccounts from "@/components/ProviderAccounts";
 import { ProviderIcon } from "@/components/ProviderIcon";
 import { PromoBadge } from "@/components/PromoBadge";
 import { track } from "@/lib/analytics";
+import { openAffiliateLink } from "@/lib/services/affiliate-click";
 
 // One card per offer. First-transfer promos carry the quote numbers so the
 // value line can be derived at render; referral promos carry the editorial
@@ -224,11 +225,13 @@ export default function PromosPage() {
                           href={ctaUrl}
                           target="_blank"
                           rel="sponsored noopener"
-                          onClick={() =>
+                          onClick={(e) => {
+                            e.preventDefault();
                             track("promos.affiliate_outbound", {
                               providerID: promo.providerID,
-                            })
-                          }
+                            });
+                            void openAffiliateLink(promo.providerID, ctaUrl);
+                          }}
                           className="shrink-0 rounded-sm bg-primary px-3 py-1.5 text-xs font-bold text-primary-light hover:bg-primary-dark transition active:scale-[0.98]"
                         >
                           {t("promos.claim")}

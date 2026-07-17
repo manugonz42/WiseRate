@@ -30,6 +30,7 @@ import { getQuotes } from "@/lib/services/rate";
 import { getHistory } from "@/lib/services/history";
 import { PROVIDERS, genericProviderDetail } from "@/lib/data/providers";
 import { track } from "@/lib/analytics";
+import { openAffiliateLink } from "@/lib/services/affiliate-click";
 import type {
   DeliveryMethod,
   HistoryRange,
@@ -425,9 +426,11 @@ export default function ProviderDetailClient({ id }: { id: string }) {
             href={ctaURL}
             target="_blank"
             rel="sponsored noopener"
-            onClick={() =>
-              track("provider.affiliate_outbound", { providerID: provider.id })
-            }
+            onClick={(e) => {
+              e.preventDefault();
+              track("provider.affiliate_outbound", { providerID: provider.id });
+              void openAffiliateLink(provider.id, ctaURL);
+            }}
             className="btn-pop flex items-center justify-center gap-2 rounded bg-primary px-4 py-3.5 text-sm font-bold text-primary-light"
           >
             Send with {provider.name}

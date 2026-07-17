@@ -8,6 +8,7 @@ import { getQuotes } from "@/lib/services/rate";
 import { getHistory } from "@/lib/services/history";
 import { getDefaultAmount } from "@/lib/services/persistence";
 import { track } from "@/lib/analytics";
+import { openAffiliateLink } from "@/lib/services/affiliate-click";
 import { providerSendURL } from "@/lib/data/providers";
 import { php, eur } from "@/lib/format";
 import { ProviderIcon as SharedProviderIcon } from "@/components/ProviderIcon";
@@ -454,9 +455,11 @@ function DesktopWinner({ q, extra, t }: { q: TransferQuote; extra: number; t: TF
           href={url}
           target="_blank"
           rel="sponsored noopener"
-          onClick={() =>
-            track("home.affiliate_outbound", { providerID: q.providerID })
-          }
+          onClick={(e) => {
+            e.preventDefault();
+            track("home.affiliate_outbound", { providerID: q.providerID });
+            void openAffiliateLink(q.providerID, url);
+          }}
           className={btnClass}
           style={{ color: "var(--lime)" }}
         >
@@ -701,9 +704,11 @@ function SendCTA({ q, invert = false }: { q: TransferQuote; invert?: boolean }) 
       href={url}
       target="_blank"
       rel="sponsored noopener"
-      onClick={() =>
-        track("home.affiliate_outbound", { providerID: q.providerID })
-      }
+      onClick={(e) => {
+        e.preventDefault();
+        track("home.affiliate_outbound", { providerID: q.providerID });
+        void openAffiliateLink(q.providerID, url);
+      }}
       className={className}
     >
       {label}

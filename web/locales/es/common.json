@@ -163,7 +163,9 @@
   "referral.shareCta": "Compartir",
   "referral.shareMessage": "Envía dinero a Filipinas por menos con SulitSend. Usa mi código {{code}} o entra aquí: {{link}}",
   "referral.invitedLabel": "Amigos invitados",
-  "referral.rewardsLabel": "Recompensas ganadas",
+  "referral.convertedLabel": "Convertidos",
+  "referral.rewardsLabel": "Meses ganados",
+  "referral.monthsPendingLabel": "Meses pendientes",
   "referral.howItWorksCta": "Cómo funciona",
   "referral.termsBody": "Comparte tu código con tus amigos. Cuando alguien se registre con él y complete su primera transferencia con uno de nuestros socios, ganarás un mes gratis de SulitSend Premium cuando esté disponible. Los términos finales siguen pendientes de revisión legal y el programa puede cambiar antes de su lanzamiento."
 }

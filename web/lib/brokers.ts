@@ -6,6 +6,9 @@ export interface Broker {
   url: string;
   pitch: string;
   corridors: "all" | string[];
+  // Introducer sub-tracking param (T37) — these programs don't confirm one
+  // at signup; ask the account manager post-approval (afiliados-ejecucion.md §0).
+  subIdParam?: string;
 }
 
 // TODO(human): replace with introducer/partner URLs once agreements are signed

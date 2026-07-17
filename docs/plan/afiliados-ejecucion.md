@@ -107,9 +107,10 @@ Coincide con lo permitido por todos los programas — el ángulo comunidad es un
 1. Copiar la URL/link de tracking desde el panel de la red.
 2. Pegarla en `web/lib/data/providers.ts` → campo `affiliateURL` del proveedor (brokers: `web/lib/brokers.ts` → campo `url`).
 3. Probar en local que el link trackea (aterriza en el proveedor con tu ID visible en la URL/cookie) **antes** de deployar.
-4. Deploy + marcar el [checklist §4](#4--checklist-de-seguimiento).
-5. **Primer link vivo** → flip de ambos proyectos Vercel a Pro (Hobby prohíbe uso comercial — README checklist).
-6. Si el deal incluye bonus de referido para el usuario → poblar también `referralPromo` en `providers.ts` (T22).
+4. **Sub-ID (para T37, referidos):** verificar el parámetro de sub-tracking de la red (tabla en [`SolicitarAfiliados.md` § Tracking por usuario](../../SolicitarAfiliados.md)) y anotar el nombre exacto → irá al campo `subIdParam` de `providers.ts` cuando T37 se ejecute. En redes es self-serve (probar que el informe de clicks lo devuelve). En **directos/brokers** (grupos D y F), preguntar al account manager en esta conversación post-aprobación, formulado como analítica: *"Can we append a click-reference parameter (e.g. `?ref=<id>`) to our tracking link and see it back in conversion/client reports, for internal analytics?"* — ⚠️ **nunca** mencionar el sistema de recompensas aquí (gate del §0: eso se pregunta aparte y solo con comisiones ya cobradas). Si la red tiene evento "lead" (registro sin transferencia), pedir que lo activen en el reporting.
+5. Deploy + marcar el [checklist §4](#4--checklist-de-seguimiento).
+6. **Primer link vivo** → flip de ambos proyectos Vercel a Pro (Hobby prohíbe uso comercial — README checklist).
+7. Si el deal incluye bonus de referido para el usuario → poblar también `referralPromo` en `providers.ts` (T22).
 
 ---
 
@@ -295,6 +296,8 @@ Para el formulario de contacto de currencyfair.com/affiliate-program (pedir que 
 ## §3 · Fichas — Grupo D · Brokers (rev-share lifetime — pitch a persona; esperar al vídeo)
 
 > A los brokers los revisa un partnership manager humano: aquí el email y el vídeo importan más que el formulario. Confirmar cobertura EUR→PHP **en el propio mensaje** (condición del README checklist). Estos ingresos son recurrentes (el único revenue por-transacción sin licencia de pagos — ROADMAP).
+>
+> **Sub-ID:** no preguntarlo en el email inicial (ruido técnico + roza el gate de rewards del §0). Se pregunta al manager **tras la aprobación** — paso 4 del procedimiento común §0. Los introducer suelen reportar rev-share por cliente identificado, así que puede que ni haga falta parámetro.
 
 ### D1 · TORFX
 
@@ -387,6 +390,8 @@ Para el formulario de contacto de currencyfair.com/affiliate-program (pedir que 
 ## §3 · Fichas — Grupo F · Baja prioridad (lanzar solo con A–E en marcha)
 
 > Formato corto: canal + enfoque + envío. Todos usan la descripción/método/tráfico del §0 y el procedimiento común al aprobar. Vídeo: sí en los emails, no en formularios.
+>
+> **Sub-ID:** los cuatro son programas directos (sin red) — como en el grupo D, preguntar el parámetro de click-reference al manager **tras la aprobación** (paso 4 del procedimiento común §0), nunca en la solicitud inicial.
 
 ### F1 · RIA
 - **Canal:** https://partners.riamoneytransfer.com/signup · partners@riamoneytransfer.com · +1 (800) 743-7426.

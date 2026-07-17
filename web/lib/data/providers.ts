@@ -14,6 +14,7 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
     userRating: 4.7,
     websiteURL: "https://wise.com",
     affiliateURL: null,
+    subIdParam: "clickref", // Partnerize
     description:
       "Wise (formerly TransferWise) is a British fintech that provides international money transfers at the mid-market exchange rate with transparent, upfront fees.",
     reviewCount: 24500,
@@ -54,6 +55,7 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
     userRating: 4.5,
     websiteURL: "https://remitly.com",
     affiliateURL: null,
+    subIdParam: "fobs", // FlexOffers
     description:
       "Remitly is an American online remittance service offering international money transfers to over 170 countries, with strong Philippines payout coverage.",
     reviewCount: 18200,
@@ -93,6 +95,7 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
     userRating: 4.0,
     websiteURL: "https://westernunion.com",
     affiliateURL: null,
+    subIdParam: "clickref", // Partnerize
     description:
       "Western Union is an American financial services and communications company with the world's largest cash-pickup network for money transfers.",
     reviewCount: 32100,
@@ -133,6 +136,7 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
     userRating: 4.4,
     websiteURL: "https://transfergo.com",
     affiliateURL: null,
+    subIdParam: "s_id", // FinanceAds
     description:
       "TransferGo is a European money transfer service focused on low fees for bank, cash, and mobile-wallet payouts, including GCash and Maya in the Philippines.",
     reviewCount: 9800,
@@ -175,6 +179,7 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
     userRating: 4.4,
     websiteURL: "https://www.instarem.com",
     affiliateURL: null,
+    subIdParam: "fobs", // FlexOffers (Partnerize is the fallback if declined)
     description:
       "Instarem (part of the Nium group) is a Singapore-founded fintech offering international transfers at a small FX margin with no fixed fee for bank-funded sends, plus wide cash-pickup coverage in the Philippines.",
     reviewCount: 7600,
@@ -246,6 +251,7 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
     userRating: 4.2,
     websiteURL: "https://www.moneygram.com",
     affiliateURL: null,
+    subIdParam: "sid", // CJ Affiliate
     description:
       "MoneyGram is a US-based money transfer company with one of the largest cash-pickup and agent networks worldwide; the cost is concentrated in its exchange-rate margin rather than a visible fee.",
     reviewCount: 30000,
@@ -350,6 +356,7 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
     userRating: 4.1,
     websiteURL: "https://www.worldremit.com",
     affiliateURL: null,
+    subIdParam: "clickref", // Awin
     description:
       "WorldRemit (Zepz group) is a UK-founded digital remittance service specializing in mobile-money and cash payouts across Africa, Asia, and Latin America, with strong Philippines coverage.",
     reviewCount: 71000,
@@ -388,6 +395,7 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
     userRating: 4.2,
     websiteURL: "https://www.xoom.com",
     affiliateURL: null,
+    subIdParam: "clickref", // Awin
     description:
       "Xoom, a PayPal service, sends to Philippine banks, GCash, cash pickup, and home delivery, funded instantly from a PayPal balance, bank account, or card — fast, but the exchange-rate margin runs 3%–4% above mid-market.",
     reviewCount: 188500,
@@ -430,6 +438,7 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
     userRating: 4.5,
     websiteURL: "https://www.currencyfair.com",
     affiliateURL: null,
+    subIdParam: "clickref", // Partnerize
     description:
       "CurrencyFair is an Ireland-based FX broker offering peer-to-peer and instant transfers at a small margin over mid-market, funded and paid out entirely through bank accounts — no cash pickup or mobile wallet.",
     reviewCount: 12100,

@@ -120,6 +120,10 @@ export interface ProviderDetail {
   userRating: number; // 0..5
   websiteURL: string;
   affiliateURL: string | null;
+  // Network sub-ID query param for click attribution (T37, docs/services/
+  // referral.md) — e.g. "clickref" for Partnerize, "fobs" for FlexOffers.
+  // Unset until the network is confirmed at approval time.
+  subIdParam?: string;
   // Editorial "use our link" bonus; unset until a real affiliate/referral
   // deal exists for this provider (same convention as affiliateURL: null).
   referralPromo?: ReferralPromo;
