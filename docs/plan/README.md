@@ -6,7 +6,7 @@ Decision 2026-07-17: the ROADMAP Phase 5 accounts/referral slice is **pulled for
 
 - [x] [T34 — Accounts foundation](T34-accounts-foundation.md): Supabase auth + schema (profiles, clicks, rewards) + RLS + auth service
 - [x] [T35 — Signup / Login / Account UI](T35-signup-ui.md): form (nombre/apellidos, DOB typeable+calendar, país searchable, email opt-in, terms), /account, delete account
-- [ ] [T36 — Referral attribution](T36-referral-attribution.md): per-user code, `?ref=` capture (30d, last-touch), attribution at signup, /account/referral
+- [x] [T36 — Referral attribution](T36-referral-attribution.md): per-user code, `?ref=` capture (30d, last-touch), attribution at signup, /account/referral
 - [ ] [T37 — Referral rewards](T37-referral-rewards.md): sub-ID click tracking, conversion ingestion, rewards ledger, anti-fraud v1
 
 **Decisions (resolved 2026-07-17):**
@@ -91,7 +91,7 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 - [ ] Verify SulitSend: EUIPO + both-store search (domain **bought 2026-07-14**, Cloudflare; `.app` deferred until first revenue)
 - [x] Contact email: `hello@sulitsend.com` live (Cloudflare Email Routing → growglow.app@gmail.com) → `CONTACT_EMAIL` set 2026-07-15 (a7f6cd6); pending prod redeploy of `sulitsend-web` to go public
 - [ ] Outbound email from `hello@sulitsend.com` (today receive-only): Gmail "Send mail as" + Brevo free SMTP + DKIM/SPF in Cloudflare — steps in [afiliados-ejecucion.md §0](afiliados-ejecucion.md); needed before group D emails / follow-ups
-- [ ] Legal review now also covers `/terms` draft (after T17)
+- [ ] Legal review now also covers `/terms` draft (after T17) and the referral program terms draft in `/account/referral`'s "How it works" sheet (after T36)
 - [ ] Send affiliate/broker applications — step-by-step execution plan: [afiliados-ejecucion.md](afiliados-ejecucion.md) (research reference: `SolicitarAfiliados.md`, repo root); after deploy, the live site is the credential
 - [x] `git push` of the T17–T22 work + merged `main` — pushed 2026-07-14 (`021c967`)
 - [ ] Affiliate signups: Wise (Partnerize), Remitly, WU, TransferGo, CurrencyFair → paste real affiliate URLs (`web/lib/data/providers.ts`); once any deal includes a referral bonus, populate `referralPromo` too (T22)

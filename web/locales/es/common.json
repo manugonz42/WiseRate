@@ -111,6 +111,8 @@
   "auth.heardFromSocial": "Redes sociales",
   "auth.heardFromYoutube": "YouTube",
   "auth.heardFromOther": "Otro",
+  "auth.referralCodeLabel": "¿Tienes un código de invitación?",
+  "auth.referralCodePlaceholder": "p. ej. AB23CD45",
   "auth.submit": "Crear cuenta",
   "auth.submitting": "Creando cuenta…",
   "auth.haveAccount": "¿Ya tienes cuenta?",
@@ -140,6 +142,7 @@
   "auth.accountSaved": "Guardado.",
   "auth.accountLogout": "Cerrar sesión",
   "auth.accountReferralCode": "Código de referido",
+  "auth.accountReferralCta": "Invita a tus amigos y gana recompensas",
   "auth.accountDeleteTitle": "Eliminar cuenta",
   "auth.accountDeleteDesc": "Esto elimina permanentemente tu cuenta y tus datos de perfil. No se puede deshacer.",
   "auth.accountDeleteButton": "Eliminar mi cuenta",
@@ -152,5 +155,15 @@
   "auth.errorAge": "Debes tener al menos 18 años.",
   "auth.errorCountry": "Elige un país de la lista.",
   "auth.errorTerms": "Debes aceptar los términos para continuar.",
-  "auth.errorGeneric": "Algo salió mal. Inténtalo de nuevo."
+  "auth.errorGeneric": "Algo salió mal. Inténtalo de nuevo.",
+  "referral.pageTitle": "Tu código de referido",
+  "referral.pageSubtitle": "Invita a tus amigos y gana recompensas cuando se unan.",
+  "referral.copyCta": "Copiar código",
+  "referral.copied": "¡Copiado!",
+  "referral.shareCta": "Compartir",
+  "referral.shareMessage": "Envía dinero a Filipinas por menos con SulitSend. Usa mi código {{code}} o entra aquí: {{link}}",
+  "referral.invitedLabel": "Amigos invitados",
+  "referral.rewardsLabel": "Recompensas ganadas",
+  "referral.howItWorksCta": "Cómo funciona",
+  "referral.termsBody": "Comparte tu código con tus amigos. Cuando alguien se registre con él y complete su primera transferencia con uno de nuestros socios, ganarás un mes gratis de SulitSend Premium cuando esté disponible. Los términos finales siguen pendientes de revisión legal y el programa puede cambiar antes de su lanzamiento."
 }

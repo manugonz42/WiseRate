@@ -22,10 +22,16 @@ export interface SignUpInput {
   termsVersion: string;
   providersUsed?: string[];
   heardFrom?: HeardFrom;
+  referralCode?: string;
+  referralCapturedAt?: string;
 }
 
 export interface AuthResult {
   error: string | null;
+}
+
+export interface SignUpResult extends AuthResult {
+  referred?: boolean;
 }
 
 function profileFromRow(row: Record<string, unknown>): Profile {
@@ -46,7 +52,7 @@ function profileFromRow(row: Record<string, unknown>): Profile {
   };
 }
 
-export async function signUp(input: SignUpInput): Promise<AuthResult> {
+export async function signUp(input: SignUpInput): Promise<SignUpResult> {
   const supabase = createClient();
   const { data, error } = await supabase.auth.signUp({
     email: input.email,
@@ -71,15 +77,18 @@ export async function signUp(input: SignUpInput): Promise<AuthResult> {
       termsVersion: input.termsVersion,
       providersUsed: input.providersUsed,
       heardFrom: input.heardFrom,
+      referralCode: input.referralCode,
+      referralCapturedAt: input.referralCapturedAt,
     }),
   });
 
+  const body = await response.json().catch(() => ({}) as { error?: string; referred?: boolean });
+
   if (!response.ok) {
-    const body = await response.json().catch(() => ({}) as { error?: string });
     return { error: body.error ?? "No se pudo completar el registro." };
   }
 
-  return { error: null };
+  return { error: null, referred: body.referred ?? false };
 }
 
 export async function signIn(email: string, password: string): Promise<AuthResult> {

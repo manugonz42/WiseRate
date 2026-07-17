@@ -2,7 +2,9 @@
 // 8 chars, uppercase, Crockford-style base32 alphabet excluding the
 // confusable pairs 0/O and 1/I (32 symbols: digits 2-9 + A-Z minus I, O).
 
-const ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+// Exported so callers that validate a submitted code (capture, attribution)
+// share the exact same alphabet instead of redeclaring it.
+export const REFERRAL_CODE_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
 const CODE_LENGTH = 8;
 const MAX_ATTEMPTS = 5;
 
@@ -11,7 +13,7 @@ export function generateReferralCode(): string {
   crypto.getRandomValues(bytes);
   let code = "";
   for (let i = 0; i < CODE_LENGTH; i++) {
-    code += ALPHABET[bytes[i] % ALPHABET.length];
+    code += REFERRAL_CODE_ALPHABET[bytes[i] % REFERRAL_CODE_ALPHABET.length];
   }
   return code;
 }

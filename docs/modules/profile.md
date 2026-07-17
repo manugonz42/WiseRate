@@ -47,7 +47,7 @@ Real Supabase-backed accounts, web only. Anonymous browsing is unaffected — se
 - **Signup fields:** nombre + apellidos, email + password (Supabase, email confirmation required), fecha de nacimiento (typeable `DD/MM/YYYY` + calendar popover, age ≥ 18 client+server), país de residencia (searchable combobox, `web/lib/data/countries.ts`), email-notifications checkbox (default off), terms checkbox (required, stores `terms_accepted_at` + `terms_version`). Optional collapsed section: providers already used (shares the `ProviderAccounts` component/localStorage with T28 Settings), "how did you hear about us" (preselects `friend` when `?ref=` is present).
 - **`/account`:** view/edit (first/last name, country, email-notification pref, providers used, heard-from) + logout + delete account. Email and birth date are read-only (no re-verification flow yet — open question below still applies). Delete calls `POST /api/account/delete` (service role `auth.admin.deleteUser`), which cascades the `profiles` row (GDPR art. 17); `referral_rewards.referred_id` nulls via FK, `referrer_id` keeps its history.
 - **`/reset-password`:** dual-purpose — request-link form for anonymous visitors, new-password form once the emailed link lands with a Supabase recovery session.
-- No referral code UI yet (T36). No OAuth. No avatar upload.
+- `/account` links to `/account/referral` (code, share, invited-count stats — [referral](referral.md) T36). No OAuth. No avatar upload.
 
 ## Open questions
 - Email/birth-date editing requires auth re-verification — defer until there's a concrete need.

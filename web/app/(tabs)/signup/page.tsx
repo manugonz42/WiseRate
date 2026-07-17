@@ -1,11 +1,12 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { CaretDown, CaretUp } from "@phosphor-icons/react/dist/ssr";
 import { signUp } from "@/lib/services/auth";
+import { getReferralCapture, type ReferralCapture } from "@/lib/services/persistence";
 import { isAdult } from "@/lib/dob";
 import { TERMS_VERSION } from "@/lib/legal";
 import { track } from "@/lib/analytics";
@@ -38,14 +39,25 @@ function SignupPageContent() {
   const [countryCode, setCountryCode] = useState<string | null>(null);
   const [emailNotifications, setEmailNotifications] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [optionalOpen, setOptionalOpen] = useState(false);
+  const [optionalOpen, setOptionalOpen] = useState(hasRef);
   const [providersUsed, setProvidersUsed] = useState<string[]>([]);
   const [heardFrom, setHeardFrom] = useState<HeardFrom | "">(hasRef ? "friend" : "");
+  const [referralInput, setReferralInput] = useState("");
+  const [referralCapture, setReferralCapture] = useState<ReferralCapture | null>(null);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [sentTo, setSentTo] = useState<string | null>(null);
+
+  useEffect(() => {
+    const stored = getReferralCapture();
+    if (stored) {
+      setReferralCapture(stored);
+      setReferralInput(stored.code);
+      setOptionalOpen(true);
+    }
+  }, []);
 
   const validate = (): Record<string, string> => {
     const next: Record<string, string> = {};
@@ -71,6 +83,15 @@ function SignupPageContent() {
 
     setSubmitting(true);
     setSubmitError(null);
+
+    const trimmedReferral = referralInput.trim().toUpperCase();
+    const referralCode = trimmedReferral || undefined;
+    const referralCapturedAt = !trimmedReferral
+      ? undefined
+      : trimmedReferral === referralCapture?.code
+        ? referralCapture.at
+        : new Date().toISOString();
+
     const result = await signUp({
       email: email.trim(),
       password,
@@ -82,6 +103,8 @@ function SignupPageContent() {
       termsVersion: TERMS_VERSION,
       providersUsed: providersUsed.length > 0 ? providersUsed : undefined,
       heardFrom: heardFrom || undefined,
+      referralCode,
+      referralCapturedAt,
     });
     setSubmitting(false);
 
@@ -91,6 +114,7 @@ function SignupPageContent() {
     }
 
     track("auth.signup", { heardFrom: heardFrom || undefined });
+    if (result.referred) track("referral.attributed");
     setSentTo(email.trim());
   };
 
@@ -211,6 +235,20 @@ function SignupPageContent() {
           {optionalOpen ? (
             <div className="space-y-4 border-t border-border p-3">
               <p className="text-xs text-text-tertiary">{t("auth.optionalSectionDesc")}</p>
+              <div>
+                <label htmlFor="referralCode" className="mb-1 block text-sm font-bold text-text-secondary">
+                  {t("auth.referralCodeLabel")}
+                </label>
+                <input
+                  id="referralCode"
+                  type="text"
+                  value={referralInput}
+                  onChange={(e) => setReferralInput(e.target.value.toUpperCase())}
+                  placeholder={t("auth.referralCodePlaceholder")}
+                  maxLength={8}
+                  className={inputClass(false)}
+                />
+              </div>
               <ProviderAccounts label={t("auth.providersUsedLabel")} onChange={setProvidersUsed} />
               <div>
                 <label htmlFor="heardFrom" className="mb-1 block text-sm font-bold text-text-secondary">

@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { getProfile, getSession, signOut, updateProfile } from "@/lib/services/auth";
 import { setProviderAccounts } from "@/lib/services/persistence";
 import { track } from "@/lib/analytics";
@@ -232,6 +234,14 @@ export default function AccountPage() {
           </>
         )}
       </div>
+
+      <Link
+        href="/account/referral"
+        className="mt-4 flex w-full items-center justify-between rounded bg-surface px-4 py-3 text-sm font-bold text-text-primary shadow transition hover:bg-surface-hover"
+      >
+        {t("auth.accountReferralCta")}
+        <CaretRight size={16} weight="bold" />
+      </Link>
 
       <button
         type="button"

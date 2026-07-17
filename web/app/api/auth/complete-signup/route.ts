@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { generateUniqueReferralCode } from "@/lib/services/referral-code";
+import { resolveReferral } from "@/lib/services/referral-attribution";
 import { isAdult } from "@/lib/dob";
 import type { HeardFrom } from "@/lib/models/types";
 
@@ -25,6 +26,8 @@ interface CompleteSignupBody {
   termsVersion: string;
   providersUsed?: string[];
   heardFrom?: HeardFrom;
+  referralCode?: string;
+  referralCapturedAt?: string;
 }
 
 export async function POST(request: Request) {
@@ -50,6 +53,16 @@ export async function POST(request: Request) {
     return !!data;
   });
 
+  const referredBy = await resolveReferral({
+    code: body.referralCode,
+    capturedAt: body.referralCapturedAt,
+    newUserId: body.userId,
+    findReferrerId: async (code) => {
+      const { data } = await service.from("profiles").select("id").eq("referral_code", code).maybeSingle();
+      return (data?.id as string | undefined) ?? null;
+    },
+  });
+
   const { error } = await service.from("profiles").insert({
     id: body.userId,
     first_name: body.firstName,
@@ -60,6 +73,7 @@ export async function POST(request: Request) {
     terms_accepted_at: new Date().toISOString(),
     terms_version: body.termsVersion,
     referral_code: referralCode,
+    referred_by: referredBy,
     providers_used: body.providersUsed ?? null,
     heard_from: body.heardFrom ?? null,
   });
@@ -68,5 +82,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ referralCode });
+  return NextResponse.json({ referralCode, referred: referredBy !== null });
 }

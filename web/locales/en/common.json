@@ -111,6 +111,8 @@
   "auth.heardFromSocial": "Social media",
   "auth.heardFromYoutube": "YouTube",
   "auth.heardFromOther": "Other",
+  "auth.referralCodeLabel": "Have an invite code?",
+  "auth.referralCodePlaceholder": "e.g. AB23CD45",
   "auth.submit": "Create account",
   "auth.submitting": "Creating account…",
   "auth.haveAccount": "Already have an account?",
@@ -140,6 +142,7 @@
   "auth.accountSaved": "Saved.",
   "auth.accountLogout": "Log out",
   "auth.accountReferralCode": "Referral code",
+  "auth.accountReferralCta": "Invite friends & earn rewards",
   "auth.accountDeleteTitle": "Delete account",
   "auth.accountDeleteDesc": "This permanently deletes your account and profile data. This cannot be undone.",
   "auth.accountDeleteButton": "Delete my account",
@@ -152,5 +155,15 @@
   "auth.errorAge": "You must be at least 18 years old.",
   "auth.errorCountry": "Pick a country from the list.",
   "auth.errorTerms": "You must accept the terms to continue.",
-  "auth.errorGeneric": "Something went wrong. Try again."
+  "auth.errorGeneric": "Something went wrong. Try again.",
+  "referral.pageTitle": "Your referral code",
+  "referral.pageSubtitle": "Invite friends and earn rewards when they join.",
+  "referral.copyCta": "Copy code",
+  "referral.copied": "Copied!",
+  "referral.shareCta": "Share",
+  "referral.shareMessage": "Send money to the Philippines for less with SulitSend. Use my code {{code}} or tap: {{link}}",
+  "referral.invitedLabel": "Friends invited",
+  "referral.rewardsLabel": "Rewards earned",
+  "referral.howItWorksCta": "How it works",
+  "referral.termsBody": "Share your code with friends. When someone signs up with it and completes their first transfer through one of our partners, you'll earn a free month of SulitSend Premium once Premium launches. Final terms are still pending legal review and this program may change before it goes live."
 }

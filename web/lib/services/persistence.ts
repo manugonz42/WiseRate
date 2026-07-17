@@ -4,6 +4,7 @@
 // every read/write guards on `typeof window`.
 
 import type { FavoriteProvider, RateAlert } from "@/lib/models/types";
+import { REFERRAL_CODE_ALPHABET } from "@/lib/services/referral-code";
 
 const KEY_PREFIX = "sulitsend.";
 const ALERTS_KEY = "sulitsend.alerts.v1";
@@ -12,6 +13,9 @@ const PROVIDER_ACCOUNTS_KEY = "sulitsend.providerAccounts.v1";
 const DEFAULT_AMOUNT_KEY = "sulitsend.defaultAmount.v1";
 const ONBOARDED_KEY = "sulitsend.onboarded.v1";
 const LOCALE_KEY = "sulitsend.locale.v1";
+const REFERRAL_KEY = "sulitsend.ref.v1";
+const REFERRAL_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+const REFERRAL_CODE_RE = new RegExp(`^[${REFERRAL_CODE_ALPHABET}]{8}$`);
 
 function readList<T>(key: string): T[] {
   if (typeof window === "undefined") return [];
@@ -134,6 +138,43 @@ export function getStoredLocale(): string | null {
 export function setStoredLocale(code: string): void {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(LOCALE_KEY, code);
+}
+
+export interface ReferralCapture {
+  code: string;
+  at: string; // ISO 8601
+}
+
+// Captures an incoming `?ref=` code (T36, docs/modules/referral.md): validates
+// the Crockford-alphabet format, then overwrites any previously stored code —
+// last-touch wins. No cookie (functional localStorage only, see /cookies).
+// Returns false (no-op) for a malformed code.
+export function captureReferralCode(rawCode: string): boolean {
+  const code = rawCode.trim().toUpperCase();
+  if (!REFERRAL_CODE_RE.test(code)) return false;
+  if (typeof window === "undefined") return false;
+  const entry: ReferralCapture = { code, at: new Date().toISOString() };
+  window.localStorage.setItem(REFERRAL_KEY, JSON.stringify(entry));
+  return true;
+}
+
+// Reads the stored capture, clearing + returning null once past the 30-day
+// window.
+export function getReferralCapture(): ReferralCapture | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(REFERRAL_KEY);
+    if (!raw) return null;
+    const entry = JSON.parse(raw) as ReferralCapture;
+    if (!entry.code || !entry.at) return null;
+    if (Date.now() - new Date(entry.at).getTime() > REFERRAL_TTL_MS) {
+      window.localStorage.removeItem(REFERRAL_KEY);
+      return null;
+    }
+    return entry;
+  } catch {
+    return null;
+  }
 }
 
 // Wipes every sulitsend.* key — prefix scan on purpose, so feature-owned keys
