@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
+    "@supabase/ssr": "^0.12.3",
+    "@supabase/supabase-js": "^2.110.7",
     "@upstash/redis": "^1.38.0",
     "i18next": "^23.7.6",
     "next": "^15.1.6",

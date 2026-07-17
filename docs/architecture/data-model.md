@@ -121,7 +121,8 @@ providerID   string?         // required when notifyType = providerCheapest
 ### UserProfile
 ```
 id                       uuid
-name                     string
+firstName                string
+lastName                 string
 email                    string
 avatarURL                string?
 isPremium                boolean
@@ -131,7 +132,15 @@ defaultDeliveryMethod    DeliveryMethod
 alerts                   RateAlert[]
 recentProviders          string[]   // provider ids
 favoriteProviders        string[]
+
+// accounts-backed fields (web: T34, Supabase `profiles` table — see auth.md)
+birthDate                date
+countryCode              string     // ISO 3166-1 alpha-2
+emailNotifications       boolean
+referralCode             string     // uppercase, 8 chars, Crockford base32
+referredBy               uuid?      // another UserProfile.id
 ```
+`name` split into `firstName`/`lastName` 2026-07-17 (T34) to match the Supabase `profiles` schema. iOS/Android mocks still carry a single `name` field — reconcile when their accounts land (Phase 5-proper).
 
 ### ComparisonResult
 ```

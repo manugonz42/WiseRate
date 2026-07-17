@@ -4,7 +4,7 @@
 
 Decision 2026-07-17: the ROADMAP Phase 5 accounts/referral slice is **pulled forward** to build the in-house referral-with-rewards program (same precedent as the SEO slice). Web only; no separate backend — Supabase (Free, EU) on the existing Next.js app. Same protocol: **"proceed TXX"**, strictly in order. Anonymous browsing and the affiliate flow must never gain a login wall.
 
-- [ ] [T34 — Accounts foundation](T34-accounts-foundation.md): Supabase auth + schema (profiles, clicks, rewards) + RLS + auth service
+- [x] [T34 — Accounts foundation](T34-accounts-foundation.md): Supabase auth + schema (profiles, clicks, rewards) + RLS + auth service
 - [ ] [T35 — Signup / Login / Account UI](T35-signup-ui.md): form (nombre/apellidos, DOB typeable+calendar, país searchable, email opt-in, terms), /account, delete account
 - [ ] [T36 — Referral attribution](T36-referral-attribution.md): per-user code, `?ref=` capture (30d, last-touch), attribution at signup, /account/referral
 - [ ] [T37 — Referral rewards](T37-referral-rewards.md): sub-ID click tracking, conversion ingestion, rewards ledger, anti-fraud v1
@@ -103,6 +103,8 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 - [ ] Legal review of the draft policies + contact email (`TODO(human)` in `/privacy`)
 - [ ] Post-deploy checks: `DEPLOY.md` §6 (health/sitemap curls, OG spot-check, UptimeRobot, Search Console + Bing Webmaster, preview-noindex confirmation) — blocked from the dev machine by its FortiGuard DNS filter (see `DEPLOY.md` status); run from another network
 - [ ] Resend account (Phase 3 alert emails — decided 2026-07-03) → API key env var, verify sending domain
-- [ ] Supabase project (Free, **EU región**) → `NEXT_PUBLIC_SUPABASE_URL`/`_ANON_KEY` + `SUPABASE_SERVICE_ROLE_KEY` env vars local + Vercel (blocks T34)
+- [x] Supabase project (Free, **EU región**, project `jibrbnoynwedyasefpqe`) created 2026-07-17; `NEXT_PUBLIC_SUPABASE_URL`/`_ANON_KEY` + `SUPABASE_SERVICE_ROLE_KEY` set in `web/.env.local`
+- [ ] Same 3 Supabase env vars in Vercel (both environments) — local-only so far
+- [ ] Run `web/supabase/migrations/20260717120000_accounts_foundation.sql` in the Supabase SQL Editor (no CLI/DB-password access from this machine to apply it directly); then confirm in the dashboard: RLS enabled on `profiles`/`affiliate_clicks`/`referral_rewards`, and that updating `referral_code` on your own row is rejected
 - [ ] Confirm sub-ID/clickref support per affiliate network as each signup is approved (Partnerize sí: `clickref=`) — blocks T37
 - [ ] Legal review extension: signup data (nombre, DOB, país), referral program terms, `/privacy` new section (T35/T36 drafts)

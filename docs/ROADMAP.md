@@ -79,9 +79,11 @@ Prices ≈ July 2026, EUR, VAT excluded.
 
 **Premium and Referral are gated here on purpose:** both need accounts/auth + backend (no earlier phase builds them) and traffic proving demand. Affiliate CPA + broker rev-share are the monetization until then — a paywall competes with our own affiliate clicks.
 
+**Accounts + referral rewards slice pulled forward 2026-07-17** (same precedent as the SEO slice): web-only Supabase auth + referral attribution + sub-ID rewards ledger, executed as tasks T34–T37 ([plan/](plan/README.md)). No cross-platform accounts yet (iOS/Android stay Phase 5-proper); Premium payout for accrued reward months still waits on web Premium (Stripe, below).
+
 - [ ] `es` + `tl` localization complete — human `tl` translation, freelance **~60–150 €**
 - [ ] i18n single source: one canonical strings file generating `Localizable.xcstrings` / `strings.xml` / web JSON (today hand-maintained per platform; web has no i18n wired)
-- [ ] Referral program ([referral](modules/referral.md)) — needs backend `ReferralService` + anti-fraud
+- [ ] Referral program ([referral](modules/referral.md)) — web foundation via T34/T36/T37; iOS/Android `ReferralService` + anti-fraud still open
 - [ ] Premium cross-platform (web Stripe ~1.5 % + 0.25 €/EU charge, no fixed cost — decide then)
 - [ ] SEO: per-corridor landing pages (EUR→PHP first), sitemap — **pulled forward 2026-07-03** as tasks T12–T16 ([plan/](plan/README.md), [corridors](modules/corridors.md)); Phase 5 keeps only what those tasks exclude (localized corridor copy, further corridors)
 - [ ] Optional: iubenda-class legal upgrade ~5–30 €/mo when traffic justifies

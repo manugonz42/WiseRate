@@ -14,22 +14,23 @@ Android column: Compose screens + ViewModels exist for every module (mock data) 
 | Analytics | ◐ | ✅ | ◐ | [analytics.md](modules/analytics.md) |
 | Alerts | ◐ | ◐ | ◐ | [alerts.md](modules/alerts.md) |
 | Promos | ☐ | ✅ | ☐ | [promos.md](modules/promos.md) |
-| Profile | ◐ | ☐* | ◐ | [profile.md](modules/profile.md) |
+| Profile | ◐ | ◐ | ◐ | [profile.md](modules/profile.md) |
 | Settings | ◐ | ◐ | ◐ | [settings.md](modules/settings.md) |
 | Premium | ◐ | ☐* | ◐ | [premium.md](modules/premium.md) |
-| Referral | ◐ | ☐* | ◐ | [referral.md](modules/referral.md) |
+| Referral | ◐ | ◐ | ◐ | [referral.md](modules/referral.md) |
 | Onboarding | ◐ | ◐ | ◐ | [onboarding.md](modules/onboarding.md) |
 | Landing | — | ✅ | — | [landing.md](modules/landing.md) |
 | Brokers (high-amount) | ☐ | ✅ | ☐ | [brokers.md](modules/brokers.md) |
 | Corridor pages (SEO) | — | ✅ | — | [corridors.md](modules/corridors.md) |
 
-\* post-MVP (apps) — Profile, Premium, and Referral are app-phase modules; the web tab bar ships Home/Compare/Analytics/Alerts/Promos + Onboarding (see [navigation](architecture/navigation.md)). Settings is routable for web (light, local-only version).
+\* post-MVP (apps) — Premium is an app-phase module; the web tab bar ships Home/Compare/Analytics/Alerts/Promos + Onboarding (see [navigation](architecture/navigation.md)). Settings is routable for web (light, local-only version). Profile and Referral gain a web foundation via T34–T37 (accounts + referral rewards, pulled forward 2026-07-17) — routable at `/account` and `/account/referral`, not the tab bar.
 
 ## Services (cross-cutting)
 
 | Service | Status | Spec |
 |---|:-:|---|
 | Exchange Rate API | ◐ (web real: quotes aggregator + history + health; iOS Frankfurter rate only, quotes mock) | [exchange-rate.md](services/exchange-rate.md) |
+| Auth | ◐ (web: Supabase Auth + Postgres wired, T34; no signup/login UI yet — T35) | [auth.md](services/auth.md) |
 | Persistence | ◐ (iOS SwiftData) | [persistence.md](services/persistence.md) |
 | Notifications | ◐ (iOS local; push pending) | [notifications.md](services/notifications.md) |
 | Subscriptions / IAP | ◐ (iOS StoreKit 2) | [subscriptions.md](services/subscriptions.md) |

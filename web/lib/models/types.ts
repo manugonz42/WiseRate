@@ -149,6 +149,28 @@ export interface FavoriteProvider {
   addedAt: string; // ISO 8601
 }
 
+// Supabase `profiles` row (docs/services/auth.md) — the accounts-backed
+// subset of data-model.md's UserProfile. Excludes the localStorage-derived
+// fields (alerts, favoriteProviders, recentProviders), which stay in
+// PersistenceService regardless of login state.
+export type HeardFrom = "search" | "friend" | "social" | "youtube" | "other";
+
+export interface Profile {
+  id: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string; // ISO 8601 date
+  countryCode: string; // ISO 3166-1 alpha-2
+  emailNotifications: boolean;
+  termsAcceptedAt: string; // ISO 8601
+  termsVersion: string;
+  referralCode: string;
+  referredBy: string | null;
+  providersUsed: string[] | null;
+  heardFrom: HeardFrom | null;
+  createdAt: string; // ISO 8601
+}
+
 // --- derived helpers (mirror the `derived` fields in data-model.md) ---
 
 export const totalCost = (q: TransferQuote): number =>

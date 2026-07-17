@@ -4,7 +4,7 @@ Local data the user owns: profile, alerts, favorites, recent providers, cached q
 
 ## Dependencies
 - **Reads:** [data-model](../architecture/data-model.md) (every entity below mirrors a model)
-- **Future:** ⏳ backend sync of `UserProfile`, `RateAlert`, `FavoriteProvider` once accounts exist
+- **Future:** ⏳ backend sync of `UserProfile`, `RateAlert`, `FavoriteProvider` — arriving via T34–T37 ([auth](auth.md) foundation lands first; sync itself stays a follow-up, not scheduled)
 
 ## Used by
 - [alerts](../modules/alerts.md), [profile](../modules/profile.md), [settings](../modules/settings.md), [onboarding](../modules/onboarding.md), [provider-details](../modules/provider-details.md) (favorites), [home](../modules/home.md) (cached quote read on cold start), [comparison](../modules/comparison.md) (cached recents)
