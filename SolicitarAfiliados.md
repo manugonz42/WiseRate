@@ -35,6 +35,29 @@
 - 🔴 Small World / Sigue: ceased 2026, no integrar
 - 🔴 Revolut: bot wall + OAuth, no viable para API quotes
 
+## Tracking por usuario (sub-ID) — qué devuelve cada red (para T37, referidos)
+
+Nuestro link de afiliado es el mismo para todos; distinguir qué usuario generó cada conversión exige añadir un **sub-ID** por click. Qué soporta cada red (nombres de parámetro estándar de cada red — **verificar el exacto al recibir cada aprobación** y rellenar `subIdParam` en `providers.ts`):
+
+| Red | Proveedores | Sub-ID | Parámetro | Qué reporta por conversión |
+|---|---|---|---|---|
+| Partnerize | Wise, WU, Instarem, CurrencyFair, Remitly (directo) | ✅ | `clickref` (hasta clickref1–6) | sub-ID, importe comisión, estado (pending/approved/rejected), fecha; también postback en tiempo real |
+| Impact | TransferGo, WorldRemit | ✅ | `subId1..subId3` | ídem, reports + postbacks |
+| CJ Affiliate | MoneyGram | ✅ | `sid` | ídem |
+| Awin | WorldRemit, Xoom | ✅ | `clickref` | ídem, transaction-level |
+| FlexOffers | Remitly, Instarem | ✅ | `fobs` | sub-tracking en reports |
+| Admitad | Western Union | ✅ | `subid` | ídem |
+| FinanceAds | TransferGo | ✅ | `s_id` | ídem |
+| Programa propio / introducer | TorFX, Currencies Direct, OFX, Ria, Paysend, XE, Moneytrans | ❓ | preguntar en el alta | los brokers introducer reportan rev-share **por cliente identificado** en sus statements, pero no siempre aceptan un parámetro nuestro |
+
+**Qué evento vemos:** solo los eventos **comisionables** del programa. En CPA tipo Wise eso es "nuevo cliente activo" = cuenta creada **y** primera transferencia cualificada — una cuenta creada que nunca envía dinero normalmente **no se reporta** (salvo programas con evento "lead" aparte; preguntar al account manager por lead-level reporting en cada alta). Rev-share (brokers) reporta cada operación del cliente, lifetime.
+
+**Si una red/programa no soporta sub-ID, opciones por orden de preferencia:**
+1. Pedir al account manager postback con parámetro custom o reporting a nivel de lead (muchos lo activan a mano para partners).
+2. Autodeclaración en la app: el referido marca en qué proveedores abrió cuenta (se cruza con T28 "mis cuentas de proveedor") — no verificable individualmente, se valida contra los totales de comisión de la red.
+3. Códigos promocionales únicos por usuario, si el proveedor los emite (raro en remesas).
+4. Correlación temporal click↔conversión — solo como verificación agregada, nunca para acreditar recompensas (fraude fácil).
+
 ---
 
 ## 1. WISE
