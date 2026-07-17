@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         Privacy Policy
       </h1>
       <p className="mt-2 text-xs text-text-tertiary">
-        Last updated: July 3, 2026
+        Last updated: July 17, 2026
       </p>
 
       <div className="mt-8 flex flex-col gap-6 text-sm leading-relaxed text-text-secondary">
@@ -41,9 +41,55 @@ export default function PrivacyPage() {
           <p>
             We collect anonymous product analytics events (page views,
             comparisons run, outbound clicks) and your cookie consent choice.
-            We don&apos;t require an account to use SulitSend, and we don&apos;t
+            An account is optional — you can compare providers, browse promos,
+            and set local rate alerts without ever signing up. We don&apos;t
             collect or store any data about the transfers you make with a
             provider.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="mb-2 text-base font-bold text-text-primary">
+            Datos de cuenta (account data)
+          </h2>
+          <p className="mb-3">
+            If you create an account, we additionally store:
+          </p>
+          <table className="w-full border-collapse text-xs">
+            <thead>
+              <tr className="border-b border-border text-left uppercase tracking-wide text-text-tertiary">
+                <th className="py-2 pr-3 font-medium">Field</th>
+                <th className="py-2 font-medium">Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border-subtle">
+                <td className="py-2 pr-3">Name</td>
+                <td className="py-2">Personalizing your account</td>
+              </tr>
+              <tr className="border-b border-border-subtle">
+                <td className="py-2 pr-3">Email + password</td>
+                <td className="py-2">Sign-in, password resets, account-related email (Supabase Auth)</td>
+              </tr>
+              <tr className="border-b border-border-subtle">
+                <td className="py-2 pr-3">Date of birth</td>
+                <td className="py-2">Verifying you&apos;re 18+ (required to hold an account)</td>
+              </tr>
+              <tr className="border-b border-border-subtle">
+                <td className="py-2 pr-3">Country of residence</td>
+                <td className="py-2">Localizing the offers we show you</td>
+              </tr>
+              <tr>
+                <td className="py-2 pr-3">Referral relationships</td>
+                <td className="py-2">Attributing referral rewards (see How we make money)</td>
+              </tr>
+            </tbody>
+          </table>
+          <p className="mt-3">
+            Stored in Supabase (EU region) for as long as your account exists.
+            Deleting your account (from the account page) permanently erases
+            this data, aside from anonymized/aggregate referral-reward
+            history tied to the person who referred you.
           </p>
         </section>
 
@@ -104,9 +150,11 @@ export default function PrivacyPage() {
           <p>
             Under GDPR you have the right to access, correct, or delete any
             personal data we hold, and to withdraw analytics consent at any
-            time from the cookie banner. Since we don&apos;t use accounts, most
-            of what we hold lives in your own browser&apos;s local storage —
-            clearing it removes it. For anything else, contact us at{" "}
+            time from the cookie banner. If you have an account, you can
+            edit your details or permanently delete your account from the
+            account page at any time. Without an account, most of what we
+            hold lives in your own browser&apos;s local storage — clearing it
+            removes it. For anything else, contact us at{" "}
             <span className="font-mono">{CONTACT_EMAIL}</span>.
           </p>
         </section>

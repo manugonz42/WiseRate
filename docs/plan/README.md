@@ -5,7 +5,7 @@
 Decision 2026-07-17: the ROADMAP Phase 5 accounts/referral slice is **pulled forward** to build the in-house referral-with-rewards program (same precedent as the SEO slice). Web only; no separate backend — Supabase (Free, EU) on the existing Next.js app. Same protocol: **"proceed TXX"**, strictly in order. Anonymous browsing and the affiliate flow must never gain a login wall.
 
 - [x] [T34 — Accounts foundation](T34-accounts-foundation.md): Supabase auth + schema (profiles, clicks, rewards) + RLS + auth service
-- [ ] [T35 — Signup / Login / Account UI](T35-signup-ui.md): form (nombre/apellidos, DOB typeable+calendar, país searchable, email opt-in, terms), /account, delete account
+- [x] [T35 — Signup / Login / Account UI](T35-signup-ui.md): form (nombre/apellidos, DOB typeable+calendar, país searchable, email opt-in, terms), /account, delete account
 - [ ] [T36 — Referral attribution](T36-referral-attribution.md): per-user code, `?ref=` capture (30d, last-touch), attribution at signup, /account/referral
 - [ ] [T37 — Referral rewards](T37-referral-rewards.md): sub-ID click tracking, conversion ingestion, rewards ledger, anti-fraud v1
 
@@ -106,5 +106,5 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 - [x] Supabase project (Free, **EU región**, project `jibrbnoynwedyasefpqe`) created 2026-07-17; `NEXT_PUBLIC_SUPABASE_URL`/`_ANON_KEY` + `SUPABASE_SERVICE_ROLE_KEY` set in `web/.env.local`
 - [ ] Same 3 Supabase env vars in Vercel (both environments) — local-only so far
 - [ ] Run `web/supabase/migrations/20260717120000_accounts_foundation.sql` in the Supabase SQL Editor (no CLI/DB-password access from this machine to apply it directly); then confirm in the dashboard: RLS enabled on `profiles`/`affiliate_clicks`/`referral_rewards`, and that updating `referral_code` on your own row is rejected
-- [ ] Confirm sub-ID/clickref support per affiliate network as each signup is approved (Partnerize sí: `clickref=`) — blocks T37
+- [ ] Sub-ID per network at each approval (blocks T37; procedimiento: afiliados-ejecucion.md §0 paso 4). **Self-serve, solo verificar param:** Partnerize (`clickref`), Impact (`subId1`), CJ (`sid`), Awin (`clickref`), FlexOffers (`fobs`), Admitad (`subid`), FinanceAds (`s_id`). **Hay que pedirlo al manager post-aprobación:** TorFX, Currencies Direct, OFX, Ria, Paysend, XE, Moneytrans (programas directos/introducer) — pregunta redactada en el §0 paso 4, nunca en la solicitud inicial
 - [ ] Legal review extension: signup data (nombre, DOB, país), referral program terms, `/privacy` new section (T35/T36 drafts)

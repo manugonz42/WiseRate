@@ -55,6 +55,7 @@ Avoid leaking implementation details (`home.tableRow1`) — keys describe meanin
 - `(tabs)/analytics/page.tsx`
 - `(tabs)/alerts/page.tsx`
 - `(tabs)/promos/page.tsx`
+- `(tabs)/signup/page.tsx`, `(tabs)/login/page.tsx`, `(tabs)/reset-password/page.tsx`, `(tabs)/account/page.tsx` (T35 — `auth.*` keys)
 - `ConsentBanner.tsx`
 
 **Not localized (stays English):**

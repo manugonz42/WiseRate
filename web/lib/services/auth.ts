@@ -93,12 +93,38 @@ export async function signOut(): Promise<void> {
   await supabase.auth.signOut();
 }
 
+export async function requestPasswordReset(email: string): Promise<AuthResult> {
+  const supabase = createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/reset-password`,
+  });
+  return { error: error?.message ?? null };
+}
+
+export async function updatePassword(newPassword: string): Promise<AuthResult> {
+  const supabase = createClient();
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  return { error: error?.message ?? null };
+}
+
 export async function getSession(): Promise<Session | null> {
   const supabase = createClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();
   return session;
+}
+
+// Used by /reset-password to detect the Supabase recovery session that
+// materializes once the user lands via the emailed reset link.
+export function onAuthStateChange(
+  callback: (event: string, session: Session | null) => void,
+): () => void {
+  const supabase = createClient();
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange(callback);
+  return () => subscription.unsubscribe();
 }
 
 export async function getProfile(): Promise<Profile | null> {

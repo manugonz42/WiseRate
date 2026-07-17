@@ -30,7 +30,7 @@ Android column: Compose screens + ViewModels exist for every module (mock data) 
 | Service | Status | Spec |
 |---|:-:|---|
 | Exchange Rate API | ◐ (web real: quotes aggregator + history + health; iOS Frankfurter rate only, quotes mock) | [exchange-rate.md](services/exchange-rate.md) |
-| Auth | ◐ (web: Supabase Auth + Postgres wired, T34; no signup/login UI yet — T35) | [auth.md](services/auth.md) |
+| Auth | ◐ (web: Supabase Auth + Postgres wired T34, signup/login/account UI T35; referral attribution — T36) | [auth.md](services/auth.md) |
 | Persistence | ◐ (iOS SwiftData) | [persistence.md](services/persistence.md) |
 | Notifications | ◐ (iOS local; push pending) | [notifications.md](services/notifications.md) |
 | Subscriptions / IAP | ◐ (iOS StoreKit 2) | [subscriptions.md](services/subscriptions.md) |

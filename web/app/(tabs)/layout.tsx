@@ -17,6 +17,7 @@ import {
 } from "@/components/SidebarSlot";
 import { LanguageSelect } from "@/components/LanguageSelect";
 import { SettingsButton } from "@/components/SettingsButton";
+import { AccountButton } from "@/components/AccountButton";
 import { Onboarding } from "@/components/Onboarding";
 import { Logomark } from "@/components/Logomark";
 
@@ -112,6 +113,7 @@ export default function TabsLayout({
             </span>
             <LanguageSelect />
             <SettingsButton />
+            <AccountButton />
           </div>
         </div>
       </header>
@@ -172,6 +174,7 @@ export default function TabsLayout({
                 <div className="flex items-center gap-2">
                   <SettingsButton />
                   <LanguageSelect />
+                  <AccountButton />
                 </div>
               </nav>
               {children}

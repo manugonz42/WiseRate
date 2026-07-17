@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { generateUniqueReferralCode } from "@/lib/services/referral-code";
+import { isAdult } from "@/lib/dob";
 import type { HeardFrom } from "@/lib/models/types";
 
 // POST /api/auth/complete-signup
@@ -31,6 +32,10 @@ export async function POST(request: Request) {
 
   if (!body.userId || !body.email || !body.firstName || !body.lastName || !body.birthDate || !body.countryCode || !body.termsVersion) {
     return NextResponse.json({ error: "Missing required field." }, { status: 400 });
+  }
+
+  if (!isAdult(body.birthDate)) {
+    return NextResponse.json({ error: "Must be at least 18 years old." }, { status: 400 });
   }
 
   const service = createServiceClient();

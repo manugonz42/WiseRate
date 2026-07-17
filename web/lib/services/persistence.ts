@@ -75,6 +75,13 @@ export function toggleProviderAccount(providerID: string): string[] {
   return accounts;
 }
 
+// Seeds the local list from the server profile (T35 /account) — keeps
+// ProviderAccounts (localStorage-backed) and `profiles.providers_used` in
+// sync without a two-way store.
+export function setProviderAccounts(accounts: string[]): void {
+  writeList(PROVIDER_ACCOUNTS_KEY, accounts);
+}
+
 export function getDefaultAmount(): number | null {
   if (typeof window === "undefined") return null;
   try {

@@ -34,7 +34,7 @@ Generated server-side at profile creation: 8 chars, Crockford base32 alphabet (e
 
 ## Service layer
 
-`web/lib/services/auth.ts` exposes `signUp`, `signIn`, `signOut`, `getSession`, `getProfile`, `updateProfile`. Components never import Supabase clients directly — same wiring rule as [persistence](persistence.md). Client/server Supabase helpers live in `web/lib/supabase/{client,server}.ts`.
+`web/lib/services/auth.ts` exposes `signUp`, `signIn`, `signOut`, `getSession`, `onAuthStateChange`, `getProfile`, `updateProfile`, `requestPasswordReset`, `updatePassword`. Components never import Supabase clients directly — same wiring rule as [persistence](persistence.md). Client/server Supabase helpers live in `web/lib/supabase/{client,server}.ts`.
 
 ## Session / middleware
 
@@ -48,6 +48,6 @@ Logged-out users keep today's localStorage persistence exactly as-is ([persisten
 
 | Platform | Status |
 |---|:-:|
-| Web | ◐ — auth wired (T34); signup/login UI in T35 |
+| Web | ◐ — auth wired (T34), signup/login/reset/account UI (T35); referral attribution (T36) |
 | iOS | ☐ — Phase 5-proper |
 | Android | ☐ — Phase 5-proper, frozen |
