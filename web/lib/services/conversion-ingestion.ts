@@ -42,6 +42,8 @@ export interface IngestConversionDeps {
   getProfile: (userId: string) => Promise<ProfileRecord | null>;
   findRewardByExternalRef: (externalRef: string) => Promise<RewardRecord | null>;
   updateRewardStatus: (rewardId: string, status: ConversionStatus) => Promise<void>;
+  // Must exclude rejected rewards: a rejected first conversion doesn't block
+  // a later approved one from earning (docs/services/referral.md step 6).
   findConversionRewardByReferredId: (referredId: string) => Promise<RewardRecord | null>;
   insertReward: (input: {
     referrerId: string;
@@ -67,9 +69,9 @@ export type IngestConversionResult =
 // One conversion row in, one outcome out. Two independent guarantees:
 //  - idempotent on external_ref (re-importing the same CSV row is a no-op
 //    beyond a status refresh)
-//  - one reward per referred_id (only a referred user's *first* confirmed
-//    conversion earns a reward — later conversions still update the click
-//    row but produce no additional reward)
+//  - one non-rejected reward per referred_id (only a referred user's *first*
+//    confirmed conversion earns a reward — later conversions still update
+//    the click row but produce no additional reward)
 export async function ingestConversion(
   row: ConversionRow,
   deps: IngestConversionDeps,

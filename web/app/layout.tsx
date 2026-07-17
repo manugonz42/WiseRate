@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import { Suspense } from "react";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
+import { ReferralCapture } from "@/components/ReferralCapture";
 import { I18nProvider } from "@/components/I18nProvider";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -43,6 +44,9 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <AnalyticsProvider />
         </Suspense>
+        {/* Root-level so `?ref=` is captured on every route — /send/* and
+            /provider/* landings included (docs/modules/referral.md). */}
+        <ReferralCapture />
         {/* Root-level provider so ConsentBanner (and any route) has an
             initialized i18n instance — see docs/architecture/localization.md */}
         <I18nProvider>

@@ -63,6 +63,14 @@ export async function signUp(input: SignUpInput): Promise<SignUpResult> {
     return { error: error?.message ?? "No se pudo crear la cuenta." };
   }
 
+  // Email-enumeration protection: with confirmation ON, Supabase answers an
+  // already-registered email with a fake user carrying no identities instead
+  // of an error. Without this check the complete-signup route would 401 with
+  // an opaque "Invalid signup.".
+  if (data.user.identities && data.user.identities.length === 0) {
+    return { error: "Este email ya está registrado. Inicia sesión o restablece tu contraseña." };
+  }
+
   const response = await fetch("/api/auth/complete-signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

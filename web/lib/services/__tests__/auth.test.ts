@@ -172,6 +172,31 @@ describe("auth service (mocked Supabase client)", () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it("signUp: detects an already-registered email (enumeration-protection fake user)", async () => {
+    mockSupabase.auth.signUp.mockResolvedValue({
+      data: { user: { id: "u1", identities: [] } },
+      error: null,
+    });
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await signUp({
+      email: "ana@example.com",
+      password: "hunter2",
+      firstName: "Ana",
+      lastName: "Cruz",
+      birthDate: "1990-01-01",
+      countryCode: "PH",
+      emailNotifications: false,
+      termsVersion: "v1",
+    });
+
+    expect(result.error).toBe(
+      "Este email ya está registrado. Inicia sesión o restablece tu contraseña.",
+    );
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it("signUp: surfaces an error from the complete-signup route", async () => {
     mockSupabase.auth.signUp.mockResolvedValue({ data: { user: { id: "u1" } }, error: null });
     const fetchMock = vi.fn().mockResolvedValue({

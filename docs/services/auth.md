@@ -19,7 +19,7 @@ Identity + accounts. Web only (T34, 2026-07-17) — Supabase Auth + Postgres, EU
 
 | Table | Notes |
 |---|---|
-| `profiles` | 1:1 with `auth.users` (`id` FK, cascade delete). Holds the accounts-backed `UserProfile` fields (see data-model.md) + `referral_code` (unique, server-generated), `referred_by` (self-FK), `terms_accepted_at`/`terms_version`, optional signup extras `providers_used`/`heard_from`. |
+| `profiles` | 1:1 with `auth.users` (`id` FK, cascade delete). Holds the accounts-backed `UserProfile` fields (see data-model.md) + `referral_code` (unique, server-generated), `referred_by` (self-FK, `on delete set null`), `terms_accepted_at`/`terms_version`, optional signup extras `providers_used`/`heard_from`. Delete-account FK behavior (GDPR): `affiliate_clicks.user_id` and `referral_rewards.referred_id`/`click_id` null out; `referral_rewards.referrer_id` cascades (migration `20260717140000`). |
 | `affiliate_clicks` | `id`, `user_id?`, `provider_id`, `created_at`, plus (T37) `event_type?` (`lead`\|`sale`), `amount?`, `currency?`, `conversion_status?` (`pending`\|`confirmed`\|`rejected`), `external_ref?` (unique when set), `converted_at?` — the conversion detail is recorded here for every converting click, referred or not. Full contract: [services/referral.md](referral.md). |
 | `referral_rewards` | `id`, `referrer_id`, `referred_id?`, `click_id?`, `kind` (`signup`\|`conversion`), `provider_id?`, `event_type?` (`lead`\|`sale`), `amount?`, `currency?`, `status` (`pending`\|`confirmed`\|`rejected`\|`redeemed`), `external_ref?` (unique when set), `created_at`. Per-referred detail lives here; the referrer's UI only ever shows aggregates (privacy — see [services/referral.md](referral.md)). |
 

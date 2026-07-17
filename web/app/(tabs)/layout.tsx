@@ -19,7 +19,6 @@ import { LanguageSelect } from "@/components/LanguageSelect";
 import { SettingsButton } from "@/components/SettingsButton";
 import { AccountButton } from "@/components/AccountButton";
 import { Onboarding } from "@/components/Onboarding";
-import { ReferralCapture } from "@/components/ReferralCapture";
 import { Logomark } from "@/components/Logomark";
 
 type Tab = {
@@ -64,7 +63,6 @@ export default function TabsLayout({
 
   return (
     <SidebarSlotProvider>
-      <ReferralCapture />
       <header
         className={`sticky top-0 z-10 border-b border-border bg-bg/90 backdrop-blur ${
           isHome ? "lg:hidden" : ""
