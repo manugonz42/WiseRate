@@ -468,6 +468,50 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
       "No cash pickup option",
     ],
   },
+  // T39 (2026-07-19): direct source via app.sendwave.com/v2/pricing-public (no auth).
+  // Trustpilot 4.3–4.6/5 (~25,700 reviews) as of 2026-07-19.
+  // Official GCash partner (Mynt newsroom, 2025). Zepz group (same as WorldRemit — separate brand/row).
+  // subIdParam "fobs" provisional (FlexOffers standard, same as Remitly) — verify on affiliate approval.
+  sendwave: {
+    id: "sendwave",
+    name: "Sendwave",
+    brandColor: "primary",
+    trustScore: 0.87,
+    userRating: 4.4,
+    websiteURL: "https://www.sendwave.com",
+    affiliateURL: null,
+    subIdParam: "fobs", // FlexOffers — provisional; verify on approval
+    description:
+      "Sendwave (Zepz group, official GCash partner) lets you send money to the Philippines directly to bank accounts, GCash, or cash pickup. Rated 4.4/5 on Trustpilot (~25,700 reviews). A flat fee applies on top of the send amount; new customers often receive a boosted rate for their first transfer.",
+    reviewCount: 25700,
+    transferLimits: { minAmount: 1, maxAmount: 10000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 0.99,
+        percentageFee: 0,
+        description: "Flat fee of €0.99 on EUR sends (fee amount varies by send currency)",
+      },
+      {
+        method: "mobileWallet",
+        fixedFee: 0.99,
+        percentageFee: 0,
+        description: "GCash payout, same flat fee",
+      },
+    ],
+    deliveryMethods: ["bankTransfer", "mobileWallet", "cashPickup"],
+    pros: [
+      "Official GCash partner — reliable GCash payout",
+      "Low flat fee (€0.99 for EUR sends)",
+      "New-customer rate boost on first transfer",
+      "EUR, GBP, USD, and CAD corridors covered",
+    ],
+    cons: [
+      "No AUD corridor",
+      "Exchange-rate margin on top of the flat fee",
+      "Smaller brand recognition than Wise or Western Union",
+    ],
+  },
   // T22 (2026-07-06): direct source via api.currencyfair.com/comparisonQuotes
   // (see docs/plan/T22-quote-fidelity.md). Fee/limit facts from
   // businessexpert.co.uk's 2026-07-06 review; Trustpilot rating/count from

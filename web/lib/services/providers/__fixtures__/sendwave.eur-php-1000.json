@@ -1,0 +1,14 @@
+{
+  "baseExchangeRate": "69.91542",
+  "effectiveExchangeRate": "70.26746",
+  "baseFeeAmount": "0.99",
+  "payAmount": "1000.99",
+  "campaignsApplied": [
+    {
+      "code": "NEW",
+      "description": "Intro Rate Discount",
+      "adjustmentBps": 50
+    }
+  ],
+  "calculationId": "sw-fixture-2026-07-19"
+}

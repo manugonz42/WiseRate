@@ -122,15 +122,15 @@ Agrupado por red: **una cuenta desbloquea varios programas**. Ejecutar en orden;
 |---|---|---|---|
 | 0 | Prerequisitos | — | — |
 | 1 | **A — Partnerize** | Wise → Western Union → CurrencyFair → Instarem* | 1 cuenta Partnerize |
-| 2 | **B — FlexOffers** | Remitly → Instarem* | 1 cuenta FlexOffers |
-| 3 | **C — Directos** | TransferGo (FinanceAds) | Formulario propio |
+| 2 | **B — FlexOffers** | Remitly → Instarem* → Sendwave | 1 cuenta FlexOffers |
+| 3 | **C — Directos** | TransferGo (FinanceAds) → Taptap Send (acuerdo directo) | Formulario propio / email |
 | 4 | **D — Brokers** | TorFX → Currencies Direct → OFX | Email/formulario con pitch (esperar al vídeo) |
 | 5 | **E — Redes secundarias** | WorldRemit + Xoom (Awin) → MoneyGram (CJ) | 1 cuenta Awin + 1 cuenta CJ |
-| 6 | **F — Baja prioridad** | Ria → Paysend → XE → Moneytrans | Formulario/email directo (solo cuando A–E estén en marcha) |
+| 6 | **F — Baja prioridad** | Ria → Paysend → XE → Moneytrans → Panda Remit | Formulario/email directo (solo cuando A–E estén en marcha) |
 
 \* **Instarem — decisión:** solicitar vía **FlexOffers** (mejor CPA: $12/transacción + $2.40/sign-up vs multi-geo de Partnerize; misma cuenta que Remitly). Partnerize queda de fallback si FlexOffers rechaza.
 
-Descartados (solo constan en la guía de referencia): Small World/Sigue (ceased 2026), Revolut (sin programa comercial viable).
+Descartados (solo constan en la guía de referencia): Small World/Sigue (ceased 2026), Revolut (sin programa comercial viable), WireBarley (solo refer-a-friend de consumidor, sin programa de afiliados — investigado 2026-07-19).
 
 ### Paso 0 — Prerequisitos
 
@@ -269,6 +269,15 @@ Para el formulario de contacto de currencyfair.com/affiliate-program (pedir que 
 - **Follow-up:** +7 días hábiles; si silencio total, reaplicar por Partnerize.
 - **Restricciones:** no brand bidding, no direct linking, no coupons. ⚠️ No confundir con su refer-a-friend de consumidores (40 EUR — no apilable).
 
+### B3 · SENDWAVE *(nueva ficha 2026-07-19 — investigación T38/T39)*
+
+- **Canal:** desde la misma cuenta FlexOffers: https://www.flexoffers.com/affiliate-programs/sendwave-affiliate-program/. Sin email público de partnerships — el follow-up va por ticket FlexOffers.
+- **Enfoque:** partner **oficial** de GCash (nota de prensa Mynt 2025) y fiabilidad confirmada por usuarios reales de la comunidad. Con T39 ejecutada, su quote sale directo en el comparador con el monto exacto (mismo argumento de máxima intención que CurrencyFair A3). Es del grupo Zepz (WorldRemit) — marca y programa separados de E1, sin conflicto.
+- **Qué enviar:** mismos campos que B1; en Description añadir: *"Sendwave is quoted directly by our engine at the exact send amount for EUR/GBP/USD/CAD→PHP, and our audience overlaps exactly with Sendwave's GCash-first Filipino remitters."*
+- **Vídeo:** link en descripción/follow-up.
+- **Pasos:** 1) aplicar desde la cuenta FlexOffers (creada en B1) → 2) aprobación → 3) procedimiento común §0. `subIdParam` esperado `fobs` (estándar FlexOffers) — verificar en la aprobación.
+- **Restricciones:** las estándar FlexOffers (no PPC, no incentivizado, no coupons) — mismo gate de rewards del §0.
+
 ---
 
 ## §3 · Fichas — Grupo C · Directos
@@ -290,6 +299,16 @@ Para el formulario de contacto de currencyfair.com/affiliate-program (pedir que 
 - **Pasos:** 1) cuenta FinanceAds → 2) aplicar a TransferGo → 3) aprobación → 4) procedimiento común §0.
 - **Follow-up:** +7 días hábiles vía FinanceAds; segunda vía: aplicar por Impact Radius.
 - **Restricciones:** tracking real-time con deep linking disponible (aprovechar: deep-link al flujo EUR→PHP).
+
+### C2 · TAPTAP SEND *(nueva ficha 2026-07-19 — investigación T38/T39)*
+
+- **Canal:** programa de afiliados **directo, sin red** — existe formalmente ([Affiliate Partner Terms](https://www.taptapsend.com/terms/affiliate-partner-terms): se firma un "Affiliate Partner Scope of Work Agreement" individual). **No hay email público de partnerships**: entrar por el [formulario de contacto](https://www.taptapsend.com/contact) y por `support@taptapsend.com` pidiendo derivación al equipo de partnerships (el formato interno de email es `nombre.apellido@taptapsend.com` si algún contacto directo aparece por LinkedIn).
+- **Enfoque:** es el único proveedor nuevo que cubre **los 5 corredores** de la app (incl. AUD→PHP), sin fee hacia PH, Trustpilot 4.7/5 (~36.000 reseñas), y con T38 su quote sale directo del propio feed de Taptap Send — el pitch es idéntico al de CurrencyFair A3: máxima intención, precio en vivo exacto.
+- **Qué enviar:** adaptar el email pitch de A3 (comunidad filipina + comparador que ya los rankea). Enviar desde `manuel.gonzalez@sulitsend.com` (**requiere el setup de email saliente del §0** — a diferencia de C1, aquí no hay formulario de red que lo evite).
+- **Vídeo:** sí, en el email (`[VIDEO_URL]`).
+- **Pasos:** 1) ejecutar T38 primero (que el reviewer se vea ya listado en producción) → 2) formulario de contacto + email → 3) negociar términos del Scope of Work (CPA no publicado — que propongan ellos) → 4) procedimiento común §0. **Sub-ID:** programa directo — preguntar el parámetro de click-reference al manager post-aprobación (§0 paso 4), nunca en el primer contacto.
+- **Follow-up:** +7 días hábiles (plantilla §0) al mismo canal.
+- **Restricciones:** las que fije su Scope of Work; mientras no haya acuerdo, `affiliateURL: null` y el CTA cae a taptapsend.com (convención `providers.ts`).
 
 ---
 
@@ -413,6 +432,11 @@ Para el formulario de contacto de currencyfair.com/affiliate-program (pedir que 
 - **Enfoque:** especialista europeo en remesas (presencia física en España) — encaje geográfico directo con nuestra audiencia. CPA $0.50–3.
 - **Envío:** formulario + email con `[VIDEO_URL]`.
 
+### F5 · PANDA REMIT *(nueva ficha 2026-07-19)*
+- **Canal:** Impact, vía https://www.pandaremit.com/en/partner · contacto directo **liyg@pandaremit.com** (lo publican ellos para dudas o si ya tienes cuenta Impact). $20/primera transferencia, cookie 1 año.
+- **Enfoque:** cubre AU→PH entre otros. ⚠️ Aún no aparece en el comparador (ni directo ni vía Wise) — solicitar solo si se decide integrarlo (sin tarea asignada); un link sin fila donde colgarlo no monetiza.
+- **Envío:** cuenta Impact + email a liyg@pandaremit.com con la descripción §0 y `[VIDEO_URL]`.
+
 ---
 
 ## §4 · Checklist de seguimiento
@@ -429,6 +453,8 @@ Para el formulario de contacto de currencyfair.com/affiliate-program (pedir que 
 | Remitly | B | | ⬜ Pendiente | | | FlexOffers |
 | Instarem | B | | ⬜ Pendiente | | | FlexOffers (fallback Partnerize) |
 | TransferGo | C | | ⬜ Pendiente | | | FinanceAds |
+| Sendwave | B | | ⬜ Pendiente | | | FlexOffers (misma cuenta que Remitly) · quote directo: T39 |
+| Taptap Send | C | | ⬜ Pendiente | | | Directo (form contact + support@taptapsend.com → partnerships) · ejecutar T38 antes del pitch · requiere email saliente §0 |
 | TorFX | D | | ⬜ Pendiente | | | Broker · esperar vídeo |
 | Currencies Direct | D | | ⬜ Pendiente | | | Broker · esperar vídeo |
 | OFX | D | | ⬜ Pendiente | | | Broker · esperar vídeo |
@@ -439,8 +465,10 @@ Para el formulario de contacto de currencyfair.com/affiliate-program (pedir que 
 | Paysend | F | | ⬜ Pendiente | | | Directo |
 | XE Money Transfer | F | | ⬜ Pendiente | | | Directo |
 | Moneytrans | F | | ⬜ Pendiente | | | Directo |
+| Panda Remit | F | | ⬜ Pendiente | | | Impact · liyg@pandaremit.com · gateado: sin fila en el comparador aún |
 | Small World / Sigue | — | 🔴 N/A | ❌ Ceased 2026 | N/A | N/A | No integrar |
 | Revolut | — | 🔴 N/A | ❌ No viable | N/A | N/A | Sin programa comercial |
+| WireBarley | — | 🔴 N/A | ❌ No viable | N/A | N/A | Solo refer-a-friend de consumidor (2026-07-19) |
 
 ### Vídeo demo (tarea aparte)
 

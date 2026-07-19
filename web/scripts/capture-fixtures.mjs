@@ -14,6 +14,7 @@ import { buildRequest as buildRemitly } from "../lib/services/providers/remitly.
 import { buildRequest as buildTransferGo } from "../lib/services/providers/transfergo.ts";
 import { buildRequest as buildCurrencyFair } from "../lib/services/providers/currencyfair.ts";
 import { buildRequest as buildTapTapSend } from "../lib/services/providers/taptapsend.ts";
+import { buildRequest as buildSendwave } from "../lib/services/providers/sendwave.ts";
 import { buildRequest as buildWiseComparisons } from "../lib/services/wise.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,6 +30,7 @@ const PROVIDERS = [
   { name: "transfergo", build: buildTransferGo },
   { name: "currencyfair", build: buildCurrencyFair },
   { name: "taptapsend", build: buildTapTapSend },
+  { name: "sendwave", build: buildSendwave },
   { name: "wise", build: buildWiseComparisons },
 ];
 
