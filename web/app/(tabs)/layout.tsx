@@ -111,7 +111,7 @@ export default function TabsLayout({
               />
               {t("nav.live")}
             </span>
-            <LanguageSelect />
+            <LanguageSelect compact />
             <SettingsButton />
             <AccountButton />
           </div>
@@ -173,7 +173,7 @@ export default function TabsLayout({
                 </div>
                 <div className="flex items-center gap-2">
                   <SettingsButton />
-                  <LanguageSelect />
+                  <LanguageSelect compact />
                   <AccountButton />
                 </div>
               </nav>
