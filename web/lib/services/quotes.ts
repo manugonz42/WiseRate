@@ -15,6 +15,7 @@ import { fetchWesternUnion } from "./providers/westernUnion";
 import { fetchRemitly } from "./providers/remitly";
 import { fetchTransferGo } from "./providers/transfergo";
 import { fetchCurrencyFair } from "./providers/currencyfair";
+import { fetchTapTapSend } from "./providers/taptapsend";
 import { getCached, setCached } from "./cache";
 
 // During static prerender, provider fetches (no-store) throw Next's
@@ -104,13 +105,14 @@ export async function getAggregatedQuotes(
   const hit = await getCached<AggregatedQuotes>(key);
   if (hit) return hit;
 
-  const [cmp, wise, wu, remitly, transfergo, currencyfair] = await Promise.allSettled([
+  const [cmp, wise, wu, remitly, transfergo, currencyfair, taptapsend] = await Promise.allSettled([
     fetchWiseQuotes(from, to, amount),
     fetchWiseDirect(from, to, amount),
     fetchWesternUnion(from, to, amount, method ?? "bankTransfer"),
     fetchRemitly(from, to, amount),
     fetchTransferGo(from, to, amount, method),
     fetchCurrencyFair(from, to, amount),
+    fetchTapTapSend(from, to, amount),
   ]);
 
   const at = new Date().toISOString();
@@ -121,6 +123,7 @@ export async function getAggregatedQuotes(
     sourceStatus("remitly", remitly, remitly.status === "fulfilled" && remitly.value != null, at),
     sourceStatus("transfergo", transfergo, transfergo.status === "fulfilled" && transfergo.value != null, at),
     sourceStatus("currencyfair", currencyfair, currencyfair.status === "fulfilled" && currencyfair.value != null, at),
+    sourceStatus("taptapsend", taptapsend, taptapsend.status === "fulfilled" && taptapsend.value != null, at),
   ];
   // Before the all-failed throw below, so a total outage still records health.
   await setCached(healthKey(from, to, amount), lastHealth, TTL_SECONDS);
@@ -146,8 +149,9 @@ export async function getAggregatedQuotes(
     remitly.status === "fulfilled" ? remitly.value : null,
     transfergo.status === "fulfilled" ? transfergo.value : null,
     currencyfair.status === "fulfilled" ? currencyfair.value : null,
+    taptapsend.status === "fulfilled" ? taptapsend.value : null,
   ];
-  for (const r of [wise, wu, remitly, transfergo, currencyfair]) {
+  for (const r of [wise, wu, remitly, transfergo, currencyfair, taptapsend]) {
     if (r.status === "rejected" && !isPrerenderSignal(r.reason))
       console.error("[quotes] direct source failed:", r.reason);
   }

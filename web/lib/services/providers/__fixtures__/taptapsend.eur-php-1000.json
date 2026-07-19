@@ -1,0 +1,66 @@
+{
+  "availableCountries": [
+    {
+      "countryCode": "ES",
+      "corridors": [
+        {
+          "destCurrencyCode": "PHP",
+          "fxRate": "70.00",
+          "currencyScale": 2
+        }
+      ]
+    },
+    {
+      "countryCode": "GB",
+      "corridors": [
+        {
+          "destCurrencyCode": "PHP",
+          "fxRate": "82.30",
+          "currencyScale": 2
+        }
+      ]
+    },
+    {
+      "countryCode": "US",
+      "corridors": [
+        {
+          "destCurrencyCode": "PHP",
+          "fxRate": "61.00",
+          "currencyScale": 2
+        }
+      ]
+    },
+    {
+      "countryCode": "CA",
+      "corridors": [
+        {
+          "destCurrencyCode": "PHP",
+          "fxRate": "43.50",
+          "currencyScale": 2
+        }
+      ]
+    },
+    {
+      "countryCode": "AU",
+      "corridors": [
+        {
+          "destCurrencyCode": "PHP",
+          "fxRate": "42.70",
+          "currencyScale": 2
+        },
+        {
+          "destCurrencyCode": "INR",
+          "fxRate": "56.80",
+          "currencyScale": 2,
+          "feeSchedule": {
+            "tiers": [
+              { "fromAmount": "0.01", "toAmount": "200.00", "fee": "0.99" },
+              { "fromAmount": "200.01", "toAmount": "1000.00", "fee": "1.99" },
+              { "fromAmount": "1000.01", "toAmount": null, "fee": "2.99" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

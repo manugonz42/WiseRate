@@ -16,6 +16,7 @@ const TRUST: Record<string, number> = {
   instarem: 0.88,
   smallworld: 0.87,
   xe: 0.87,
+  taptapsend: 0.9,
   currencyfair: 0.85,
   ofx: 0.85,
   revolut: 0.86,

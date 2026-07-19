@@ -1,5 +1,13 @@
 # Execution plan
 
+## Next — Nuevos proveedores directos: Taptap Send + Sendwave (planned 2026-07-19)
+
+Investigación 2026-07-19 (deep research en sesión, endpoints verificados en vivo con curl): Taptap Send y Sendwave — ambos confirmados fiables por usuarios reales de la comunidad — exponen fuentes de cotización públicas sin auth, y ambos tienen vía de monetización (Sendwave en FlexOffers, misma cuenta que Remitly; Taptap Send con programa directo). Mismo protocolo: **"proceed TXX"**, en orden. Las solicitudes de afiliado correspondientes son fichas B3/C2/F5 de [afiliados-ejecucion.md](afiliados-ejecucion.md).
+
+- [x] [T38 — Taptap Send fuente directa](T38-taptapsend-provider.md): `api.taptapsend.com/api/fxRates` (cabeceras del widget público), los 5 corredores incl. AUD, fee 0 hacia PH
+- [ ] [T39 — Sendwave fuente directa](T39-sendwave-provider.md): `app.sendwave.com/v2/pricing-public` por importe exacto, base vs effective rate (promo separada), EUR/GBP/USD/CAD (sin AUD)
+- [ ] [T40 — Paysend semi-directo](T40-paysend-semidirect.md) ⚠️ **gateada**: scrape del rate SSR de sus landings — solo tras aprobación del afiliado Paysend (regla T22 para tier B)
+
 ## Next — Accounts + referral rewards (planned 2026-07-17)
 
 Decision 2026-07-17: the ROADMAP Phase 5 accounts/referral slice is **pulled forward** to build the in-house referral-with-rewards program (same precedent as the SEO slice). Web only; no separate backend — Supabase (Free, EU) on the existing Next.js app. Same protocol: **"proceed TXX"**, strictly in order. Anonymous browsing and the affiliate flow must never gain a login wall.
@@ -95,6 +103,7 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 - [ ] Send affiliate/broker applications — step-by-step execution plan: [afiliados-ejecucion.md](afiliados-ejecucion.md) (research reference: `SolicitarAfiliados.md`, repo root); after deploy, the live site is the credential
 - [x] `git push` of the T17–T22 work + merged `main` — pushed 2026-07-14 (`021c967`)
 - [ ] Affiliate signups: Wise (Partnerize), Remitly, WU, TransferGo, CurrencyFair → paste real affiliate URLs (`web/lib/data/providers.ts`); once any deal includes a referral bonus, populate `referralPromo` too (T22)
+- [ ] Affiliate signups nuevos 2026-07-19: Sendwave (FlexOffers, misma cuenta que Remitly — ficha B3), Taptap Send (directo, form + support@taptapsend.com — ficha C2, tras T38), Panda Remit (Impact · liyg@pandaremit.com — ficha F5, gateado)
 - [ ] Broker introducer applications: TorFX, Currencies Direct, OFX → confirm EUR→PHP coverage; replace URLs in `web/lib/brokers.ts`
 - [x] Deploy both Vercel projects — **live 2026-07-14** (DNS, domains, env vars, prod deploys: [`DEPLOY.md`](DEPLOY.md) status; git auto-deploy still pending there)
 - [ ] Flip both Vercel projects to Pro when affiliate links go live — `DEPLOY.md` §4

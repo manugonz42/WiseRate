@@ -31,6 +31,7 @@ Async; errors classified `network | rateLimit | unsupportedPair | serverError`. 
 | direct | `GET api.remitly.io/v3/calculator/estimate` | Remitly | returns base rate **and** new-customer promo |
 | direct | `GET my.transfergo.com/api/booking/quotes` | TransferGo | per-method options incl. PH wallets |
 | direct | `POST api.currencyfair.com/comparisonQuotes` | CurrencyFair | bank-to-bank only; T22 tier-A classification |
+| direct | `GET api.taptapsend.com/api/fxRates` (headers required*) | Taptap Send | rate per corridor (not per amount); flat-fee schedule bundled in response; fee 0 toward PH; EUR/GBP/USD/CAD/AUD→PHP |
 | filler | `GET api.wise.com/v4/comparisons/` | everyone else (~8 for EUR→PHP) | numbers Wise attributes to competitors; flagged in UI |
 | excluded | — | ABN AMRO, BNP Paribas, UniCredit, Wells Fargo, HSBC Australia | dropped entirely (see T22 bank audit below), not shown via any source |
 
@@ -53,6 +54,7 @@ The `method` filter is threaded from `/api/quotes` → `getAggregatedQuotes(from
 | **Wise (direct)** | `bankTransfer` only (BANK_TRANSFER→BANK_TRANSFER) | filter ignored | returns its bank quote unchanged |
 | **Remitly** | endpoint returns one estimate, no method param | filter ignored | returns its bank quote unchanged |
 | **CurrencyFair** | `bankTransfer` only (bank-to-bank) | filter ignored | returns its bank quote unchanged |
+| **Taptap Send** | `bankTransfer` (default); supports `mobileWallet` (GCash/Maya) but no per-method endpoint yet | filter ignored | returns its bank quote unchanged |
 | **Wise Comparisons** | method not exposed; all rows default `bankTransfer` | filter ignored | rows returned unchanged |
 
 Cache key includes the method (`quotes:v1:${from}:${to}:${amount}:${method ?? "all"}`). `/api/health` still probes the corridor without a method (default bank-transfer path). Follow-up: wire real per-method endpoints for Remitly/others as their partner APIs land (see [SolicitarAfiliados.md](../../SolicitarAfiliados.md)).
@@ -98,7 +100,9 @@ Fallback on network failure: serve the last cached value with `stale: true`; UI 
 
 ## Health
 
-`GET /api/health` — per-source outcomes of the last EUR→PHP 1000 aggregation (`getSourceHealth()` in `quotes.ts`), for an external uptime monitor. Reads through the same 120 s cache as `/api/quotes` (cheap to poll); the snapshot is persisted in the shared KV cache alongside the quotes entry (same TTL) so any serverless instance can serve it. Response: JSON array of `{ source, ok, error?, at }` for `wise-comparisons | wise | western-union | remitly | transfergo | currencyfair`; a fulfilled fetch with no quote = `ok: false, error: "no quote returned"`. `Cache-Control: no-store`. **200** when all ok, **503** when any failed.
+`GET /api/health` — per-source outcomes of the last EUR→PHP 1000 aggregation (`getSourceHealth()` in `quotes.ts`), for an external uptime monitor. Reads through the same 120 s cache as `/api/quotes` (cheap to poll); the snapshot is persisted in the shared KV cache alongside the quotes entry (same TTL) so any serverless instance can serve it. Response: JSON array of `{ source, ok, error?, at }` for `wise-comparisons | wise | western-union | remitly | transfergo | currencyfair | taptapsend`; a fulfilled fetch with no quote = `ok: false, error: "no quote returned"`. `Cache-Control: no-store`. **200** when all ok, **503** when any failed.
+
+\* Taptap Send `fxRates` requires `Appian-Version: web/2022-05-03.0`, `X-Device-Id: web`, `X-Device-Model: web` (same as the public widget, verified 2026-07-19); without them → 400 BAD_HEADER.
 
 ## Open questions
 

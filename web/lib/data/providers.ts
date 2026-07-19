@@ -426,6 +426,48 @@ export const PROVIDERS: Record<string, ProviderDetail> = {
       "True cost is hidden in the rate more than the fee",
     ],
   },
+  // T38 (2026-07-19): direct source via api.taptapsend.com/api/fxRates (headers required).
+  // Trustpilot 4.7/5 (~36,000 reviews) as of 2026-07-19. Fee 0 toward PH.
+  // No affiliate program URL yet — direct program, contact via form + support@taptapsend.com.
+  taptapsend: {
+    id: "taptapsend",
+    name: "Taptap Send",
+    brandColor: "accent",
+    trustScore: 0.9,
+    userRating: 4.7,
+    websiteURL: "https://taptapsend.com",
+    affiliateURL: null,
+    description:
+      "Taptap Send is a UK-based remittance service offering zero-fee transfers to the Philippines and other corridors, with payout via bank deposit, GCash, or Maya. Rated 4.7/5 on Trustpilot (~36,000 reviews).",
+    reviewCount: 36000,
+    transferLimits: { minAmount: 1, maxAmount: 20000, currency: "EUR" },
+    fees: [
+      {
+        method: "bankTransfer",
+        fixedFee: 0,
+        percentageFee: 0,
+        description: "No transfer fee on PHP corridors; cost is the exchange-rate margin",
+      },
+      {
+        method: "mobileWallet",
+        fixedFee: 0,
+        percentageFee: 0,
+        description: "GCash or Maya payout, no fee",
+      },
+    ],
+    deliveryMethods: ["bankTransfer", "mobileWallet"],
+    pros: [
+      "Zero fee toward the Philippines",
+      "GCash and Maya payout supported",
+      "Excellent Trustpilot rating (4.7/5, ~36,000 reviews)",
+      "Covers EUR, GBP, USD, CAD, and AUD",
+    ],
+    cons: [
+      "Smaller brand recognition than Wise or Remitly",
+      "Exchange-rate margin not always the sharpest for large sends",
+      "No cash pickup option",
+    ],
+  },
   // T22 (2026-07-06): direct source via api.currencyfair.com/comparisonQuotes
   // (see docs/plan/T22-quote-fidelity.md). Fee/limit facts from
   // businessexpert.co.uk's 2026-07-06 review; Trustpilot rating/count from
