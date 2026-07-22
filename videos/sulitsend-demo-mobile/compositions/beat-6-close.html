@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
   </head>
   <body>
     <template>
@@ -51,14 +51,9 @@
         #m6-tile {
           width: 120px;
           height: 120px;
-          display: grid;
-          place-items: center;
-          border-radius: 22px;
-          background: linear-gradient(135deg, #c6e84e, #c8f135);
-          box-shadow: 0 7px 0 #0d1308;
-          color: #1e2a12;
-          font-size: 72px;
-          font-weight: 800;
+          display: block;
+          border-radius: 26px;
+          filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.5));
         }
         #m6-wordmark-mask {
           overflow: hidden;
@@ -67,8 +62,13 @@
           font-size: 96px;
           font-weight: 800;
           letter-spacing: -0.03em;
-          color: #f2f6e4;
           line-height: 1;
+        }
+        #m6-wordmark .m6-w-sulit {
+          color: #f2f6e4;
+        }
+        #m6-wordmark .m6-w-send {
+          color: #7ba428;
         }
         #m6-url {
           font-size: 60px;
@@ -90,30 +90,42 @@
           opacity: 0;
         }
         #m6-tagline {
-          font-size: 30px;
-          font-weight: 500;
-          color: #c6e84e;
-          letter-spacing: 0.02em;
+          font-size: 40px;
+          font-weight: 600;
+          color: #f2f6e4;
+          letter-spacing: 0.01em;
+          display: flex;
+          gap: 16px;
+        }
+        #m6-tagline .m6-tag-a,
+        #m6-tagline .m6-tag-b {
           opacity: 0;
+        }
+        #m6-tagline .m6-tag-b {
+          color: #c6e84e;
         }
       </style>
 
-      <div id="root" data-composition-id="m6-close" data-width="1920" data-height="1080" data-duration="6">
-        <div id="m6-bg"></div>
-        <div class="m6-blob" id="m6-blob-a"></div>
-        <div class="m6-blob" id="m6-blob-b"></div>
-        <div id="m6-group">
-          <div id="m6-lockup">
-            <div id="m6-tile">₱</div>
-            <div id="m6-wordmark-mask"><div id="m6-wordmark">sulitsend</div></div>
+      <div data-hf-id="hf-84yx" id="root" data-composition-id="m6-close" data-width="1920" data-height="1080" data-duration="6.5">
+        <div data-hf-id="hf-e0go" id="m6-bg"></div>
+        <div data-hf-id="hf-yi66" class="m6-blob" id="m6-blob-a"></div>
+        <div data-hf-id="hf-uk25" class="m6-blob" id="m6-blob-b"></div>
+        <div data-hf-id="hf-2tfu" id="m6-group">
+          <div data-hf-id="hf-2okf" id="m6-lockup">
+            <img data-hf-id="hf-assv" id="m6-tile" src="assets/logomark.png" alt="">
+            <div data-hf-id="hf-dg1j" id="m6-wordmark-mask">
+              <div data-hf-id="hf-6j3e" id="m6-wordmark"><span data-hf-id="hf-cn1x" class="m6-w-sulit">Sulit</span><span data-hf-id="hf-lv5p" class="m6-w-send">Send</span></div>
+            </div>
           </div>
-          <div id="m6-url">
-            <span><!-- app.sulitsend.com, one span per char for the typewriter -->
-              <span class="m6-ch">a</span><span class="m6-ch">p</span><span class="m6-ch">p</span><span class="m6-ch">.</span><span class="m6-ch">s</span><span class="m6-ch">u</span><span class="m6-ch">l</span><span class="m6-ch">i</span><span class="m6-ch">t</span><span class="m6-ch">s</span><span class="m6-ch">e</span><span class="m6-ch">n</span><span class="m6-ch">d</span><span class="m6-ch">.</span><span class="m6-ch">c</span><span class="m6-ch">o</span><span class="m6-ch">m</span>
+          <div data-hf-id="hf-1rv4" id="m6-url">
+            <span data-hf-id="hf-uckh"><!-- app.sulitsend.com, one span per char for the typewriter -->
+              <span data-hf-id="hf-y5vr" class="m6-ch">a</span><span data-hf-id="hf-4x38" class="m6-ch">p</span><span data-hf-id="hf-2unw" class="m6-ch">p</span><span data-hf-id="hf-ryuu" class="m6-ch">.</span><span data-hf-id="hf-3q65" class="m6-ch">s</span><span data-hf-id="hf-640b" class="m6-ch">u</span><span data-hf-id="hf-3bv4" class="m6-ch">l</span><span data-hf-id="hf-1cbz" class="m6-ch">i</span><span data-hf-id="hf-6ibc" class="m6-ch">t</span><span data-hf-id="hf-ck7l" class="m6-ch">s</span><span data-hf-id="hf-zr3v" class="m6-ch">e</span><span data-hf-id="hf-2j92" class="m6-ch">n</span><span data-hf-id="hf-05ew" class="m6-ch">d</span><span data-hf-id="hf-83ve" class="m6-ch">.</span><span data-hf-id="hf-xd9p" class="m6-ch">c</span><span data-hf-id="hf-24y1" class="m6-ch">o</span><span data-hf-id="hf-2xk3" class="m6-ch">m</span>
             </span>
-            <span id="m6-caret"></span>
+            <span data-hf-id="hf-dbq1" id="m6-caret"></span>
           </div>
-          <div id="m6-tagline">The EUR→PHP comparison site</div>
+          <div data-hf-id="hf-jmfx" id="m6-tagline">
+            <span data-hf-id="hf-u4km" class="m6-tag-a">Compare first</span><span data-hf-id="hf-uo3o" class="m6-tag-b">send more home</span>
+          </div>
         </div>
       </div>
 
@@ -123,48 +135,54 @@
           const tl = gsap.timeline({ paused: true });
 
           // Dolly-out as the lockup lands.
-          tl.fromTo("#m6-group", { scale: 1.08 }, { scale: 1.0, duration: 1.6, ease: "power2.out" }, 0);
+          tl.fromTo("#m6-group", { scale: 1.08 }, { scale: 1.0, duration: 1.2, ease: "power2.out" }, 0);
 
           // Ambient blobs drift.
-          tl.fromTo("#m6-blob-a", { x: 0, y: 0 }, { x: 60, y: 40, duration: 6, ease: "none" }, 0);
-          tl.fromTo("#m6-blob-b", { x: 0, y: 0 }, { x: -70, y: -40, duration: 6, ease: "none" }, 0);
+          tl.fromTo("#m6-blob-a", { x: 0, y: 0 }, { x: 60, y: 40, duration: 6.5, ease: "none" }, 0);
+          tl.fromTo("#m6-blob-b", { x: 0, y: 0 }, { x: -70, y: -40, duration: 6.5, ease: "none" }, 0);
 
           // Tile scales in with overshoot; wordmark mask-slides.
           tl.fromTo(
             "#m6-tile",
             { scale: 0.3, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" },
-            0.1,
+            { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" },
+            0.05,
           );
-          tl.fromTo("#m6-wordmark", { x: "-105%" }, { x: "0%", duration: 0.65, ease: "power3.out" }, 0.45);
+          tl.fromTo("#m6-wordmark", { x: "-105%" }, { x: "0%", duration: 0.55, ease: "power3.out" }, 0.35);
 
           // URL types on, char by char.
-          tl.fromTo("#m6-caret", { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, 1.1);
+          tl.fromTo("#m6-caret", { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, 0.9);
           tl.fromTo(
             ".m6-ch",
             { opacity: 0 },
-            { opacity: 1, duration: 0.01, ease: "none", stagger: 0.055 },
-            1.2,
+            { opacity: 1, duration: 0.01, ease: "none", stagger: 0.045 },
+            1.0,
           );
           // Caret blinks twice after typing, then hides.
-          tl.to("#m6-caret", { opacity: 0, duration: 0.01 }, 2.5);
-          tl.to("#m6-caret", { opacity: 1, duration: 0.01 }, 2.85);
-          tl.to("#m6-caret", { opacity: 0, duration: 0.01 }, 3.2);
+          tl.to("#m6-caret", { opacity: 0, duration: 0.01 }, 2.2);
+          tl.to("#m6-caret", { opacity: 1, duration: 0.01 }, 2.5);
+          tl.to("#m6-caret", { opacity: 0, duration: 0.01 }, 2.8);
 
-          // Tagline.
+          // Tagline reveals in two parts: "Compare first" first, then "— send more home".
           tl.fromTo(
-            "#m6-tagline",
+            "#m6-tagline .m6-tag-a",
             { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
-            2.9,
+            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+            2.4,
+          );
+          // "send more home" holds 1.5s after "Compare first" lands (2.9), then rises in slower.
+          tl.fromTo(
+            "#m6-tagline .m6-tag-b",
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" },
+            4.4,
           );
 
           // Gentle float on the whole group until the end.
-          tl.to("#m6-group", { y: -4, duration: 1.0, ease: "sine.inOut" }, 3.6);
-          tl.to("#m6-group", { y: 0, duration: 1.0, ease: "sine.inOut" }, 4.6);
+          tl.fromTo("#m6-group", { y: 0 }, { y: -4, duration: 0.9, ease: "sine.inOut", yoyo: true, repeat: 1 }, 3.2);
 
           // Final fade to ink.
-          tl.fromTo("#m6-group", { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power2.in" }, 5.5);
+          tl.fromTo("#m6-group", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "power2.in" }, 5.9);
 
           window.__timelines["m6-close"] = tl;
         })();

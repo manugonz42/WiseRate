@@ -6,12 +6,17 @@ export const alt = "SulitSend — Compare EUR→PHP money transfers";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Inlined at build time (Node runtime) so the mark ships inside the OG PNG.
-const logo = readFileSync(
-  join(process.cwd(), "public", "logomark.png")
-).toString("base64");
-
+// Read inside the component, never at module scope: Next imports this module
+// on every runtime metadata resolution (just to read `alt`/`size`/
+// `contentType`), and `public/` is not bundled into the serverless function —
+// a module-scope read threw ENOENT there and took the whole metadata segment
+// down with it (blank <title>, client error boundary on /provider/[id] and
+// /send/[corridor]). next.config.mjs also traces the file into this route.
 export default function Image() {
+  const logo = readFileSync(
+    join(process.cwd(), "public", "logomark.png")
+  ).toString("base64");
+
   return new ImageResponse(
     (
       <div

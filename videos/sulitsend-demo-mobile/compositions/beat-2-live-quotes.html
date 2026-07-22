@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
   </head>
   <body>
     <template>
@@ -81,41 +81,35 @@
           align-self: flex-start;
         }
         #m2-caption {
-          background: #f2f6e4;
-          color: #1e2a12;
-          font-size: 50px;
-          font-weight: 700;
-          letter-spacing: -0.01em;
-          padding: 24px 40px;
-          border-radius: 14px;
-          box-shadow: 0 6px 0 #7ba428;
+          color: #f2f6e4;
+          font-size: 60px;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          line-height: 1.1;
           max-width: 820px;
         }
         #m2-chip {
           align-self: flex-start;
-          background: #1e2a12;
-          color: #c6e84e;
-          border: 2px solid rgba(198, 232, 78, 0.4);
+          color: #a9bd82;
           font-size: 32px;
-          font-weight: 600;
-          padding: 16px 28px;
-          border-radius: 14px;
+          font-weight: 500;
+          letter-spacing: 0.01em;
           opacity: 0;
         }
       </style>
 
-      <div id="root" data-composition-id="m2-live-quotes" data-width="1920" data-height="1080" data-duration="10">
-        <div id="m2-bg"></div>
-        <div id="m2-watermark">₱</div>
-        <div id="m2-copy">
-          <div id="m2-caption-mask"><div id="m2-caption">Live quotes from real providers</div></div>
-          <div id="m2-chip">€500 → ₱ · 13 providers, refreshed every minute</div>
+      <div data-hf-id="hf-j82o" id="root" data-composition-id="m2-live-quotes" data-width="1920" data-height="1080" data-duration="6.5">
+        <div data-hf-id="hf-hvn8" id="m2-bg"></div>
+        <div data-hf-id="hf-ask8" id="m2-watermark">₱</div>
+        <div data-hf-id="hf-egs6" id="m2-copy">
+          <div data-hf-id="hf-9wim" id="m2-caption-mask"><div data-hf-id="hf-sb26" id="m2-caption">Live quotes from real providers</div></div>
+          <div data-hf-id="hf-jxpc" id="m2-chip">€500 → ₱ · 14 providers, refreshed every minute</div>
         </div>
-        <div id="m2-stage">
-          <div id="m2-sway">
-            <div id="m2-phone">
-              <div id="m2-screen">
-                <img id="m2-img" src="capture/screenshots/mobile/home-full.png" alt="" />
+        <div data-hf-id="hf-vhmd" id="m2-stage">
+          <div data-hf-id="hf-0qxp" id="m2-sway">
+            <div data-hf-id="hf-d5ir" id="m2-phone">
+              <div data-hf-id="hf-a8l9" id="m2-screen">
+                <img data-hf-id="hf-vb5f" id="m2-img" src="capture/screenshots/mobile/home-full.png" alt="">
               </div>
             </div>
           </div>
@@ -128,37 +122,37 @@
           const tl = gsap.timeline({ paused: true });
 
           // Watermark drift.
-          tl.fromTo("#m2-watermark", { x: 0, y: 0 }, { x: 60, y: -40, duration: 10, ease: "none" }, 0);
+          tl.fromTo("#m2-watermark", { x: 0, y: 0 }, { x: 60, y: -40, duration: 6.5, ease: "none" }, 0);
 
-          // Phone rises in.
+          // Phone rises in — snappy.
           tl.fromTo(
             "#m2-phone",
             { y: 90, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+            { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
             0,
           );
 
-          // Gentle 3D sway for the whole beat (finite yoyo).
+          // Gentle 3D sway for the whole beat (finite yoyo, quicker period).
           tl.fromTo(
             "#m2-sway",
             { rotationY: -5 },
-            { rotationY: 5, duration: 2.4, ease: "sine.inOut", yoyo: true, repeat: 3 },
-            0.4,
+            { rotationY: 5, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 3 },
+            0.3,
           );
           // Slight roll on a different period so the motion feels organic.
           tl.fromTo(
             "#m2-phone",
             { rotationZ: -0.7 },
-            { rotationZ: 0.7, duration: 3.2, ease: "sine.inOut", yoyo: true, repeat: 2 },
-            0.4,
+            { rotationZ: 0.7, duration: 2.05, ease: "sine.inOut", yoyo: true, repeat: 2 },
+            0.3,
           );
 
           // The page scrolls from the hero down to the podium + CTA.
-          tl.fromTo("#m2-img", { y: 0 }, { y: -256, duration: 5.4, ease: "power1.inOut" }, 1.6);
+          tl.fromTo("#m2-img", { y: 0 }, { y: -256, duration: 4.0, ease: "power2.inOut" }, 0.9);
 
           // Caption + chip on the left.
-          tl.fromTo("#m2-caption", { x: "-105%" }, { x: "0%", duration: 0.65, ease: "power3.out" }, 1.2);
-          tl.fromTo("#m2-chip", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 3.0);
+          tl.fromTo("#m2-caption", { x: "-105%" }, { x: "0%", duration: 0.5, ease: "power3.out" }, 0.7);
+          tl.fromTo("#m2-chip", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 2.0);
 
           window.__timelines["m2-live-quotes"] = tl;
         })();

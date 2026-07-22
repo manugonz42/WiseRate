@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
   </head>
   <body>
     <template>
@@ -80,41 +80,35 @@
           align-self: flex-start;
         }
         #m3-caption {
-          background: #f2f6e4;
-          color: #1e2a12;
-          font-size: 50px;
-          font-weight: 700;
-          letter-spacing: -0.01em;
-          padding: 24px 40px;
-          border-radius: 14px;
-          box-shadow: 0 6px 0 #7ba428;
+          color: #f2f6e4;
+          font-size: 60px;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          line-height: 1.1;
           max-width: 820px;
         }
         #m3-chip {
           align-self: flex-start;
-          background: #1e2a12;
-          color: #c6e84e;
-          border: 2px solid rgba(198, 232, 78, 0.4);
+          color: #a9bd82;
           font-size: 32px;
-          font-weight: 600;
-          padding: 16px 28px;
-          border-radius: 14px;
+          font-weight: 500;
+          letter-spacing: 0.01em;
           opacity: 0;
         }
       </style>
 
-      <div id="root" data-composition-id="m3-ranking" data-width="1920" data-height="1080" data-duration="10">
-        <div id="m3-bg"></div>
-        <div id="m3-ring-deco"></div>
-        <div id="m3-copy">
-          <div id="m3-caption-mask"><div id="m3-caption">Ranked by what the recipient actually gets</div></div>
-          <div id="m3-chip">Fees, markup, speed &amp; trust — all visible</div>
+      <div data-hf-id="hf-6vpv" id="root" data-composition-id="m3-ranking" data-width="1920" data-height="1080" data-duration="7">
+        <div data-hf-id="hf-k1dn" id="m3-bg"></div>
+        <div data-hf-id="hf-7edq" id="m3-ring-deco"></div>
+        <div data-hf-id="hf-owzt" id="m3-copy">
+          <div data-hf-id="hf-k3xd" id="m3-caption-mask"><div data-hf-id="hf-ei9s" id="m3-caption">Ranked by what the recipient actually gets</div></div>
+          <div data-hf-id="hf-2nkd" id="m3-chip">Fees, markup, speed &amp; trust — all visible</div>
         </div>
-        <div id="m3-stage">
-          <div id="m3-sway">
-            <div id="m3-phone">
-              <div id="m3-screen">
-                <img id="m3-img" src="capture/screenshots/mobile/compare-full.png" alt="" />
+        <div data-hf-id="hf-6kkw" id="m3-stage">
+          <div data-hf-id="hf-itgy" id="m3-sway">
+            <div data-hf-id="hf-5456" id="m3-phone">
+              <div data-hf-id="hf-f82u" id="m3-screen">
+                <img data-hf-id="hf-bdzk" id="m3-img" src="capture/screenshots/mobile/compare-full.png" alt="">
               </div>
             </div>
           </div>
@@ -126,28 +120,28 @@
         (function () {
           const tl = gsap.timeline({ paused: true });
 
-          tl.fromTo("#m3-ring-deco", { x: 0, y: 0 }, { x: 50, y: 40, duration: 10, ease: "none" }, 0);
+          tl.fromTo("#m3-ring-deco", { x: 0, y: 0 }, { x: 50, y: 40, duration: 7, ease: "none" }, 0);
 
           // Phone is already in place (continuity with beat 2 — reads as in-app navigation).
           // Sway phase matches beat 2's exit (rotationY -5, rotationZ +0.7) so the cut is seamless.
           tl.fromTo(
             "#m3-sway",
             { rotationY: -5 },
-            { rotationY: 5, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: 3 },
+            { rotationY: 5, duration: 1.75, ease: "sine.inOut", yoyo: true, repeat: 3 },
             0,
           );
           tl.fromTo(
             "#m3-phone",
             { rotationZ: 0.7 },
-            { rotationZ: -0.7, duration: 3.33, ease: "sine.inOut", yoyo: true, repeat: 2 },
+            { rotationZ: -0.7, duration: 2.33, ease: "sine.inOut", yoyo: true, repeat: 2 },
             0,
           );
 
-          // Long scroll down the full ranking (BEST DEAL row first, then the rest).
-          tl.fromTo("#m3-img", { y: 0 }, { y: -1405, duration: 8.2, ease: "power1.inOut" }, 1.4);
+          // Fast scroll down the full ranking (BEST DEAL row first, then the rest).
+          tl.fromTo("#m3-img", { y: 0 }, { y: -1405, duration: 5.4, ease: "power2.inOut" }, 1.1);
 
-          tl.fromTo("#m3-caption", { x: "-105%" }, { x: "0%", duration: 0.65, ease: "power3.out" }, 1.0);
-          tl.fromTo("#m3-chip", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 4.0);
+          tl.fromTo("#m3-caption", { x: "-105%" }, { x: "0%", duration: 0.5, ease: "power3.out" }, 0.7);
+          tl.fromTo("#m3-chip", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 2.3);
 
           window.__timelines["m3-ranking"] = tl;
         })();

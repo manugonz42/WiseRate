@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Outfit", sans-serif;
+          overflow: hidden;
+        }
+        #m7-bg {
+          position: absolute;
+          inset: 0;
+          background: #1e2a12;
+        }
+        .m7-blob {
+          position: absolute;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(93, 106, 69, 0.35) 0%, rgba(93, 106, 69, 0) 70%);
+        }
+        #m7-blob-a {
+          width: 1000px;
+          height: 1000px;
+          left: -320px;
+          top: -380px;
+        }
+        #m7-blob-b {
+          width: 1200px;
+          height: 1200px;
+          right: -420px;
+          bottom: -520px;
+        }
+        #m7-group {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 30px;
+          padding: 0 120px;
+        }
+        #m7-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          background: #c8f135;
+          color: #1e2a12;
+          font-size: 28px;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          padding: 12px 28px;
+          border-radius: 999px;
+          opacity: 0;
+        }
+        #m7-headline {
+          text-align: center;
+          font-size: 74px;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          color: #f2f6e4;
+          line-height: 1.1;
+        }
+        #m7-headline .m7-accent {
+          color: #c8f135;
+        }
+        #m7-sub {
+          font-size: 34px;
+          font-weight: 500;
+          color: #a9bd82;
+          letter-spacing: 0.01em;
+          opacity: 0;
+        }
+        #m7-cards {
+          display: flex;
+          gap: 40px;
+          margin-top: 22px;
+        }
+        .m7-card {
+          width: 440px;
+          box-sizing: border-box;
+          background: #26331a;
+          border: 2px solid rgba(198, 232, 78, 0.18);
+          border-radius: 30px;
+          padding: 46px 42px;
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          opacity: 0;
+        }
+        .m7-icon {
+          width: 92px;
+          height: 92px;
+          border-radius: 24px;
+          background: linear-gradient(135deg, #c6e84e, #c8f135);
+          display: grid;
+          place-items: center;
+          box-shadow: 0 6px 0 #0d1308;
+        }
+        .m7-icon svg {
+          width: 48px;
+          height: 48px;
+          stroke: #1e2a12;
+          stroke-width: 2.2;
+          fill: none;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .m7-card-title {
+          font-size: 44px;
+          font-weight: 700;
+          color: #f2f6e4;
+          letter-spacing: -0.01em;
+        }
+        .m7-card-desc {
+          font-size: 30px;
+          font-weight: 500;
+          line-height: 1.3;
+          color: #a9bd82;
+        }
+      </style>
+
+      <div data-hf-id="hf-xnqy" id="root" data-composition-id="m7-premium" data-width="1920" data-height="1080" data-duration="6.5">
+        <div data-hf-id="hf-ttrj" id="m7-bg"></div>
+        <div data-hf-id="hf-r534" class="m7-blob" id="m7-blob-a"></div>
+        <div data-hf-id="hf-20kr" class="m7-blob" id="m7-blob-b"></div>
+        <div data-hf-id="hf-7113" id="m7-group">
+          <div data-hf-id="hf-2w73" id="m7-eyebrow">Premium · free when you share</div>
+          <div data-hf-id="hf-jfeh" id="m7-headline">
+            Refer friends. Unlock <span data-hf-id="hf-h2px" class="m7-accent">Premium</span>.
+          </div>
+          <div data-hf-id="hf-jmo4" id="m7-sub">No subscription — just share the app with your kababayan.</div>
+          <div data-hf-id="hf-zeeb" id="m7-cards">
+            <div data-hf-id="hf-myzi" class="m7-card" id="m7-card-1">
+              <div data-hf-id="hf-e6ay" class="m7-icon">
+                <svg data-hf-id="hf-y9f5" viewBox="0 0 24 24"><path data-hf-id="hf-9ww6" d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path data-hf-id="hf-5p06" d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
+              </div>
+              <div data-hf-id="hf-5lzv" class="m7-card-title">Rate alerts</div>
+              <div data-hf-id="hf-7j6h" class="m7-card-desc">Get pinged the moment EUR→PHP hits your target.</div>
+            </div>
+            <div data-hf-id="hf-j0vh" class="m7-card" id="m7-card-2">
+              <div data-hf-id="hf-oy7i" class="m7-icon">
+                <svg data-hf-id="hf-svtx" viewBox="0 0 24 24"><circle data-hf-id="hf-r9ft" cx="11" cy="11" r="7" /><line data-hf-id="hf-qhri" x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+              </div>
+              <div data-hf-id="hf-gyfv" class="m7-card-title">Promo finder</div>
+              <div data-hf-id="hf-1mjz" class="m7-card-desc">Personalized provider deals, hunted down for your corridor.</div>
+            </div>
+            <div data-hf-id="hf-i97o" class="m7-card" id="m7-card-3">
+              <div data-hf-id="hf-pcij" class="m7-icon">
+                <svg data-hf-id="hf-u2r0" viewBox="0 0 24 24"><path data-hf-id="hf-wng2" d="M12 3v18" /><path data-hf-id="hf-e5fq" d="M3 12h18" /><path data-hf-id="hf-81eh" d="M6.5 6.5l11 11" /><path data-hf-id="hf-9fxw" d="M17.5 6.5l-11 11" /></svg>
+              </div>
+              <div data-hf-id="hf-miha" class="m7-card-title">…and more</div>
+              <div data-hf-id="hf-ytgu" class="m7-card-desc">Extra tools and perks unlock as you keep sharing.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+
+          // Ambient blobs drift for the whole beat.
+          tl.fromTo("#m7-blob-a", { x: 0, y: 0 }, { x: 60, y: 40, duration: 6.5, ease: "none" }, 0);
+          tl.fromTo("#m7-blob-b", { x: 0, y: 0 }, { x: -70, y: -40, duration: 6.5, ease: "none" }, 0);
+
+          // Eyebrow pill pops in.
+          tl.fromTo(
+            "#m7-eyebrow",
+            { opacity: 0, scale: 0.85, y: 16 },
+            { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: "back.out(1.7)" },
+            0.15,
+          );
+
+          // Headline + subtitle.
+          tl.fromTo("#m7-headline", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.5);
+          tl.fromTo("#m7-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 0.85);
+
+          // Feature cards stagger up — snappy.
+          tl.fromTo(
+            ".m7-card",
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)", stagger: 0.15 },
+            1.1,
+          );
+
+          // Gentle float on the whole group, then fade to ink for the handoff to close.
+          tl.to("#m7-group", { y: -6, duration: 1.1, ease: "sine.inOut" }, 2.6);
+          tl.to("#m7-group", { y: 0, duration: 1.1, ease: "sine.inOut" }, 3.7);
+          tl.fromTo("#m7-group", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "power2.in" }, 6.05);
+
+          window.__timelines["m7-premium"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

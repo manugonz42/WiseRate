@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
   </head>
   <body>
     <template>
@@ -63,17 +63,6 @@
           width: 100%;
           display: block;
         }
-        #m5-highlight {
-          position: absolute;
-          left: 4%;
-          top: 28.5%;
-          width: 88%;
-          height: 13%;
-          border-radius: 8px;
-          background: rgba(200, 241, 53, 0.45);
-          transform-origin: left center;
-          opacity: 0;
-        }
         #m5-copy {
           position: absolute;
           left: 110px;
@@ -91,44 +80,37 @@
           align-self: flex-start;
         }
         #m5-caption {
-          background: #f2f6e4;
-          color: #1e2a12;
-          font-size: 48px;
-          font-weight: 700;
-          letter-spacing: -0.01em;
-          padding: 24px 40px;
-          border-radius: 14px;
-          box-shadow: 0 6px 0 #7ba428;
+          color: #f2f6e4;
+          font-size: 60px;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          line-height: 1.1;
           max-width: 860px;
         }
         #m5-url-chip {
           align-self: flex-start;
-          background: #ffffff;
-          color: #1e2a12;
+          color: #c8f135;
           font-size: 32px;
           font-weight: 600;
-          padding: 16px 28px;
-          border-radius: 14px;
-          box-shadow: 0 4px 0 #7ba428;
+          letter-spacing: 0.01em;
           opacity: 0;
         }
       </style>
 
-      <div id="root" data-composition-id="m5-transparency" data-width="1920" data-height="1080" data-duration="10">
-        <div id="m5-bg"></div>
-        <div id="m5-ring-deco"></div>
-        <div id="m5-copy">
-          <div id="m5-caption-mask">
-            <div id="m5-caption">Fully transparent — commissions never affect rate or ranking</div>
+      <div data-hf-id="hf-96nd" id="root" data-composition-id="m5-transparency" data-width="1920" data-height="1080" data-duration="6">
+        <div data-hf-id="hf-m4vx" id="m5-bg"></div>
+        <div data-hf-id="hf-2b2g" id="m5-ring-deco"></div>
+        <div data-hf-id="hf-93gz" id="m5-copy">
+          <div data-hf-id="hf-5yiv" id="m5-caption-mask">
+            <div data-hf-id="hf-2tzc" id="m5-caption">Fully transparent — commissions never affect rate or ranking</div>
           </div>
-          <div id="m5-url-chip">app.sulitsend.com/how-we-make-money</div>
+          <div data-hf-id="hf-ekrn" id="m5-url-chip">app.sulitsend.com/how-we-make-money</div>
         </div>
-        <div id="m5-stage">
-          <div id="m5-sway">
-            <div id="m5-phone">
-              <div id="m5-screen">
-                <img id="m5-img" src="capture/screenshots/mobile/how-we-make-money-full.png" alt="" />
-                <div id="m5-highlight"></div>
+        <div data-hf-id="hf-ioli" id="m5-stage">
+          <div data-hf-id="hf-qp6k" id="m5-sway">
+            <div data-hf-id="hf-lq3k" id="m5-phone">
+              <div data-hf-id="hf-qaw8" id="m5-screen">
+                <img data-hf-id="hf-yli2" id="m5-img" src="capture/screenshots/mobile/how-we-make-money-full.png" alt="">
               </div>
             </div>
           </div>
@@ -140,36 +122,28 @@
         (function () {
           const tl = gsap.timeline({ paused: true });
 
-          tl.fromTo("#m5-ring-deco", { x: 0, y: 0 }, { x: -50, y: -40, duration: 10, ease: "none" }, 0);
+          tl.fromTo("#m5-ring-deco", { x: 0, y: 0 }, { x: -50, y: -40, duration: 6, ease: "none" }, 0);
 
           // Phone already in place; sway phase continues from beat 4's exit (-5 / +0.7).
           tl.fromTo(
             "#m5-sway",
             { rotationY: -5 },
-            { rotationY: 5, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: 3 },
+            { rotationY: 5, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: 3 },
             0,
           );
           tl.fromTo(
             "#m5-phone",
             { rotationZ: 0.7 },
-            { rotationZ: -0.7, duration: 3.33, ease: "sine.inOut", yoyo: true, repeat: 2 },
+            { rotationZ: -0.7, duration: 2.0, ease: "sine.inOut", yoyo: true, repeat: 2 },
             0,
           );
 
-          // Marker highlight sweeps across the key commission sentence.
-          tl.fromTo(
-            "#m5-highlight",
-            { opacity: 1, scaleX: 0 },
-            { scaleX: 1, duration: 0.7, ease: "power2.out" },
-            3.0,
-          );
-
-          tl.fromTo("#m5-caption", { x: "-105%" }, { x: "0%", duration: 0.65, ease: "power3.out" }, 1.0);
+          tl.fromTo("#m5-caption", { x: "-105%" }, { x: "0%", duration: 0.5, ease: "power3.out" }, 0.7);
           tl.fromTo(
             "#m5-url-chip",
             { opacity: 0, scale: 0.7 },
-            { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.6)" },
-            2.2,
+            { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
+            1.5,
           );
 
           window.__timelines["m5-transparency"] = tl;

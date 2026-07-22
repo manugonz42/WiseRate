@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
   </head>
   <body>
     <template>
@@ -81,41 +81,35 @@
           align-self: flex-start;
         }
         #m4-caption {
-          background: #f2f6e4;
-          color: #1e2a12;
-          font-size: 50px;
-          font-weight: 700;
-          letter-spacing: -0.01em;
-          padding: 24px 40px;
-          border-radius: 14px;
-          box-shadow: 0 6px 0 #7ba428;
+          color: #f2f6e4;
+          font-size: 60px;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          line-height: 1.1;
           max-width: 820px;
         }
         #m4-chip {
           align-self: flex-start;
-          background: #1e2a12;
-          color: #c6e84e;
-          border: 2px solid rgba(198, 232, 78, 0.4);
+          color: #a9bd82;
           font-size: 32px;
-          font-weight: 600;
-          padding: 16px 28px;
-          border-radius: 14px;
+          font-weight: 500;
+          letter-spacing: 0.01em;
           opacity: 0;
         }
       </style>
 
-      <div id="root" data-composition-id="m4-provider" data-width="1920" data-height="1080" data-duration="11">
-        <div id="m4-bg"></div>
-        <div id="m4-watermark">₱</div>
-        <div id="m4-copy">
-          <div id="m4-caption-mask"><div id="m4-caption">Rate history and provider reviews</div></div>
-          <div id="m4-chip">Live EUR→PHP trend, 7D–1Y</div>
+      <div data-hf-id="hf-yr4k" id="root" data-composition-id="m4-provider" data-width="1920" data-height="1080" data-duration="7">
+        <div data-hf-id="hf-4kny" id="m4-bg"></div>
+        <div data-hf-id="hf-8gyq" id="m4-watermark">₱</div>
+        <div data-hf-id="hf-zpeg" id="m4-copy">
+          <div data-hf-id="hf-0lpw" id="m4-caption-mask"><div data-hf-id="hf-dvqs" id="m4-caption">Rate history and provider reviews</div></div>
+          <div data-hf-id="hf-uhv4" id="m4-chip">Live EUR→PHP trend, 7D–1Y</div>
         </div>
-        <div id="m4-stage">
-          <div id="m4-sway">
-            <div id="m4-phone">
-              <div id="m4-screen">
-                <img id="m4-img" src="capture/screenshots/mobile/provider-wise-full.png" alt="" />
+        <div data-hf-id="hf-raxf" id="m4-stage">
+          <div data-hf-id="hf-iuf3" id="m4-sway">
+            <div data-hf-id="hf-ruop" id="m4-phone">
+              <div data-hf-id="hf-go3r" id="m4-screen">
+                <img data-hf-id="hf-uwpk" id="m4-img" src="capture/screenshots/mobile/provider-wise-full.png" alt="">
               </div>
             </div>
           </div>
@@ -127,27 +121,27 @@
         (function () {
           const tl = gsap.timeline({ paused: true });
 
-          tl.fromTo("#m4-watermark", { x: 0, y: 0 }, { x: -50, y: 40, duration: 11, ease: "none" }, 0);
+          tl.fromTo("#m4-watermark", { x: 0, y: 0 }, { x: -50, y: 40, duration: 7, ease: "none" }, 0);
 
           // Phone already in place; sway phase continues from beat 3's exit (-5 / -0.7).
           tl.fromTo(
             "#m4-sway",
             { rotationY: -5 },
-            { rotationY: 5, duration: 2.75, ease: "sine.inOut", yoyo: true, repeat: 3 },
+            { rotationY: 5, duration: 1.75, ease: "sine.inOut", yoyo: true, repeat: 3 },
             0,
           );
           tl.fromTo(
             "#m4-phone",
             { rotationZ: -0.7 },
-            { rotationZ: 0.7, duration: 3.67, ease: "sine.inOut", yoyo: true, repeat: 2 },
+            { rotationZ: 0.7, duration: 2.33, ease: "sine.inOut", yoyo: true, repeat: 2 },
             0,
           );
 
-          // Scroll from the Wise header + live quote all the way to the rate-history chart.
-          tl.fromTo("#m4-img", { y: 0 }, { y: -998, duration: 8.6, ease: "power1.inOut" }, 1.5);
+          // Fast scroll from the Wise header + live quote to the rate-history chart.
+          tl.fromTo("#m4-img", { y: 0 }, { y: -998, duration: 5.4, ease: "power2.inOut" }, 1.1);
 
-          tl.fromTo("#m4-caption", { x: "-105%" }, { x: "0%", duration: 0.65, ease: "power3.out" }, 1.0);
-          tl.fromTo("#m4-chip", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 6.5);
+          tl.fromTo("#m4-caption", { x: "-105%" }, { x: "0%", duration: 0.5, ease: "power3.out" }, 0.7);
+          tl.fromTo("#m4-chip", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 2.5);
 
           window.__timelines["m4-provider"] = tl;
         })();

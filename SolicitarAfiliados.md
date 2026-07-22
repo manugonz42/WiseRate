@@ -21,7 +21,7 @@
 | 15 | Moneytrans | Directo | CPA | $0.50-3 por corredor | Variable | Baja | 🟡 (Tier B) |
 | 16 | Small World / Sigue | — | — | — | — | — | 🔴 (Ceased 2026) |
 | 17 | Revolut | — | — | — | — | — | 🔴 (No viable) |
-| 18 | CurrencyFair | Partnerize | CPA/Rev | A negociar (no publicado) | 180 días | Alta | ⬜ |
+| 18 | CurrencyFair | Impact (⚠️ no Partnerize) | CPA | €10 por transfer (corredor PHP) | 180 días | Alta | 🟡 |
 
 **Archivos a modificar tras obtener URLs:**
 - Proveedores → `web/lib/data/providers.ts` → campo `affiliateURL`
@@ -41,8 +41,8 @@ Nuestro link de afiliado es el mismo para todos; distinguir qué usuario generó
 
 | Red | Proveedores | Sub-ID | Parámetro | Qué reporta por conversión |
 |---|---|---|---|---|
-| Partnerize | Wise, WU, Instarem, CurrencyFair, Remitly (directo) | ✅ | `clickref` (hasta clickref1–6) | sub-ID, importe comisión, estado (pending/approved/rejected), fecha; también postback en tiempo real |
-| Impact | TransferGo, WorldRemit | ✅ | `subId1..subId3` | ídem, reports + postbacks |
+| Partnerize | Wise, WU, Instarem, Remitly (directo) | ✅ | `clickref` (hasta clickref1–6) | sub-ID, importe comisión, estado (pending/approved/rejected), fecha; también postback en tiempo real |
+| Impact | TransferGo, WorldRemit, CurrencyFair, Panda Remit | ✅ | `subId1..subId3` | ídem, reports + postbacks |
 | CJ Affiliate | MoneyGram | ✅ | `sid` | ídem |
 | Awin | WorldRemit, Xoom | ✅ | `clickref` | ídem, transaction-level |
 | FlexOffers | Remitly, Instarem | ✅ | `fobs` | sub-tracking en reports |
@@ -678,11 +678,13 @@ CurrencyFair paga un **CPA** (o rev-share opcional) por cada cliente referido. L
 
 | Concepto | Detalle |
 |---|---|
-| **CPA** | "Competitivo", a negociar con el account manager |
+| **CPA** | **€10 por orden** en el corredor PHP (payout groups 3/4 de la IO de Impact, personal y business) · €100 solo en el grupo "Business" genérico · registro = €0 |
 | **Rev-share** | Opcional (margen por cliente pequeño, avisan ellos) |
-| **Umbral** | El cliente referido debe transferir ≥ **€1.000** (Minimum Transfer Threshold, personal) |
-| **Atribución** | 180 días desde el click |
-| **Payout** | Mes vencido, el día 25 · Bank wire, o PayPal si tu cuenta es USD/AUD/GBP/EUR |
+| **Umbral** | El cliente referido debe transferir ≥ **€1.000** (Minimum Transfer Threshold, personal; €2.000 business) — **acumulativo**: si la primera transferencia no llega, monitorizan la cuenta y pagan al cruzarlo |
+| **Atribución** | 180 días desde el click y desde el registro (acción padre); sin impresiones |
+| **Payout** | Lock a +5 días del fin de mes, pago +19 días del lock (~día 25 del mes siguiente) · Bank wire, o PayPal si tu cuenta es USD/AUD/GBP/EUR · reversal hasta 100% |
+
+> 📌 Cifras confirmadas 2026-07-22 leyendo los Terms de la campaña en Impact durante el alta. Antes figuraban como "no publicadas / a negociar" — **no lo son**: el payout PHP está fijado en €10 en la IO.
 
 ### Requisitos
 
@@ -694,9 +696,11 @@ CurrencyFair paga un **CPA** (o rev-share opcional) por cada cliente referido. L
 
 ### Registro
 
-1. https://www.currencyfair.com/affiliate-program → signup vía **Partnerize** (misma cuenta que Wise/WU/Instarem; campaign ID `1011l6561`)
-2. Esperar aprobación (~3 días hábiles)
+1. **Vía Impact** (única viva): https://member.impactradius.com/campaign-mediapartner-signup/Currencyfair.brand?type=dm
+2. Esperar aprobación (~3 días hábiles) y aceptar la IO
 3. Negociar CPA con el account manager asignado
+
+⚠️ **Corrección 2026-07-22:** la vía Partnerize que publica su web (`signup.partnerize.com/signup/en/visualsoft`, "partner ID `1011l6561`") está **muerta** — cuenta creada con ese link, y la campaña no existe en el directorio `Join Campaigns` (Wise y WU sí aparecen; el registro no tiene campo de partner ID). Su FAQ técnica lista Impact como alternativa y el caso de estudio de impact.com confirma que el programa corre ahí.
 
 ---
 
@@ -721,7 +725,7 @@ CurrencyFair paga un **CPA** (o rev-share opcional) por cada cliente referido. L
 
 1. **EUR→PHP es un corredor específico** — confirma que cada proveedor lo cubre antes de aplicar
 2. **Brokers necesitan volumen** — los programas de TorFX, CD y OFX son más flexibles con tráfico bajo al inicio
-3. **Wise, WU, Instarem y CurrencyFair usan Partnerize** — una sola cuenta de Partnerize sirve para los cuatro; igualmente Remitly e Instarem comparten FlexOffers
+3. **Wise, WU e Instarem usan Partnerize** — una sola cuenta de Partnerize sirve para los tres; igualmente Remitly e Instarem comparten FlexOffers, y CurrencyFair/TransferGo/Panda Remit comparten Impact
 4. **Las comisiones de brokers son recurrentes** — a diferencia de los CPA, los brokers pagan por cada trade del cliente referido (lifetime)
 5. **Prueba antes de pegar URLs** — verificar en local que cada link trackea (llega a la landing del proveedor con tu ID) antes de deployar
 6. **MoneyGram no sirve para EUR→PHP directamente** — su programa fuerte es US; incluirlo como opción alternativa
