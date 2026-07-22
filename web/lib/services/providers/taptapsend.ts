@@ -21,25 +21,30 @@ const COUNTRY_BY_CURRENCY: Record<string, string> = {
   AUD: "AU",
 };
 
+// Tiered schedules list open-ended tiers by lower bound only; the applicable
+// tier is the highest whose minValue the transfer amount reaches.
 interface TtsTier {
-  fromAmount: string;
-  toAmount: string | null;
+  minValue: string;
   fee: string;
 }
 
 interface TtsFeeSchedule {
-  tiers: TtsTier[];
+  type?: string;
+  tiers?: TtsTier[];
+  flatFee?: string;
+  feePercent?: string; // whole percent, e.g. "1.00" = 1%
+  maxFee?: string;
 }
 
 interface TtsCorridor {
-  destCurrencyCode: string;
+  currency: string;
   fxRate: string;
   currencyScale: number;
   feeSchedule?: TtsFeeSchedule;
 }
 
 interface TtsCountry {
-  countryCode: string;
+  isoCountryCode: string;
   corridors: TtsCorridor[];
 }
 
@@ -47,18 +52,27 @@ interface TtsResponse {
   availableCountries: TtsCountry[];
 }
 
-// Flat-fee solver: returns the transfer amount X' such that X' + flatFee(X') = totalAmount.
-// Works for fee schedules with a flat fee per tier. All PH corridors have fee 0 today —
-// solver runs but always returns totalAmount unchanged.
+// Fee solver: returns the transfer amount X' such that X' + fee(X') = totalAmount.
+// PH corridors carry no feeSchedule at all today (fee 0), so this only runs if
+// Taptap starts charging on PHP or the fetch is widened to other destinations.
 function solveTransferAmount(schedule: TtsFeeSchedule, totalAmount: number): number {
-  for (const tier of schedule.tiers) {
-    const fee = parseFloat(tier.fee);
-    const candidate = totalAmount - fee;
-    const from = parseFloat(tier.fromAmount);
-    const to = tier.toAmount !== null ? parseFloat(tier.toAmount) : Infinity;
-    if (candidate >= from && candidate <= to) return Math.max(0, candidate);
+  if (schedule.tiers?.length) {
+    const tiers = [...schedule.tiers].sort(
+      (a, b) => parseFloat(b.minValue) - parseFloat(a.minValue),
+    );
+    for (const tier of tiers) {
+      const candidate = totalAmount - parseFloat(tier.fee);
+      if (candidate >= parseFloat(tier.minValue)) return Math.max(0, candidate);
+    }
+    return totalAmount;
   }
-  return totalAmount;
+
+  const flat = parseFloat(schedule.flatFee ?? "0") || 0;
+  const pct = (parseFloat(schedule.feePercent ?? "0") || 0) / 100;
+  let transfer = (totalAmount - flat) / (1 + pct);
+  const maxFee = schedule.maxFee != null ? parseFloat(schedule.maxFee) : null;
+  if (maxFee != null && totalAmount - transfer > maxFee) transfer = totalAmount - maxFee;
+  return Math.max(0, transfer);
 }
 
 export function buildRequest(): { url: string; init: RequestInit } {
@@ -87,13 +101,11 @@ export function parseTapTapSend(
   if (!sourceCountry) return null;
 
   const countryEntry = data?.availableCountries?.find(
-    (c) => c.countryCode === sourceCountry,
+    (c) => c.isoCountryCode === sourceCountry,
   );
   if (!countryEntry) return null;
 
-  const corridor = countryEntry.corridors?.find(
-    (c) => c.destCurrencyCode === to,
-  );
+  const corridor = countryEntry.corridors?.find((c) => c.currency === to);
   if (!corridor) return null;
 
   const rate = parseFloat(corridor.fxRate);

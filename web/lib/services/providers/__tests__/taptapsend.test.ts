@@ -1,7 +1,7 @@
-// Fixture is a real response trimmed to the 5 canonical sending countries
-// (ES/GB/US/CA/AU) and their PHP corridors, plus one AUD→INR corridor with a
-// tiered feeSchedule to exercise the flat-fee solver. 330 KB full response not
-// committed — field names and structure verified against the live endpoint 2026-07-19.
+// Fixture is a real response (captured 2026-07-22) trimmed to the 5 canonical
+// sending countries (ES/GB/US/CA/AU) with their PHP corridors, plus GB→PKR
+// (tiered feeSchedule) and GB→ARS (standard flat fee) to exercise the solver.
+// 330 KB full response not committed.
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
@@ -63,18 +63,31 @@ describe("parseTapTapSend", () => {
   it("parses AUD→PHP 1000", () => {
     const quote = parseTapTapSend(fixture, "AUD", "PHP", 1000);
     expect(quote).not.toBeNull();
-    expect(quote!.exchangeRate).toBe(42.7);
-    expect(quote!.receiveAmount).toBe(42700.0);
+    expect(quote!.exchangeRate).toBe(43.0);
+    expect(quote!.receiveAmount).toBe(43000.0);
   });
 
-  it("resolves tiered feeSchedule: AUD 1000 total, tier 2 fee 1.99 applies", () => {
-    // AUD→INR corridor has 3 tiers; 1000 - 1.99 = 998.01 falls in [200.01, 1000] → tier 2
-    const quote = parseTapTapSend(fixture, "AUD", "INR", 1000);
+  it("resolves a tiered feeSchedule: GBP→PKR 1000 lands in the fee-free tier", () => {
+    // Tiers: 0.99 from 0.00, 0.00 from 125.00 → 1000 ≥ 125 so fee is 0.
+    const quote = parseTapTapSend(fixture, "GBP", "PKR", 1000);
+    expect(quote).not.toBeNull();
+    expect(quote!.fee).toBe(0);
+    expect(quote!.exchangeRate).toBe(373.75);
+    expect(quote!.receiveAmount).toBeCloseTo(373750, 2);
+  });
+
+  it("resolves a tiered feeSchedule below the free threshold", () => {
+    // 100 - 0.99 = 99.01 ≥ 0.00 but < 125.00 → tier 1 fee 0.99 applies.
+    const quote = parseTapTapSend(fixture, "GBP", "PKR", 100);
+    expect(quote!.fee).toBeCloseTo(0.99, 5);
+    expect(quote!.receiveAmount).toBeCloseTo(99.01 * 373.75, 1);
+  });
+
+  it("resolves a standard flat-fee schedule: GBP→ARS 1000 charges 1.99", () => {
+    const quote = parseTapTapSend(fixture, "GBP", "ARS", 1000);
     expect(quote).not.toBeNull();
     expect(quote!.fee).toBeCloseTo(1.99, 5);
-    expect(quote!.exchangeRate).toBe(56.8);
-    // receiveAmount = round(998.01 * 56.80 * 100) / 100
-    expect(quote!.receiveAmount).toBeCloseTo(56686.97, 1);
+    expect(quote!.receiveAmount).toBeCloseTo(998.01 * 2080, 1);
   });
 
   it("returns null for an unknown destination currency (corridor not in fixture)", () => {

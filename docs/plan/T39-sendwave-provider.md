@@ -35,5 +35,8 @@ Añadir Sendwave (grupo Zepz, partner oficial de GCash) como proveedor directo t
 ## Verify
 Quote a 100/500/1000/5000 EUR→PHP contra el conversor público de sendwave.com (documentar aquí, fechado; confirma también si el fee escala). `/api/quotes` en EUR/GBP/USD/CAD muestra la fila con el precio estándar rankeado y badge "FIRST TRANSFER" cuando aplique; AUD sin fila; `/api/health` la reporta; `npm test && npm run build && npm run lint`.
 
+### Revisión 2026-07-22
+Parser correcto (nombres de campo verificados contra la respuesta en vivo; el fixture sí es real, a diferencia del de T38). Un fallo sí encontrado: **CAD→PHP a 1000 devuelve 400 `pricing-limit-violation`** (tope del corredor entre 940 y 950 CAD), y `fetchSendwave` lo lanzaba como error → `/api/health` marcaba la fuente caída y se logueaba un error espurio. Ahora ese código concreto se trata como "sin quote a este importe" → `null`, igual que AUD. Cualquier otro estado sigue lanzando. Smoke live a 1000: EUR 69,83 · GBP 82,24 · USD 60,95 (promo "Intro Rate Discount" activa en los tres) · CAD sin fila · AUD sin fila.
+
 ## Monetización (lanzar en paralelo, no bloquea)
 Programa en **FlexOffers** — misma cuenta que Remitly: [Sendwave Affiliate Program](https://www.flexoffers.com/affiliate-programs/sendwave-affiliate-program/). Ficha completa: [afiliados-ejecucion.md §3 B3](afiliados-ejecucion.md).

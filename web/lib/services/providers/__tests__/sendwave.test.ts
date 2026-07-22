@@ -2,8 +2,8 @@
 // GBP/USD/CAD cases use inline objects — one call per corridor, shape identical.
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { describe, expect, it } from "vitest";
-import { parseSendwave } from "../sendwave";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { fetchSendwave, parseSendwave } from "../sendwave";
 
 const fixture = JSON.parse(
   readFileSync(
@@ -80,5 +80,37 @@ describe("parseSendwave", () => {
 
   it("returns null when baseExchangeRate is zero or missing", () => {
     expect(parseSendwave({ baseExchangeRate: "0", baseFeeAmount: "0.99", campaignsApplied: [] }, "EUR", "PHP", 1000)).toBeNull();
+  });
+});
+
+describe("fetchSendwave error handling", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  const respond = (status: number, body: unknown) =>
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => ({
+        ok: status >= 200 && status < 300,
+        status,
+        json: async () => body,
+      })),
+    );
+
+  it("returns null (no row) when the corridor send cap answers 400", async () => {
+    // Live CAD→PHP above ~940 CAD: a per-corridor limit, not an outage.
+    respond(400, { code: "pricing-limit-violation", message: "Sorry we can't transfer that amount" });
+    await expect(fetchSendwave("CAD", "PHP", 1000)).resolves.toBeNull();
+  });
+
+  it("still throws on any other error status", async () => {
+    respond(500, { code: "internal" });
+    await expect(fetchSendwave("EUR", "PHP", 1000)).rejects.toThrow("returned 500");
+  });
+
+  it("returns null for AUD without calling the endpoint (no corridor)", async () => {
+    const spy = vi.fn();
+    vi.stubGlobal("fetch", spy);
+    await expect(fetchSendwave("AUD", "PHP", 1000)).resolves.toBeNull();
+    expect(spy).not.toHaveBeenCalled();
   });
 });

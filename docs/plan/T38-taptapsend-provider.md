@@ -34,5 +34,8 @@ Añadir Taptap Send como proveedor directo tier A en EUR/GBP/USD/CAD/AUD→PHP. 
 ## Verify
 Quote a 100/500/1000/5000 en EUR→PHP y AUD→PHP contra el widget público de taptapsend.com (documentar aquí, fechado). `/api/quotes` muestra la fila en los 5 corredores; `/api/health` reporta la fuente; `npm test && npm run build && npm run lint`.
 
+### Fix 2026-07-22 — el parser nunca casaba
+El fixture original se escribió a mano con nombres de campo inventados (`countryCode`, `destCurrencyCode`, tiers `fromAmount`/`toAmount`), así que los tests pasaban pero `parseTapTapSend` devolvía `null` contra la respuesta real y la fila nunca salía en `/compare`. Nombres reales: país `isoCountryCode`, corredor `currency`, tiers `{fee, minValue}` (tramos abiertos por cota inferior) + variante `{type:"standard", flatFee, feePercent, maxFee}`. Fixture regenerado desde el endpoint en vivo; los corredores PH no traen `feeSchedule` (fee 0). Smoke live: EUR 70,00 · GBP 82,30 · USD 61,00 · CAD 43,50 · AUD 43,00.
+
 ## Monetización (no bloquea esta tarea)
 Programa de afiliados **directo** (sin red): [Affiliate Partner Terms](https://www.taptapsend.com/terms/affiliate-partner-terms). Sin email público de partnerships — vía [formulario de contacto](https://www.taptapsend.com/contact) + `support@taptapsend.com` pidiendo derivación. Ficha completa: [afiliados-ejecucion.md §3 C2](afiliados-ejecucion.md).

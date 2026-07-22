@@ -32,7 +32,7 @@ Async; errors classified `network | rateLimit | unsupportedPair | serverError`. 
 | direct | `GET my.transfergo.com/api/booking/quotes` | TransferGo | per-method options incl. PH wallets |
 | direct | `POST api.currencyfair.com/comparisonQuotes` | CurrencyFair | bank-to-bank only; T22 tier-A classification |
 | direct | `GET api.taptapsend.com/api/fxRates` (headers required*) | Taptap Send | rate per corridor (not per amount); flat-fee schedule bundled in response; fee 0 toward PH; EUR/GBP/USD/CAD/AUD→PHP |
-| direct | `GET app.sendwave.com/v2/pricing-public` | Sendwave | per (corridor, amount); returns standard + promo rates separately; flat fee on top; EUR/GBP/USD/CAD→PHP (no AUD); verified live 2026-07-19 |
+| direct | `GET app.sendwave.com/v2/pricing-public` | Sendwave | per (corridor, amount); returns standard + promo rates separately; flat fee on top; EUR/GBP/USD/CAD→PHP (no AUD); per-corridor send cap → 400 `pricing-limit-violation` treated as "no quote" (CAD tops out between 940 y 950 CAD; verified 2026-07-22) |
 | filler | `GET api.wise.com/v4/comparisons/` | everyone else (~8 for EUR→PHP) | numbers Wise attributes to competitors; flagged in UI |
 | excluded | — | ABN AMRO, BNP Paribas, UniCredit, Wells Fargo, HSBC Australia | dropped entirely (see T22 bank audit below), not shown via any source |
 

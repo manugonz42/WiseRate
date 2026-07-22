@@ -120,7 +120,16 @@ export async function fetchSendwave(
 
   const { url, init } = buildRequest(from, to, amount);
   const res = await fetch(url, init);
-  if (!res.ok) throw new Error(`sendwave pricing-public returned ${res.status}`);
+  if (!res.ok) {
+    // Per-corridor send caps answer 400 `pricing-limit-violation` (CAD→PHP tops
+    // out between 940 and 950 CAD, verified 2026-07-22). That's "no quote at
+    // this amount", not an outage — return null so the row is simply absent.
+    if (res.status === 400) {
+      const body = await res.json().catch(() => null);
+      if (body?.code === "pricing-limit-violation") return null;
+    }
+    throw new Error(`sendwave pricing-public returned ${res.status}`);
+  }
   const data = await res.json();
   return parseSendwave(data, from, to, amount);
 }

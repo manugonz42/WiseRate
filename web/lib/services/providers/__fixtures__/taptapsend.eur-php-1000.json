@@ -1,64 +1,104 @@
 {
   "availableCountries": [
     {
-      "countryCode": "ES",
+      "isoCountryCode": "ES",
+      "countryDisplayName": "Spain",
+      "currency": "EUR",
       "corridors": [
         {
-          "destCurrencyCode": "PHP",
-          "fxRate": "70.00",
-          "currencyScale": 2
-        }
-      ]
-    },
-    {
-      "countryCode": "GB",
-      "corridors": [
-        {
-          "destCurrencyCode": "PHP",
-          "fxRate": "82.30",
-          "currencyScale": 2
-        }
-      ]
-    },
-    {
-      "countryCode": "US",
-      "corridors": [
-        {
-          "destCurrencyCode": "PHP",
-          "fxRate": "61.00",
-          "currencyScale": 2
-        }
-      ]
-    },
-    {
-      "countryCode": "CA",
-      "corridors": [
-        {
-          "destCurrencyCode": "PHP",
-          "fxRate": "43.50",
-          "currencyScale": 2
-        }
-      ]
-    },
-    {
-      "countryCode": "AU",
-      "corridors": [
-        {
-          "destCurrencyCode": "PHP",
-          "fxRate": "42.70",
-          "currencyScale": 2
-        },
-        {
-          "destCurrencyCode": "INR",
-          "fxRate": "56.80",
+          "isoCountryCode": "PH",
+          "countryDisplayName": "Philippines",
+          "currency": "PHP",
           "currencyScale": 2,
+          "fxRate": "70.00"
+        }
+      ]
+    },
+    {
+      "isoCountryCode": "GB",
+      "countryDisplayName": "United Kingdom",
+      "currency": "GBP",
+      "corridors": [
+        {
+          "isoCountryCode": "PK",
+          "countryDisplayName": "Pakistan",
+          "currency": "PKR",
+          "currencyScale": 2,
+          "fxRate": "373.75",
           "feeSchedule": {
+            "type": "tiered",
             "tiers": [
-              { "fromAmount": "0.01", "toAmount": "200.00", "fee": "0.99" },
-              { "fromAmount": "200.01", "toAmount": "1000.00", "fee": "1.99" },
-              { "fromAmount": "1000.01", "toAmount": null, "fee": "2.99" }
+              {
+                "fee": "0.99",
+                "minValue": "0.00"
+              },
+              {
+                "fee": "0.00",
+                "minValue": "125.00"
+              }
             ]
           }
+        },
+        {
+          "isoCountryCode": "AR",
+          "countryDisplayName": "Argentina",
+          "currency": "ARS",
+          "currencyScale": 2,
+          "fxRate": "2080.00",
+          "senderCurrencyFlatFee": "1.99",
+          "feeSchedule": {
+            "type": "standard",
+            "flatFee": "1.99"
+          }
+        },
+        {
+          "isoCountryCode": "PH",
+          "countryDisplayName": "Philippines",
+          "currency": "PHP",
+          "currencyScale": 2,
+          "fxRate": "82.30"
+        }
+      ]
+    },
+    {
+      "isoCountryCode": "US",
+      "countryDisplayName": "United States",
+      "currency": "USD",
+      "corridors": [
+        {
+          "isoCountryCode": "PH",
+          "countryDisplayName": "Philippines",
+          "currency": "PHP",
+          "currencyScale": 2,
+          "fxRate": "61.00"
+        }
+      ]
+    },
+    {
+      "isoCountryCode": "CA",
+      "countryDisplayName": "Canada",
+      "currency": "CAD",
+      "corridors": [
+        {
+          "isoCountryCode": "PH",
+          "countryDisplayName": "Philippines",
+          "currency": "PHP",
+          "currencyScale": 2,
+          "fxRate": "43.50"
+        }
+      ]
+    },
+    {
+      "isoCountryCode": "AU",
+      "countryDisplayName": "Australia",
+      "currency": "AUD",
+      "corridors": [
+        {
+          "isoCountryCode": "PH",
+          "countryDisplayName": "Philippines",
+          "currency": "PHP",
+          "currencyScale": 2,
+          "fxRate": "43.00"
         }
       ]
     }
