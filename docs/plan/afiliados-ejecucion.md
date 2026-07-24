@@ -26,6 +26,8 @@
 | Web secundaria | `https://sulitsend.com` (landing/marketing) |
 | Método de cobro | **Cuenta Wise personal multi-divisa** (gratis) — da datos bancarios locales en GBP (Partnerize/Wise paga en £), USD (FlexOffers) y EUR (IBAN), evitando la conversión del banco español. En cada red, dar los datos de la divisa en que pague esa red. Los formularios de alta normalmente **no piden datos de cobro** — se añaden después en el panel, al acercarse al primer payout. Fallback: PayPal (peores fees, solo si una red no admite transferencia) |
 
+> **Cobro confirmado (2026-07-23): Wise personal multi-divisa.** El IBAN EUR de Wise es **belga (BE…)**, no español — cumple el "sin IBAN español" y lo acepta cualquier red SEPA. Dar en cada red los datos locales de la divisa en que paga (GBP: sort code + account UK; USD: routing + account US; EUR: IBAN belga) para evitar la doble conversión. Cuenta en el extranjero → declarar en IRPF; **modelo 720** solo si el saldo agregado fuera de España supera 50.000 €.
+
 ### Escalado fiscal (decisión 2026-07-14: empezar como particular)
 
 Tres niveles independientes — se activan por disparadores, no por adelantado:
@@ -35,6 +37,33 @@ Tres niveles independientes — se activan por disparadores, no por adelantado:
 | **IRPF** | Siempre — declarar todo ingreso de afiliados en la renta anual desde el primer euro | No requiere alta previa |
 | **Alta censal (036/037)** | Primer pago que exija emitir factura (Wise la pide; las redes con *self-billing* no) | Gratis, sin cuota; se hace el día que haga falta |
 | **RETA (autónomo)** | Ingresos acercándose a nivel SMI anual / actividad habitual | Zona gris jurisprudencial por debajo del SMI — **confirmar con gestor** llegado el momento; tarifa plana al alta |
+
+### Formularios de alta y fiscales — cómo rellenarlos como particular (aprendido 2026-07-23)
+
+**Regla de oro: dar de alta la cuenta siempre como *Individual / Personal*, nunca *Business/Company.*** El flujo *business* de las redes (Impact confirmado 2026-07-23) exige un **VAT/tax number de empresa** que como particular no tienes, y bloquea el registro. Si ya lo empezaste como business → recrear como personal. En "Company name" va tu nombre propio (todas las redes lo aceptan).
+
+**"Tax number" ≠ estar de alta de autónomo.** Como persona física tu número fiscal es tu **DNI/NIF**. Darlo no da de alta de ninguna actividad ni crea obligación; es la respuesta veraz a cualquier campo "tax number / tax ID / TIN" de un formulario *individual*.
+
+**Indirect Tax / VAT (Impact y otros):** marcar **"I am not registered for Indirect Tax"** — el IVA solo lo tendrías con alta censal de actividad, que no tienes.
+
+**Formulario W-8BEN (Impact, CJ y toda red con pagador en EE. UU.) — plantilla para residente fiscal en España, particular:**
+
+| Campo | Qué poner |
+|---|---|
+| Name / beneficial owner | Nombre legal completo (idéntico en todos los campos y en la firma) |
+| Country of citizenship / residence | Spain |
+| Permanent + Mailing address | Dirección real en España (no apartado de correos); City = el municipio real, State = la provincia — que **cuadre con el código postal** |
+| U.S. TIN (SSN/ITIN) | **vacío** (no tienes ni necesitas) |
+| **Foreign tax identifying number** | **tu DNI** — ⚠️ obligatorio para el 0% del tratado; **no** marcar "not legally required" (España sí emite TIN a particulares) |
+| Part II — resident of | Spain |
+| Special rates · Article/paragraph | **Article 7, paragraph 1** |
+| Special rates · % rate | **0** |
+| Special rates · type of income | business profits (advertising / affiliate marketing service commissions) |
+| Explain additional conditions (≤200 char) | `Resident of Spain with no U.S. permanent establishment; under Art. 7 of the US–Spain tax treaty these business profits are taxable only in Spain, so 0% U.S. withholding applies.` |
+| Part III · casilla de capacidad | marcar (firmas por ti mismo) |
+| eSignature | nombre legal completo idéntico a la línea 1 |
+
+Notas: algunos formularios (CJ) muestran **un solo input** en "Special rates" (el % rate) y las palabras "Article"/"paragraph"/"type of income" son texto fijo → basta poner `0` y que Article 7 + business profits queden en la caja "Explain". Base legal: renta de fuente extranjera (servicios prestados desde España) + Art. 7 del **Tratado fiscal EE. UU.–España** → tributa solo en España, 0% de retención en EE. UU.
 
 ### Email saliente desde el dominio (Gmail "Send mail as" + Brevo SMTP)
 
@@ -71,7 +100,7 @@ Las cuatro **reciben** ya (2026-07-15). Las direcciones destino concretas de ree
 
 ### Descripción del sitio (EN — pegar en el campo "website description")
 
-> SulitSend (app.sulitsend.com) is a money-transfer comparison site for people sending money from Europe to the Philippines. We compare live quotes — exchange rate, fees, delivery time and delivery methods — across providers for the EUR→PHP corridor, plus GBP/USD/CAD/AUD→PHP. Rankings are based purely on the amount the recipient gets; we publish a full affiliate disclosure at app.sulitsend.com/how-we-make-money.
+> SulitSend (app.sulitsend.com) is a money-transfer comparison site for people sending money from Europe to the Philippines. We compare live quotes — exchange rate, fees, delivery time and delivery methods — across providers for the EUR→PHP corridor. Rankings are based purely on the amount the recipient gets; we publish a full affiliate disclosure at app.sulitsend.com/how-we-make-money.
 
 ### Categoría / tipo de sitio (campo "publisher type" / "site category")
 
@@ -124,12 +153,14 @@ Coincide con lo permitido por todos los programas — el ángulo comunidad es un
 
 ### Al aprobar cualquier solicitud (procedimiento común)
 
+> ⛔ **REGLA — el deploy a producción NUNCA lo hace Claude.** Pegar un link de afiliado/broker en el código (`providers.ts` / `brokers.ts`) **no** lo pone en vivo: el cambio se queda en local/commit. El `vercel --prod` que publica esos links a producción es **siempre acción humana, manual y con aprobación explícita** — Claude no lo ejecuta bajo ninguna circunstancia, ni siquiera si el usuario lo pide de pasada dentro de otra tarea. El "Deploy" del paso 5 es un recordatorio para el humano, no un paso que ejecute el agente.
+
 1. Copiar la URL/link de tracking desde el panel de la red.
-2. Pegarla en `web/lib/data/providers.ts` → campo `affiliateURL` del proveedor (brokers: `web/lib/brokers.ts` → campo `url`).
-3. Probar en local que el link trackea (aterriza en el proveedor con tu ID visible en la URL/cookie) **antes** de deployar.
+2. **Guardarla en `referral-links.local.md`** (fichero-ledger en la raíz, **gitignored** — el repo es público). ⚠️ **De momento los links de referido NO se pegan en `web/lib/data/providers.ts` (`affiliateURL`) ni en `web/lib/brokers.ts` (`url`)** (decisión 2026-07-23): el código en producción sigue con las URLs públicas genéricas. Solo se registran en el ledger local para no perderlos. Cuando se decida activar uno, se pegará entonces (y aun así el deploy a prod es humano — regla ⛔).
+3. *(Al activar, más adelante)* Probar en local que el link trackea (aterriza en el proveedor con tu ID visible en la URL/cookie) **antes** de deployar.
 4. **Sub-ID (para T37, referidos):** verificar el parámetro de sub-tracking de la red (tabla en [`SolicitarAfiliados.md` § Tracking por usuario](../../SolicitarAfiliados.md)) y anotar el nombre exacto → irá al campo `subIdParam` de `providers.ts` cuando T37 se ejecute. En redes es self-serve (probar que el informe de clicks lo devuelve). En **directos/brokers** (grupos D y F), preguntar al account manager en esta conversación post-aprobación, formulado como analítica: *"Can we append a click-reference parameter (e.g. `?ref=<id>`) to our tracking link and see it back in conversion/client reports, for internal analytics?"* — ⚠️ **nunca** mencionar el sistema de recompensas aquí (gate del §0: eso se pregunta aparte y solo con comisiones ya cobradas). Si la red tiene evento "lead" (registro sin transferencia), pedir que lo activen en el reporting.
-5. Deploy + marcar el [checklist §4](#4--checklist-de-seguimiento).
-6. **Primer link vivo** → flip de ambos proyectos Vercel a Pro (Hobby prohíbe uso comercial — README checklist).
+5. Marcar el [checklist §4](#4--checklist-de-seguimiento). El **deploy a prod lo hace el humano** (ver regla ⛔ arriba) — Claude nunca deploya.
+6. **Primer link vivo** → flip de ambos proyectos Vercel a Pro (Hobby prohíbe uso comercial — README checklist). También acción humana.
 7. Si el deal incluye bonus de referido para el usuario → poblar también `referralPromo` en `providers.ts` (T22).
 
 ---
@@ -149,6 +180,8 @@ Agrupado por red: **una cuenta desbloquea varios programas**. Ejecutar en orden;
 | 6 | **F — Baja prioridad** | Ria → Paysend → XE → Moneytrans → Panda Remit | Formulario/email directo (solo cuando A–E estén en marcha) |
 
 ⚠️ **CurrencyFair salió del grupo A (2026-07-22):** su campaña **ya no existe en Partnerize** — comprobado con cuenta creada por su propio link (`Join Campaigns` muestra Wise/WU pero ni "currency" ni "fair" devuelven nada, y el registro no tiene campo de partner ID). El programa vive en **impact.com**; ficha A3 actualizada. El link de Partnerize y el ID `1011l6561` de su web están obsoletos.
+
+⚠️ **FlexOffers rechazó la traffic source (2026-07-23):** sitio SulitSend declinado con motivo genérico (en la práctica, sitio nuevo + poco tráfico). Bloquea todo el grupo B por la misma cuenta. Respuesta enviada pidiendo motivo/umbral de reaplicación. Ruta activa entretanto: **Remitly directo** + **Instarem por Partnerize**; **Sendwave en pausa** (sin fallback). Detalle en la ficha del grupo B.
 
 \* **Instarem — decisión:** solicitar vía **FlexOffers** (mejor CPA: $12/transacción + $2.40/sign-up vs multi-geo de Partnerize; misma cuenta que Remitly). Partnerize queda de fallback si FlexOffers rechaza.
 
@@ -326,6 +359,11 @@ Enviar **al account manager asignado**, no antes de la aprobación (sin aprobaci
 
 > Una cuenta FlexOffers sirve para Remitly e Instarem.
 
+⚠️ **FlexOffers rechazó la traffic source (sitio SulitSend) el 2026-07-23** — motivo genérico ("no alinea con requisitos / conflicto con policy"; en la práctica, sitio recién lanzado + tráfico bajo). Bloquea de golpe B1/B2/B3, porque los tres entraban por esta cuenta. **Respuesta enviada** el 2026-07-23 a support@flexoffers.com pidiendo el motivo concreto y el umbral para reaplicar. Mientras tanto, ruta activa:
+> - **B1 Remitly** → fallback directo (`remitly.com/us/en/landing/partner-program`).
+> - **B2 Instarem** → fallback Partnerize (`signup.partnerize.com/signup/en_au/instaremglobal`) o `affiliate@nium.com`.
+> - **B3 Sendwave** → ❌ sin fallback (solo vía FlexOffers) — **en pausa** hasta reaplicar con éxito.
+
 ### B1 · REMITLY
 
 - **Canal:** https://www.flexoffers.com/affiliate-programs/remitly-affiliate-program/ → crear cuenta FlexOffers → aplicar al programa Remitly. (Vía directa alternativa: https://www.remitly.com/us/en/landing/partner-program — usar solo si FlexOffers rechaza.)
@@ -398,6 +436,32 @@ Enviar **al account manager asignado**, no antes de la aprobación (sin aprobaci
 - **Follow-up:** +7 días hábiles (plantilla §0) al mismo canal.
 - **Restricciones:** las que fije su Scope of Work; mientras no haya acuerdo, `affiliateURL: null` y el CTA cae a taptapsend.com (convención `providers.ts`).
 
+#### Email pitch Taptap Send *(redactado 2026-07-23 — adaptado de A3, enfoque comunidad)*
+
+Enviar desde `manuel.gonzalez@sulitsend.com`. Vía: [formulario de contacto](https://www.taptapsend.com/contact) **y** `support@taptapsend.com` pidiendo derivación a partnerships. El punto 2 del crecimiento va redactado como *app referral* (ventajas premium por invitar gente a la app), nunca como recompensa por registrarse en el proveedor — fuera del gate de incentivized traffic del §0. Con T38 ya ejecutada, el reviewer ve a Taptap Send listado en vivo con precio exacto.
+
+> **Subject:** Affiliate partnership — SulitSend (Europe→Philippines comparison app)
+>
+> Hi Taptap Send team,
+>
+> I'm Manuel González, founder of SulitSend, a comparison app for the Europe→Philippines remittance corridor that ranks providers by how much the recipient actually receives.
+>
+> Taptap Send already appears in our live comparison results today. Before I start directing users your way, I'd like affiliate tracking in place, so every signup and first transfer is properly attributed rather than going untracked.
+>
+> I'm part of the Filipino community in Spain myself, estimated at around 200,000 people, and I have a wide network within it. Our growth channels are direct word-of-mouth, Facebook groups (by far the most used platform in this community), and an in-app referral scheme where users unlock premium features by sharing the app. From Spain we plan to expand across Europe, since Filipino families are typically split across several countries and the same corridor logic applies everywhere.
+>
+> The app is live in production, with native iOS and Android in development.
+>
+> Could you point me to your affiliate program, or the right person to set up a tracking link? Happy to jump on a short call this week.
+>
+> Try it (mobile-first): https://app.sulitsend.com
+> 2-min product walkthrough: https://youtu.be/O1nwx7N_jh0
+>
+> Best,
+> Manuel González
+> Founder, SulitSend
+> app.sulitsend.com · manuel.gonzalez@sulitsend.com
+
 ---
 
 ## §3 · Fichas — Grupo D · Brokers (rev-share lifetime — pitch a persona)
@@ -445,6 +509,30 @@ Enviar **al account manager asignado**, no antes de la aprobación (sin aprobaci
 - **Pasos:** 1) formulario de registro → 2) email/llamada si no responden → 3) negociar rev-share → 4) URL a `brokers.ts` + procedimiento §0.
 - **Follow-up:** +7 días hábiles; segunda vía: teléfono.
 - **Restricciones:** confirmar cobertura EUR→PHP para clientes personales.
+
+#### Email pitch Currencies Direct *(redactado 2026-07-23 — adaptado de D1)*
+
+Enviar desde `manuel.gonzalez@sulitsend.com`. No hay email público de partnerships: pegar como mensaje en el formulario de registro (`partners.currenciesdirect.com/Affiliate/AffiliateRegistration?source=CD`) y/o enviarlo al partnership manager cuando lo asignen. No proponer cifra de comisión — es negociable individualmente, que la pongan ellos.
+
+> **Subject:** Introducer application — SulitSend (EUR→PHP comparison site, live)
+>
+> Hi,
+>
+> I run SulitSend (app.sulitsend.com), a live money-transfer comparison site for the Europe→Philippines corridor. I've just submitted an introducer application through your partner portal and wanted to introduce myself directly.
+>
+> Three things that may make this a good fit:
+>
+> 1. Our site has a dedicated broker recommendation card that only appears for transfers of €5,000 or more — so every referral you'd receive from us is a high-value client, not a retail remitter.
+> 2. We rank and present services purely on recipient value, with a public commission disclosure (app.sulitsend.com/how-we-make-money), which keeps referred clients well-qualified and informed.
+> 3. Longer term, we'd be interested in exploring your partner APIs for a deeper quote/referral integration.
+>
+> One question before we go further: can you confirm Currencies Direct covers EUR→PHP transfers for personal clients? That's our core corridor.
+>
+> Here's a 60-second walkthrough of the product: https://youtu.be/O1nwx7N_jh0
+>
+> Best regards,
+> Manuel González — SulitSend
+> manuel.gonzalez@sulitsend.com · app.sulitsend.com
 
 ### D3 · OFX
 
@@ -523,7 +611,9 @@ Enviar **al account manager asignado**, no antes de la aprobación (sin aprobaci
 ### F5 · PANDA REMIT *(nueva ficha 2026-07-19)*
 - **Canal:** Impact, vía https://www.pandaremit.com/en/partner · contacto directo **liyg@pandaremit.com** (lo publican ellos para dudas o si ya tienes cuenta Impact). $20/primera transferencia, cookie 1 año.
 - **Enfoque:** cubre AU→PH entre otros. ⚠️ Aún no aparece en el comparador (ni directo ni vía Wise) — solicitar solo si se decide integrarlo (sin tarea asignada); un link sin fila donde colgarlo no monetiza.
+- **⚠️ Integración como quote directo — NO viable por scraping (verificado 2026-07-24):** su web (SPA Vue) cotiza contra `glc.pandaremit.com` (`GET /pricing/rate/{from}/{to}`, `GET /web/ratefee/compare/show/{from}/{to}`, `POST /pricing/rate/query/diamond`, `POST /web/ratefee/fee`), pero **todos exigen login** — devuelven `code 10001 "您还没有登录"` sin un header `token` que sale de una cookie puesta tras login de usuario real. No hay XHR público ni token guest (a diferencia de Taptap Send/Sendwave). Cubre EUR→PHP con markup bajo (0.02–0.62%), pero **su rate no es extraíble sin cuenta**. Única vía limpia para una fila en vivo: **API oficial de partner** (la que anuncian para afiliados) — pedirla en la misma conversación de afiliado, no scrapear. Reusar token de cuenta personal = expira/ToS/frágil → descartado.
 - **Envío:** cuenta Impact + email a liyg@pandaremit.com con la descripción §0 y `https://youtu.be/O1nwx7N_jh0`.
+- **✅ Email combinado (afiliado + API de rates) enviado 2026-07-24** desde `manuel.gonzalez@sulitsend.com` a `liyg@pandaremit.com`. Enfoque: la API de quotes es la **condición** para listarlos (sin rate en vivo no hay fila → el link no monetiza); planteado como beneficio mutuo (máxima intención), crecimiento como *app referral* (fuera del gate §0). Follow-up +7 días hábiles.
 
 ---
 
@@ -535,17 +625,17 @@ Enviar **al account manager asignado**, no antes de la aprobación (sin aprobaci
 
 | Proveedor | Grupo | Fecha solicitud | Estado | URL obtenida | Fecha pegada en código | Notas |
 |---|---|---|---|---|---|---|
-| Wise | A | 2026-07-22 | 🟡 Solicitud enviada | | | Partnerize · aprobación esperada 2–5 días · link se coge en Wise app → "Earn" |
-| Western Union | A | | ⬜ Pendiente | | | Partnerize |
-| CurrencyFair | A | 2026-07-22 | 🟡 Solicitud enviada | | | **Impact** (no Partnerize — corregido 2026-07-22) · CPA **€10** fijo corredor PHP, umbral €1.000 acumulados · sub-ID `subId1` |
-| Remitly | B | | ⬜ Pendiente | | | FlexOffers |
-| Instarem | B | | ⬜ Pendiente | | | FlexOffers (fallback Partnerize) |
-| TransferGo | C | | ⬜ Pendiente | | | FinanceAds |
-| Sendwave | B | | ⬜ Pendiente | | | FlexOffers (misma cuenta que Remitly) · quote directo: T39 |
-| Taptap Send | C | | ⬜ Pendiente | | | Directo (form contact + support@taptapsend.com → partnerships) · T38 ✅ ejecutada · email saliente ✅ — listo para enviar |
-| TorFX | D | | ⬜ Pendiente | | | Broker · desbloqueado (vídeo listo) · confirmar EUR→PHP en el email |
-| Currencies Direct | D | | ⬜ Pendiente | | | Broker · desbloqueado (vídeo listo) |
-| OFX | D | | ⬜ Pendiente | | | Broker · desbloqueado (vídeo listo) · rev-share 24 meses |
+| Wise | A | 2026-07-22 | 🟡 Solicitud enviada | | | Partnerize · **a la espera** de aprobación (2–5 días) · link se coge en Wise app → "Earn" |
+| Western Union | A | 2026-07-23 | 🟡 Solicitud enviada | | | Partnerize (misma cuenta que Wise) · **a la espera** de aprobación |
+| CurrencyFair | A | 2026-07-23 | 🟡 Solicitud enviada | | | **Impact** (no Partnerize) · recreada como **cuenta personal** el 2026-07-23 (el flujo *business* pedía VAT que no hay) · W-8BEN completado (§0 plantilla) · **a la espera** · CPA **€10** fijo corredor PHP, umbral €1.000 acumulados · sub-ID `subId1` |
+| Remitly | B | | ⬜ Pendiente | | | FlexOffers traffic source **RECHAZADA 2026-07-23** (motivo genérico; respuesta enviada pidiendo motivo/umbral de reaplicación). Ruta activa: **directo** → `remitly.com/us/en/landing/partner-program` |
+| Instarem | B | | ⬜ Pendiente | | | FlexOffers rechazada (ver Remitly). Ruta activa: **Partnerize** `signup.partnerize.com/signup/en_au/instaremglobal` o `affiliate@nium.com` |
+| TransferGo | C | | ⬜ Pendiente | | | FinanceAds: **alta falla repetidamente** (2026-07-23, "Registrierung fehlgeschlagen"; FortiGuard descartado, web resuelve 200 — es error de servidor/validación de FinanceAds). → ir por la **2ª vía: Impact** (misma cuenta que CurrencyFair, buscar "TransferGo") |
+| Sendwave | B | | ⏸️ En pausa | | | FlexOffers rechazada (ver Remitly) · **sin fallback** (solo vía FlexOffers) → en pausa hasta reaplicar con éxito · quote directo: T39 |
+| Taptap Send | C | 2026-07-23 | 🟡 Solicitud enviada | | | Directo · enviado desde `manuel.gonzalez@sulitsend.com` por form contact + support@taptapsend.com → partnerships · T38 ✅ · follow-up +7 días hábiles |
+| TorFX | D | 2026-07-23 | 🟢 Aprobado | *(en `referral-links.local.md`, no en código)* | — | Broker · **cuenta activa**, partner nº `0301110000950389` · referral URL guardada en el **ledger local gitignored**, NO pegada en `brokers.ts` (decisión 2026-07-23) · pendiente humano: (b) email pitch §D1 a partners@torfx.com (confirmar EUR→PHP + % rev-share ~20% lifetime); (c) sub-ID click-ref al manager (§0 paso 4) |
+| Currencies Direct | D | 2026-07-23 | 🟢 Aprobado | *(en `referral-links.local.md`, no en código)* | — | Broker · **cuenta activa**, manager **Andrew Brown**, partner nº `0201110000950364` · referral URL guardada en el **ledger local gitignored**, NO pegada en `brokers.ts` (decisión 2026-07-23) · pendiente humano: (b) email pitch §D2 a Andrew vía "Contact" (confirmar EUR→PHP + partner APIs); (c) sub-ID click-ref al manager (§0 paso 4) |
+| OFX | D | 2026-07-23 | 🟡 Solicitud enviada | | | Broker · formulario "Contact us" enviado (pitch §D3, confirmar EUR→PHP + interés en rate widgets) · **a la espera** de asignación de Alliance Manager · rev-share 24 meses |
 | WorldRemit | E | | ⬜ Pendiente | | | Awin |
 | Xoom | E | | ⬜ Pendiente | | | Awin / PayPal |
 | MoneyGram | E | | ⬜ Pendiente | | | CJ · vocabulario restringido |
@@ -553,7 +643,7 @@ Enviar **al account manager asignado**, no antes de la aprobación (sin aprobaci
 | Paysend | F | | ⬜ Pendiente | | | Directo |
 | XE Money Transfer | F | | ⬜ Pendiente | | | Directo |
 | Moneytrans | F | | ⬜ Pendiente | | | Directo |
-| Panda Remit | F | | ⬜ Pendiente | | | Impact · liyg@pandaremit.com · gateado: sin fila en el comparador aún |
+| Panda Remit | F | 2026-07-24 | 🟡 Solicitud enviada | | | Impact · **email combinado (afiliado + API de rates) enviado 2026-07-24** a liyg@pandaremit.com · rate API auth-gated (login, verificado 2026-07-24) → no scrapeable, la API oficial es condición para listarlo · follow-up +7 días |
 | Small World / Sigue | — | 🔴 N/A | ❌ Ceased 2026 | N/A | N/A | No integrar |
 | Revolut | — | 🔴 N/A | ❌ No viable | N/A | N/A | Sin programa comercial |
 | WireBarley | — | 🔴 N/A | ❌ No viable | N/A | N/A | Solo refer-a-friend de consumidor (2026-07-19) |

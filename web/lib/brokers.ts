@@ -23,6 +23,8 @@ export const BROKERS: Broker[] = [
   {
     id: "currencies-direct",
     name: "Currencies Direct",
+    // Referral link NOT wired here on purpose — it lives in the gitignored
+    // referral-links.local.md ledger (repo is public). See afiliados-ejecucion.md §0.
     url: "https://www.currenciesdirect.com/",
     pitch: "Personal account manager, no transfer fees above the broker minimum.",
     corridors: "all",

@@ -74,6 +74,9 @@ Desktop.ini
 .env.*
 !.env.example
 
+# Referral/affiliate links — private ledger, repo is public (never commit)
+referral-links.local.md
+
 # Claude Code local settings (personal permissions, not shared)
 .claude/settings.local.json
 .vercel
