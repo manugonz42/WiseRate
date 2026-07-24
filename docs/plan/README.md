@@ -1,5 +1,18 @@
 # Execution plan
 
+## Next — Sistema de alertas real (backend, account-gated) (planned 2026-07-24)
+
+Decisión 2026-07-24: implementar las alertas de verdad (Phase 3 del ROADMAP). **Storage = Supabase Postgres** (ya lo tenemos por T34–T37, no Upstash). **Solo cuentas: fuera anónimos** — Alerts *y* Promos pasan a requerir cuenta (pop-up "necesitas cuenta, créala en menos de 1 minuto", i18n). Entrega por **email desde `alerts@sulitsend.com`** vía Resend. Cron **diario** tras el fix del ECB (compatible con Hobby, sin Vercel Pro). v1 solo `rateAbove`/`rateBelow` (mid-market EUR→PHP); `providerCheapest`, push e intradía a v2. Mismo protocolo: **"proceed TXX"**, en orden (dependencias encadenadas).
+
+> ⚠️ **Override consciente:** gatear Alerts y **Promos** con muro de login contradice el principio de `auth.md`/ROADMAP ("the affiliate flow must never gain a login wall") — Promos tiene CTAs de afiliado. El usuario lo decidió a sabiendas (2026-07-24). Home y Compare siguen 100% abiertas.
+
+- [ ] [T41 — Account gate para Alerts & Promos](T41-account-gate.md): `<AccountGate>` cliente, aviso i18n + CTA a `/signup?next=`, sin tocar middleware ni Home/Compare
+- [ ] [T42 — Tabla `alerts` + service Supabase](T42-alerts-table.md): migración + RLS (CRUD propio) + `alerts.ts`, sin columna email, cap 3 en app-layer
+- [ ] [T43 — Migrar UI de Alerts a storage servidor](T43-alerts-server-ui.md): quita localStorage y `providerCheapest`, banner nuevo ("te avisamos a tu email")
+- [ ] [T44 — Cron de evaluación + email (Resend, `alerts@sulitsend.com`)](T44-alerts-cron-email.md): `vercel.json` cron diario, `/api/cron/alerts` con `CRON_SECRET`, plantilla placeholder (diseño del email = tarea aparte)
+
+**Diseño del email:** deliberadamente fuera de T44 (plantilla funcional mínima). El diseño visual final se hará en una tarea posterior.
+
 ## Next — Nuevos proveedores directos: Taptap Send + Sendwave (planned 2026-07-19)
 
 Investigación 2026-07-19 (deep research en sesión, endpoints verificados en vivo con curl): Taptap Send y Sendwave — ambos confirmados fiables por usuarios reales de la comunidad — exponen fuentes de cotización públicas sin auth, y ambos tienen vía de monetización (Sendwave en FlexOffers, misma cuenta que Remitly; Taptap Send con programa directo). Mismo protocolo: **"proceed TXX"**, en orden. Las solicitudes de afiliado correspondientes son fichas B3/C2/F5 de [afiliados-ejecucion.md](afiliados-ejecucion.md).
@@ -95,6 +108,21 @@ ROADMAP Phase 1 (+ the codeable slice of Phase 3) was broken into 11 mechanical 
 `playwright` + headless Chromium are devDependencies in `web/`. Start `npm run dev` (3000 may be taken — note the port), drive pages from a Node script via `chromium.launch()`. Caveats: use `waitUntil: "domcontentloaded"` (`networkidle` times out on first compile), and **wait for a client-rendered element before interacting** — inputs exist in SSR markup before hydration, so typing too early is silently lost.
 
 ## Human-only checklist (still open)
+
+### Alerts backend (T41–T44) — envío desde `alerts@sulitsend.com`
+
+Para que el cron envíe emails de alerta desde `alerts@sulitsend.com`. **No hace falta crear un Gmail ni "loguearlo" en el server** — el envío automático usa un API transaccional (Resend) autenticado por API key + firma DKIM del dominio; no hay buzón con sesión en el servidor. Un Gmail solo entra si quieres *recibir* respuestas a `alerts@` (regla de Cloudflare Email Routing), opcional.
+
+- [ ] Crear cuenta en **Resend** (free 3k/mes — decidido en ROADMAP Phase 3)
+- [ ] Resend → *Add domain* `sulitsend.com` → copiar los registros que da (DKIM CNAMEs + SPF/return-path, normalmente en un subdominio propio tipo `send.sulitsend.com`)
+- [ ] Añadir esos registros en **Cloudflare DNS** (zona ya activa). ⚠️ No tocar el MX ni el SPF raíz del Email Routing existente (recepción de `hello@`); Resend usa su subdominio, no choca
+- [ ] Esperar verificación en Resend (propagación DNS)
+- [ ] `RESEND_API_KEY` + `ALERTS_FROM=alerts@sulitsend.com` + `CRON_SECRET` en Vercel (Production + Preview) y `web/.env.local` (documentar en `DEPLOY.md`)
+- [ ] Aplicar la migración `alerts` al proyecto Supabase live (Management API, como las de T34) + e2e RLS/cap con dos usuarios
+- [ ] (Opcional) Regla Cloudflare Email Routing `alerts@ → Gmail` si se quieren leer respuestas
+- [ ] Flip a Vercel Pro **solo** si más adelante se quiere cron horario/intradía (v1 diario funciona en Hobby)
+
+### Marca / afiliados / deploy
 
 - [ ] Verify SulitSend: EUIPO + both-store search (domain **bought 2026-07-14**, Cloudflare; `.app` deferred until first revenue)
 - [x] Contact email: `hello@sulitsend.com` live (Cloudflare Email Routing → growglow.app@gmail.com) → `CONTACT_EMAIL` set 2026-07-15 (a7f6cd6); pending prod redeploy of `sulitsend-web` to go public
